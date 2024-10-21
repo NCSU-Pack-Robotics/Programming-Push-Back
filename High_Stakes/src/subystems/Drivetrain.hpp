@@ -18,6 +18,27 @@ public:
 
     void shutdown() override;
 
+    /**
+     * Set the voltage (in milli-volts) of the left and right motors.
+     * @param leftVoltage The voltage (milli-volts) to set the left motors to.
+     * @param rightVoltage The voltage (milli-volts) to set the right motors to.
+     */
+    void setVoltage(int32_t left_mV, int32_t right_mV);
+
+    /**
+     * Set the power of the left and right motors in range [-100, 100].
+     * @param leftPower The power to set the left motors to.
+     * @param rightPower The power to set the right motors to.
+     */
+    void setDrivePower(int32_t leftPower, int32_t rightPower);
+
+    /**
+     * Get the position of the left and right motors in degrees.
+     * @return A pair of the left and right motor positions in degrees. The first value is the left
+     * motor position, and the second value is the right motor position.
+     */
+    std::pair<double, double> getPosition();
+
 private:
     /** Voltage in mV to set motors to. Will be between -12,000 and +12,000. */
     int32_t leftDrivePower = 0;
