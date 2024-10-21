@@ -27,6 +27,7 @@
 #include "pros/device.hpp"
 #include "pros/motors.h"
 #include "rtos.hpp"
+#include "abstract_motor.hpp"
 
 namespace pros {
 inline namespace v5 {

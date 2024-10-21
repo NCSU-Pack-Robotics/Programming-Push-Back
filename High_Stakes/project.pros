@@ -1,7 +1,7 @@
 {
   "py/object": "pros.conductor.project.Project",
   "py/state": {
-    "project_name": "High Stakes",
+    "project_name": "High_Stakes",
     "target": "v5",
     "templates": {
       "kernel": {
@@ -255,8 +255,8 @@
       }
     },
     "upload_options": {
-      "icon": "robot",
-      "slot": 3
+      "slot": 3,
+      "icon": "ufo"
     },
     "use_early_access": true
   }

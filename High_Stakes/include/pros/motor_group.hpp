@@ -32,6 +32,7 @@
 #include "pros/motors.h"
 #include "pros/motors.hpp"
 #include "rtos.hpp"
+#include "abstract_motor.hpp"
 
 namespace pros {
 inline namespace v5 {
