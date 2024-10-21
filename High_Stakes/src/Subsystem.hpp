@@ -9,12 +9,10 @@ class SubsystemAbstract {
 public:
     // Delete copy constructor and assignment operator
     SubsystemAbstract(const SubsystemAbstract &) = delete;
-
     SubsystemAbstract &operator=(const SubsystemAbstract &) = delete;
 
     // Delete move constructor and assignment operator
     SubsystemAbstract(SubsystemAbstract &&) = delete;
-
     SubsystemAbstract &operator=(SubsystemAbstract &&) = delete;
 
     /**
