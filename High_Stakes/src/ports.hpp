@@ -18,5 +18,5 @@ namespace Ports {
     constexpr std::int8_t RIGHT_BACK_MOTOR_PORT = 5;
 
     /** Port of the inertial sensor (gyro) */
-    constexpr std::int8_t INERTIAL_SENSOR_PORT = 3;
+    constexpr std::int8_t INERTIAL_SENSOR_PORT = 1;
 }
