@@ -4,6 +4,9 @@
 // Create all subsystems
 Drivetrain& drivetrain = SubsystemAbstract::getInstance<Drivetrain>();
 
+// Create vector with all subsystems
+std::vector<SubsystemAbstract*> subsystems = {&drivetrain};
+
 /**
  * Runs initialization code. This occurs as soon as the program is started.
  *
@@ -11,7 +14,10 @@ Drivetrain& drivetrain = SubsystemAbstract::getInstance<Drivetrain>();
  * to keep execution time for this mode under a few seconds.
  */
 void initialize() {
-
+    // Initialize all subsystems
+    for (SubsystemAbstract* subsystem : subsystems) {
+        subsystem->initialize();
+    }
 }
 
 /**
@@ -19,7 +25,14 @@ void initialize() {
  * the VEX Competition Switch, following either autonomous or opcontrol. When
  * the robot is enabled, this task will exit.
  */
-void disabled() {}
+void disabled() {
+    // Run disabled periodic for all subsystems
+    while (true) {
+        for (SubsystemAbstract* subsystem: subsystems) {
+            subsystem->disabled_periodic();
+        }
+    }
+}
 
 /**
  * Runs after initialize(), and before autonomous when connected to the Field
@@ -30,7 +43,12 @@ void disabled() {}
  * This task will exit when the robot is enabled and autonomous or opcontrol
  * starts.
  */
-void competition_initialize() {}
+void competition_initialize() {
+    // Run disabled periodic for all subsystems
+    for (SubsystemAbstract* subsystem : subsystems) {
+        subsystem->initialize();
+    }
+}
 
 /**
  * Runs the user autonomous code. This function will be started in its own task
@@ -58,4 +76,14 @@ void autonomous() {}
  * operator control task will be stopped. Re-enabling the robot will restart the
  * task, not resume it from where it left off.
  */
-void opcontrol() {}
+void opcontrol() {
+    while (true) {
+        // Run periodic for all subsystems
+        for (SubsystemAbstract* subsystem : subsystems) {
+            subsystem->periodic();
+        }
+
+        // Delay the loop to prevent the CPU from being overwhelmed
+        pros::delay(20);
+    }
+}
