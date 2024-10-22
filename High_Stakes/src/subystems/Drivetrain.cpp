@@ -43,7 +43,16 @@ void Drivetrain::initialize() {
 }
 
 void Drivetrain::periodic() {
-    // TODO: Based on the drive type, set the motors to the correct power or voltage
+    switch (drive_type) {
+        case DriveType::POWER: {
+            left_motors->move(left_drive_power);
+            right_motors->move(right_drive_power);
+        }
+        case DriveType::VOLTAGE: {
+            left_motors->move_voltage(left_drive_voltage);
+            right_motors->move_voltage(right_drive_voltage);
+        }
+    }
 }
 
 void Drivetrain::disabled_periodic() {
@@ -60,14 +69,14 @@ void Drivetrain::set_voltage(int32_t left_mV, int32_t right_mV) {
     left_drive_voltage = std::clamp(left_mV, -12000, 12000);
     right_drive_voltage = std::clamp(right_mV, -12000, 12000);
 
-    // TODO: Set the drive type to VOLTAGE
+    drive_type = DriveType::VOLTAGE;
 }
 
 void Drivetrain::set_drive_power(int32_t left_power, int32_t right_power) {
     left_drive_power = std::clamp(left_power, -127, 127);
     right_drive_power = std::clamp(right_power, -127, 127);
 
-    // TODO: Set the drive type to POWER
+    drive_type = DriveType::POWER;
 }
 
 std::pair<double, double> Drivetrain::get_position() {

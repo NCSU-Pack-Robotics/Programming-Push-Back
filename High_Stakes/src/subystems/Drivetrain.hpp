@@ -62,7 +62,7 @@ private:
 
     /** Power to set motors to from analog sticks. Will be between -127 and 127 */
     int32_t left_drive_power = 0;
-    /** Power to set motors to. Will be between -127 and 127 */
+    /** Power to set motors to from analog sticks. Will be between -127 and 127 */
     int32_t right_drive_power = 0;
 
     /** Type of drive control to use. */
