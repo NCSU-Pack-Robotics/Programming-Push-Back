@@ -2,10 +2,10 @@
 #include "subystems/Drivetrain.hpp"
 
 // Create all subsystems
-Drivetrain& drivetrain = SubsystemAbstract::getInstance<Drivetrain>();
+Drivetrain& drivetrain = AbstractSubsystem::get_instance<Drivetrain>();
 
 // Create vector with all subsystems
-std::vector<SubsystemAbstract*> subsystems = {&drivetrain};
+std::vector<AbstractSubsystem*> subsystems = {&drivetrain};
 
 /**
  * Runs initialization code. This occurs as soon as the program is started.
@@ -15,7 +15,7 @@ std::vector<SubsystemAbstract*> subsystems = {&drivetrain};
  */
 void initialize() {
     // Initialize all subsystems
-    for (SubsystemAbstract* subsystem : subsystems) {
+    for (AbstractSubsystem* subsystem : subsystems) {
         subsystem->initialize();
     }
 }
@@ -28,7 +28,7 @@ void initialize() {
 void disabled() {
     // Run disabled periodic for all subsystems
     while (true) {
-        for (SubsystemAbstract* subsystem: subsystems) {
+        for (AbstractSubsystem* subsystem: subsystems) {
             subsystem->disabled_periodic();
         }
     }
@@ -45,7 +45,7 @@ void disabled() {
  */
 void competition_initialize() {
     // Run disabled periodic for all subsystems
-    for (SubsystemAbstract* subsystem : subsystems) {
+    for (AbstractSubsystem* subsystem : subsystems) {
         subsystem->initialize();
     }
 }
@@ -79,7 +79,7 @@ void autonomous() {}
 void opcontrol() {
     while (true) {
         // Run periodic for all subsystems
-        for (SubsystemAbstract* subsystem : subsystems) {
+        for (AbstractSubsystem* subsystem : subsystems) {
             subsystem->periodic();
         }
 
