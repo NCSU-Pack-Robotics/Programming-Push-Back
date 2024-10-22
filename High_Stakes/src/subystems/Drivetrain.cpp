@@ -1,6 +1,6 @@
 #include "Drivetrain.hpp"
 
-Drivetrain::Drivetrain() : SubsystemAbstract() {
+Drivetrain::Drivetrain() : AbstractSubsystem() {
 }
 
 void Drivetrain::initialize() {
@@ -54,20 +54,20 @@ void Drivetrain::shutdown() {
 
 }
 
-void Drivetrain::setVoltage(int32_t left_mV, int32_t right_mV) {
+void Drivetrain::set_voltage(int32_t left_mV, int32_t right_mV) {
 
 }
 
-void Drivetrain::setDrivePower(int32_t leftPower, int32_t rightPower) {
+void Drivetrain::set_drive_power(int32_t leftPower, int32_t rightPower) {
 
 }
 
-std::pair<double, double> Drivetrain::getPosition() {
+std::pair<double, double> Drivetrain::get_position() {
     // Average both motor positions to be more accurate
-    double leftPosition = (left_front->get_position() + left_back->get_position()) / 2;
-    double rightPosition = (right_front->get_position() + right_back->get_position()) / 2;
+    double left_position = (left_front->get_position() + left_back->get_position()) / 2;
+    double right_position = (right_front->get_position() + right_back->get_position()) / 2;
 
     // Return the pair of positions
-    return std::make_pair(leftPosition, rightPosition);
+    return std::make_pair(left_position, right_position);
 }
 
