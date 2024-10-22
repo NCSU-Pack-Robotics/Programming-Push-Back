@@ -57,17 +57,15 @@ void Drivetrain::shutdown() {
 }
 
 void Drivetrain::set_voltage(int32_t left_mV, int32_t right_mV) {
-    // TODO: Ensure voltage is within valid range
-    left_drive_voltage = left_mV;
-    right_drive_voltage = right_mV;
+    left_drive_voltage = std::clamp(left_mV, -12000, 12000);
+    right_drive_voltage = std::clamp(right_mV, -12000, 12000);
 
     // TODO: Set the drive type to VOLTAGE
 }
 
-void Drivetrain::set_drive_power(double left_power, double right_power) {
-    // TODO: Ensure power is within valid range
-    left_drive_power = left_power;
-    right_drive_power = right_power;
+void Drivetrain::set_drive_power(int32_t left_power, int32_t right_power) {
+    left_drive_power = std::clamp(left_power, -127, 127);
+    right_drive_power = std::clamp(right_power, -127, 127);
 
     // TODO: Set the drive type to POWER
 }

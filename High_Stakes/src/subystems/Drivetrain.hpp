@@ -34,18 +34,18 @@ public:
     void shutdown() override;
 
     /**
-     * Set the voltage (in milli-volts) of the left and right motors.
+     * Set the voltage (in milli-volts) of the left and right motors in range [-12000,12000].
      * @param left_mV The voltage to set the left motors to.
      * @param right_mV The voltage to set the right motors to.
      */
     void set_voltage(int32_t left_mV, int32_t right_mV);
 
     /**
-     * Set the power (in Watts) of the left and right motors in range [-100, 100].
+     * Set the power of the left and right motors in range [-127, 127].
      * @param left_power The power to set the left motors to.
      * @param right_power The power to set the right motors to.
      */
-    void set_drive_power(double left_power, double right_power);
+    void set_drive_power(int32_t left_power, int32_t right_power);
 
     /**
      * Get the position of the left and right motors in degrees.
@@ -61,9 +61,9 @@ private:
     int32_t right_drive_voltage = 0;
 
     /** Power to set motors to from analog sticks. Will be between -127 and 127 */
-    double left_drive_power = 0;
+    int32_t left_drive_power = 0;
     /** Power to set motors to. Will be between -127 and 127 */
-    double right_drive_power = 0;
+    int32_t right_drive_power = 0;
 
     /** Type of drive control to use. */
     DriveType drive_type;
