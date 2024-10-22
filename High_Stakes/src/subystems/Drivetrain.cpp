@@ -43,7 +43,11 @@ void Drivetrain::initialize() {
 }
 
 void Drivetrain::periodic() {
+    // Get the position of the left and right motors
+    std::pair<double, double> position = get_position();
 
+    // Calculate the pose of the robot
+    this->pose = odometry(position.first, position.second);
 }
 
 void Drivetrain::disabled_periodic() {
@@ -75,3 +79,6 @@ Pose Drivetrain::get_pose() {
     return this->pose;
 }
 
+Pose Drivetrain::odometry(double left_position, double right_position) {
+    return Pose();
+}

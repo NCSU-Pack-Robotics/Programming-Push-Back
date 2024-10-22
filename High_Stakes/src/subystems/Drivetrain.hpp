@@ -72,6 +72,15 @@ private:
     /** Group of all motors on the right side of the robot. */
     std::unique_ptr<pros::MotorGroup> right_motors;
 
+    /**
+     * Calculate the odometry of the robot.
+     * This is the process of estimating the robot's pose over time.
+     * @param left_position The new position of the left motor in degrees.
+     * @param right_position The new position of the right motor in degrees.
+     * @return The pose of the robot.
+     */
+    Pose odometry(double left_position, double right_position);
+
 protected:
     /**
      * Constructor for Drivetrain subsystem.
