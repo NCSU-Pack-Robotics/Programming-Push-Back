@@ -71,3 +71,7 @@ std::pair<double, double> Drivetrain::get_position() {
     return std::make_pair(left_position, right_position);
 }
 
+Pose Drivetrain::get_pose() {
+    return this->pose;
+}
+

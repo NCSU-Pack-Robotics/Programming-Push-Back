@@ -5,6 +5,7 @@
 #include "../../include/main.h"
 #include "../AbstractSubsystem.hpp"
 #include "../ports.hpp"
+#include "../Pose.hpp"
 
 class Drivetrain : public AbstractSubsystem {
     friend class AbstractSubsystem;
@@ -39,11 +40,21 @@ public:
      */
     std::pair<double, double> get_position();
 
+    /**
+     * Get the pose of the robot.
+     * This is the result of odometer calculations.d
+     * @return The pose of the robot.
+     */
+    Pose get_pose();
+
 private:
     /** Voltage in mV to set motors to. Will be between -12,000 and +12,000. */
     int32_t left_drive_voltage = 0;
     /** Voltage in mV to set motors to. Will be between -12,000 and +12,000. */
     int32_t right_drive_voltage = 0;
+
+    /** Holds to current pose of the robot. */
+    Pose pose;
 
     // Motors:
     /** Smart pointer to the left, front motor. */
