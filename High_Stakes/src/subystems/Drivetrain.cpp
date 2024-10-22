@@ -43,25 +43,33 @@ void Drivetrain::initialize() {
 }
 
 void Drivetrain::periodic() {
-
+    // TODO: Based on the drive type, set the motors to the correct power or voltage
 }
 
 void Drivetrain::disabled_periodic() {
+    // TODO: Stop the motors
 
 }
 
 void Drivetrain::shutdown() {
+    // TODO: Stop the motors
 
 }
 
 void Drivetrain::set_voltage(int32_t left_mV, int32_t right_mV) {
+    // TODO: Ensure voltage is within valid range
     left_drive_voltage = left_mV;
     right_drive_voltage = right_mV;
+
+    // TODO: Set the drive type to VOLTAGE
 }
 
 void Drivetrain::set_drive_power(double left_power, double right_power) {
+    // TODO: Ensure power is within valid range
     left_drive_power = left_power;
     right_drive_power = right_power;
+
+    // TODO: Set the drive type to POWER
 }
 
 std::pair<double, double> Drivetrain::get_position() {

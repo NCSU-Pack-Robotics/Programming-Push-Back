@@ -6,6 +6,21 @@
 #include "../AbstractSubsystem.hpp"
 #include "../ports.hpp"
 
+/**
+ * Enum for the type of drive control to use.
+ * VOLTAGE: Set the voltage of the motors directly.
+ * POWER: Set the power of the motors from analog sticks.
+ */
+enum DriveType {
+        /** Set the voltage of the motors directly. */
+        VOLTAGE,
+        /** Set the power of the motors from analog sticks. */
+        POWER
+};
+
+/**
+ * The Drivetrain subsystem is responsible for controlling and reading from the drive motors.
+ */
 class Drivetrain : public AbstractSubsystem {
     friend class AbstractSubsystem;
 
@@ -45,10 +60,13 @@ private:
     /** Voltage in mV to set motors to. Will be between -12,000 and +12,000. */
     int32_t right_drive_voltage = 0;
 
-    /** Power in Watts to set motors to. Will be between -100 and 100 */
+    /** Power to set motors to from analog sticks. Will be between -127 and 127 */
     double left_drive_power = 0;
-    /** Power in Watts to set motors to. Will be between -100 and 100 */
+    /** Power to set motors to. Will be between -127 and 127 */
     double right_drive_power = 0;
+
+    /** Type of drive control to use. */
+    DriveType drive_type;
 
     // Motors:
     /** Smart pointer to the left, front motor. */
