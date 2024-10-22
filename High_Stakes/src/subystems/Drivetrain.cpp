@@ -66,15 +66,15 @@ void Drivetrain::shutdown() {
 }
 
 void Drivetrain::set_voltage(int32_t left_mV, int32_t right_mV) {
-    left_drive_voltage = std::clamp((int)left_mV, -12000, 12000);
-    right_drive_voltage = std::clamp((int)right_mV, -12000, 12000);
+    left_drive_voltage = std::clamp(left_mV, INT32_C(-12000), INT32_C(12000));
+    right_drive_voltage = std::clamp(right_mV, INT32_C(-12000), INT32_C(12000));
 
     drive_type = DriveType::VOLTAGE;
 }
 
 void Drivetrain::set_drive_power(int32_t left_power, int32_t right_power) {
-    left_drive_power = std::clamp((int)left_power, -127, 127);
-    right_drive_power = std::clamp((int)right_power, -127, 127);
+    left_drive_power = std::clamp(left_power, INT32_C(-127), INT32_C(127));
+    right_drive_power = std::clamp(right_power, INT32_C(-127), INT32_C(127));
 
     drive_type = DriveType::POWER;
 }
