@@ -55,11 +55,13 @@ void Drivetrain::shutdown() {
 }
 
 void Drivetrain::set_voltage(int32_t left_mV, int32_t right_mV) {
-
+    left_drive_voltage = left_mV;
+    right_drive_voltage = right_mV;
 }
 
-void Drivetrain::set_drive_power(int32_t leftPower, int32_t rightPower) {
-
+void Drivetrain::set_drive_power(double left_power, double right_power) {
+    left_drive_power = left_power;
+    right_drive_power = right_power;
 }
 
 std::pair<double, double> Drivetrain::get_position() {

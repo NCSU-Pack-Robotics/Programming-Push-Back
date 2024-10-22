@@ -20,17 +20,17 @@ public:
 
     /**
      * Set the voltage (in milli-volts) of the left and right motors.
-     * @param leftVoltage The voltage (milli-volts) to set the left motors to.
-     * @param rightVoltage The voltage (milli-volts) to set the right motors to.
+     * @param left_mV The voltage to set the left motors to.
+     * @param right_mV The voltage to set the right motors to.
      */
     void set_voltage(int32_t left_mV, int32_t right_mV);
 
     /**
-     * Set the power of the left and right motors in range [-100, 100].
-     * @param leftPower The power to set the left motors to.
-     * @param rightPower The power to set the right motors to.
+     * Set the power (in Watts) of the left and right motors in range [-100, 100].
+     * @param left_power The power to set the left motors to.
+     * @param right_power The power to set the right motors to.
      */
-    void set_drive_power(int32_t leftPower, int32_t rightPower);
+    void set_drive_power(double left_power, double right_power);
 
     /**
      * Get the position of the left and right motors in degrees.
@@ -44,6 +44,11 @@ private:
     int32_t left_drive_voltage = 0;
     /** Voltage in mV to set motors to. Will be between -12,000 and +12,000. */
     int32_t right_drive_voltage = 0;
+
+    /** Power in Watts to set motors to. Will be between -100 and 100 */
+    double left_drive_power = 0;
+    /** Power in Watts to set motors to. Will be between -100 and 100 */
+    double right_drive_power = 0;
 
     // Motors:
     /** Smart pointer to the left, front motor. */
