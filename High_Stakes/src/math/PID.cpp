@@ -13,7 +13,7 @@ double PID::calculate(const double error) {
 
     // Calculate the time elapsed since the last call
     const double delta_time = this->timer.get_duration();
-    this->timer.reset();  // Reset the timer for the next iteration
+    this->timer.start();  // Reset the timer for the next iteration
 
     // Calculate the PID outputs
     const double p = this->calculate_proportional(error);
