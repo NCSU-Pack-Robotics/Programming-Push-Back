@@ -9,16 +9,16 @@ void Drivetrain::initialize() {
 
     // Initialize motor objects:
     left_front = std::make_unique<pros::Motor>(Ports::LEFT_FRONT_MOTOR_PORT,
-                                               pros::v5::MotorGears::green,
+                                               pros::v5::MotorGears::blue,
                                                pros::v5::MotorUnits::degrees);
     right_front = std::make_unique<pros::Motor>(Ports::RIGHT_FRONT_MOTOR_PORT,
-                                                pros::v5::MotorGears::green,
+                                                pros::v5::MotorGears::blue,
                                                 pros::v5::MotorUnits::degrees);
     left_back = std::make_unique<pros::Motor>(Ports::LEFT_BACK_MOTOR_PORT,
-                                                pros::v5::MotorGears::green,
+                                                pros::v5::MotorGears::blue,
                                                 pros::v5::MotorUnits::degrees);
     right_back = std::make_unique<pros::Motor>(Ports::RIGHT_BACK_MOTOR_PORT,
-                                                pros::v5::MotorGears::green,
+                                                pros::v5::MotorGears::blue,
                                                 pros::v5::MotorUnits::degrees);
 
     // Initialize motor groups:
@@ -47,10 +47,14 @@ void Drivetrain::periodic() {
         case DriveType::POWER: {
             left_motors->move(left_drive_power);
             right_motors->move(right_drive_power);
+
+            break;  // Fuck bitch fuck (NEED THIS)
         }
         case DriveType::VOLTAGE: {
             left_motors->move_voltage(left_drive_voltage);
             right_motors->move_voltage(right_drive_voltage);
+
+            break;
         }
     }
 }
@@ -68,7 +72,7 @@ void Drivetrain::shutdown() {
 void Drivetrain::set_voltage(int32_t left_mV, int32_t right_mV) {
     left_drive_voltage = std::clamp(left_mV, INT32_C(-12000), INT32_C(12000));
     right_drive_voltage = std::clamp(right_mV, INT32_C(-12000), INT32_C(12000));
-
+    
     drive_type = DriveType::VOLTAGE;
 }
 

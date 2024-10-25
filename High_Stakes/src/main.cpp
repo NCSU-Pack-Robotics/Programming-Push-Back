@@ -87,19 +87,9 @@ void opcontrol() {
         }
 
         // Dirty solution for now to test
-        int32_t forwards_power = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
-        int32_t horizontal_power = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_X);
-        int32_t left_power = forwards_power;
-        int32_t right_power = forwards_power;
 
-        // TODO: Replace with traditional arcade drive solution
-        if (horizontal_power > 0) {
-            // when +X the left motors need to have more power than the right
-            left_power += horizontal_power;
-        } else if (horizontal_power < 0) {
-            // when -X the right motors need to have more power than the right
-            right_power += horizontal_power;
-        }
+        int32_t left_power = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y) + controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
+        int32_t right_power = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y) - controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
 
         drivetrain.set_drive_power(left_power, right_power);
 
