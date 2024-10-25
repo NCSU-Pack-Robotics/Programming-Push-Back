@@ -4,7 +4,6 @@
 
 #include "../../include/main.h"
 #include "../AbstractSubsystem.hpp"
-#include "../ports.hpp"
 #include "../Pose.hpp"
 
 class Drivetrain : public AbstractSubsystem {
@@ -34,13 +33,6 @@ public:
     void set_drive_power(int32_t leftPower, int32_t rightPower);
 
     /**
-     * Get the position of the left and right motors in degrees.
-     * @return A pair of the left and right motor positions in degrees. The first value is the left
-     * motor position, and the second value is the right motor position.
-     */
-    std::pair<double, double> get_position();
-
-    /**
      * Get the pose of the robot.
      * This is the result of odometer calculations.d
      * @return The pose of the robot.
@@ -53,8 +45,11 @@ private:
     /** Voltage in mV to set motors to. Will be between -12,000 and +12,000. */
     int32_t right_drive_voltage = 0;
 
-    /** Holds to current pose of the robot. */
-    Pose pose;
+    // Forward declaration of Odometry class
+    class Odometry;
+
+    // Pointer to odometry instance
+    std::unique_ptr<Odometry> odometry;
 
     // Motors:
     /** Smart pointer to the left, front motor. */
@@ -73,13 +68,11 @@ private:
     std::unique_ptr<pros::MotorGroup> right_motors;
 
     /**
-     * Calculate the odometry of the robot.
-     * This is the process of estimating the robot's pose over time.
-     * @param left_position The new position of the left motor in degrees.
-     * @param right_position The new position of the right motor in degrees.
-     * @return The pose of the robot.
+     * Get the position of the left and right motors in degrees.
+     * @return A pair of the left and right motor positions in degrees. The first value is the left
+     * motor position, and the second value is the right motor position.
      */
-    Pose odometry(double left_position, double right_position);
+    std::pair<double, double> get_position();
 
 protected:
     /**

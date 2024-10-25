@@ -1,5 +1,6 @@
 #include "../include/main.h"
 #include "subystems/Drivetrain.hpp"
+#include "math/Odometry.hpp"
 
 // Create all subsystems
 Drivetrain& drivetrain = AbstractSubsystem::get_instance<Drivetrain>();

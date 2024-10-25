@@ -1,11 +1,10 @@
 #include "Drivetrain.hpp"
+#include "../math/Odometry.hpp"
+#include "../ports.hpp"
+#include "../Constants.hpp"
 
 Drivetrain::Drivetrain() : AbstractSubsystem() {
-}
-
-void Drivetrain::initialize() {
     // TODO: Ensure motors are using green gear-set
-
 
     // Initialize motor objects:
     left_front = std::make_unique<pros::Motor>(Ports::LEFT_FRONT_MOTOR_PORT,
@@ -40,6 +39,15 @@ void Drivetrain::initialize() {
     // Ensure motors are stopped
     left_motors->move_velocity(0);
     right_motors->move_velocity(0);
+
+    // Construct initial pose
+    Pose initial_pose = {INITIAL_X, INITIAL_Y, INITIAL_HEADING};
+
+    // Initialize odometry
+    odometry = std::make_unique<Odometry>(initial_pose);
+}
+
+void Drivetrain::initialize() {
 }
 
 void Drivetrain::periodic() {
@@ -47,7 +55,7 @@ void Drivetrain::periodic() {
     std::pair<double, double> position = get_position();
 
     // Calculate the pose of the robot
-    this->pose = odometry(position.first, position.second);
+    this->odometry->odometry(position.first, position.second);
 }
 
 void Drivetrain::disabled_periodic() {
@@ -76,9 +84,5 @@ std::pair<double, double> Drivetrain::get_position() {
 }
 
 Pose Drivetrain::get_pose() {
-    return this->pose;
-}
-
-Pose Drivetrain::odometry(double left_position, double right_position) {
-    return Pose();
+    return this->odometry->get_pose();
 }

@@ -33,3 +33,13 @@
 
 /** Maximum motor voltage in milli-volts */
 #define MAX_MOTOR_VOLTAGE (12'000) // 12 volts
+
+/** Initial x-coordinate of the robot */
+constexpr double INITIAL_X = 0.0;
+
+/** Initial y-coordinate of the robot */
+constexpr double INITIAL_Y = 0.0;
+
+/** Initial heading of the robot */
+constexpr double INITIAL_HEADING = 0.0;
+
