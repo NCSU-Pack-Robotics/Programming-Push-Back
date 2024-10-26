@@ -2,10 +2,14 @@
 #include "subystems/Drivetrain.hpp"
 
 // Create all subsystems
+/** Reference to drivetrain subsystem */
 Drivetrain& drivetrain = AbstractSubsystem::get_instance<Drivetrain>();
 
-// Create vector with all subsystems
+/** Vector of all subsystems */
 std::vector<AbstractSubsystem*> subsystems = {&drivetrain};
+
+/** Controller object */
+pros::Controller controller{pros::E_CONTROLLER_MASTER};
 
 /**
  * Runs initialization code. This occurs as soon as the program is started.
@@ -82,6 +86,13 @@ void opcontrol() {
         for (AbstractSubsystem* subsystem : subsystems) {
             subsystem->periodic();
         }
+
+        // Dirty solution for now to test
+
+        int32_t left_power = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y) + controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
+        int32_t right_power = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y) - controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
+
+        drivetrain.set_drive_power(left_power, right_power);
 
         // Delay the loop to prevent the CPU from being overwhelmed
         pros::delay(20);

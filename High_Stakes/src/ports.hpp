@@ -5,18 +5,17 @@
  * Motors, sensors, and other devices should be declared here.
  */
 namespace Ports {
-    // TODO: Replace these with the ports of the actual robot
-
     // Note: negative values reverse the motor's direction
+
     /** Port of the left front drive motor */
-    constexpr std::int8_t LEFT_FRONT_MOTOR_PORT = 2;
+    constexpr std::int8_t LEFT_FRONT_MOTOR_PORT = -11;
     /** Port of the left back drive motor */
-    constexpr std::int8_t LEFT_BACK_MOTOR_PORT = 5;
+    constexpr std::int8_t LEFT_BACK_MOTOR_PORT = -19;
     /** Port of the right front drive motor */
-    constexpr std::int8_t RIGHT_FRONT_MOTOR_PORT = 1;
+    constexpr std::int8_t RIGHT_FRONT_MOTOR_PORT = 2;
     /** Port of the right back drive motor */
-    constexpr std::int8_t RIGHT_BACK_MOTOR_PORT = 4;
+    constexpr std::int8_t RIGHT_BACK_MOTOR_PORT = 21;
 
     /** Port of the inertial sensor (gyro) */
-    constexpr std::int8_t INERTIAL_SENSOR_PORT = 3;
+    constexpr std::int8_t INERTIAL_SENSOR_PORT = 1;
 }
