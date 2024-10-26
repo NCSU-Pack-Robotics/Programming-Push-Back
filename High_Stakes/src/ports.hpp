@@ -5,9 +5,8 @@
  * Motors, sensors, and other devices should be declared here.
  */
 namespace Ports {
-    // TODO: Replace these with the ports of the actual robot
-
     // Note: negative values reverse the motor's direction
+
     /** Port of the left front drive motor */
     constexpr std::int8_t LEFT_FRONT_MOTOR_PORT = -11;
     /** Port of the left back drive motor */

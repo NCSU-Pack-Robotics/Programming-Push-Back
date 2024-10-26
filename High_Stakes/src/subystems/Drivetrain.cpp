@@ -4,9 +4,6 @@ Drivetrain::Drivetrain() : AbstractSubsystem() {
 }
 
 void Drivetrain::initialize() {
-    // TODO: Ensure motors are using green gear-set
-
-
     // Initialize motor objects:
     left_front = std::make_unique<pros::Motor>(Ports::LEFT_FRONT_MOTOR_PORT,
                                                pros::v5::MotorGears::blue,

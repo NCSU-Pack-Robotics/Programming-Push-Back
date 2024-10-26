@@ -2,12 +2,13 @@
 #include "subystems/Drivetrain.hpp"
 
 // Create all subsystems
+/** Reference to drivetrain subsystem */
 Drivetrain& drivetrain = AbstractSubsystem::get_instance<Drivetrain>();
 
-// Create vector with all subsystems
+/** Vector of all subsystems */
 std::vector<AbstractSubsystem*> subsystems = {&drivetrain};
 
-// Create Controller object
+/** Controller object */
 pros::Controller controller{pros::E_CONTROLLER_MASTER};
 
 /**
