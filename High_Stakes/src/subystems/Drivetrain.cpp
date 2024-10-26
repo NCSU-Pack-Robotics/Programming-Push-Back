@@ -40,6 +40,8 @@ void Drivetrain::initialize() {
 }
 
 void Drivetrain::periodic() {
+    // TODO: call set_velocity in here with target speeds
+
     switch (drive_type) {
         case DriveType::POWER: {
             left_motors->move(left_drive_power);
@@ -78,6 +80,12 @@ void Drivetrain::set_drive_power(int32_t left_power, int32_t right_power) {
     right_drive_power = std::clamp(right_power, INT32_C(-127), INT32_C(127));
 
     drive_type = DriveType::POWER;
+}
+
+void Drivetrain::set_velocity(const double target_left_velocity, const double target_right_velocity) {
+    const double left_voltage = left_velocity_pid.calculate(target_left_velocity - left_velocity);
+    const double right_voltage = right_velocity_pid.calculate(target_right_velocity - right_velocity);
+    set_voltage(left_voltage, right_voltage);
 }
 
 std::pair<double, double> Drivetrain::get_position() {

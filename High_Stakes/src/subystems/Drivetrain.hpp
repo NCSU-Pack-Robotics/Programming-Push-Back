@@ -5,6 +5,7 @@
 #include "../../include/main.h"
 #include "../AbstractSubsystem.hpp"
 #include "../ports.hpp"
+#include "../math/PID.hpp"
 
 /**
  * Enum for the type of drive control to use.
@@ -48,6 +49,13 @@ public:
     void set_drive_power(int32_t left_power, int32_t right_power);
 
     /**
+     * Set the left motors to run at a target velocity in rpm
+     * @param target_left_velocity The velocity of the left motors in rpm
+     * @param target_right_velocity The velocity of the right motors in rpm
+     */
+    void set_velocity(double target_left_velocity, double target_right_velocity);
+
+    /**
      * Get the position of the left and right motors in degrees.
      * @return A pair of the left and right motor positions in degrees. The first value is the left
      * motor position, and the second value is the right motor position.
@@ -64,6 +72,17 @@ private:
     int32_t left_drive_power = 0;
     /** Power to set motors to from analog sticks. Will be between -127 and 127 */
     int32_t right_drive_power = 0;
+
+    /** The velocity in rpm of the left motors */
+    double left_velocity = 0;
+    /** The velocity in rpm of the right motors */
+    double right_velocity = 0;
+
+    /** The PID used for left motors velocity */
+    // TODO: Find correct p, i, d constants
+    PID left_velocity_pid = PID(1, 1, 1);
+    /** The PID used for right motors velocity */
+    PID right_velocity_pid = PID(1, 1, 1);
 
     /** Type of drive control to use. */
     DriveType drive_type;
