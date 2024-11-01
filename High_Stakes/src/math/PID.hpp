@@ -52,7 +52,7 @@ private:
      * @param error Displacement from target state
      * @return Proportional term
      */
-    double calculate_proportional(const double error);
+    double calculate_proportional(double error);
 
     /**
      * Calculate the integral term
@@ -60,7 +60,7 @@ private:
      * @param delta_time Time elapsed since last call
      * @return Integral term
      */
-    double calculate_integral(const double error, const double delta_time);
+    double calculate_integral(double error, double delta_time);
 
     /**
      * Calculate the derivative term
@@ -68,5 +68,5 @@ private:
      * @param delta_time Time elapsed since last call
      * @return Derivative term
      */
-    double calculate_derivative(const double error, const double delta_time);
+    double calculate_derivative(double error, double delta_time);
 };
