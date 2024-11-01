@@ -1,4 +1,5 @@
 #include "Drivetrain.hpp"
+#include "../Constants.hpp"
 
 Drivetrain::Drivetrain() : AbstractSubsystem() {
 }
@@ -83,8 +84,25 @@ void Drivetrain::set_drive_power(int32_t left_power, int32_t right_power) {
 }
 
 void Drivetrain::set_velocity(const double target_left_velocity, const double target_right_velocity) {
-    const double left_voltage = left_velocity_pid.calculate(target_left_velocity - left_velocity);
-    const double right_voltage = right_velocity_pid.calculate(target_right_velocity - right_velocity);
+    // Calculate current error
+    double left_error = target_left_velocity - left_velocity;
+    double right_error = target_right_velocity - right_velocity;
+
+    // Scale error by gear ratio to convert to wheel velocity
+    // Doing this allows different gear ratios to be used without changing the PID constants
+    left_error *= Constants::TRACKING_RATIO;
+    right_error *= Constants::TRACKING_RATIO;
+
+    // Scale error by wheel circumference to convert to inches
+    // Doing this allows different wheel sizes to be used without changing the PID constants
+    left_error *= Constants::TRACKING_DIAMETER * Constants::PI;
+    right_error *= Constants::TRACKING_DIAMETER * Constants::PI;
+
+    // Calculate new voltages to set
+    const auto left_voltage = static_cast<int32_t>(left_velocity_pid.calculate(left_error));
+    const auto right_voltage = static_cast<int32_t>(right_velocity_pid.calculate(right_error));
+
+    // Set the new voltages
     set_voltage(left_voltage, right_voltage);
 }
 

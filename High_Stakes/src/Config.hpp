@@ -1,8 +1,14 @@
 #pragma once
 
-/** PID Proportional coefficient for velocity calculations */
-constexpr double K_VELOCITY_PROPORTIONAL = 0.0;
-/** PID Derivative coefficient for velocity calculations */
-constexpr double K_VELOCITY_DERIVATIVE = 0.0;
-/** PID Integral coefficient for velocity calculations */
-constexpr double K_VELOCITY_INTEGRAL = 0.0;
+/**
+ * Namespace for PID constants used to set drive train velocity.
+ * # TODO: Tune
+ */
+namespace Constants::PID::Drive::Velocity {
+    /** PID Proportional coefficient for position calculations */
+    constexpr double Kp = 0.0;
+    /** PID Derivative coefficient for position calculations */
+    constexpr double Kd = 0.0;
+    /** PID Integral coefficient for position calculations */
+    constexpr double Ki = 0.0;
+}

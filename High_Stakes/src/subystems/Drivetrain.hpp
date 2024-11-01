@@ -50,9 +50,9 @@ public:
     void set_drive_power(int32_t left_power, int32_t right_power);
 
     /**
-     * Set the left motors to run at a target velocity in rpm
-     * @param target_left_velocity The velocity of the left motors in rpm
-     * @param target_right_velocity The velocity of the right motors in rpm
+     * Set the left motors to run at a target velocity in inches per second
+     * @param target_left_velocity The velocity of the left motors in inches per second
+     * @param target_right_velocity The velocity of the right motors in inches per second
      */
     void set_velocity(double target_left_velocity, double target_right_velocity);
 
@@ -80,10 +80,13 @@ private:
     double right_velocity = 0;
 
     /** The PID used for left motors velocity */
-    // TODO: Find correct p, i, d constants
-    PID left_velocity_pid = PID(K_VELOCITY_PROPORTIONAL, K_VELOCITY_DERIVATIVE, K_VELOCITY_INTEGRAL);
+    PID left_velocity_pid = PID(Constants::PID::Drive::Velocity::Kp,
+                                Constants::PID::Drive::Velocity::Kd,
+                                Constants::PID::Drive::Velocity::Ki);
     /** The PID used for right motors velocity */
-    PID right_velocity_pid = PID(K_VELOCITY_PROPORTIONAL, K_VELOCITY_DERIVATIVE, K_VELOCITY_INTEGRAL);
+    PID right_velocity_pid = PID(Constants::PID::Drive::Velocity::Kp,
+                                Constants::PID::Drive::Velocity::Kd,
+                                Constants::PID::Drive::Velocity::Ki);
 
     /** Type of drive control to use. */
     DriveType drive_type;
