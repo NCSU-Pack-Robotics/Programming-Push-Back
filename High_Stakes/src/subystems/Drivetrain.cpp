@@ -41,8 +41,6 @@ void Drivetrain::initialize() {
 }
 
 void Drivetrain::periodic() {
-    // TODO: call set_velocity in here with target speeds
-
     switch (drive_type) {
         case DriveType::POWER: {
             left_motors->move(left_drive_power);
@@ -84,19 +82,13 @@ void Drivetrain::set_drive_power(int32_t left_power, int32_t right_power) {
 }
 
 void Drivetrain::set_velocity(const double target_left_velocity, const double target_right_velocity) {
+    // Get current velocities from the motors
+    const double left_velocity = rpm_to_ips((left_front->get_actual_velocity() + left_back->get_actual_velocity()) / 2);
+    const double right_velocity = rpm_to_ips((right_front->get_actual_velocity() + right_back->get_actual_velocity()) / 2);
+
     // Calculate current error
     double left_error = target_left_velocity - left_velocity;
     double right_error = target_right_velocity - right_velocity;
-
-    // Scale error by gear ratio to convert to wheel velocity
-    // Doing this allows different gear ratios to be used without changing the PID constants
-    left_error *= Constants::TRACKING_RATIO;
-    right_error *= Constants::TRACKING_RATIO;
-
-    // Scale error by wheel circumference to convert to inches
-    // Doing this allows different wheel sizes to be used without changing the PID constants
-    left_error *= Constants::TRACKING_DIAMETER * Constants::PI;
-    right_error *= Constants::TRACKING_DIAMETER * Constants::PI;
 
     // Calculate new voltages to set
     const auto left_voltage = static_cast<int32_t>(left_velocity_pid.calculate(left_error));
@@ -113,5 +105,9 @@ std::pair<double, double> Drivetrain::get_position() {
 
     // Return the pair of positions
     return std::make_pair(left_position, right_position);
+}
+
+double Drivetrain::rpm_to_ips(double const rpm) {
+    return rpm * Constants::TRACKING_DIAMETER * Constants::PI * Constants::TRACKING_RATIO / 60;
 }
 

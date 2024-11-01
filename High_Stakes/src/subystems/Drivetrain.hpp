@@ -74,11 +74,6 @@ private:
     /** Power to set motors to from analog sticks. Will be between -127 and 127 */
     int32_t right_drive_power = 0;
 
-    /** The velocity in rpm of the left motors */
-    double left_velocity = 0;
-    /** The velocity in rpm of the right motors */
-    double right_velocity = 0;
-
     /** The PID used for left motors velocity */
     PID left_velocity_pid = PID(Constants::PID::Drive::Velocity::Kp,
                                 Constants::PID::Drive::Velocity::Kd,
@@ -106,6 +101,13 @@ private:
     std::unique_ptr<pros::MotorGroup> left_motors;
     /** Group of all motors on the right side of the robot. */
     std::unique_ptr<pros::MotorGroup> right_motors;
+
+    /**
+     * Helper method to convert RPM to inches per second.
+     * @param rpm The RPM to convert to inches per second.
+     * @return The RPM converted to inches per second.
+     */
+    static inline double rpm_to_ips(double rpm);
 
 protected:
     /**
