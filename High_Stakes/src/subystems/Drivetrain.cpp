@@ -45,8 +45,8 @@ Drivetrain::Drivetrain() : AbstractSubsystem() {
                          Constants::Initial::Pose::INITIAL_Y,
                          Constants::Initial::Pose::INITIAL_HEADING};
 
-    // Initialize odometry
-    odometry = std::make_unique<Odometry>(initial_pose);
+    // Initialize calculate
+    odometry = std::make_unique<Odometry>(initial_pose, *this);
 }
 
 void Drivetrain::initialize() {
@@ -57,7 +57,7 @@ void Drivetrain::periodic() {
     std::pair<double, double> position = get_position();
 
     // Calculate the pose of the robot
-    this->odometry->odometry(position.first, position.second);
+    this->odometry->calculate(position.first, position.second);
 }
 
 void Drivetrain::disabled_periodic() {

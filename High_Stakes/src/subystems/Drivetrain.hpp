@@ -48,7 +48,7 @@ private:
     // Forward declaration of Odometry class
     class Odometry;
 
-    // Pointer to odometry instance
+    // Pointer to calculate instance
     std::unique_ptr<Odometry> odometry;
 
     // Motors:
@@ -70,7 +70,8 @@ private:
     /**
      * Get the position of the left and right motors in degrees.
      * @return A pair of the left and right motor positions in degrees. The first value is the left
-     * motor position, and the second value is the right motor position.
+     * motor position, and the second value is the right motor position. The values are averaged
+     * between all motors on each side.
      */
     std::pair<double, double> get_position();
 

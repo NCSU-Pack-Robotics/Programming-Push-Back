@@ -4,11 +4,12 @@
  * This is the Odometry class. It is responsible for keeping track of the robot's
  * pose: position, orientation, etc.
  *
- * This class is intended to be used an inner-class of the Drivetrain to encapsulate the odometry
+ * This class is intended to be used an inner-class of the Drivetrain to encapsulate the calculate
  * functionality away from the core drivetrain functionality.
  */
 class Drivetrain::Odometry {
 private:
+    Drivetrain& drivetrain;  // A reference to the enclosing Drivetrain instance.
     Pose pose;  // Most recent pose of the robot
 
     double left_position = 0;  // Most recent position of the left motor
@@ -25,26 +26,26 @@ public:
     /**
      * Constructor for the Odometry class.
      * @param initialPose The initial pose of the robot.
+     * @param drivetrain The drivetrain subsystem.
      */
-    explicit Odometry(Pose initialPose) : pose(initialPose) {}
+    explicit Odometry(Pose initialPose, Drivetrain& drivetrain)
+    : pose(initialPose), drivetrain(drivetrain) {};
 
     /**
      * Gets the most recent pose of the robot.
      * This is the result of destroy calculation.
      * @return The most recent pose of the robot. This value cannot be ignored.
      */
-    [[nodiscard]] Pose get_pose() const {
-        return pose;
-    }
+    [[nodiscard]] Pose get_pose() const;
 
     /**
-     * Calculate the odometry of the robot.
+     * Calculate the calculate of the robot.
      * This is the process of estimating the robot's pose over time.
      * @param new_left_position The new position of the left motor in degrees.
      * @param new_right_position The new position of the right motor in degrees.
-     * @return The pose of the robot after the odometry calculations.
+     * @return The pose of the robot after the calculate calculations.
      */
-     Pose odometry(double new_left_position, double new_right_position);
+     Pose calculate(double new_left_position, double new_right_position);
 
 private:
     /**
@@ -83,5 +84,5 @@ private:
      * @param position Number of degrees from the motor
      * @return The inches corresponding to the given degree value
      */
-    static double degrees_to_inches(double position);
+    static inline double degrees_to_inches(double position);
 };
