@@ -2,7 +2,14 @@
 #include "subystems/Drivetrain.hpp"
 
 // Create all subsystems
-Drivetrain& drivetrain = SubsystemAbstract::getInstance<Drivetrain>();
+/** Reference to drivetrain subsystem */
+Drivetrain& drivetrain = AbstractSubsystem::get_instance<Drivetrain>();
+
+/** Vector of all subsystems */
+std::vector<AbstractSubsystem*> subsystems = {&drivetrain};
+
+/** Controller object */
+pros::Controller controller{pros::E_CONTROLLER_MASTER};
 
 /**
  * Runs initialization code. This occurs as soon as the program is started.
@@ -11,7 +18,10 @@ Drivetrain& drivetrain = SubsystemAbstract::getInstance<Drivetrain>();
  * to keep execution time for this mode under a few seconds.
  */
 void initialize() {
-
+    // Initialize all subsystems
+    for (AbstractSubsystem* subsystem : subsystems) {
+        subsystem->initialize();
+    }
 }
 
 /**
@@ -19,7 +29,14 @@ void initialize() {
  * the VEX Competition Switch, following either autonomous or opcontrol. When
  * the robot is enabled, this task will exit.
  */
-void disabled() {}
+void disabled() {
+    // Run disabled periodic for all subsystems
+    while (true) {
+        for (AbstractSubsystem* subsystem: subsystems) {
+            subsystem->disabled_periodic();
+        }
+    }
+}
 
 /**
  * Runs after initialize(), and before autonomous when connected to the Field
@@ -30,7 +47,12 @@ void disabled() {}
  * This task will exit when the robot is enabled and autonomous or opcontrol
  * starts.
  */
-void competition_initialize() {}
+void competition_initialize() {
+    // Run disabled periodic for all subsystems
+    for (AbstractSubsystem* subsystem : subsystems) {
+        subsystem->initialize();
+    }
+}
 
 /**
  * Runs the user autonomous code. This function will be started in its own task
@@ -58,4 +80,21 @@ void autonomous() {}
  * operator control task will be stopped. Re-enabling the robot will restart the
  * task, not resume it from where it left off.
  */
-void opcontrol() {}
+void opcontrol() {
+    while (true) {
+        // Run periodic for all subsystems
+        for (AbstractSubsystem* subsystem : subsystems) {
+            subsystem->periodic();
+        }
+
+        // Dirty solution for now to test
+
+        int32_t left_power = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y) + controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
+        int32_t right_power = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y) - controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
+
+        drivetrain.set_drive_power(left_power, right_power);
+
+        // Delay the loop to prevent the CPU from being overwhelmed
+        pros::delay(20);
+    }
+}

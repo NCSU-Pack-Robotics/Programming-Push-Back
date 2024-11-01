@@ -5,22 +5,26 @@
  * Each subsystem runs every loop to control a specific thing
  * For example: the drivetrain subsystem controls movement by updating the power in each motor every loop
  */
-class SubsystemAbstract {
+class AbstractSubsystem {
 public:
     // Delete copy constructor and assignment operator
-    SubsystemAbstract(const SubsystemAbstract &) = delete;
-    SubsystemAbstract &operator=(const SubsystemAbstract &) = delete;
+    AbstractSubsystem(const AbstractSubsystem &) = delete;
+    AbstractSubsystem &operator=(const AbstractSubsystem &) = delete;
 
     // Delete move constructor and assignment operator
-    SubsystemAbstract(SubsystemAbstract &&) = delete;
-    SubsystemAbstract &operator=(SubsystemAbstract &&) = delete;
+    AbstractSubsystem(AbstractSubsystem &&) = delete;
+    AbstractSubsystem &operator=(AbstractSubsystem &&) = delete;
 
     /**
-     * Get the instance of the subsystem.
+     * Get the instance of a subsystem.
+     * This is the method called when you want to get the instance of any subsystem.
+     * Ex:
+     * `Drivetrain &drivetrain = AbstractSubsystem::get_instance<Drivetrain>();`
+     *
      * @return The instance of the subsystem
      */
     template<typename T>
-    static T &getInstance() {
+    static T &get_instance() {
         // A static instance of the subsystem
         static T instance;
 
@@ -41,6 +45,9 @@ public:
     virtual void shutdown() = 0;
 
 protected:
-    // Protected constructor to ensure only subclasses can instantiate
-    SubsystemAbstract() = default;
+    /**
+     * Constructor for AbstractSubsystem.
+     * Takes no arguments and is protected to ensure only subclasses can instantiate.
+     */
+    AbstractSubsystem() = default;
 };
