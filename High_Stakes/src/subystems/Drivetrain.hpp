@@ -6,6 +6,7 @@
 #include "../AbstractSubsystem.hpp"
 #include "../ports.hpp"
 #include "../math/PID.hpp"
+#include "../Config.hpp"
 
 /**
  * Enum for the type of drive control to use.
@@ -80,9 +81,9 @@ private:
 
     /** The PID used for left motors velocity */
     // TODO: Find correct p, i, d constants
-    PID left_velocity_pid = PID(1, 1, 1);
+    constexpr PID left_velocity_pid = PID(K_VELOCITY_PROPORTIONAL, K_VELOCITY_DERIVATIVE, K_VELOCITY_INTEGRAL);
     /** The PID used for right motors velocity */
-    PID right_velocity_pid = PID(1, 1, 1);
+    constexpr PID right_velocity_pid = PID(K_VELOCITY_PROPORTIONAL, K_VELOCITY_DERIVATIVE, K_VELOCITY_INTEGRAL);
 
     /** Type of drive control to use. */
     DriveType drive_type;
