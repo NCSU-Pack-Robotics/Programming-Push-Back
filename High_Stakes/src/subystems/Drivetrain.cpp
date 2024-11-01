@@ -1,7 +1,7 @@
 #include "Drivetrain.hpp"
 #include "../math/Odometry.hpp"
 #include "../ports.hpp"
-#include "../Constants.hpp"
+#include "../Config.hpp"
 
 Drivetrain::Drivetrain() : AbstractSubsystem() {
     // TODO: Ensure motors are using green gear-set
@@ -41,7 +41,9 @@ Drivetrain::Drivetrain() : AbstractSubsystem() {
     right_motors->move_velocity(0);
 
     // Construct initial pose
-    Pose initial_pose = {INITIAL_X, INITIAL_Y, INITIAL_HEADING};
+    Pose initial_pose = {Constants::Initial::Pose::INITIAL_X,
+                         Constants::Initial::Pose::INITIAL_Y,
+                         Constants::Initial::Pose::INITIAL_HEADING};
 
     // Initialize odometry
     odometry = std::make_unique<Odometry>(initial_pose);
