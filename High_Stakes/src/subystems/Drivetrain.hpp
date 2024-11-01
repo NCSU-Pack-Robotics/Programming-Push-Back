@@ -81,9 +81,9 @@ private:
 
     /** The PID used for left motors velocity */
     // TODO: Find correct p, i, d constants
-    constexpr PID left_velocity_pid = PID(K_VELOCITY_PROPORTIONAL, K_VELOCITY_DERIVATIVE, K_VELOCITY_INTEGRAL);
+    PID left_velocity_pid = PID(K_VELOCITY_PROPORTIONAL, K_VELOCITY_DERIVATIVE, K_VELOCITY_INTEGRAL);
     /** The PID used for right motors velocity */
-    constexpr PID right_velocity_pid = PID(K_VELOCITY_PROPORTIONAL, K_VELOCITY_DERIVATIVE, K_VELOCITY_INTEGRAL);
+    PID right_velocity_pid = PID(K_VELOCITY_PROPORTIONAL, K_VELOCITY_DERIVATIVE, K_VELOCITY_INTEGRAL);
 
     /** Type of drive control to use. */
     DriveType drive_type;
