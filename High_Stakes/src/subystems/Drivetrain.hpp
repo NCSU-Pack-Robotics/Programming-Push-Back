@@ -7,18 +7,7 @@
 #include "../ports.hpp"
 #include "../math/PID.hpp"
 #include "../Config.hpp"
-
-/**
- * Enum for the type of drive control to use.
- * VOLTAGE: Set the voltage of the motors directly.
- * POWER: Set the power of the motors from analog sticks.
- */
-enum DriveType {
-        /** Set the voltage of the motors directly. */
-        VOLTAGE,
-        /** Set the power of the motors from analog sticks. */
-        POWER
-};
+#include "../Constants.hpp"
 
 /**
  * The Drivetrain subsystem is responsible for controlling and reading from the drive motors.
@@ -84,7 +73,7 @@ private:
                                 Constants::PID::Drive::Velocity::Ki);
 
     /** Type of drive control to use. */
-    DriveType drive_type;
+    Constants::DriveType drive_type;
 
     // Motors:
     /** Smart pointer to the left, front motor. */

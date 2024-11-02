@@ -1,5 +1,4 @@
 #include "Drivetrain.hpp"
-#include "../Constants.hpp"
 
 Drivetrain::Drivetrain() : AbstractSubsystem() {
 }
@@ -42,13 +41,13 @@ void Drivetrain::initialize() {
 
 void Drivetrain::periodic() {
     switch (drive_type) {
-        case DriveType::POWER: {
+        case Constants::DriveType::POWER: {
             left_motors->move(left_drive_power);
             right_motors->move(right_drive_power);
 
             break;  // Fuck bitch fuck (NEED THIS)
         }
-        case DriveType::VOLTAGE: {
+        case Constants::DriveType::VOLTAGE: {
             left_motors->move_voltage(left_drive_voltage);
             right_motors->move_voltage(right_drive_voltage);
 
@@ -71,14 +70,14 @@ void Drivetrain::set_voltage(int32_t left_mV, int32_t right_mV) {
     left_drive_voltage = std::clamp(left_mV, INT32_C(-12000), INT32_C(12000));
     right_drive_voltage = std::clamp(right_mV, INT32_C(-12000), INT32_C(12000));
     
-    drive_type = DriveType::VOLTAGE;
+    drive_type = Constants::DriveType::VOLTAGE;
 }
 
 void Drivetrain::set_drive_power(int32_t left_power, int32_t right_power) {
     left_drive_power = std::clamp(left_power, INT32_C(-127), INT32_C(127));
     right_drive_power = std::clamp(right_power, INT32_C(-127), INT32_C(127));
 
-    drive_type = DriveType::POWER;
+    drive_type = Constants::DriveType::POWER;
 }
 
 void Drivetrain::set_velocity(const double target_left_velocity, const double target_right_velocity) {
@@ -108,6 +107,6 @@ std::pair<double, double> Drivetrain::get_position() {
 }
 
 double Drivetrain::rpm_to_ips(double const rpm) {
-    return rpm * Constants::TRACKING_DIAMETER * Constants::PI * Constants::TRACKING_RATIO / 60;
+    return rpm * Constants::Hardware::TRACKING_DIAMETER * Constants::Math::PI * Constants::Hardware::TRACKING_RATIO / 60;
 }
 
