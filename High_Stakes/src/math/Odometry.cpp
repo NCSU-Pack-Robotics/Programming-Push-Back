@@ -13,7 +13,7 @@ Pose Drivetrain::Odometry::calculate(const double new_left_position,
     calculate_position_arc();
 
     // must be done after coordinate calculations
-    this->pose.heading = (right_distance - left_distance) / (Constants::ROBOT_DIAMETER);
+    this->pose.heading = (right_distance - left_distance) / (Constants::Hardware::ROBOT_DIAMETER);
 
     return this->get_pose();
 }
@@ -24,9 +24,9 @@ Pose Drivetrain::Odometry::get_pose() const {
 
 void Drivetrain::Odometry::calculate_position_arc() {
     // position calculations
-    double turning_radius = fabs(Constants::ROBOT_RADIUS * (delta_right+delta_left)
+    double turning_radius = fabs(Constants::Hardware::ROBOT_RADIUS * (delta_right+delta_left)
             / (delta_right-delta_left));
-    double delta_heading = (delta_right-delta_left) / (Constants::ROBOT_DIAMETER);
+    double delta_heading = (delta_right-delta_left) / (Constants::Hardware::ROBOT_DIAMETER);
 
     // variables to store changes in x andy y
     double delta_x = 0.0;
@@ -36,19 +36,19 @@ void Drivetrain::Odometry::calculate_position_arc() {
     if ((delta_right - delta_left) != 0) { // turning
         if (fabs(delta_right)-fabs(delta_left) > 0) { // turning left
             delta_x = turning_radius *
-                    (cos(this->pose.heading - Constants::HALF_PI + delta_heading)
-                    - cos(this->pose.heading - Constants::HALF_PI));
+                    (cos(this->pose.heading - Constants::Math::HALF_PI + delta_heading)
+                    - cos(this->pose.heading - Constants::Math::HALF_PI));
             delta_y = turning_radius *
-                    (sin(this->pose.heading - Constants::HALF_PI + delta_heading)
-                    - sin(this->pose.heading - Constants::HALF_PI));
+                    (sin(this->pose.heading - Constants::Math::HALF_PI + delta_heading)
+                    - sin(this->pose.heading - Constants::Math::HALF_PI));
 
         } else if (fabs(delta_right)-fabs(delta_left) < 0) { // turning right
             delta_x = turning_radius *
-                    (cos(this->pose.heading + Constants::HALF_PI + delta_heading)
-                    - cos(this->pose.heading + Constants::HALF_PI));
+                    (cos(this->pose.heading + Constants::Math::HALF_PI + delta_heading)
+                    - cos(this->pose.heading + Constants::Math::HALF_PI));
             delta_y = turning_radius *
-                    (sin(this->pose.heading + Constants::HALF_PI + delta_heading)
-                    - sin(this->pose.heading + Constants::HALF_PI));
+                    (sin(this->pose.heading + Constants::Math::HALF_PI + delta_heading)
+                    - sin(this->pose.heading + Constants::Math::HALF_PI));
         }
 
     } else { // not turning
@@ -84,5 +84,5 @@ void Drivetrain::Odometry::update_distance() {
 }
 
 double Drivetrain::Odometry::degrees_to_inches(const double position) {
-    return Constants::TRACKING_RATIO * Constants::TRACKING_DIAMETER * Constants::PI * (position / 360);
+    return Constants::Hardware::TRACKING_RATIO * Constants::Hardware::TRACKING_DIAMETER * Constants::Math::PI * (position / 360);
 }
