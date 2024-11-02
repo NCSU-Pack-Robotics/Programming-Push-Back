@@ -2,6 +2,7 @@
 #include "../../include/main.h"
 #include "../AbstractSubsystem.hpp"
 #include "../ports.hpp"
+#include "../Constants.hpp"
 
 
 class Lift : public AbstractSubsystem {
@@ -38,7 +39,7 @@ private:
     int32_t lift_power = 0;
 
     /** Type of drive control to use. */
-    DriveType drive_type;
+    Constants::DriveType drive_type;
 
 protected:
     Lift();

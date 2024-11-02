@@ -1,6 +1,6 @@
 #include "Lift.hpp"
 
-Lift::Lift() {
+Lift::Lift() : AbstractSubsystem() {
 
 }
 
@@ -8,17 +8,17 @@ void Lift::initialize() {
     // TODO: Make sure motor is correct color
 
     lift_motor = std::make_unique<pros::Motor>(Ports::LIFT_MOTOR_PORT, pros::v5::MotorGears::blue, pros::v5::MotorUnits::degrees);
-    lift_motor->tare_position(0);
-    lift_motor->set
+    lift_motor->tare_position();
+    lift_motor->move_velocity(0);
 }
 
 void Lift::periodic() {
     switch (drive_type) {
-        case DriveType::Power: {
+        case Constants::DriveType::POWER: {
             lift_motor->move(lift_power);
             break;
-        },
-        case DriveType::Voltage: {
+        }
+        case Constants::DriveType::VOLTAGE: {
             lift_motor->move_voltage(lift_voltage);
             break;
         }
@@ -37,13 +37,13 @@ void Lift::shutdown() {
 void Lift::set_voltage(int32_t voltage) {
     lift_voltage = std::clamp(voltage, INT32_C(-12000), INT32_C(12000));
 
-    drive_type = DriveType::VOLTAGE;
+    drive_type = Constants::DriveType::VOLTAGE;
 }
 
 void Lift::set_drive_power(int32_t power) {
     lift_power = std::clamp(power, INT32_C(-127), INT32_C(127));
 
-    drive_type = DriveType::POWER;
+    drive_type = Constants::DriveType::POWER;
 }
 
 
