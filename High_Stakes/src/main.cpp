@@ -84,6 +84,10 @@ void opcontrol() {
             subsystem->periodic();
         }
 
+        auto [x, y, heading] = drivetrain.get_pose();
+        printf("Pose: X: %.3lf Y: %.3lf Heading: %.3lf\n",
+            x, y, heading);
+
         // Delay the loop to prevent the CPU from being overwhelmed
         pros::delay(20);
     }
