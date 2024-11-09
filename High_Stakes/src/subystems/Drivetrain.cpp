@@ -78,11 +78,17 @@ void Drivetrain::set_drive_power(int32_t leftPower, int32_t rightPower) {
 
 std::pair<double, double> Drivetrain::get_position() {
     // Average both motor positions to be more accurate
-    double left_position = (left_front->get_position() + left_back->get_position()) / 2;
-    double right_position = (right_front->get_position() + right_back->get_position()) / 2;
+    double left_position = left_motors->get_position();
+    double right_position = right_motors->get_position();
 
     // Return the pair of positions
+    //printf("%lf %lf\n ", left_position, right_position );
+
+
+    //printf( "%lf, %lf\n" ,value.first, value.second );
+
     return std::make_pair(left_position, right_position);
+
 }
 
 Pose Drivetrain::get_pose() {

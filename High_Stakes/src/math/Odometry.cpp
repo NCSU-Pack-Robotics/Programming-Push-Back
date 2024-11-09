@@ -58,7 +58,10 @@ void Drivetrain::Odometry::calculate_position_arc() {
     }
 
     // Update x and y coords
+//    printf("%lf", delta_x );
+//    printf( "%lf", delta_y );
     this->pose.x += delta_x;
+
     this->pose.y += delta_y;
 }
 
@@ -76,6 +79,8 @@ void Drivetrain::Odometry::update_deltas() {
     this->delta_left = degrees_to_inches(this->left_position) - left_distance;
     this->delta_right = degrees_to_inches(this->right_position) - right_distance;
     this->delta_avg = (delta_left + delta_right) / 2;
+
+    //printf( "%lf %lf\n", this->delta_right, this->delta_left );
 }
 
 void Drivetrain::Odometry::update_distance() {
@@ -84,5 +89,8 @@ void Drivetrain::Odometry::update_distance() {
 }
 
 double Drivetrain::Odometry::degrees_to_inches(const double position) {
+    //printf( "%lf\n", position );
     return Constants::Hardware::TRACKING_RATIO * Constants::Hardware::TRACKING_DIAMETER * Constants::Math::PI * (position / 360);
+
 }
+
