@@ -21,8 +21,8 @@ namespace Ports {
     // TODO: Find correct port
 
     /** Port of the lift motor */
-    constexpr std::int8_t LIFT_MOTOR_PORT = 5;
+    constexpr std::int8_t LIFT_MOTOR_PORT = 1;
 
     /** Port of the inertial sensor (gyro) */
-    constexpr std::int8_t INERTIAL_SENSOR_PORT = 1;
+    // constexpr std::int8_t INERTIAL_SENSOR_PORT = 1;
 }
