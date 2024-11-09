@@ -21,7 +21,7 @@ namespace Ports {
     // TODO: Find correct port
 
     /** Port of the intake motor */
-    constexpr std::int8_t INTAKE_MOTOR_PORT = 6;
+    constexpr std::int8_t INTAKE_MOTOR_PORT = 14;
 
     /** Port of the inertial sensor (gyro) */
     constexpr std::int8_t INERTIAL_SENSOR_PORT = 1;

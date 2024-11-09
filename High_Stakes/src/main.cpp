@@ -1,12 +1,15 @@
 #include "../include/main.h"
 #include "subystems/Drivetrain.hpp"
+#include "subystems/Intake.hpp"
 
 // Create all subsystems
 /** Reference to drivetrain subsystem */
 Drivetrain& drivetrain = AbstractSubsystem::get_instance<Drivetrain>();
 
+Intake& intake = AbstractSubsystem::get_instance<Intake>();
+
 /** Vector of all subsystems */
-std::vector<AbstractSubsystem*> subsystems = {&drivetrain};
+std::vector<AbstractSubsystem*> subsystems = {&drivetrain, &intake};
 
 /** Controller object */
 pros::Controller controller{pros::E_CONTROLLER_MASTER};
@@ -91,6 +94,16 @@ void opcontrol() {
 
         int32_t left_power = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y) + controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
         int32_t right_power = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y) - controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
+
+        if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
+            intake.set_drive_power(30);
+        } else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
+            intake.set_drive_power(-30);
+        } else {
+            intake.set_drive_power(0);
+        }
+
+
 
         drivetrain.set_drive_power(left_power, right_power);
 
