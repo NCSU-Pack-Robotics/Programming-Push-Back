@@ -3,7 +3,7 @@
 #include "../AbstractSubsystem.hpp"
 #include "../Constants.hpp"
 
-
+/** Class for the intake, which uses motors to spin two wheels inwards, designed to suck a plastic donut into the lift system */
 class Intake : public AbstractSubsystem {
     friend class AbstractSubsystem;
 
