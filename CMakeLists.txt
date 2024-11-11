@@ -276,5 +276,4 @@ add_executable(Programming_High_Stakes
         High_Stakes/src/main.cpp
         High_Stakes/src/ports.hpp
         High_Stakes/src/subystems/Intake.cpp
-        High_Stakes/src/subystems/Intake.hpp
         High_Stakes/src/subystems/Intake.hpp)
