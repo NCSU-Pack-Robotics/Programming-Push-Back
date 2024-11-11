@@ -4,7 +4,7 @@
 #include "../ports.hpp"
 #include "../Constants.hpp"
 
-
+/** Class for the lift, which is a motor that moves a chain of upwards facing prongs designed to carry a plastic donut up the robot */
 class Lift : public AbstractSubsystem {
     friend class AbstractSubsystem;
 
