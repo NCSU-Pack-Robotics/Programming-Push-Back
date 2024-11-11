@@ -9,6 +9,8 @@
 namespace Ports {
     // Note: negative values reverse the motor's direction
 
+    // TODO: Change ports to competition robot ports
+    // These ports are for the non-competition robot
     /** Port of the left front drive motor */
     constexpr std::int8_t LEFT_FRONT_MOTOR_PORT = -11;
     /** Port of the left back drive motor */
@@ -18,8 +20,7 @@ namespace Ports {
     /** Port of the right back drive motor */
     constexpr std::int8_t RIGHT_BACK_MOTOR_PORT = 21;
 
-    // TODO: Find correct port
-
+    // This port is for the competition robot
     /** Port of the intake motor */
     constexpr std::int8_t INTAKE_MOTOR_PORT = 14;
 
