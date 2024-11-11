@@ -1,4 +1,3 @@
-// ReSharper disable All
 #include "Drivetrain.hpp"
 
 Drivetrain::Drivetrain() : AbstractSubsystem() {
