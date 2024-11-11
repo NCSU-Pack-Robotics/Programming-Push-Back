@@ -100,9 +100,9 @@ void opcontrol() {
         drivetrain.set_drive_power(left_power, right_power);
 
         if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
-            lift.set_drive_power(Constants::MotorSpeeds::LIFT_UP);
+            lift.set_drive_power(Constants::Controller::MotorSpeeds::LIFT_UP);
         } else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
-            lift.set_drive_power(Constants::MotorSpeeds::LIFT_DOWN);
+            lift.set_drive_power(Constants::Controller::MotorSpeeds::LIFT_DOWN);
         } else {
             lift.set_drive_power(0);
         }
