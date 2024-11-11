@@ -97,9 +97,9 @@ void opcontrol() {
         int32_t right_power = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y) - controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
 
         if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
-            intake.set_drive_power(Constants::MotorSpeeds::INTAKE_INWARDS);
+            intake.set_drive_power(Constants::Controller::MotorSpeeds::INTAKE_INWARDS);
         } else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
-            intake.set_drive_power(Constants::MotorSpeeds::INTAKE_OUTWARDS);
+            intake.set_drive_power(Constants::Controller::MotorSpeeds::INTAKE_OUTWARDS);
         } else {
             intake.set_drive_power(0);
         }
