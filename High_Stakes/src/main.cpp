@@ -1,16 +1,17 @@
 #include "../include/main.h"
 #include "subystems/Drivetrain.hpp"
+#include "subystems/Lift.hpp"
+#include "Config.hpp"
 #include "subystems/Intake.hpp"
 #include "../Config.hpp"
 
-// Create all subsystems
-/** Reference to drivetrain subsystem */
+// Create all subsystems:
 Drivetrain& drivetrain = AbstractSubsystem::get_instance<Drivetrain>();
-
+Lift& lift = AbstractSubsystem::get_instance<Lift>();
 Intake& intake = AbstractSubsystem::get_instance<Intake>();
 
-/** Vector of all subsystems */
-std::vector<AbstractSubsystem*> subsystems = {&drivetrain, &intake};
+// Add subsytems to vector for iteration
+std::vector<AbstractSubsystem*> subsystems = {&drivetrain, &lift, &intake}
 
 /** Controller object */
 pros::Controller controller{pros::E_CONTROLLER_MASTER};
@@ -107,6 +108,14 @@ void opcontrol() {
 
 
         drivetrain.set_drive_power(left_power, right_power);
+
+        if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
+            lift.set_drive_power(Constants::Controller::MotorSpeeds::LIFT_UP);
+        } else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
+            lift.set_drive_power(Constants::Controller::MotorSpeeds::LIFT_DOWN);
+        } else {
+            lift.set_drive_power(0);
+        }
 
         // Delay the loop to prevent the CPU from being overwhelmed
         pros::delay(20);
