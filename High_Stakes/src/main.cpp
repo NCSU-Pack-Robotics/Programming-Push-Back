@@ -3,15 +3,14 @@
 #include "subystems/Lift.hpp"
 #include "Config.hpp"
 #include "subystems/Intake.hpp"
-#include "../Config.hpp"
 
 // Create all subsystems:
 Drivetrain& drivetrain = AbstractSubsystem::get_instance<Drivetrain>();
 Lift& lift = AbstractSubsystem::get_instance<Lift>();
 Intake& intake = AbstractSubsystem::get_instance<Intake>();
 
-// Add subsytems to vector for iteration
-std::vector<AbstractSubsystem*> subsystems = {&drivetrain, &lift, &intake}
+// Add subsystems to vector for iteration
+std::vector<AbstractSubsystem*> subsystems = {&drivetrain, &lift, &intake};
 
 /** Controller object */
 pros::Controller controller{pros::E_CONTROLLER_MASTER};
