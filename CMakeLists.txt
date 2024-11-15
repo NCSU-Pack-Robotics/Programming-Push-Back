@@ -282,5 +282,4 @@ add_executable(Programming_High_Stakes
         High_Stakes/src/Config.hpp
         High_Stakes/src/subystems/Intake.cpp
         High_Stakes/src/subystems/Intake.hpp
-        High_Stakes/src/subystems/DriverControl.cpp
-        High_Stakes/src/subystems/DriverControl.hpp)
+)
