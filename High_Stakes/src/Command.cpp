@@ -28,6 +28,24 @@ void ChainCommand::set_commands(std::queue<std::unique_ptr<Command>> commands) {
     command_queue = std::move(commands);
 }
 
+void ChainCommand::periodic() {
+    // If the queue is empty, return
+    if (command_queue.empty())
+        return;
+
+    // Run the next command
+    command_queue.front()->run();
+
+    // If this command is complete, remove it
+    if (command_queue.front()->is_complete()) {
+        command_queue.pop();
+    }
+}
+
+bool ChainCommand::is_complete() {
+    return command_queue.empty();
+}
+
 void ParallelCommand::add_command(std::unique_ptr<Command> command) {
     commands.push_back(std::move(command));
 }
@@ -40,6 +58,25 @@ ParallelCommand &ParallelCommand::add_command_and(std::unique_ptr<Command> comma
 
 void ParallelCommand::set_commands(std::vector<std::unique_ptr<Command>> commands) {
     this->commands = std::move(commands);
+}
+
+void ParallelCommand::periodic() {
+    // Iterate through all commands
+    for (auto it = commands.begin(); it != commands.end();) {
+        // Run the command
+        (*it)->run();
+
+        // If the command is complete, remove it
+        if ((*it)->is_complete()) {
+            it = commands.erase(it);
+        } else {
+            it++;
+        }
+    }
+}
+
+bool ParallelCommand::is_complete() {
+    return commands.empty();
 }
 
 void InstantCommand::initialize() {

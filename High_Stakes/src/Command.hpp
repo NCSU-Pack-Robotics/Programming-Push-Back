@@ -20,6 +20,9 @@ public:
      */
     void run();
 
+    /** Return true when the command is complete. */
+    virtual bool is_complete() = 0;
+
 protected:
     /** The number of loops this command has run. */
     unsigned int loops = 0;
@@ -35,9 +38,6 @@ protected:
 
     /** Called once after the command has finished its job. */
     virtual void shutdown() = 0;
-
-    /** Return true when the command is complete. */
-    virtual bool is_complete() = 0;
 
     /**
      * A command that will run right after this command is done.
@@ -77,6 +77,18 @@ public:
      */
     void set_commands(std::queue<std::unique_ptr<Command>> commands);
 
+    /**
+     * Runs the first command in the chain. When that command is done,
+     * the next command in the chain is run. This continues until the last
+     * command is run.
+     */
+    void periodic() override;
+
+    /**
+     * The function is complete when all commands in the chain have been completed and removed.
+     */
+    bool is_complete() override;
+
 private:
     /** The queue of commands to run. */
     std::queue<std::unique_ptr<Command>> command_queue;
@@ -113,6 +125,18 @@ public:
      * @param commands The commands to set.
      */
     void set_commands(std::vector<std::unique_ptr<Command>> commands);
+
+    /**
+     * Runs all commands in the list.
+     * Because each command is being run in the same call to periodic(),
+     * they will all run simultaneously.
+     */
+    void periodic() override;
+
+    /**
+     * The function is complete when all commands in the list have been completed.
+     */
+    bool is_complete() override;
 
 private:
     /** The list of commands to run. */
