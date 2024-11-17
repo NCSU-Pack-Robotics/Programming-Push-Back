@@ -114,7 +114,7 @@ public:
      * The order of commands in the list does not matter.
      * @param commands The commands to set.
      */
-    ParrallelCommand(std::initializer_list<std::unique_ptr<Command>> commands);
+    ParallelCommand(std::initializer_list<std::unique_ptr<Command>> commands);
 
     /**
      * Add a command to the list of commands to run.
@@ -162,6 +162,9 @@ class InstantCommand : public Command {
 public:
     /** Constructor that allows for a function to be passed as the execute method */
     InstantCommand(std::function<void()>& executeFunction);
+
+    /** Returns true because InstantCommands only run once */
+    bool is_complete();
 protected:
     /** Calls the execute function */
     void initialize();
@@ -172,9 +175,6 @@ protected:
     /** This is called but no code should be put in it.
      * Put everything inside execute. */
     void shutdown();
-
-    /** Returns true because InstantCommands only run once */
-    bool is_complete();
 
     /** The function that gets run. By default, it is set in the constructor,
      * but can be overwritten in child classes */
