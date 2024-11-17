@@ -54,6 +54,13 @@ protected:
 class ChainCommand : public Command {
 public:
     /**
+     * A constructor that uses an initialize list to set the commands upon creation.
+     * The first element in the list is the first command to run.
+     * @param commands The commands to set.
+     */
+    ChainCommand(std::initializer_list<std::unique_ptr<Command>> commands);
+
+    /**
      * Add a command to the end of the chain.
      * @param command The command to add.
      */
@@ -102,6 +109,13 @@ private:
  */
 class ParallelCommand : public Command {
 public:
+    /**
+     * A constructor that uses an initialize list to set the commands upon creation.
+     * The order of commands in the list does not matter.
+     * @param commands The commands to set.
+     */
+    ParrallelCommand(std::initializer_list<std::unique_ptr<Command>> commands);
+
     /**
      * Add a command to the list of commands to run.
      * @param command The command to add.
@@ -162,9 +176,12 @@ protected:
      * Put everything inside execute. */
     void shutdown();
 
-    /** The function that gets run. By default, it is set in the constructor,
-     * but can be overwritten in child classes */
+    /**
+     * The function that gets run. By default, it is set in the constructor,
+     * but can be overwritten in child classes
+     */
     virtual void execute();
+
 private:
     /** The execute function passed from the constructor */
     std::function<void()>& executeFunction;

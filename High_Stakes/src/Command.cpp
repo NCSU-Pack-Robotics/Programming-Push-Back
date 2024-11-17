@@ -14,6 +14,17 @@ void Command::run() {
     }
 }
 
+ChainCommand::ChainCommand(std::initializer_list<std::unique_ptr<Command>> commands) {
+    // Initialize the queue
+    command_queue = std::queue<std::unique_ptr<Command>>();
+
+    // Move the commands from the initializer list to the queue
+    for (auto& command : commands) {
+        // cast away to `const`, and move the command to the queue
+        command_queue.push(std::move(const_cast<std::unique_ptr<Command>&> (command)));
+    }
+}
+
 void ChainCommand::add_command(std::unique_ptr<Command> command) {
     command_queue.push(std::move(command));
 }
@@ -44,6 +55,17 @@ void ChainCommand::periodic() {
 
 bool ChainCommand::is_complete() {
     return command_queue.empty();
+}
+
+ParallelCommand::ParallelCommand(std::initializer_list<std::unique_ptr<Command>> commands) {
+    // Initialize the vector
+    this->commands = std::vector<std::unique_ptr<Command>>();
+
+    // Move the commands from the initializer list to the vector
+    for (auto& command : commands) {
+        // cast away to `const`, and move the command to the vector
+        this->commands.push_back(std::move(const_cast<std::unique_ptr<Command>&> (command)));
+    }
 }
 
 void ParallelCommand::add_command(std::unique_ptr<Command> command) {
