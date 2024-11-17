@@ -114,7 +114,7 @@ public:
      * The order of commands in the list does not matter.
      * @param commands The commands to set.
      */
-    ParrallelCommand(std::initializer_list<std::unique_ptr<Command>> commands);
+    ParallelCommand(std::initializer_list<std::unique_ptr<Command>> commands);
 
     /**
      * Add a command to the list of commands to run.
