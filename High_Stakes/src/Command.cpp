@@ -83,6 +83,10 @@ void InstantCommand::initialize() {
     this->execute();
 }
 
+void InstantCommand::execute() {
+    executeFunction();
+}
+
 bool InstantCommand::is_complete() {
     return true;
 }

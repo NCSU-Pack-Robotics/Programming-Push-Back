@@ -145,6 +145,9 @@ private:
 
 /** A command that is only one once. Useful for setting things like motor speeds. */
 class InstantCommand : public Command {
+public:
+    /** Constructor that allows for a function to be passed as the execute method */
+    InstantCommand(std::function<void()>& executeFunction);
 protected:
     /** Calls the execute function */
     void initialize();
@@ -159,5 +162,11 @@ protected:
     /** Returns true because InstantCommands only run once */
     bool is_complete();
 
-    virtual void execute() = 0;
+    /** The function that gets run. By default, it is set in the constructor,
+     * but can be overwritten in child classes */
+    virtual void execute();
+
+private:
+    /** The execute function passed from the constructor */
+    std::function<void()>& executeFunction;
 };
