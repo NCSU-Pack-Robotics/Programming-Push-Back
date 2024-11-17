@@ -41,3 +41,19 @@ ParallelCommand &ParallelCommand::add_command_and(std::unique_ptr<Command> comma
 void ParallelCommand::set_commands(std::vector<std::unique_ptr<Command>> commands) {
     this->commands = std::move(commands);
 }
+
+void InstantCommand::initialize() {
+    this->execute();
+}
+
+bool InstantCommand::is_complete() {
+    return true;
+}
+
+void InstantCommand::periodic() {
+    // This is never called
+}
+
+void InstantCommand::shutdown() {
+    // This is called, but all logic for instant commands should be in execute
+}

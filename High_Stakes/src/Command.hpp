@@ -1,6 +1,6 @@
 #pragma once
 
-#include<queue>
+#include <queue>
 #include "main.h"
 
 /**
@@ -117,4 +117,23 @@ public:
 private:
     /** The list of commands to run. */
     std::vector<std::unique_ptr<Command>> commands;
+};
+
+/** A command that is only one once. Useful for setting things like motor speeds. */
+class InstantCommand : public Command {
+protected:
+    /** Calls the execute function */
+    void initialize();
+
+    /** This is never called for an InstantCommand */
+    void periodic();
+
+    /** This is called but no code should be put in it.
+     * Put everything inside execute. */
+    void shutdown();
+
+    /** Returns true because InstantCommands only run once */
+    bool is_complete();
+
+    virtual void execute() = 0;
 };
