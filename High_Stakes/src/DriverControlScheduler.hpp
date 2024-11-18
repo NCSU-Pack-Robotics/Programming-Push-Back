@@ -1,5 +1,6 @@
 #pragma once
 #include "Command.hpp"
+#include "subystems/Drivetrain.hpp"
 
 /** A subclass of ParallelCommand. It is used during the opcontrol driving portion of the event.
  * Handles all controller input.
@@ -21,6 +22,8 @@ protected:
     void shutdown() override;
 
 private:
-    /** A reference to the controller object */
+    /** An instance of the controller */
     pros::Controller controller;
+    /** A reference to the Drivetrain */
+    Drivetrain& drivetrain = AbstractSubsystem::get_instance<Drivetrain>();
 };
