@@ -1,9 +1,9 @@
 #pragma once
-#include "Command.hpp"
+#include "../Command.hpp"
 
 class StartIntaking : public InstantCommand {
 public:
-    StartIntaking() : InstantCommand(){};
+    StartIntaking() = default;
 // TODO: Fix constructor errors
     // maybe pass execute into instant command??
 

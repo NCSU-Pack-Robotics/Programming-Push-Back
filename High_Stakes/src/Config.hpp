@@ -25,7 +25,7 @@ namespace Constants {
         const std::unordered_map<pros::controller_digital_e_t, std::optional<std::function<std::unique_ptr<Command>()>>> BINDS{
             {pros::E_CONTROLLER_DIGITAL_L1, std::nullopt},
             {pros::E_CONTROLLER_DIGITAL_L2, std::nullopt},
-            {pros::E_CONTROLLER_DIGITAL_R1, []() { return std::make_unique<StartIntaking>(); }}},
+            {pros::E_CONTROLLER_DIGITAL_R1, []() { return std::make_unique<StartIntaking>(); }},
             {pros::E_CONTROLLER_DIGITAL_R2, std::nullopt},
             {pros::E_CONTROLLER_DIGITAL_UP, std::nullopt},
             {pros::E_CONTROLLER_DIGITAL_DOWN, std::nullopt},

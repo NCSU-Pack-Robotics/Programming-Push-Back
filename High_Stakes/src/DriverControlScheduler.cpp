@@ -7,7 +7,7 @@ bool DriverControlScheduler::is_complete() {
 }
 
 void DriverControlScheduler::initialize() {
-    controller = AbstractSubsystem::get_instance<pros::Controller>();
+    controller = pros::Controller{pros::E_CONTROLLER_MASTER};
 }
 
 void DriverControlScheduler::periodic() {

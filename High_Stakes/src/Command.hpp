@@ -43,7 +43,7 @@ protected:
      * A command that will run right after this command is done.
      * If no follow up is needed, return nullptr.
      */
-    virtual std::unique_ptr<Command> follow_up();
+    // virtual std::unique_ptr<Command> follow_up();
 };
 
 /**
@@ -157,11 +157,12 @@ private:
     std::vector<std::unique_ptr<Command>> commands;
 };
 
-/** A command that is only one once. Useful for setting things like motor speeds. */
+/** A command that is only run once. Useful for setting things like motor speeds. */
 class InstantCommand : public Command {
 public:
+    InstantCommand(){};
     /** Constructor that allows for a function to be passed as the execute method */
-    InstantCommand(std::function<void()>& executeFunction);
+    InstantCommand(std::unique_ptr<std::function<void()>> executeFunction);
 
     /** Returns true because InstantCommands only run once */
     bool is_complete();
@@ -182,5 +183,5 @@ protected:
 
 private:
     /** The execute function passed from the constructor */
-    std::function<void()>& executeFunction;
+    std::unique_ptr<std::function<void()>> executeFunction;
 };

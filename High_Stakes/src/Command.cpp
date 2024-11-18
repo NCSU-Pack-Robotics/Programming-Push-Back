@@ -106,7 +106,7 @@ void InstantCommand::initialize() {
 }
 
 void InstantCommand::execute() {
-    executeFunction();
+    (*executeFunction)();
 }
 
 bool InstantCommand::is_complete() {
@@ -119,4 +119,9 @@ void InstantCommand::periodic() {
 
 void InstantCommand::shutdown() {
     // This is called, but all logic for instant commands should be in execute
+}
+
+
+InstantCommand::InstantCommand(std::unique_ptr<std::function<void()>> executeFunction) {
+    this->executeFunction = std::move(executeFunction);
 }

@@ -1,7 +1,7 @@
 #include "StartIntaking.hpp"
 
-#include "Config.hpp"
-#include "Intake.hpp"
+#include "../Config.hpp"
+#include "../subystems/Intake.hpp"
 
 void StartIntaking::execute() {
     Intake& intake = AbstractSubsystem::get_instance<Intake>();

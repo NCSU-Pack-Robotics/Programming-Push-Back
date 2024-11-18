@@ -22,5 +22,5 @@ protected:
 
 private:
     /** A reference to the controller object */
-    pros::Controller& controller;
+    pros::Controller controller;
 };
