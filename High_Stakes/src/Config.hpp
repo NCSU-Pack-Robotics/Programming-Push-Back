@@ -16,7 +16,8 @@ namespace Constants {
             constexpr int32_t LIFT_DOWN = -30;
           
             /** Motor speed of the intake going inwards */
-            constexpr int32_t INTAKE_INWARDS = 70;
+            // TODO: Set back to 70, 10 is for testing purposes.
+            constexpr int32_t INTAKE_INWARDS = 10;
             /** Motor speed of the intake going outwards */
             constexpr int32_t INTAKE_OUTWARDS = -70;
         }

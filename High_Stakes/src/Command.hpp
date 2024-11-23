@@ -168,7 +168,7 @@ public:
     bool is_complete();
 protected:
     /** Calls the execute function */
-    void initialize();
+    void initialize() override;
 
     /** This is never called for an InstantCommand */
     void periodic();

@@ -1,12 +1,16 @@
 #include "DriverControlScheduler.hpp"
 #include "Config.hpp"
+#include "subystems/Intake.hpp"
+
+DriverControlScheduler::DriverControlScheduler() : ParallelCommand({}){
+}
 
 bool DriverControlScheduler::is_complete() {
     return false;
 }
 
 void DriverControlScheduler::initialize() {
-    controller = pros::Controller{pros::E_CONTROLLER_MASTER};
+
 }
 
 void DriverControlScheduler::periodic() {
@@ -17,6 +21,7 @@ void DriverControlScheduler::periodic() {
     drivetrain.set_drive_power(left_power, right_power);
 
     // TODO: Think of some way to set subsystems power to 0 if the button isn't pressed
+    AbstractSubsystem::get_instance<Intake>().set_drive_power(0);
 
     for (auto &[button, command] : Constants::Controller::BINDS) {
         // If a bind exists for that button and the buttons pressed, then add the command to the queue
@@ -24,6 +29,7 @@ void DriverControlScheduler::periodic() {
             this->add_command(command.value()());
         }
     }
+    ParallelCommand::periodic();
 }
 
 void DriverControlScheduler::shutdown() {

@@ -3,7 +3,7 @@
 
 class StartIntaking : public InstantCommand {
 public:
-    StartIntaking() = default;
+    StartIntaking();
 // TODO: Fix constructor errors
     // maybe pass execute into instant command??
 

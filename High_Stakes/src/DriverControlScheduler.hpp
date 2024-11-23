@@ -7,6 +7,8 @@
  */
 class DriverControlScheduler : public ParallelCommand {
 public:
+    /** Constructor */
+    DriverControlScheduler();
     /** Always returns false; This will always run during the driving portion of the event */
     bool is_complete() override;
 protected:
@@ -23,7 +25,7 @@ protected:
 
 private:
     /** An instance of the controller */
-    pros::Controller controller;
+    pros::Controller controller = pros::Controller{pros::E_CONTROLLER_MASTER};
     /** A reference to the Drivetrain */
     Drivetrain& drivetrain = AbstractSubsystem::get_instance<Drivetrain>();
 };
