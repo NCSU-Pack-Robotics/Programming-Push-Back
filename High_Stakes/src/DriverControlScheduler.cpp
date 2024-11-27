@@ -20,14 +20,16 @@ void DriverControlScheduler::periodic() {
 
     drivetrain.set_drive_power(left_power, right_power);
 
-    // TODO: Think of some way to set subsystems power to 0 if the button isn't pressed
-    AbstractSubsystem::get_instance<Intake>().set_drive_power(0);
-
     for (auto &[button, command] : Constants::Controller::BINDS) {
-        // If a bind exists for that button and the buttons pressed, then add the command to the queue
-        if (command.has_value() && controller.get_digital(button)) {
-            this->add_command(command.value()());
+        if (command[0].has_value() && controller.get_digital_new_press(button)) { // button just pressed
+            this->add_command(command[0].value()());
+        } else if (command[1].has_value() && controller.get_digital(button)) { // button down but not just pressed
+            this->add_command(command[1].value()());
         }
+        // TODO: Uncomment once get_digital_new_release is implemented
+        // } else if (command[2].has_value() && controller.get_digital_new_release(button)) { // button just released
+        //     this->add_command(command[2].value()());
+        // }
     }
     ParallelCommand::periodic();
 }
