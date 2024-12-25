@@ -4,20 +4,20 @@
 #include "../Config.hpp"
 
 Drivetrain::Drivetrain() : AbstractSubsystem() {
-    // TODO: Ensure motors are using green gear-set
 
+void Drivetrain::initialize() {
     // Initialize motor objects:
     left_front = std::make_unique<pros::Motor>(Ports::LEFT_FRONT_MOTOR_PORT,
-                                               pros::v5::MotorGears::green,
+                                               pros::v5::MotorGears::blue,
                                                pros::v5::MotorUnits::degrees);
     right_front = std::make_unique<pros::Motor>(Ports::RIGHT_FRONT_MOTOR_PORT,
-                                                pros::v5::MotorGears::green,
+                                                pros::v5::MotorGears::blue,
                                                 pros::v5::MotorUnits::degrees);
     left_back = std::make_unique<pros::Motor>(Ports::LEFT_BACK_MOTOR_PORT,
-                                                pros::v5::MotorGears::green,
+                                                pros::v5::MotorGears::blue,
                                                 pros::v5::MotorUnits::degrees);
     right_back = std::make_unique<pros::Motor>(Ports::RIGHT_BACK_MOTOR_PORT,
-                                                pros::v5::MotorGears::green,
+                                                pros::v5::MotorGears::blue,
                                                 pros::v5::MotorUnits::degrees);
 
     // Initialize motor groups:
@@ -58,22 +58,43 @@ void Drivetrain::periodic() {
 
     // Calculate the pose of the robot
     this->odometry->calculate(position.first, position.second);
+    switch (drive_type) {
+        case Constants::DriveType::POWER: {
+            left_motors->move(left_drive_power);
+            right_motors->move(right_drive_power);
+
+            break;  // Fuck bitch fuck (NEED THIS)
+        }
+        case Constants::DriveType::VOLTAGE: {
+            left_motors->move_voltage(left_drive_voltage);
+            right_motors->move_voltage(right_drive_voltage);
+
+            break;
+        }
+    }
 }
 
 void Drivetrain::disabled_periodic() {
+    // TODO: Stop the motors
 
 }
 
 void Drivetrain::shutdown() {
-
+    // TODO: Stop the motors
 }
 
 void Drivetrain::set_voltage(int32_t left_mV, int32_t right_mV) {
-
+    left_drive_voltage = std::clamp(left_mV, INT32_C(-12000), INT32_C(12000));
+    right_drive_voltage = std::clamp(right_mV, INT32_C(-12000), INT32_C(12000));
+    
+    drive_type = Constants::DriveType::VOLTAGE;
 }
 
-void Drivetrain::set_drive_power(int32_t leftPower, int32_t rightPower) {
+void Drivetrain::set_drive_power(int32_t left_power, int32_t right_power) {
+    left_drive_power = std::clamp(left_power, INT32_C(-127), INT32_C(127));
+    right_drive_power = std::clamp(right_power, INT32_C(-127), INT32_C(127));
 
+    drive_type = Constants::DriveType::POWER;
 }
 
 std::pair<double, double> Drivetrain::get_position() {
@@ -81,14 +102,7 @@ std::pair<double, double> Drivetrain::get_position() {
     double left_position = left_motors->get_position();
     double right_position = right_motors->get_position();
 
-    // Return the pair of positions
-    //printf("%lf %lf\n ", left_position, right_position );
-
-
-    //printf( "%lf, %lf\n" ,value.first, value.second );
-
     return std::make_pair(left_position, right_position);
-
 }
 
 Pose Drivetrain::get_pose() {

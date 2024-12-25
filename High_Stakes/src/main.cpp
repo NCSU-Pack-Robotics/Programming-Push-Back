@@ -1,12 +1,19 @@
 #include "../include/main.h"
 #include "subystems/Drivetrain.hpp"
-#include "math/Odometry.hpp"
+#include "subystems/Lift.hpp"
+#include "Config.hpp"
+#include "subystems/Intake.hpp"
 
-// Create all subsystems
+// Create all subsystems:
 Drivetrain& drivetrain = AbstractSubsystem::get_instance<Drivetrain>();
+Lift& lift = AbstractSubsystem::get_instance<Lift>();
+Intake& intake = AbstractSubsystem::get_instance<Intake>();
 
-// Create vector with all subsystems
-std::vector<AbstractSubsystem*> subsystems = {&drivetrain};
+// Add subsystems to vector for iteration
+std::vector<AbstractSubsystem*> subsystems = {&drivetrain, &lift, &intake};
+
+/** Controller object */
+pros::Controller controller{pros::E_CONTROLLER_MASTER};
 
 /**
  * Runs initialization code. This occurs as soon as the program is started.
@@ -83,10 +90,31 @@ void opcontrol() {
         for (AbstractSubsystem* subsystem : subsystems) {
             subsystem->periodic();
         }
+      
+        // Dirty solution for now to test
 
-        auto [x, y, heading] = drivetrain.get_pose();
-        printf("Pose: X: %.3lf Y: %.3lf Heading: %.3lf\n",
-            x, y, heading);
+        int32_t left_power = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y) + controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
+        int32_t right_power = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y) - controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
+
+        if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
+            intake.set_drive_power(Constants::Controller::MotorSpeeds::INTAKE_INWARDS);
+        } else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
+            intake.set_drive_power(Constants::Controller::MotorSpeeds::INTAKE_OUTWARDS);
+        } else {
+            intake.set_drive_power(0);
+        }
+
+
+
+        drivetrain.set_drive_power(left_power, right_power);
+
+        if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
+            lift.set_drive_power(Constants::Controller::MotorSpeeds::LIFT_UP);
+        } else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
+            lift.set_drive_power(Constants::Controller::MotorSpeeds::LIFT_DOWN);
+        } else {
+            lift.set_drive_power(0);
+        }
 
         // Delay the loop to prevent the CPU from being overwhelmed
         pros::delay(20);

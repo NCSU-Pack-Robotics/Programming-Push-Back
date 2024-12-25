@@ -16,7 +16,11 @@ public:
     AbstractSubsystem &operator=(AbstractSubsystem &&) = delete;
 
     /**
-     * Get the instance of the subsystem.
+     * Get the instance of a subsystem.
+     * This is the method called when you want to get the instance of any subsystem.
+     * Ex:
+     * `Drivetrain &drivetrain = AbstractSubsystem::get_instance<Drivetrain>();`
+     *
      * @return The instance of the subsystem
      */
     template<typename T>
