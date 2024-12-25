@@ -1,7 +1,9 @@
 #include "Drivetrain.hpp"
+#include "../math/Odometry.hpp"
+#include "../ports.hpp"
+#include "../Config.hpp"
 
 Drivetrain::Drivetrain() : AbstractSubsystem() {
-}
 
 void Drivetrain::initialize() {
     // Initialize motor objects:
@@ -37,9 +39,25 @@ void Drivetrain::initialize() {
     // Ensure motors are stopped
     left_motors->move_velocity(0);
     right_motors->move_velocity(0);
+
+    // Construct initial pose
+    Pose initial_pose = {Constants::Initial::Pose::INITIAL_X,
+                         Constants::Initial::Pose::INITIAL_Y,
+                         Constants::Initial::Pose::INITIAL_HEADING};
+
+    // Initialize calculate
+    odometry = std::make_unique<Odometry>(initial_pose, *this);
+}
+
+void Drivetrain::initialize() {
 }
 
 void Drivetrain::periodic() {
+    // Get the position of the left and right motors
+    std::pair<double, double> position = get_position();
+
+    // Calculate the pose of the robot
+    this->odometry->calculate(position.first, position.second);
     switch (drive_type) {
         case Constants::DriveType::POWER: {
             left_motors->move(left_drive_power);
@@ -81,10 +99,12 @@ void Drivetrain::set_drive_power(int32_t left_power, int32_t right_power) {
 
 std::pair<double, double> Drivetrain::get_position() {
     // Average both motor positions to be more accurate
-    double left_position = (left_front->get_position() + left_back->get_position()) / 2;
-    double right_position = (right_front->get_position() + right_back->get_position()) / 2;
+    double left_position = left_motors->get_position();
+    double right_position = right_motors->get_position();
 
-    // Return the pair of positions
     return std::make_pair(left_position, right_position);
 }
 
+Pose Drivetrain::get_pose() {
+    return this->odometry->get_pose();
+}

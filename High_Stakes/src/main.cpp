@@ -90,7 +90,7 @@ void opcontrol() {
         for (AbstractSubsystem* subsystem : subsystems) {
             subsystem->periodic();
         }
-
+      
         // Dirty solution for now to test
 
         int32_t left_power = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y) + controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);

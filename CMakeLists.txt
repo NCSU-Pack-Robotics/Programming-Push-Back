@@ -65,6 +65,7 @@ include_directories(High_Stakes/include/liblvgl/misc)
 include_directories(High_Stakes/include/liblvgl/widgets)
 include_directories(High_Stakes/include/pros)
 include_directories(High_Stakes/src)
+include_directories(High_Stakes/src/math)
 include_directories(High_Stakes/src/subystems)
 
 add_executable(Programming_High_Stakes
@@ -268,10 +269,17 @@ add_executable(Programming_High_Stakes
         High_Stakes/include/pros/vision.hpp
         High_Stakes/include/api.h
         High_Stakes/include/main.h
+        High_Stakes/src/math/Odometry.cpp
+        High_Stakes/src/math/Odometry.hpp
         High_Stakes/src/subystems/Drivetrain.cpp
         High_Stakes/src/subystems/Drivetrain.hpp
         High_Stakes/src/AbstractSubsystem.cpp
         High_Stakes/src/AbstractSubsystem.hpp
+        High_Stakes/src/config.hpp
+        High_Stakes/src/Constants.hpp
+        High_Stakes/src/main.cpp
+        High_Stakes/src/ports.hpp
+        High_Stakes/src/Pose.hpp)
         High_Stakes/src/Constants.hpp
         High_Stakes/src/main.cpp
         High_Stakes/src/ports.hpp

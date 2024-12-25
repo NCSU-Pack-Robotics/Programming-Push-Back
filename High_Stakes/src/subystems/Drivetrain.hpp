@@ -4,6 +4,7 @@
 
 #include "../../include/main.h"
 #include "../AbstractSubsystem.hpp"
+#include "../Pose.hpp"
 #include "../ports.hpp"
 #include "../Constants.hpp"
 
@@ -37,11 +38,11 @@ public:
     void set_drive_power(int32_t left_power, int32_t right_power);
 
     /**
-     * Get the position of the left and right motors in degrees.
-     * @return A pair of the left and right motor positions in degrees. The first value is the left
-     * motor position, and the second value is the right motor position.
+     * Get the pose of the robot.
+     * This is the result of odometer calculations.d
+     * @return The pose of the robot.
      */
-    std::pair<double, double> get_position();
+    Pose get_pose();
 
 private:
     /** Voltage in mV to set motors to. Will be between -12,000 and +12,000. */
@@ -49,6 +50,12 @@ private:
     /** Voltage in mV to set motors to. Will be between -12,000 and +12,000. */
     int32_t right_drive_voltage = 0;
 
+    // Forward declaration of Odometry class
+    class Odometry;
+
+    // Pointer to calculate instance
+    std::unique_ptr<Odometry> odometry;
+  
     /** Power to set motors to from analog sticks. Will be between -127 and 127 */
     int32_t left_drive_power = 0;
     /** Power to set motors to from analog sticks. Will be between -127 and 127 */
@@ -72,6 +79,14 @@ private:
     std::unique_ptr<pros::MotorGroup> left_motors;
     /** Group of all motors on the right side of the robot. */
     std::unique_ptr<pros::MotorGroup> right_motors;
+
+    /**
+     * Get the position of the left and right motors in degrees.
+     * @return A pair of the left and right motor positions in degrees. The first value is the left
+     * motor position, and the second value is the right motor position. The values are averaged
+     * between all motors on each side.
+     */
+    std::pair<double, double> get_position();
 
 protected:
     /**
