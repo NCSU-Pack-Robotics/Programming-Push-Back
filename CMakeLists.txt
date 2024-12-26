@@ -275,11 +275,10 @@ add_executable(Programming_High_Stakes
         High_Stakes/src/subystems/Drivetrain.hpp
         High_Stakes/src/AbstractSubsystem.cpp
         High_Stakes/src/AbstractSubsystem.hpp
-        High_Stakes/src/config.hpp
         High_Stakes/src/Constants.hpp
         High_Stakes/src/main.cpp
         High_Stakes/src/ports.hpp
-        High_Stakes/src/Pose.hpp)
+        High_Stakes/src/Pose.hpp
         High_Stakes/src/Constants.hpp
         High_Stakes/src/main.cpp
         High_Stakes/src/ports.hpp
@@ -287,7 +286,6 @@ add_executable(Programming_High_Stakes
         High_Stakes/src/Command.hpp
         High_Stakes/src/subystems/Lift.cpp
         High_Stakes/src/subystems/Lift.hpp
-        High_Stakes/src/Config.hpp
         High_Stakes/src/subystems/Intake.cpp
         High_Stakes/src/subystems/Intake.hpp
         High_Stakes/src/DriverControlScheduler.cpp
@@ -296,4 +294,5 @@ add_executable(Programming_High_Stakes
         High_Stakes/src/commands/StartIntaking.hpp
         High_Stakes/src/commands/StopIntaking.cpp
         High_Stakes/src/commands/StopIntaking.hpp
+        High_Stakes/src/Config.hpp
 )
