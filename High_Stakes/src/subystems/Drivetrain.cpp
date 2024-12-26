@@ -3,8 +3,6 @@
 #include "../ports.hpp"
 #include "../Config.hpp"
 
-Drivetrain::Drivetrain() : AbstractSubsystem() {
-
 void Drivetrain::initialize() {
     // Initialize motor objects:
     left_front = std::make_unique<pros::Motor>(Ports::LEFT_FRONT_MOTOR_PORT,
@@ -47,9 +45,6 @@ void Drivetrain::initialize() {
 
     // Initialize calculate
     odometry = std::make_unique<Odometry>(initial_pose, *this);
-}
-
-void Drivetrain::initialize() {
 }
 
 void Drivetrain::periodic() {
