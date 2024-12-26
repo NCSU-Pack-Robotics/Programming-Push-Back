@@ -28,7 +28,9 @@ namespace Ports {
   
     // This port is for the competition robot
     /** Port of the intake motor */
-    constexpr std::int8_t INTAKE_MOTOR_PORT = 14;
+    // constexpr std::int8_t INTAKE_MOTOR_PORT = 14;
+    // Port 16 is for the test robot weird attachment thingy. Its not actually an intake
+    constexpr std::int8_t INTAKE_MOTOR_PORT = 16;
 
     /** Port of the inertial sensor (gyro) */
     // constexpr std::int8_t INERTIAL_SENSOR_PORT = 1;
