@@ -37,7 +37,7 @@ namespace Constants {
          *     • Measured between outer omni rollers
          *     • Measured in inches
         */
-        constexpr double TRACKING_DIAMETER = 3.25;
+        constexpr double TRACKING_DIAMETER = 3.0330;
 
         /** Ratio of tracking wheel upper gear to lower wheel gear */
         constexpr double TRACKING_RATIO = 36.0 / 60.0;
@@ -48,7 +48,7 @@ namespace Constants {
          *     • Measured in inches
          *     # TODO: re-measure
         */
-        constexpr double ROBOT_DIAMETER = 12.5;
+        constexpr double ROBOT_DIAMETER = 12.75;
 
         /**
          * Half the distance between the centers of each tracking wheel
