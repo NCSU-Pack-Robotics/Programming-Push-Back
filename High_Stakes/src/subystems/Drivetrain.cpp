@@ -1,5 +1,8 @@
 #include "Drivetrain.hpp"
 #include <numeric>
+#include "../math/Odometry.hpp"
+#include "../ports.hpp"
+#include "../Config.hpp"
 
 Drivetrain::Drivetrain() : AbstractSubsystem() {
 }
@@ -38,9 +41,22 @@ void Drivetrain::initialize() {
     // Ensure motors are stopped
     left_motors->move_velocity(0);
     right_motors->move_velocity(0);
+
+    // Construct initial pose
+    Pose initial_pose = {Constants::Initial::Pose::INITIAL_X,
+                         Constants::Initial::Pose::INITIAL_Y,
+                         Constants::Initial::Pose::INITIAL_HEADING};
+
+    // Initialize calculate
+    odometry = std::make_unique<Odometry>(initial_pose, *this);
 }
 
 void Drivetrain::periodic() {
+    // Get the position of the left and right motors
+    std::pair<double, double> position = get_position();
+
+    // Calculate the pose of the robot
+    this->odometry->calculate(position.first, position.second);
     switch (drive_type) {
         case Constants::DriveType::POWER: {
             left_motors->move(left_drive_power);
@@ -64,7 +80,6 @@ void Drivetrain::disabled_periodic() {
 
 void Drivetrain::shutdown() {
     // TODO: Stop the motors
-
 }
 
 void Drivetrain::set_voltage(int32_t left_mV, int32_t right_mV) {
@@ -111,7 +126,6 @@ std::pair<double, double> Drivetrain::get_position() {
     double left_position = std::reduce(left_positions.begin(), left_positions.end(), 0.0) / left_positions.size();
     double right_position = std::reduce(right_positions.begin(), right_positions.end(), 0.0) / right_positions.size();
 
-    // Return the pair of positions
     return std::make_pair(left_position, right_position);
 }
 
@@ -119,3 +133,6 @@ double Drivetrain::rpm_to_ips(double const rpm) {
     return rpm * Constants::Hardware::TRACKING_DIAMETER * Constants::Math::PI * Constants::Hardware::TRACKING_RATIO / 60;
 }
 
+Pose Drivetrain::get_pose() {
+    return this->odometry->get_pose();
+}

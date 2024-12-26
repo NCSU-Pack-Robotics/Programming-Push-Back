@@ -1,15 +1,22 @@
 #include "../include/main.h"
 #include "subystems/Drivetrain.hpp"
+#include "subystems/Lift.hpp"
+#include "Config.hpp"
+#include "subystems/Intake.hpp"
+#include "DriverControlScheduler.hpp"
 
-// Create all subsystems
-/** Reference to drivetrain subsystem */
+// Create all subsystems:
 Drivetrain& drivetrain = AbstractSubsystem::get_instance<Drivetrain>();
+Lift& lift = AbstractSubsystem::get_instance<Lift>();
+Intake& intake = AbstractSubsystem::get_instance<Intake>();
 
-/** Vector of all subsystems */
-std::vector<AbstractSubsystem*> subsystems = {&drivetrain};
+// Add subsystems to vector for iteration
+std::vector<AbstractSubsystem*> subsystems = {&drivetrain, &lift, &intake};
 
 /** Controller object */
 pros::Controller controller{pros::E_CONTROLLER_MASTER};
+
+DriverControlScheduler driver_control_scheduler{};
 
 /**
  * Runs initialization code. This occurs as soon as the program is started.
@@ -82,17 +89,12 @@ void autonomous() {}
  */
 void opcontrol() {
     while (true) {
+        // Run the driver control scheduler, which gets input and sets all the motors.
+        driver_control_scheduler.run();
         // Run periodic for all subsystems
         for (AbstractSubsystem* subsystem : subsystems) {
             subsystem->periodic();
         }
-
-        // Dirty solution for now to test
-
-        int32_t left_power = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y) + controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
-        int32_t right_power = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y) - controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
-
-        drivetrain.set_drive_power(left_power, right_power);
 
         // Delay the loop to prevent the CPU from being overwhelmed
         pros::delay(20);
