@@ -6,6 +6,8 @@
 #include "../AbstractSubsystem.hpp"
 #include "../Pose.hpp"
 #include "../ports.hpp"
+#include "../math/PID.hpp"
+#include "../Config.hpp"
 #include "../Constants.hpp"
 
 /**
@@ -38,6 +40,20 @@ public:
     void set_drive_power(int32_t left_power, int32_t right_power);
 
     /**
+     * Set the left motors to run at a target velocity in inches per second
+     * @param target_left_velocity The velocity of the left motors in inches per second
+     * @param target_right_velocity The velocity of the right motors in inches per second
+     */
+    void set_velocity(double target_left_velocity, double target_right_velocity);
+
+    /**
+     * Get the position of the left and right motors in degrees.
+     * @return A pair of the left and right motor positions in degrees. The first value is the left
+     * motor position, and the second value is the right motor position. 
+     */
+     std::pair<double, double> get_position();
+  
+     /**
      * Get the pose of the robot.
      * This is the result of odometer calculations.d
      * @return The pose of the robot.
@@ -61,6 +77,15 @@ private:
     /** Power to set motors to from analog sticks. Will be between -127 and 127 */
     int32_t right_drive_power = 0;
 
+    /** The PID used for left motors velocity */
+    PID left_velocity_pid = PID(Constants::PID::Drive::Velocity::Kp,
+                                Constants::PID::Drive::Velocity::Kd,
+                                Constants::PID::Drive::Velocity::Ki);
+    /** The PID used for right motors velocity */
+    PID right_velocity_pid = PID(Constants::PID::Drive::Velocity::Kp,
+                                Constants::PID::Drive::Velocity::Kd,
+                                Constants::PID::Drive::Velocity::Ki);
+
     /** Type of drive control to use. */
     Constants::DriveType drive_type;
 
@@ -81,12 +106,11 @@ private:
     std::unique_ptr<pros::MotorGroup> right_motors;
 
     /**
-     * Get the position of the left and right motors in degrees.
-     * @return A pair of the left and right motor positions in degrees. The first value is the left
-     * motor position, and the second value is the right motor position. The values are averaged
-     * between all motors on each side.
+     * Helper method to convert RPM to inches per second.
+     * @param rpm The RPM to convert to inches per second.
+     * @return The RPM converted to inches per second.
      */
-    std::pair<double, double> get_position();
+    static inline double rpm_to_ips(double rpm);
 
 protected:
     /**

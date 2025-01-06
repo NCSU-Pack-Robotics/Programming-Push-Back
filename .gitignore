@@ -92,3 +92,5 @@ fabric.properties
 
 # Prerequisites
 *.d
+
+.clang-format

@@ -1,7 +1,11 @@
 #include "Drivetrain.hpp"
+#include <numeric>
 #include "../math/Odometry.hpp"
 #include "../ports.hpp"
 #include "../Config.hpp"
+
+Drivetrain::Drivetrain() : AbstractSubsystem() {
+}
 
 void Drivetrain::initialize() {
     // Initialize motor objects:
@@ -92,12 +96,41 @@ void Drivetrain::set_drive_power(int32_t left_power, int32_t right_power) {
     drive_type = Constants::DriveType::POWER;
 }
 
+void Drivetrain::set_velocity(const double target_left_velocity, const double target_right_velocity) {
+    // Get current velocities from the motors
+    const std::vector<double> left_velocities = left_motors->get_actual_velocity_all();
+    const std::vector<double> right_velocities = right_motors->get_actual_velocity_all();
+
+    // Add all left/right motors together and divide by count to get average velocity
+    const double left_velocity = rpm_to_ips(std::reduce(left_velocities.begin(), left_velocities.end(), 0.0) / left_velocities.size());
+    const double right_velocity = rpm_to_ips(std::reduce(right_velocities.begin(), right_velocities.end(), 0.0) / right_velocities.size());
+
+    // Calculate current error
+    double left_error = target_left_velocity - left_velocity;
+    double right_error = target_right_velocity - right_velocity;
+
+    // Calculate new voltages to set
+    const auto left_voltage = static_cast<int32_t>(left_velocity_pid.calculate(left_error));
+    const auto right_voltage = static_cast<int32_t>(right_velocity_pid.calculate(right_error));
+
+    // Set the new voltages
+    set_voltage(left_voltage, right_voltage);
+}
+
 std::pair<double, double> Drivetrain::get_position() {
+    // Get current positions from the motors
+    const std::vector<double> left_positions = left_motors->get_position_all();
+    const std::vector<double> right_positions = right_motors->get_position_all();
+
     // Average both motor positions to be more accurate
-    double left_position = left_motors->get_position();
-    double right_position = right_motors->get_position();
+    double left_position = std::reduce(left_positions.begin(), left_positions.end(), 0.0) / left_positions.size();
+    double right_position = std::reduce(right_positions.begin(), right_positions.end(), 0.0) / right_positions.size();
 
     return std::make_pair(left_position, right_position);
+}
+
+double Drivetrain::rpm_to_ips(double const rpm) {
+    return rpm * Constants::Hardware::TRACKING_DIAMETER * Constants::Math::PI * Constants::Hardware::TRACKING_RATIO / 60;
 }
 
 Pose Drivetrain::get_pose() {

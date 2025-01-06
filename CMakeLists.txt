@@ -269,19 +269,21 @@ add_executable(Programming_High_Stakes
         High_Stakes/include/pros/vision.hpp
         High_Stakes/include/api.h
         High_Stakes/include/main.h
+        High_Stakes/src/math/PID.cpp
+        High_Stakes/src/math/PID.hpp
         High_Stakes/src/math/Odometry.cpp
         High_Stakes/src/math/Odometry.hpp
         High_Stakes/src/subystems/Drivetrain.cpp
         High_Stakes/src/subystems/Drivetrain.hpp
         High_Stakes/src/AbstractSubsystem.cpp
         High_Stakes/src/AbstractSubsystem.hpp
-        High_Stakes/src/Constants.hpp
+        High_Stakes/src/Config.hpp
+        High_Stakes/src/Timer.cpp
+        High_Stakes/src/Timer.hpp)
         High_Stakes/src/main.cpp
         High_Stakes/src/ports.hpp
         High_Stakes/src/Pose.hpp
         High_Stakes/src/Constants.hpp
-        High_Stakes/src/main.cpp
-        High_Stakes/src/ports.hpp
         High_Stakes/src/Command.cpp
         High_Stakes/src/Command.hpp
         High_Stakes/src/subystems/Lift.cpp
@@ -294,5 +296,4 @@ add_executable(Programming_High_Stakes
         High_Stakes/src/commands/StartIntaking.hpp
         High_Stakes/src/commands/StopIntaking.cpp
         High_Stakes/src/commands/StopIntaking.hpp
-        High_Stakes/src/Config.hpp
 )
