@@ -6,8 +6,6 @@ Intake::Intake() {
 }
 
 void Intake::initialize() {
-    // TODO: Make sure motor is correct color
-
     intake_motor = std::make_unique<pros::Motor>(Ports::INTAKE_MOTOR_PORT, pros::v5::MotorGears::blue, pros::v5::MotorUnits::degrees);
     intake_motor->tare_position();
     intake_motor->move_velocity(0);
