@@ -3,7 +3,7 @@ name: PROS Build Example
 on:
   push:
     branches: 
-    - pros-build-action-test
+    - 'pros-build-action-test'
   pull_request:
     
 
@@ -25,7 +25,4 @@ jobs:
         with:
           name: ${{ steps.test.outputs.name }}
           path: ${{ github.workspace }}/template/*
-
-      - name: PROS Build Action
-        uses: LemLib/pros-build@v4.0.0
             
