@@ -48,7 +48,7 @@ void Drivetrain::initialize() {
                          Constants::Initial::Pose::INITIAL_HEADING};
 
     // Initialize calculate
-    odometry = std::make_unique<Odometry>(initial_pose, *this);
+    // odometry = std::make_unique<Odometry>(initial_pose, *this);
 }
 
 void Drivetrain::periodic() {
@@ -56,7 +56,7 @@ void Drivetrain::periodic() {
     std::pair<double, double> position = get_position();
 
     // Calculate the pose of the robot
-    this->odometry->calculate(position.first, position.second);
+    // this->odometry->calculate(position.first, position.second);
     switch (drive_type) {
         case Constants::DriveType::POWER: {
             left_motors->move(left_drive_power);
@@ -133,6 +133,6 @@ double Drivetrain::rpm_to_ips(double const rpm) {
     return rpm * Constants::Hardware::TRACKING_DIAMETER * Constants::Math::PI * Constants::Hardware::TRACKING_RATIO / 60;
 }
 
-Pose Drivetrain::get_pose() {
-    return this->odometry->get_pose();
-}
+// Pose Drivetrain::get_pose() {
+   //  return this->odometry->get_pose();
+// }
