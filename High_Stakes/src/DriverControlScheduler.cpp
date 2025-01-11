@@ -21,15 +21,19 @@ void DriverControlScheduler::periodic() {
     drivetrain.set_drive_power(left_power, right_power);
 
     for (auto &[button, command] : Constants::Controller::BINDS) {
+        // controller state for this tick
+        bool new_controller_state = controller.get_digital(button);
+
         if (command[0].has_value() && controller.get_digital_new_press(button)) { // button just pressed
             this->add_command(command[0].value()());
         } else if (command[1].has_value() && controller.get_digital(button)) { // button down but not just pressed
             this->add_command(command[1].value()());
+        } else if (command[2].has_value() && !new_controller_state && controller_state[button]) { // if the button isn't pressed this tick and it was pressed last tick
+            this->add_command(command[2].value()());
         }
-        // TODO: Uncomment once get_digital_new_release is implemented
-        // } else if (command[2].has_value() && controller.get_digital_new_release(button)) { // button just released
-        //     this->add_command(command[2].value()());
-        // }
+
+        // update actual map
+        controller_state[button] = new_controller_state;
     }
     ParallelCommand::periodic();
 }

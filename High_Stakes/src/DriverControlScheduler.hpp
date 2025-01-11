@@ -28,4 +28,6 @@ private:
     pros::Controller controller = pros::Controller{pros::E_CONTROLLER_MASTER};
     /** A reference to the Drivetrain */
     Drivetrain& drivetrain = AbstractSubsystem::get_instance<Drivetrain>();
+    /** A map of the controller state, which is updated each tick */
+    std::unordered_map<pros::controller_digital_e_t, bool> controller_state;
 };

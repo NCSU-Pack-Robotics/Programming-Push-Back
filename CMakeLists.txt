@@ -279,7 +279,7 @@ add_executable(Programming_High_Stakes
         High_Stakes/src/AbstractSubsystem.hpp
         High_Stakes/src/Config.hpp
         High_Stakes/src/Timer.cpp
-        High_Stakes/src/Timer.hpp)
+        High_Stakes/src/Timer.hpp
         High_Stakes/src/main.cpp
         High_Stakes/src/ports.hpp
         High_Stakes/src/Pose.hpp
