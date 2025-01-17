@@ -1,6 +1,5 @@
 #include "Drivetrain.hpp"
 #include <numeric>
-#include "../math/Odometry.hpp"
 #include "../ports.hpp"
 #include "../Config.hpp"
 
@@ -48,15 +47,12 @@ void Drivetrain::initialize() {
                          Constants::Initial::Pose::INITIAL_HEADING};
 
     // Initialize calculate
-    // odometry = std::make_unique<Odometry>(initial_pose, *this);
+     odometry = std::make_unique<Odometry>(initial_pose, *this);
 }
 
 void Drivetrain::periodic() {
-    // Get the position of the left and right motors
-    std::pair<double, double> position = get_position();
-
     // Calculate the pose of the robot
-    // this->odometry->calculate(position.first, position.second);
+    this->odometry->calculate();
     switch (drive_type) {
         case Constants::DriveType::POWER: {
             left_motors->move(left_drive_power);
@@ -117,7 +113,7 @@ void Drivetrain::set_velocity(const double target_left_velocity, const double ta
     set_voltage(left_voltage, right_voltage);
 }
 
-std::pair<double, double> Drivetrain::get_position() {
+std::pair<double, double> Drivetrain::get_position() const {
     // Get current positions from the motors
     const std::vector<double> left_positions = left_motors->get_position_all();
     const std::vector<double> right_positions = right_motors->get_position_all();
@@ -133,6 +129,6 @@ double Drivetrain::rpm_to_ips(double const rpm) {
     return rpm * Constants::Hardware::TRACKING_DIAMETER * Constants::Math::PI * Constants::Hardware::TRACKING_RATIO / 60;
 }
 
-// Pose Drivetrain::get_pose() {
-   //  return this->odometry->get_pose();
-// }
+Pose Drivetrain::get_pose() {
+    return this->odometry->get_pose();
+}
