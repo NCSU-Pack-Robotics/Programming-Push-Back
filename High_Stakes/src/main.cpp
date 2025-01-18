@@ -4,6 +4,7 @@
 #include "Config.hpp"
 #include "subystems/Intake.hpp"
 #include "DriverControlScheduler.hpp"
+#include "asset.hpp"
 
 // Create all subsystems:
 Drivetrain& drivetrain = AbstractSubsystem::get_instance<Drivetrain>();
@@ -17,6 +18,9 @@ std::vector<AbstractSubsystem*> subsystems = {&drivetrain, &lift, &intake};
 pros::Controller controller{pros::E_CONTROLLER_MASTER};
 
 DriverControlScheduler driver_control_scheduler{};
+
+// example_txt is of type asset&
+ASSET(example_txt);
 
 /**
  * Runs initialization code. This occurs as soon as the program is started.

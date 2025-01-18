@@ -296,4 +296,5 @@ add_executable(Programming_High_Stakes
         High_Stakes/src/commands/StartIntaking.hpp
         High_Stakes/src/commands/StopIntaking.cpp
         High_Stakes/src/commands/StopIntaking.hpp
+        High_Stakes/src/asset.hpp
 )
