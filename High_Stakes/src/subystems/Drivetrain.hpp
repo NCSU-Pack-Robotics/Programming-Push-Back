@@ -245,6 +245,10 @@ private:
     PID right_velocity_pid = PID(Constants::PID::Drive::Velocity::Kp,
                                  Constants::PID::Drive::Velocity::Kd,
                                  Constants::PID::Drive::Velocity::Ki);
+    /** The PID used for turning */
+    PID angular_pid = PID(Constants::PID::Drive::Angular::Kp,
+                          Constants::PID::Drive::Angular::Kd,
+                          Constants::PID::Drive::Angular::Ki);
 
     /** Type of drive control to use. */
     Constants::DriveType drive_type;
