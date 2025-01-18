@@ -12,7 +12,6 @@
  * D: Derivative  (compensates for overshoot—often optional but useful)
  */
 class PID {
-private:
     /** Proportional coefficient */
     const double k_proportional;
     /** Integral coefficient */
@@ -52,7 +51,7 @@ private:
      * @param error Displacement from target state
      * @return Proportional term
      */
-    double calculate_proportional(double error);
+    double calculate_proportional(double error) const;
 
     /**
      * Calculate the integral term

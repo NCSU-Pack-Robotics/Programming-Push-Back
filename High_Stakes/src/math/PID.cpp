@@ -23,7 +23,7 @@ double PID::calculate(const double error) {
     return p + i + d;
 }
 
-double PID::calculate_proportional(const double error) {
+double PID::calculate_proportional(const double error) const {
     // Multiply by the proportional coefficient
     return this->k_proportional * error;
 }
