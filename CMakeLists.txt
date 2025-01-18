@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.26)
+cmake_minimum_required(VERSION 3.22.1)
 project(Programming_High_Stakes)
 
 set(CMAKE_CXX_STANDARD 20)
