@@ -5,7 +5,6 @@
 #include "../../include/main.h"
 #include "../AbstractSubsystem.hpp"
 #include "../Pose.hpp"
-#include "../ports.hpp"
 #include "../math/PID.hpp"
 #include "../Config.hpp"
 #include "../Constants.hpp"
@@ -58,7 +57,7 @@ public:
     * This is the result of odometer calculations.d
     * @return The pose of the robot.
     */
-    Pose get_pose();
+    Pose get_pose() const;
 
 private:
     /** Voltage in mV to set motors to. Will be between -12,000 and +12,000. */
@@ -74,7 +73,6 @@ private:
     * functionality away from the core drivetrain functionality.
     */
     class Odometry {
-    private:
         Drivetrain &drivetrain; // A reference to the enclosing Drivetrain instance.
         Pose pose; // Most recent pose of the robot
 
@@ -84,12 +82,12 @@ private:
         double left_distance = 0; // total distance left side of robot has travelled (inches)
         double right_distance = 0; // total distance right side of robot has travelled (inches)
 
-        double delta_left = 0;
         // difference between last cycle and this cycle for left side distance (inches)
-        double delta_right = 0;
+        double delta_left = 0;
         // difference between last cycle and this cycle for right side distance (inches)
-        double delta_avg = 0;
+        double delta_right = 0;
         // average difference between last cycle and this cycle for both sides (inches)
+        double delta_avg = 0;
 
     public:
         /**
@@ -98,8 +96,8 @@ private:
          * @param drivetrain The drivetrain subsystem.
          */
         explicit Odometry(Pose initialPose, Drivetrain &drivetrain)
-            : pose(initialPose), drivetrain(drivetrain) {
-        };
+            : drivetrain(drivetrain), pose(initialPose) {
+        }
 
         /**
          * Gets the most recent pose of the robot.
@@ -111,7 +109,8 @@ private:
         }
 
         /**
-         * Calculate the calculate of the robot.
+         * Call this method to run Odometry. This method will update the robot's pose.
+         * <p>
          * This is the process of estimating the robot's pose over time.
          * @return The pose of the robot after the calculate calculations.
          */
@@ -125,15 +124,15 @@ private:
             calculate_position_arc();
 
             // must be done after coordinate calculations
-            this->pose.heading = (right_distance - left_distance) / (
-                                     Constants::Hardware::ROBOT_DIAMETER);
+            this->pose.heading = (right_distance - left_distance) /
+                Constants::Hardware::ROBOT_DIAMETER;
 
             return this->get_pose();
         }
 
     private:
         /**
-         * Update the position values
+         * Update the position values.
          * Position values are raw degree values from the encoders.
          */
         void update_positions() {
@@ -149,8 +148,6 @@ private:
             this->delta_left = degrees_to_inches(this->left_position) - left_distance;
             this->delta_right = degrees_to_inches(this->right_position) - right_distance;
             this->delta_avg = (delta_left + delta_right) / 2;
-
-            //printf( "%lf %lf\n", this->delta_right, this->delta_left );
         }
 
         /**
@@ -168,11 +165,11 @@ private:
          */
         void calculate_position_arc() {
             // position calculations
-            double turning_radius = fabs(
+            const double turning_radius = fabs(
                 Constants::Hardware::ROBOT_RADIUS * (delta_right + delta_left)
                 / (delta_right - delta_left));
-            double delta_heading = (delta_right - delta_left) / (
-                                       Constants::Hardware::ROBOT_DIAMETER);
+            const double delta_heading = (delta_right - delta_left) /
+                Constants::Hardware::ROBOT_DIAMETER;
 
             // variables to store changes in x andy y
             double delta_x = 0.0;
@@ -200,14 +197,12 @@ private:
                 }
             } else {
                 // not turning
-                double delta_average = (delta_left + delta_right) / 2;
+                const double delta_average = (delta_left + delta_right) / 2;
                 delta_x = delta_average * cos(this->pose.heading);
                 delta_y = delta_average * sin(this->pose.heading);
             }
 
             // Update x and y coords
-            //    printf("%lf", delta_x );
-            //    printf( "%lf", delta_y );
             this->pose.x += delta_x;
 
             this->pose.y += delta_y;
@@ -228,8 +223,7 @@ private:
          * @param position Number of degrees from the motor
          * @return The inches corresponding to the given degree value
          */
-        static inline double degrees_to_inches(double position) {
-            //printf( "%lf\n", position );
+        static inline double degrees_to_inches(const double position) {
             return Constants::Hardware::TRACKING_RATIO * Constants::Hardware::TRACKING_DIAMETER *
                    Constants::Math::PI * (position / 360);
         }
@@ -282,7 +276,7 @@ protected:
     /**
      * Constructor for Drivetrain subsystem.
      * Takes no arguments.
-     * Can be called as: `Drivetrain drivetrain = Drivetrain();`
+     * Can be called as: <code>Drivetrain drivetrain = Drivetrain();</code>
      */
     Drivetrain();
 };

@@ -32,10 +32,10 @@ void Drivetrain::initialize() {
              right_front->get_encoder_units());
 
     // Set all positions to 0
-    left_front->tare_position();
-    right_front->tare_position();
     left_back->tare_position();
     right_back->tare_position();
+    left_front->tare_position();
+    right_front->tare_position();
 
     // Ensure motors are stopped
     left_motors->move_velocity(0);
@@ -102,8 +102,8 @@ void Drivetrain::set_velocity(const double target_left_velocity, const double ta
     const double right_velocity = rpm_to_ips(std::reduce(right_velocities.begin(), right_velocities.end(), 0.0) / right_velocities.size());
 
     // Calculate current error
-    double left_error = target_left_velocity - left_velocity;
-    double right_error = target_right_velocity - right_velocity;
+    const double left_error = target_left_velocity - left_velocity;
+    const double right_error = target_right_velocity - right_velocity;
 
     // Calculate new voltages to set
     const auto left_voltage = static_cast<int32_t>(left_velocity_pid.calculate(left_error));
@@ -129,6 +129,6 @@ double Drivetrain::rpm_to_ips(double const rpm) {
     return rpm * Constants::Hardware::TRACKING_DIAMETER * Constants::Math::PI * Constants::Hardware::TRACKING_RATIO / 60;
 }
 
-Pose Drivetrain::get_pose() {
+Pose Drivetrain::get_pose() const {
     return this->odometry->get_pose();
 }
