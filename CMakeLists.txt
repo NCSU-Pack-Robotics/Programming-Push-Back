@@ -271,8 +271,6 @@ add_executable(Programming_High_Stakes
         High_Stakes/include/main.h
         High_Stakes/src/math/PID.cpp
         High_Stakes/src/math/PID.hpp
-        High_Stakes/src/math/Odometry.cpp
-        High_Stakes/src/math/Odometry.hpp
         High_Stakes/src/subystems/Drivetrain.cpp
         High_Stakes/src/subystems/Drivetrain.hpp
         High_Stakes/src/AbstractSubsystem.cpp
@@ -297,4 +295,6 @@ add_executable(Programming_High_Stakes
         High_Stakes/src/commands/StopIntaking.cpp
         High_Stakes/src/commands/StopIntaking.hpp
         High_Stakes/src/asset.hpp
+        High_Stakes/src/commands/PurePursuit.cpp
+        High_Stakes/src/commands/PurePursuit.hpp
 )
