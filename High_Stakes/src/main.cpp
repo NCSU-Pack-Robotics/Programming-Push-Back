@@ -21,7 +21,7 @@ pros::Controller controller{pros::E_CONTROLLER_MASTER};
 DriverControlScheduler driver_control_scheduler{};
 
 // example_txt is of type asset&
-ASSET(examplePath_txt);
+ASSET(example_txt);
 
 /**
  * Runs initialization code. This occurs as soon as the program is started.
@@ -78,7 +78,7 @@ void competition_initialize() {
  * from where it left off.
  */
 void autonomous() {
-    const auto follow_path = new PurePursuit(examplePath_txt);
+    const auto follow_path = new PurePursuit(example_txt);
 
     // Run disabled periodic for all subsystems
     while (true) {
