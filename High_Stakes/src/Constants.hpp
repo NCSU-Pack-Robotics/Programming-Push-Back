@@ -31,6 +31,15 @@ namespace Constants {
         constexpr double TAU = 6.28318530717958647692;
     }
 
+    /**
+     * Constants used for any sort of path following algorithm.
+     * At the time of writing, this only pertains to pure pursuit, but could include others as well.
+     */
+    namespace PathFollowing {
+        /** In pure pursuit, the distance from the robot to the lookahead point */
+        constexpr double LOOKAHEAD_DISTANCE = 12.0;
+    }
+
     namespace Hardware {
         /**
          * The diameter of a tracking wheel

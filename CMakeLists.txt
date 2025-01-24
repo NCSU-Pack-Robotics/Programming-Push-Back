@@ -297,4 +297,5 @@ add_executable(Programming_High_Stakes
         High_Stakes/src/asset.hpp
         High_Stakes/src/commands/PurePursuit.cpp
         High_Stakes/src/commands/PurePursuit.hpp
+        High_Stakes/src/Pose.cpp
 )

@@ -1,6 +1,7 @@
 #pragma once
 
-#include "Drivetrain.hpp"
+#include "../asset.hpp"
+#include "../subystems/Drivetrain.hpp"
 #include "../Command.hpp"
 #include "../Pose.hpp"
 
@@ -10,23 +11,27 @@
 * move the robot through a series of waypoints.
 */
 class PurePursuit : public Command {
+    /** Is the PurePursuit command done executing? */
+    bool done = false;
+
     /** An instance of the drivetrain subsystem. */
     Drivetrain &drivetrain = AbstractSubsystem::get_instance<Drivetrain>();
 
-    /** The starting pose of the robot. */
-    Pose start;
-    /** The goal pose of the robot. */
-    Pose end;
     /** The pose of the robot as it follows the path. */
     Pose current;
+
+    /** List of poses that make up the path. */
+    std::vector<Pose> path;
+
+    /** The distance between the robot and the lookahead point. */
+    double lookahead = Constants::PathFollowing::LOOKAHEAD_DISTANCE;
 
 public:
     /**
     * Constructor for the PurePursuit command.
-    * @param start The starting pose of the robot.
-    * @param end The ending pose of the robot.
+    * @param path The path to follow.
     */
-    PurePursuit(Pose start, Pose end);
+    explicit PurePursuit(const asset& path);
 
     void initialize() override;
 
@@ -35,4 +40,26 @@ public:
     void shutdown() override;
 
     bool is_complete() override;
+
+private:
+    /** The pose of the robot at the previous periodic call */
+    Pose lastPose;
+
+    /** The pose of the lookahead point */
+    Pose lookaheadPose;
+
+    /** The pose of the last lookahead point. */
+    Pose lastLookahead;
+
+    /** Total distance traveled over the course of following this path. */
+    float distTraveled = 0;
+
+    /** The velocity of the robot at the previous periodic call */
+    float prevVelocity = 0;
+
+    /** The left velocity of the robot at the previous periodic call */
+    float prevLeftVal = 0;
+
+    /** The right velocity of the robot at the previous periodic call */
+    float prevRightVal = 0;
 };
