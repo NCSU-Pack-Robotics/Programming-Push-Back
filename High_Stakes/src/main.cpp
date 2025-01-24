@@ -5,6 +5,7 @@
 #include "subystems/Intake.hpp"
 #include "DriverControlScheduler.hpp"
 #include "asset.hpp"
+#include "commands/PurePursuit.hpp"
 
 // Create all subsystems:
 Drivetrain& drivetrain = AbstractSubsystem::get_instance<Drivetrain>();
@@ -20,7 +21,7 @@ pros::Controller controller{pros::E_CONTROLLER_MASTER};
 DriverControlScheduler driver_control_scheduler{};
 
 // example_txt is of type asset&
-ASSET(example_txt);
+ASSET(examplePath_txt);
 
 /**
  * Runs initialization code. This occurs as soon as the program is started.
@@ -76,7 +77,18 @@ void competition_initialize() {
  * will be stopped. Re-enabling the robot will restart the task, not re-start it
  * from where it left off.
  */
-void autonomous() {}
+void autonomous() {
+    const auto follow_path = new PurePursuit(examplePath_txt);
+
+    // Run disabled periodic for all subsystems
+    while (true) {
+        follow_path->run();
+
+        for (AbstractSubsystem* subsystem : subsystems) {
+            subsystem->periodic();
+        }
+    }
+}
 
 /**
  * Runs the operator control code. This function will be started in its own task
