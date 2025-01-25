@@ -69,6 +69,9 @@ private:
     * This is the Odometry class. It is responsible for keeping track of the robot's
     * pose: position, orientation, etc.
     *
+    * Relative to the robot, the positive x-axis is forward and the positive y-axis is to the left.
+    * Turning left (counter-clockwise) is positive, and turning right (clockwise) is negative.
+    *
     * This class is intended to be used an inner-class of the Drivetrain to encapsulate the calculate
     * functionality away from the core drivetrain functionality.
     */
