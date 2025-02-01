@@ -254,13 +254,22 @@ private:
 
     // Motors:
     /** Smart pointer to the left, front motor. */
-    std::unique_ptr<pros::Motor> left_front;
-    /** Smart pointer to the right, front motor. */
-    std::unique_ptr<pros::Motor> right_front;
-    /** Smart pointer to the left, back motor. */
-    std::unique_ptr<pros::Motor> left_back;
-    /** Smart pointer to the right, back motor. */
-    std::unique_ptr<pros::Motor> right_back;
+    std::unique_ptr<pros::Motor> left_front1;
+    /** Smart pointer to the left, front motor. */
+    std::unique_ptr<pros::Motor> left_front2;
+    /** Smart pointer to the left, front motor. */
+    std::unique_ptr<pros::Motor> left_back2;
+    /** Smart pointer to the left, front motor. */
+    std::unique_ptr<pros::Motor> left_back1;
+
+    /** Smart pointer to the left, front motor. */
+    std::unique_ptr<pros::Motor> right_front1;
+    /** Smart pointer to the left, front motor. */
+    std::unique_ptr<pros::Motor> right_front2;
+    /** Smart pointer to the left, front motor. */
+    std::unique_ptr<pros::Motor> right_back2;
+    /** Smart pointer to the left, front motor. */
+    std::unique_ptr<pros::Motor> right_back1;
 
     // Motor groups:
     /** Group of all motors on the left side of the robot. */

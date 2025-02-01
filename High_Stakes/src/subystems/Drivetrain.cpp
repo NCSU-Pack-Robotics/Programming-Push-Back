@@ -8,34 +8,45 @@ Drivetrain::Drivetrain() : AbstractSubsystem() {
 
 void Drivetrain::initialize() {
     // Initialize motor objects:
-    left_front = std::make_unique<pros::Motor>(Ports::LEFT_FRONT_MOTOR_PORT,
+    left_front1 = std::make_unique<pros::Motor>(Ports::LEFT_FRONT1_MOTOR_PORT,
                                                pros::v5::MotorGears::blue,
                                                pros::v5::MotorUnits::degrees);
-    right_front = std::make_unique<pros::Motor>(Ports::RIGHT_FRONT_MOTOR_PORT,
+    left_front2 = std::make_unique<pros::Motor>(Ports::LEFT_FRONT2_MOTOR_PORT,
+                                               pros::v5::MotorGears::blue,
+                                               pros::v5::MotorUnits::degrees);
+    left_back2 = std::make_unique<pros::Motor>(Ports::LEFT_BACK2_MOTOR_PORT,
                                                 pros::v5::MotorGears::blue,
                                                 pros::v5::MotorUnits::degrees);
-    left_back = std::make_unique<pros::Motor>(Ports::LEFT_BACK_MOTOR_PORT,
+    left_back1 = std::make_unique<pros::Motor>(Ports::LEFT_BACK1_MOTOR_PORT,
                                                 pros::v5::MotorGears::blue,
                                                 pros::v5::MotorUnits::degrees);
-    right_back = std::make_unique<pros::Motor>(Ports::RIGHT_BACK_MOTOR_PORT,
+
+    right_front1 = std::make_unique<pros::Motor>(Ports::RIGHT_FRONT1_MOTOR_PORT,
+                                               pros::v5::MotorGears::blue,
+                                               pros::v5::MotorUnits::degrees);
+    right_front2 = std::make_unique<pros::Motor>(Ports::RIGHT_FRONT2_MOTOR_PORT,
+                                               pros::v5::MotorGears::blue,
+                                               pros::v5::MotorUnits::degrees);
+    right_back2 = std::make_unique<pros::Motor>(Ports::RIGHT_BACK2_MOTOR_PORT,
+                                                pros::v5::MotorGears::blue,
+                                                pros::v5::MotorUnits::degrees);
+    right_back1 = std::make_unique<pros::Motor>(Ports::RIGHT_BACK1_MOTOR_PORT,
                                                 pros::v5::MotorGears::blue,
                                                 pros::v5::MotorUnits::degrees);
 
     // Initialize motor groups:
     left_motors = std::make_unique<pros::MotorGroup>
-            (std::initializer_list<std::int8_t>{left_front->get_port(), left_back->get_port()},
-             left_front->get_gearing(),
-             left_front->get_encoder_units());
+            (std::initializer_list<std::int8_t>{left_front1->get_port(), left_front2->get_port(), left_back2->get_port(), left_back1->get_port()},
+             left_front1->get_gearing(),
+             left_front1->get_encoder_units());
     right_motors = std::make_unique<pros::MotorGroup>
-            (std::initializer_list<std::int8_t>{right_front->get_port(), right_back->get_port()},
-             right_front->get_gearing(),
-             right_front->get_encoder_units());
+            (std::initializer_list<std::int8_t>{right_front1->get_port(), right_front2->get_port(), right_back2->get_port(), right_back1->get_port()},
+             right_front1->get_gearing(),
+             right_front1->get_encoder_units());
 
     // Set all positions to 0
-    left_back->tare_position();
-    right_back->tare_position();
-    left_front->tare_position();
-    right_front->tare_position();
+    left_motors->tare_position_all();
+    right_motors->tare_position_all();
 
     // Ensure motors are stopped
     left_motors->move_velocity(0);
