@@ -1,7 +1,7 @@
 #include "StartLiftingDown.hpp"
 
-#include "../Config.hpp"
-#include "Lift.hpp"
+#include "../../Config.hpp"
+#include "../../subystems/Lift.hpp"
 
 StartLiftingDown::StartLiftingDown() {
 }

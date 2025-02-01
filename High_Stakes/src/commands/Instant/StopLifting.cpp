@@ -1,6 +1,6 @@
 #include "StopLifting.hpp"
 
-#include "Lift.hpp"
+#include "../../subystems/Lift.hpp"
 
 StopLifting::StopLifting() {
 }

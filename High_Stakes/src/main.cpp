@@ -1,7 +1,6 @@
 #include "../include/main.h"
 #include "subystems/Drivetrain.hpp"
 #include "subystems/Lift.hpp"
-#include "Config.hpp"
 #include "subystems/Intake.hpp"
 #include "DriverControlScheduler.hpp"
 

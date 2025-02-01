@@ -2,8 +2,8 @@
 #include <cstdint>
 
 #include "Command.hpp"
-#include "commands/StartIntakingIn.hpp"
-#include "commands/StopIntaking.hpp"
+#include "commands/Instant/StartIntakingIn.hpp"
+#include "commands/Instant/StopIntaking.hpp"
 
 
 namespace Constants {

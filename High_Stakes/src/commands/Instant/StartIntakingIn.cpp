@@ -1,7 +1,7 @@
 #include "StartIntakingIn.hpp"
 
-#include "../Config.hpp"
-#include "../subystems/Intake.hpp"
+#include "../../Config.hpp"
+#include "../../subystems/Intake.hpp"
 
 StartIntakingIn::StartIntakingIn() {
 }

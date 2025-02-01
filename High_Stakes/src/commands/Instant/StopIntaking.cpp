@@ -1,7 +1,7 @@
 #include "StopIntaking.hpp"
 
-#include "../Config.hpp"
-#include "../subystems/Intake.hpp"
+#include "../../Config.hpp"
+#include "../../subystems/Intake.hpp"
 
 StopIntaking::StopIntaking() {
 }

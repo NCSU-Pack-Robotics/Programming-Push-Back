@@ -1,7 +1,7 @@
 #include "StartIntakingOut.hpp"
 
-#include "Config.hpp"
-#include "Intake.hpp"
+#include "../../Config.hpp"
+#include "../../subystems/Intake.hpp"
 
 StartIntakingOut::StartIntakingOut() {
 
