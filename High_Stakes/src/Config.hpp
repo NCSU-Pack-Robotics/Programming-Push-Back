@@ -2,7 +2,7 @@
 #include <cstdint>
 
 #include "Command.hpp"
-#include "commands/StartIntaking.hpp"
+#include "commands/StartIntakingIn.hpp"
 #include "commands/StopIntaking.hpp"
 
 
@@ -31,7 +31,7 @@ namespace Constants {
         std::array<std::optional<std::function<std::unique_ptr<Command>()>>, 3>> BINDS{
             {pros::E_CONTROLLER_DIGITAL_L1, {std::nullopt, std::nullopt, std::nullopt}},
             {pros::E_CONTROLLER_DIGITAL_L2, {std::nullopt, std::nullopt, std::nullopt}},
-            {pros::E_CONTROLLER_DIGITAL_R1, {[] { return std::make_unique<StartIntaking>(); }, std::nullopt, [] { return std::make_unique<StopIntaking>(); }}},
+            {pros::E_CONTROLLER_DIGITAL_R1, {[] { return std::make_unique<StartIntakingIn>(); }, std::nullopt, [] { return std::make_unique<StopIntaking>(); }}},
             {pros::E_CONTROLLER_DIGITAL_R2, {std::nullopt, std::nullopt, std::nullopt}},
             {pros::E_CONTROLLER_DIGITAL_UP, {std::nullopt, std::nullopt, std::nullopt}},
             {pros::E_CONTROLLER_DIGITAL_DOWN, {std::nullopt, std::nullopt, std::nullopt}},

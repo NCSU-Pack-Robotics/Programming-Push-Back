@@ -1,9 +1,9 @@
 #pragma once
 #include "../Command.hpp"
 
-class StartIntaking : public InstantCommand {
+class StartIntakingIn : public InstantCommand {
 public:
-    StartIntaking();
+    StartIntakingIn();
 protected:
     void execute() override;
 };

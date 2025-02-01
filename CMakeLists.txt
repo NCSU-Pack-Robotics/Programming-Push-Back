@@ -271,8 +271,6 @@ add_executable(Programming_High_Stakes
         High_Stakes/include/main.h
         High_Stakes/src/math/PID.cpp
         High_Stakes/src/math/PID.hpp
-        High_Stakes/src/math/Odometry.cpp
-        High_Stakes/src/math/Odometry.hpp
         High_Stakes/src/subystems/Drivetrain.cpp
         High_Stakes/src/subystems/Drivetrain.hpp
         High_Stakes/src/AbstractSubsystem.cpp
@@ -292,8 +290,20 @@ add_executable(Programming_High_Stakes
         High_Stakes/src/subystems/Intake.hpp
         High_Stakes/src/DriverControlScheduler.cpp
         High_Stakes/src/DriverControlScheduler.hpp
-        High_Stakes/src/commands/StartIntaking.cpp
-        High_Stakes/src/commands/StartIntaking.hpp
+        High_Stakes/src/commands/StartIntakingIn.cpp
+        High_Stakes/src/commands/StartIntakingIn.hpp
         High_Stakes/src/commands/StopIntaking.cpp
         High_Stakes/src/commands/StopIntaking.hpp
+        High_Stakes/src/commands/StartLiftingUp.cpp
+        High_Stakes/src/commands/StartLiftingUp.hpp
+        High_Stakes/src/commands/StopLifting.cpp
+        High_Stakes/src/commands/StopLifting.hpp
+        High_Stakes/src/commands/StartIntakingOut.cpp
+        High_Stakes/src/commands/StartIntakingOut.hpp
+        High_Stakes/src/commands/StartLiftingDown.cpp
+        High_Stakes/src/commands/StartLiftingDown.hpp
+        High_Stakes/src/commands/StartClamping.cpp
+        High_Stakes/src/commands/StartClamping.hpp
+        High_Stakes/src/subystems/Clamp.cpp
+        High_Stakes/src/subystems/Clamp.hpp
 )
