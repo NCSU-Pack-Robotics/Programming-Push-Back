@@ -1,7 +1,6 @@
 #include "HookSensor.hpp"
 
 #include "../ports.hpp"
-#include "adi.hpp"
 
 HookSensor::HookSensor() {
 

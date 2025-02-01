@@ -1,6 +1,6 @@
 #include <memory>
 
-
+#include "../include/main.h"
 #include "../AbstractSubsystem.hpp"
 class HookSensor : AbstractSubsystem {
     friend AbstractSubsystem;
