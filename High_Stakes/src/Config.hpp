@@ -10,9 +10,8 @@
 #include "commands/Instant/StartLiftingUp.hpp"
 #include "commands/Instant/StopClamping.hpp"
 #include "commands/Instant/StopIntaking.hpp"
-// #include "commands/Default/TurnAround.hpp"
-// TODO: Why does including drivetrain give an error about PID?
-#include "subystems/Drivetrain.hpp"
+#include "commands/Default/TurnAround.hpp"
+
 
 
 namespace Constants {
@@ -50,7 +49,7 @@ namespace Constants {
             {pros::E_CONTROLLER_DIGITAL_LEFT, {std::nullopt, std::nullopt, std::nullopt}},
             {pros::E_CONTROLLER_DIGITAL_RIGHT, {std::nullopt, std::nullopt, std::nullopt}},
             {pros::E_CONTROLLER_DIGITAL_X, {std::nullopt, std::nullopt, std::nullopt}},
-            // {pros::E_CONTROLLER_DIGITAL_B, {[] { return std::make_unique<TurnAround>(); }, std::nullopt, std::nullopt}},
+            {pros::E_CONTROLLER_DIGITAL_B, {[] { return std::make_unique<TurnAround>(); }, std::nullopt, std::nullopt}},
             {pros::E_CONTROLLER_DIGITAL_Y, {std::nullopt, std::nullopt, std::nullopt}},
             {pros::E_CONTROLLER_DIGITAL_A, {[] { return std::make_unique<StartClamping>(); }, std::nullopt, [] { return std::make_unique<StopClamping>(); }}}
         };
