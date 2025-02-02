@@ -1,3 +1,4 @@
+#pragma once
 #include "../../Command.hpp"
 class StartLiftingDown : public InstantCommand {
 public:

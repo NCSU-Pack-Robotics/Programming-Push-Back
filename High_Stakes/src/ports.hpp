@@ -40,7 +40,7 @@ namespace Ports {
     /** Port of the right second front motor */
     constexpr std::int8_t RIGHT_FRONT2_MOTOR_PORT = 17;
     /** Port of the right second back motor */
-    constexpr std::int8_t RIGHT_BACK2_MOTOR_PORT = 18;
+    constexpr std::int8_t RIGHT_BACK2_MOTOR_PORT = -18;
     /** Port of the right first back motor */
     constexpr std::int8_t RIGHT_BACK1_MOTOR_PORT = 19;
 

@@ -10,6 +10,7 @@ void Lift::initialize() {
     lift_motor = std::make_unique<pros::Motor>(Ports::LIFT_MOTOR_PORT, pros::v5::MotorGears::blue, pros::v5::MotorUnits::degrees);
     lift_motor->tare_position();
     lift_motor->move_velocity(0);
+    lift_motor->set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
 }
 
 void Lift::periodic() {
@@ -46,4 +47,8 @@ void Lift::set_drive_power(int32_t power) {
     drive_type = Constants::DriveType::POWER;
 }
 
+void Lift::brake() {
+    lift_motor->brake();
+    set_drive_power(0);
+}
 

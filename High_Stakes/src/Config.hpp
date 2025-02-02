@@ -2,8 +2,17 @@
 #include <cstdint>
 
 #include "Command.hpp"
+#include "commands/Default/ResetLift.hpp"
+#include "commands/Instant/StartClamping.hpp"
 #include "commands/Instant/StartIntakingIn.hpp"
+#include "commands/Instant/StartIntakingOut.hpp"
+#include "commands/Instant/StartLiftingDown.hpp"
+#include "commands/Instant/StartLiftingUp.hpp"
+#include "commands/Instant/StopClamping.hpp"
 #include "commands/Instant/StopIntaking.hpp"
+// #include "commands/Default/TurnAround.hpp"
+// TODO: Why does including drivetrain give an error about PID?
+#include "subystems/Drivetrain.hpp"
 
 
 namespace Constants {
@@ -12,43 +21,46 @@ namespace Constants {
         namespace MotorSpeeds {
           
             /** Lift speed for the lift moving upwards */
-            constexpr int32_t LIFT_UP = 30;
+            constexpr int32_t LIFT_UP = 102;
             /** Lift speed for the lift moving backwards */
-            constexpr int32_t LIFT_DOWN = -30;
+            constexpr int32_t LIFT_DOWN = -44;
+            /** Lift speed used for resetting, it is slower so that the lift sensor can pick up a reading. */
+            constexpr int32_t LIFT_RESET = 25;
           
             /** Motor speed of the intake going inwards */
-            // TODO: Set back to 70, 10 is for testing purposes.
-            constexpr int32_t INTAKE_INWARDS = 10;
+            constexpr int32_t INTAKE_INWARDS = 127;
             /** Motor speed of the intake going outwards */
-            constexpr int32_t INTAKE_OUTWARDS = -70;
+            constexpr int32_t INTAKE_OUTWARDS = -44;
         }
 
+        /** The scaling factor used for scaling the controller input */
+        constexpr int32_t INPUT_SCALING_FACTOR = 50;
 
         /** Keybindings. They are mapped like: button -> [button_just_pressed_event, button_down_event,
          * button_just_released_event].
          */
         const std::unordered_map<pros::controller_digital_e_t,
         std::array<std::optional<std::function<std::unique_ptr<Command>()>>, 3>> BINDS{
-            {pros::E_CONTROLLER_DIGITAL_L1, {std::nullopt, std::nullopt, std::nullopt}},
-            {pros::E_CONTROLLER_DIGITAL_L2, {std::nullopt, std::nullopt, std::nullopt}},
-            {pros::E_CONTROLLER_DIGITAL_R1, {[] { return std::make_unique<StartIntakingIn>(); }, std::nullopt, [] { return std::make_unique<StopIntaking>(); }}},
-            {pros::E_CONTROLLER_DIGITAL_R2, {std::nullopt, std::nullopt, std::nullopt}},
+            {pros::E_CONTROLLER_DIGITAL_L1, {[] { return std::make_unique<StartLiftingDown>(); }, std::nullopt, [] { return std::make_unique<ResetLift>(); }}},
+            {pros::E_CONTROLLER_DIGITAL_L2, {[] { return std::make_unique<StartLiftingUp>(); }, std::nullopt, [] { return std::make_unique<ResetLift>(); }}},
+            {pros::E_CONTROLLER_DIGITAL_R1, {[] { return std::make_unique<StartIntakingOut>(); }, std::nullopt, [] { return std::make_unique<StopIntaking>(); }}},
+            {pros::E_CONTROLLER_DIGITAL_R2, {[] { return std::make_unique<StartIntakingIn>(); }, std::nullopt, [] { return std::make_unique<StopIntaking>(); }}},
             {pros::E_CONTROLLER_DIGITAL_UP, {std::nullopt, std::nullopt, std::nullopt}},
             {pros::E_CONTROLLER_DIGITAL_DOWN, {std::nullopt, std::nullopt, std::nullopt}},
             {pros::E_CONTROLLER_DIGITAL_LEFT, {std::nullopt, std::nullopt, std::nullopt}},
             {pros::E_CONTROLLER_DIGITAL_RIGHT, {std::nullopt, std::nullopt, std::nullopt}},
             {pros::E_CONTROLLER_DIGITAL_X, {std::nullopt, std::nullopt, std::nullopt}},
-            {pros::E_CONTROLLER_DIGITAL_B, {std::nullopt, std::nullopt, std::nullopt}},
+            // {pros::E_CONTROLLER_DIGITAL_B, {[] { return std::make_unique<TurnAround>(); }, std::nullopt, std::nullopt}},
             {pros::E_CONTROLLER_DIGITAL_Y, {std::nullopt, std::nullopt, std::nullopt}},
-            {pros::E_CONTROLLER_DIGITAL_A, {std::nullopt, std::nullopt, std::nullopt}},
-            };
+            {pros::E_CONTROLLER_DIGITAL_A, {[] { return std::make_unique<StartClamping>(); }, std::nullopt, [] { return std::make_unique<StopClamping>(); }}}
+        };
     }
   
     /**
      * Namespace for PID constants used to set drive train velocity.
      * # TODO: Tune
     */
-    namespace PID::Drive::Velocity {
+    namespace PID2::Drive::Velocity {
         /** PID Proportional coefficient for position calculations */
         constexpr double Kp = 0.0;
         /** PID Derivative coefficient for position calculations */

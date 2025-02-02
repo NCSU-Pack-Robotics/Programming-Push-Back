@@ -30,4 +30,6 @@ private:
     Drivetrain& drivetrain = AbstractSubsystem::get_instance<Drivetrain>();
     /** A map of the controller state, which is updated each tick */
     std::unordered_map<pros::controller_digital_e_t, bool> controller_state;
+    /** A method that scales a power value based on an exponential graph: https://www.desmos.com/calculator/arejdbcye3 */
+    int32_t scale_power(const int32_t power, double scaling_factor);
 };

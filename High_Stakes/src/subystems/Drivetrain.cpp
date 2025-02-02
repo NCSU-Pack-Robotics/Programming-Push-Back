@@ -1,7 +1,6 @@
 #include "Drivetrain.hpp"
 #include <numeric>
 #include "../ports.hpp"
-#include "../Config.hpp"
 
 Drivetrain::Drivetrain() : AbstractSubsystem() {
 }
@@ -52,6 +51,10 @@ void Drivetrain::initialize() {
     left_motors->move_velocity(0);
     right_motors->move_velocity(0);
 
+    // Set the brake mode on the motors
+    left_motors->set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
+    right_motors->set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
+
     // Construct initial pose
     Pose initial_pose = {Constants::Initial::Pose::INITIAL_X,
                          Constants::Initial::Pose::INITIAL_Y,
@@ -101,6 +104,12 @@ void Drivetrain::set_drive_power(int32_t left_power, int32_t right_power) {
     right_drive_power = std::clamp(right_power, INT32_C(-127), INT32_C(127));
 
     drive_type = Constants::DriveType::POWER;
+}
+
+void Drivetrain::brake() {
+    left_motors->brake();
+    right_motors->brake();
+    set_drive_power(0,0);
 }
 
 void Drivetrain::set_velocity(const double target_left_velocity, const double target_right_velocity) {

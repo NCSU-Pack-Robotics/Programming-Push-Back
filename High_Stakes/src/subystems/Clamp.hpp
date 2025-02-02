@@ -1,5 +1,7 @@
+#pragma once
 #include <memory>
 #include "../AbstractSubsystem.hpp"
+#include "../../include/main.h"
 
 class Clamp : public AbstractSubsystem {
     friend class AbstractSubsystem;

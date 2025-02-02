@@ -2,15 +2,21 @@
 #include "subystems/Drivetrain.hpp"
 #include "subystems/Lift.hpp"
 #include "subystems/Intake.hpp"
+#include "subystems/Clamp.hpp"
+#include "subystems/HookSensor.hpp"
+// #include "subystems/LadyBrown.hpp"
 #include "DriverControlScheduler.hpp"
 
 // Create all subsystems:
 Drivetrain& drivetrain = AbstractSubsystem::get_instance<Drivetrain>();
 Lift& lift = AbstractSubsystem::get_instance<Lift>();
 Intake& intake = AbstractSubsystem::get_instance<Intake>();
+Clamp& clamp = AbstractSubsystem::get_instance<Clamp>();
+HookSensor& hook_sensor = AbstractSubsystem::get_instance<HookSensor>();
+// LadyBrown& lady_brown = AbstractSubsystem::get_instance<LadyBrown>();
 
 // Add subsystems to vector for iteration
-std::vector<AbstractSubsystem*> subsystems = {&drivetrain, &lift, &intake};
+std::vector<AbstractSubsystem*> subsystems = {&drivetrain, &lift, &intake, &clamp, &hook_sensor};
 
 /** Controller object */
 pros::Controller controller{pros::E_CONTROLLER_MASTER};
@@ -96,6 +102,6 @@ void opcontrol() {
         }
 
         // Delay the loop to prevent the CPU from being overwhelmed
-        pros::delay(20);
+        pros::delay(1);
     }
 }

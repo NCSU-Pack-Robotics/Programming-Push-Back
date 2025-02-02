@@ -13,12 +13,27 @@ void DriverControlScheduler::initialize() {
 
 }
 
+int32_t DriverControlScheduler::scale_power(const int32_t power, double scaling_factor) {
+    // https://www.desmos.com/calculator/arejdbcye3
+    scaling_factor = std::clamp(scaling_factor, 0.0, 400.0);
+    int32_t scaled_power = std::abs(power) * std::exp((scaling_factor / 100 * std::log(127) / 127) * (std::abs(power) - 127));
+    // Needed because exponential function cannot produce negative numbers
+    return power < 0 ? -scaled_power : scaled_power;
+}
+
 void DriverControlScheduler::periodic() {
     // Set drive power from right joystick using arcade drive
-    int32_t left_power = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y) + controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
-    int32_t right_power = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y) - controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
+    // int32_t left_power = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y) + controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
+    // int32_t right_power = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y) - controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
 
-    drivetrain.set_drive_power(left_power, right_power);
+    // Set drive power from joysticksa using tank drive
+    int32_t left_power = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);   
+    int32_t right_power = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y);
+
+    int32_t left_power_scaled = scale_power(left_power, Constants::Controller::INPUT_SCALING_FACTOR);
+    int32_t right_power_scaled = scale_power(right_power, Constants::Controller::INPUT_SCALING_FACTOR);
+
+    drivetrain.set_drive_power(left_power_scaled, right_power_scaled);
 
     for (auto &[button, command] : Constants::Controller::BINDS) {
         // controller state for this tick

@@ -314,4 +314,6 @@ add_executable(Programming_High_Stakes
         High_Stakes/src/subystems/LadyBrown.hpp
         High_Stakes/src/commands/Default/ResetLift.cpp
         High_Stakes/src/commands/Default/ResetLift.hpp
+        High_Stakes/src/commands/Default/TurnAround.cpp
+        High_Stakes/src/commands/Default/TurnAround.hpp
 )

@@ -1,8 +1,9 @@
+#pragma once
 #include <memory>
 
-#include "../include/main.h"
+#include "../../include/main.h"
 #include "../AbstractSubsystem.hpp"
-class HookSensor : AbstractSubsystem {
+class HookSensor : public AbstractSubsystem {
     friend AbstractSubsystem;
 public:
     void initialize() override;
@@ -19,7 +20,7 @@ public:
 
 private:
     /** A unique pointer to the hook sensor */
-    std::unique_ptr<pros::adi::DigitalIn> hook_sensor;
+    std::unique_ptr<pros::adi::AnalogIn> hook_sensor;
 
 protected:
     HookSensor();

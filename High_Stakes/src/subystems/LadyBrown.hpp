@@ -1,5 +1,8 @@
+#pragma once
+#include "../../include/main.h"
 #include "../AbstractSubsystem.hpp"
-class LadyBrown : AbstractSubsystem {
+
+class LadyBrown : public AbstractSubsystem {
     friend class AbstractSubsystem;
 
 public:

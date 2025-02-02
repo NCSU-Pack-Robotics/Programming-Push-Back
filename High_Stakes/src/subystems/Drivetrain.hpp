@@ -6,8 +6,9 @@
 #include "../AbstractSubsystem.hpp"
 #include "../Pose.hpp"
 #include "../math/PID.hpp"
-#include "../Config.hpp"
 #include "../Constants.hpp"
+#include "../Config.hpp"
+
 
 /**
  * The Drivetrain subsystem is responsible for controlling and reading from the drive motors.
@@ -44,6 +45,9 @@ public:
      * @param target_right_velocity The velocity of the right motors in inches per second
      */
     void set_velocity(double target_left_velocity, double target_right_velocity);
+
+    /** Applies the breaks and sets the speed to 0 */
+    void brake();
 
     /**
      * Get the position of the left and right motors in degrees.
@@ -241,13 +245,13 @@ private:
     int32_t right_drive_power = 0;
 
     /** The PID used for left motors velocity */
-    PID left_velocity_pid = PID(Constants::PID::Drive::Velocity::Kp,
-                                Constants::PID::Drive::Velocity::Kd,
-                                Constants::PID::Drive::Velocity::Ki);
+    PID left_velocity_pid = PID(Constants::PID2::Drive::Velocity::Kp,
+                                Constants::PID2::Drive::Velocity::Kd,
+                                Constants::PID2::Drive::Velocity::Ki);
     /** The PID used for right motors velocity */
-    PID right_velocity_pid = PID(Constants::PID::Drive::Velocity::Kp,
-                                 Constants::PID::Drive::Velocity::Kd,
-                                 Constants::PID::Drive::Velocity::Ki);
+    PID right_velocity_pid = PID(Constants::PID2::Drive::Velocity::Kp,
+                                 Constants::PID2::Drive::Velocity::Kd,
+                                 Constants::PID2::Drive::Velocity::Ki);
 
     /** Type of drive control to use. */
     Constants::DriveType drive_type;

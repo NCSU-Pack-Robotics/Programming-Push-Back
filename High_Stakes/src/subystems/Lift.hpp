@@ -28,6 +28,8 @@ public:
      * @param power The power to set the lift to.
      */
     void set_drive_power(int32_t power);
+
+    void brake();
 private:
     /** The motor used for the lift */
     std::unique_ptr<pros::Motor> lift_motor;
