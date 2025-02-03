@@ -31,22 +31,13 @@ namespace Constants {
         constexpr double TAU = 6.28318530717958647692;
     }
 
-    /**
-     * Constants used for any sort of path following algorithm.
-     * At the time of writing, this only pertains to pure pursuit, but could include others as well.
-     */
-    namespace PathFollowing {
-        /** In pure pursuit, the distance from the robot to the lookahead point */
-        constexpr double LOOKAHEAD_DISTANCE = 12.0;
-    }
-
     namespace Hardware {
         /**
          * The diameter of a tracking wheel
          *     • Measured between outer omni rollers
          *     • Measured in inches
         */
-        constexpr double TRACKING_DIAMETER = 3.0330;
+        constexpr double TRACKING_DIAMETER = 3.1875;
 
         /** Ratio of tracking wheel upper gear to lower wheel gear */
         constexpr double TRACKING_RATIO = 36.0 / 60.0;
@@ -55,17 +46,14 @@ namespace Constants {
          * The diameter of a tracking wheel
          *     • Measured between outer omni rollers
          *     • Measured in inches
-         *     # TODO: re-measure
         */
-        constexpr double ROBOT_DIAMETER = 12.75;
+        constexpr double ROBOT_DIAMETER = 12.46875;
 
         /**
          * Half the distance between the centers of each tracking wheel
          *      • Measured in inches
         */
         constexpr double ROBOT_RADIUS = ROBOT_DIAMETER / 2;
-
-
 
         /** Maximum motor voltage in milli-volts */
         constexpr int32_t MAX_MOTOR_VOLTAGE = 12'000;
@@ -76,6 +64,18 @@ namespace Constants {
          *     • Used when setting motor power
         */
         constexpr int32_t MAX_MOTOR_POWER = 127;
+    }
+
+    /**
+     * Constants used for any sort of path following algorithm.
+     * At the time of writing, this only pertains to pure pursuit, but could include others as well.
+     */
+    namespace PathFollowing {
+        /** In pure pursuit, the distance from the robot to the lookahead point */
+        constexpr double LOOKAHEAD_DISTANCE = 12;
+
+        /** In pure pursuit, the distance from the target point before the robot stops */
+        constexpr double STOP_DISTANCE = Hardware::ROBOT_RADIUS;
     }
 
 }

@@ -46,6 +46,11 @@ public:
     void set_velocity(double target_left_velocity, double target_right_velocity);
 
     /**
+     * Stop the robot immediately.
+     */
+    void stop();
+
+    /**
      * Get the position of the left and right motors in degrees.
      * @return A pair of the left and right motor positions in degrees. The first value is the left
      * motor position, and the second value is the right motor position. 
@@ -77,7 +82,7 @@ private:
     */
     class Odometry {
         Drivetrain &drivetrain; // A reference to the enclosing Drivetrain instance.
-        Pose pose; // Most recent pose of the robot
+        Pose pose = {0, 0 ,0}; // Most recent pose of the robot
 
         double left_position = 0; // Most recent position of the left motor
         double right_position = 0; // Most recent position of the right motor

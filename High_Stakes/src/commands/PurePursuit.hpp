@@ -40,26 +40,4 @@ public:
     void shutdown() override;
 
     bool is_complete() override;
-
-private:
-    /** The pose of the robot at the previous periodic call */
-    Pose lastPose;
-
-    /** The pose of the lookahead point */
-    Pose lookaheadPose;
-
-    /** The pose of the last lookahead point. */
-    Pose lastLookahead;
-
-    /** Total distance traveled over the course of following this path. */
-    float distTraveled = 0;
-
-    /** The velocity of the robot at the previous periodic call */
-    float prevVelocity = 0;
-
-    /** The left velocity of the robot at the previous periodic call */
-    float prevLeftVal = 0;
-
-    /** The right velocity of the robot at the previous periodic call */
-    float prevRightVal = 0;
 };
