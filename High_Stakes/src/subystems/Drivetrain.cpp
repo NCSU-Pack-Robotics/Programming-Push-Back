@@ -95,7 +95,7 @@ void Drivetrain::shutdown() {
 void Drivetrain::set_voltage(int32_t left_mV, int32_t right_mV) {
     left_drive_voltage = std::clamp(left_mV, INT32_C(-12000), INT32_C(12000));
     right_drive_voltage = std::clamp(right_mV, INT32_C(-12000), INT32_C(12000));
-    
+
     drive_type = Constants::DriveType::VOLTAGE;
 }
 

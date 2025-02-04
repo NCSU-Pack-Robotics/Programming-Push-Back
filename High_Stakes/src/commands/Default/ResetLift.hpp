@@ -17,9 +17,6 @@ private:
     Lift& lift = AbstractSubsystem::get_instance<Lift>();
     /** A reference to the hook sensor */
     HookSensor& hook_sensor = AbstractSubsystem::get_instance<HookSensor>();
-    /** A bool that is true if the sensor has already detected the lift has passed, this is when it
-     * will go back a bit so it is not blocking the ring slide. */
+    /** A bool that is true if the sensor has already detected the lift has passed */
     bool has_passed;
-
-    int ticks_since_passed;
 };

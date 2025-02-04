@@ -42,13 +42,15 @@ void Lift::set_voltage(int32_t voltage) {
 }
 
 void Lift::set_drive_power(int32_t power) {
+    printf("last power: %d. Setting to %d\n", lift_power, power);
     lift_power = std::clamp(power, INT32_C(-127), INT32_C(127));
 
     drive_type = Constants::DriveType::POWER;
 }
 
 void Lift::brake() {
+    lift_voltage = 0;
+    lift_power = 0;
     lift_motor->brake();
-    set_drive_power(0);
 }
 

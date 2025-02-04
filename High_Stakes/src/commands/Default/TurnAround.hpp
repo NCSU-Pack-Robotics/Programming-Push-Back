@@ -2,6 +2,7 @@
 #include "../../Command.hpp"
 // #include "../../subystems/Drivetrain.hpp"
 #include "../../AbstractSubsystem.hpp"
+#include "../../math/PID.hpp"
 
 class Drivetrain;
 
@@ -16,6 +17,10 @@ private:
     /** A reference to the drivetrain */
     // Drivetrain& drivetrain = AbstractSubsystem::get_instance<Drivetrain>();
     Drivetrain* drivetrain;
-    /** The starting pose. */
+    /** The starting heading */
     double starting_heading;
+    /** The target heading */
+    double target_heading;
+
+    PID heading_pid = PID(1,0,0);
 };
