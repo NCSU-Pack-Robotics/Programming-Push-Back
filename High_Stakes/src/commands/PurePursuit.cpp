@@ -180,8 +180,6 @@ void PurePursuit::periodic() {
 }
 
 void PurePursuit::shutdown() {
-    printf("DONE!\n");
-
     // stop the robot
     drivetrain.brake();
 }
