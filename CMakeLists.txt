@@ -316,4 +316,12 @@ add_executable(Programming_High_Stakes
         High_Stakes/src/commands/Default/ResetLift.hpp
         High_Stakes/src/commands/Default/TurnAround.cpp
         High_Stakes/src/commands/Default/TurnAround.hpp
+        High_Stakes/src/commands/StartIntaking.cpp
+        High_Stakes/src/commands/StartIntaking.hpp
+        High_Stakes/src/commands/StopIntaking.cpp
+        High_Stakes/src/commands/StopIntaking.hpp
+        High_Stakes/src/asset.hpp
+        High_Stakes/src/commands/PurePursuit.cpp
+        High_Stakes/src/commands/PurePursuit.hpp
+        High_Stakes/src/Pose.cpp
 )

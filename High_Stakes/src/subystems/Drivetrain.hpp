@@ -81,7 +81,7 @@ private:
     */
     class Odometry {
         Drivetrain &drivetrain; // A reference to the enclosing Drivetrain instance.
-        Pose pose; // Most recent pose of the robot
+        Pose pose = {0, 0 ,0}; // Most recent pose of the robot
 
         double left_position = 0; // Most recent position of the left motor
         double right_position = 0; // Most recent position of the right motor
@@ -245,13 +245,17 @@ private:
     int32_t right_drive_power = 0;
 
     /** The PID used for left motors velocity */
-    PID left_velocity_pid = PID(Constants::PID2::Drive::Velocity::Kp,
-                                Constants::PID2::Drive::Velocity::Kd,
-                                Constants::PID2::Drive::Velocity::Ki);
+    PID left_velocity_pid = PID(Constants::PID::Drive::Velocity::Kp,
+                                Constants::PID::Drive::Velocity::Kd,
+                                Constants::PID::Drive::Velocity::Ki);
     /** The PID used for right motors velocity */
-    PID right_velocity_pid = PID(Constants::PID2::Drive::Velocity::Kp,
-                                 Constants::PID2::Drive::Velocity::Kd,
-                                 Constants::PID2::Drive::Velocity::Ki);
+    PID right_velocity_pid = PID(Constants::PID::Drive::Velocity::Kp,
+                                 Constants::PID::Drive::Velocity::Kd,
+                                 Constants::PID::Drive::Velocity::Ki);
+    /** The PID used for turning */
+    PID angular_pid = PID(Constants::PID::Drive::Angular::Kp,
+                          Constants::PID::Drive::Angular::Kd,
+                          Constants::PID::Drive::Angular::Ki);
 
     /** Type of drive control to use. */
     Constants::DriveType drive_type;

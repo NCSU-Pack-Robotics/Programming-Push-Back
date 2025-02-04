@@ -7,6 +7,8 @@
  */
 class AbstractSubsystem {
 public:
+    virtual ~AbstractSubsystem() = default;
+
     // Delete copy constructor and assignment operator
     AbstractSubsystem(const AbstractSubsystem &) = delete;
     AbstractSubsystem &operator=(const AbstractSubsystem &) = delete;

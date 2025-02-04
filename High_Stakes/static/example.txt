@@ -1,0 +1,20 @@
+0, 0, 78.077
+2, 0, 74.753
+4, 0, 71.274
+6, 0, 67.617
+8, 0, 63.75
+10, 0, 59.632
+12, 0, 55.209
+14, 0, 50.398
+16, 0, 45.078
+18, 0, 39.038
+20, 0, 31.875
+22, 0, 22.539
+24, 0, 0
+24, 0, 0
+endData
+127
+100
+200
+0, 0, 12, 0, 12, 0, 24, 0
+#PATH.JERRYIO-DATA {"appVersion":"0.8.3","format":"LemLib v0.5","gc":{"robotWidth":11.811023622047244,"robotHeight":11.811023622047244,"robotIsHolonomic":false,"showRobot":true,"uol":2.54,"pointDensity":2,"controlMagnetDistance":0.7750015500031,"fieldImage":{"displayName":"V5RC 2025 - High Stakes","signature":"V5RC 2025 - High Stakes","origin":{"__type":"built-in"}},"coordinateSystem":"Cartesian Plane"},"paths":[{"segments":[{"controls":[{"uid":"dimtS7cjCg","x":0,"y":0,"lock":false,"visible":true,"heading":0,"__type":"end-point"},{"uid":"LAGAC6iD2o","x":24,"y":0,"lock":false,"visible":true,"heading":90,"__type":"end-point"}],"speedProfiles":[],"lookaheadKeyframes":[],"uid":"s6nqqOBrjD"}],"pc":{"speedLimit":{"minLimit":{"value":0,"label":"0"},"maxLimit":{"value":127,"label":"127"},"step":1,"from":20,"to":100},"bentRateApplicableRange":{"minLimit":{"value":0,"label":"0"},"maxLimit":{"value":1,"label":"1"},"step":0.001,"from":0,"to":0.1},"maxDecelerationRate":127},"name":"Path","uid":"4baJ0YSuB7","lock":false,"visible":true}]}

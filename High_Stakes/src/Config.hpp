@@ -59,15 +59,26 @@ namespace Constants {
      * Namespace for PID constants used to set drive train velocity.
      * # TODO: Tune
     */
-    namespace PID2::Drive::Velocity {
-        /** PID Proportional coefficient for position calculations */
-        constexpr double Kp = 0.0;
-        /** PID Derivative coefficient for position calculations */
-        constexpr double Kd = 0.0;
-        /** PID Integral coefficient for position calculations */
-        constexpr double Ki = 0.0;
+    namespace PID::Drive {
+        namespace Velocity{
+            /** PID Proportional coefficient for position calculations */
+            constexpr double Kp = 0.0;
+            /** PID Derivative coefficient for position calculations */
+            constexpr double Kd = 0.0;
+            /** PID Integral coefficient for position calculations */
+            constexpr double Ki = 0.0;
+        }
+
+        namespace Angular {
+            /** PID Proportional coefficient for angular calculations */
+            constexpr double Kp = 0.0;
+            /** PID Derivative coefficient for angular calculations */
+            constexpr double Kd = 0.0;
+            /** PID Integral coefficient for angular calculations */
+            constexpr double Ki = 0.0;
+        }
     }
-  
+
     /**
      * This namespace is to be used for the starting configuration of the robot.
      * Specifically, this namespace is for the initial pose of the robot.

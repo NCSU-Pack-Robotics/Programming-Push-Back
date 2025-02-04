@@ -61,7 +61,7 @@ void Drivetrain::initialize() {
                          Constants::Initial::Pose::INITIAL_HEADING};
 
     // Initialize calculate
-     odometry = std::make_unique<Odometry>(initial_pose, *this);
+    odometry = std::make_unique<Odometry>(initial_pose, *this);
 }
 
 void Drivetrain::periodic() {
@@ -99,7 +99,11 @@ void Drivetrain::set_voltage(int32_t left_mV, int32_t right_mV) {
     drive_type = Constants::DriveType::VOLTAGE;
 }
 
-void Drivetrain::set_drive_power(int32_t left_power, int32_t right_power) {
+void Drivetrain::set_drive_power(int32_t left_power, int32_t right_power) {\
+    // Ensure motors are set to coast
+    left_motors->set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+    left_motors->set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+
     left_drive_power = std::clamp(left_power, INT32_C(-127), INT32_C(127));
     right_drive_power = std::clamp(right_power, INT32_C(-127), INT32_C(127));
 
@@ -113,6 +117,10 @@ void Drivetrain::brake() {
 }
 
 void Drivetrain::set_velocity(const double target_left_velocity, const double target_right_velocity) {
+    // Ensure motors are set to coast
+    left_motors->set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+    right_motors->set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+
     // Get current velocities from the motors
     const std::vector<double> left_velocities = left_motors->get_actual_velocity_all();
     const std::vector<double> right_velocities = right_motors->get_actual_velocity_all();
@@ -147,6 +155,22 @@ std::pair<double, double> Drivetrain::get_position() const {
 
 double Drivetrain::rpm_to_ips(double const rpm) {
     return rpm * Constants::Hardware::TRACKING_DIAMETER * Constants::Math::PI * Constants::Hardware::TRACKING_RATIO / 60;
+}
+
+void Drivetrain::brake() {
+    // Set brake mode to hold
+    left_motors->set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+    right_motors->set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+
+    // Clear old velocities
+    left_drive_power = 0;
+    right_drive_power = 0;
+    right_drive_voltage = 0;
+    left_drive_voltage = 0;
+
+    // Stop the motors in place
+    left_motors->brake();
+    right_motors->brake();
 }
 
 Pose Drivetrain::get_pose() const {
