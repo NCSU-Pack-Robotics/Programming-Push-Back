@@ -9,7 +9,7 @@
  * @param delimiter string separating the elements in the line
  * @return array of elements read from the file
  */
-std::vector<std::string> readElement(const std::string &input, const std::string &delimiter) {
+std::vector<std::string> read_element(const std::string &input, const std::string &delimiter) {
     std::string s = input;
     std::vector<std::string> output;
     size_t pos = 0;
@@ -33,7 +33,7 @@ std::vector<std::string> readElement(const std::string &input, const std::string
  * @param input the string to convert
  * @return std::string hexadecimal output
  */
-std::string stringToHex(const std::string &input) {
+std::string string_to_hex(const std::string &input) {
     static constexpr char hex_digits[] = "0123456789ABCDEF";
 
     std::string output;
@@ -51,32 +51,32 @@ std::string stringToHex(const std::string &input) {
  * @param path The asset containing the path to follow
  * @return vector of pose points on the path
  */
-std::vector<Pose> getData(const asset &path) {
+std::vector<Pose> get_data(const asset &path) {
     std::vector<Pose> robotPath;
 
     // format data from the asset
     const std::string data(reinterpret_cast<char *>(path.buf), path.size);
-    const std::vector<std::string> dataLines = readElement(data, "\n");
+    const std::vector<std::string> data_lines = read_element(data, "\n");
 
     // read the points until 'endData' is read
-    for (std::string line: dataLines) {
+    for (std::string line: data_lines) {
         // parse line
         if (line == "endData" || line == "endData\r") break;
-        const std::vector<std::string> pointInput = readElement(line, ", ");
+        const std::vector<std::string> point_input = read_element(line, ", ");
 
         // check if the line was read correctly
-        if (pointInput.size() != 3) {
+        if (point_input.size() != 3) {
             fprintf(stderr,
                     "Failed to read path file! Are you using the right format? Raw line: {%s}",
-                    stringToHex(line).c_str());
+                    string_to_hex(line).c_str());
             break;
         }
 
-        Pose pathPoint(0, 0, 0);
-        pathPoint.x = std::stof(pointInput.at(0)); // x position
-        pathPoint.y = std::stof(pointInput.at(1)); // y position
-        pathPoint.heading = std::stof(pointInput.at(2)); // velocity
-        robotPath.push_back(pathPoint); // save data
+        Pose path_point(0, 0, 0);
+        path_point.x = std::stof(point_input.at(0)); // x position
+        path_point.y = std::stof(point_input.at(1)); // y position
+        path_point.heading = std::stof(point_input.at(2)); // velocity
+        robotPath.push_back(path_point); // save data
     }
 
     return robotPath;
@@ -89,15 +89,15 @@ std::vector<Pose> getData(const asset &path) {
  * @param path - the path to follow
  * @return The closest point on the path to the robot
  */
-Pose getClosestPoint(const Pose &pose, const std::vector<Pose> &path) {
-    Pose closestPoint(path[0].x, path[0].y, path[0].heading);
+Pose get_closest_point(const Pose &pose, const std::vector<Pose> &path) {
+    Pose closest_point(path[0].x, path[0].y, path[0].heading);
     for (Pose point: path) {
-        if (pose.distance(point) < pose.distance(closestPoint)) {
-            closestPoint = point;
+        if (pose.distance(point) < pose.distance(closest_point)) {
+            closest_point = point;
         }
     }
 
-    return closestPoint;
+    return closest_point;
 }
 
 /**
@@ -108,19 +108,19 @@ Pose getClosestPoint(const Pose &pose, const std::vector<Pose> &path) {
  *
  * @param pose - the current position of the robot
  * @param path - the path to follow
- * @param lookaheadDist - the lookahead distance of the algorithm
+ * @param lookahead_dist - the lookahead distance of the algorithm
  * @return The lookahead point on the path
  */
-Pose getLookaheadPoint(const Pose &pose, const std::vector<Pose> &path, const double lookaheadDist) {
+Pose get_lookahead_point(const Pose &pose, const std::vector<Pose> &path, const double lookahead_dist) {
     // Find the lookahead point in the direction of the robot's heading
-    const Pose rawLookahead(pose.x + lookaheadDist * std::cos(pose.heading),
-                            pose.y + lookaheadDist * std::sin(pose.heading), 0);
+    const Pose raw_lookahead(pose.x + lookahead_dist * std::cos(pose.heading),
+                            pose.y + lookahead_dist * std::sin(pose.heading), 0);
 
     // Find the point on the path closest to the lookahead point
-    return getClosestPoint(rawLookahead, path);
+    return get_closest_point(raw_lookahead, path);
 }
 
-PurePursuit::PurePursuit(const asset &path) : path(getData(path)) {
+PurePursuit::PurePursuit(const asset &path) : path(get_data(path)) {
     if (this->path.empty()) {
         fprintf(stderr, "No points in path! Do you have the right format? Skipping motion");
         return;
@@ -139,13 +139,13 @@ void PurePursuit::periodic() {
         return;
     }
 
-    const Pose lookaheadPoint = getLookaheadPoint(pose, path, lookahead);
+    const Pose lookahead_point = get_lookahead_point(pose, path, lookahead);
 
     // Get variables to make equation less cluttered
     const double m = tan(fmod(pose.heading, M_PI / 2) == 0 ? pose.heading + 1e-9 : pose.heading);  // slope of the robot
     // const double m = tan(pose.heading);  // slope of the robot
-    const double xl = lookaheadPoint.x; // x of the lookahead point
-    const double yl = lookaheadPoint.y; // y of the lookahead point
+    const double xl = lookahead_point.x; // x of the lookahead point
+    const double yl = lookahead_point.y; // y of the lookahead point
     const double x = pose.x; // x of the robot
     const double y = pose.y; // y of the robot
 
@@ -157,29 +157,31 @@ void PurePursuit::periodic() {
     double curvature = 1 / radius;
 
     // Get target velocity from the path
-    const double targetVel = getClosestPoint(pose, path).heading;
+    const double target_vel = get_closest_point(pose, path).heading;
 
     // Add sign to curvature based on the side of the robot the lookahead point is on
-    const double dTheta = atan2(lookaheadPoint.y - pose.y, lookaheadPoint.x - pose.x) - pose.heading;
-    const double side = dTheta > 0 ? -1 : 1;  // -1 for left, 1 for right
+    const double d_theta = atan2(lookahead_point.y - pose.y, lookahead_point.x - pose.x) - pose.heading;
+    const double side = d_theta > 0 ? -1 : 1;  // -1 for left, 1 for right
     curvature *= side;
 
     // calculate target left and right velocities
-    double targetLeftVel = targetVel * (2 + curvature * (Constants::Hardware::ROBOT_DIAMETER)) / 2;
-    double targetRightVel = targetVel * (2 - curvature * (Constants::Hardware::ROBOT_DIAMETER)) / 2;
+    double target_left_vel = target_vel * (2 + curvature * (Constants::Hardware::ROBOT_DIAMETER)) / 2;
+    double target_right_vel = target_vel * (2 - curvature * (Constants::Hardware::ROBOT_DIAMETER)) / 2;
 
     // ratio the speeds to respect the max speed
-    const double ratio = std::max(std::fabs(targetLeftVel), std::fabs(targetRightVel)) / 80;
+    const double ratio = std::max(std::fabs(target_left_vel), std::fabs(target_right_vel)) / 80;
     if (ratio > 1) {
-        targetLeftVel /= ratio;
-        targetRightVel /= ratio;
+        target_left_vel /= ratio;
+        target_right_vel /= ratio;
     }
 
     // Set power
-    drivetrain.set_drive_power(static_cast<int>(targetLeftVel), static_cast<int>(targetRightVel));
+    drivetrain.set_drive_power(static_cast<int>(target_left_vel), static_cast<int>(target_right_vel));
 }
 
 void PurePursuit::shutdown() {
+    printf("DONE!\n");
+
     // stop the robot
     drivetrain.brake();
 }

@@ -99,11 +99,11 @@ private:
     public:
         /**
          * Constructor for the Odometry class.
-         * @param initialPose The initial pose of the robot.
+         * @param initial_pose The initial pose of the robot.
          * @param drivetrain The drivetrain subsystem.
          */
-        explicit Odometry(Pose initialPose, Drivetrain &drivetrain)
-            : drivetrain(drivetrain), pose(initialPose) {
+        explicit Odometry(Pose initial_pose, Drivetrain &drivetrain)
+            : drivetrain(drivetrain), pose(initial_pose) {
         }
 
         /**
