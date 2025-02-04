@@ -13,6 +13,8 @@
  */
 class Command {
 public:
+    virtual ~Command() = default;
+
     /**
      * Called when the command needs to be run. It will call initialize() once, then periodic()
      * until is_complete() returns true, then shutdown() once. If follow_up() returns a non-null
