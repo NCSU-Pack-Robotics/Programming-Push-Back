@@ -85,8 +85,6 @@ void autonomous() {
     while (true) {
         follow_path->run();
 
-        pros::screen::print(pros::E_TEXT_MEDIUM, 3, drivetrain.get_pose().to_string().c_str());
-
         for (AbstractSubsystem* subsystem : subsystems) {
             subsystem->periodic();
         }

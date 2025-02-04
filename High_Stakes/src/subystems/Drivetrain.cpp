@@ -137,7 +137,7 @@ double Drivetrain::rpm_to_ips(double const rpm) {
     return rpm * Constants::Hardware::TRACKING_DIAMETER * Constants::Math::PI * Constants::Hardware::TRACKING_RATIO / 60;
 }
 
-void Drivetrain::stop() {
+void Drivetrain::brake() {
     // Set brake mode to hold
     left_motors->set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
     right_motors->set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);

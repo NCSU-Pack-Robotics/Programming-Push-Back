@@ -48,7 +48,7 @@ public:
     /**
      * Stop the robot immediately.
      */
-    void stop();
+    void brake();
 
     /**
      * Get the position of the left and right motors in degrees.

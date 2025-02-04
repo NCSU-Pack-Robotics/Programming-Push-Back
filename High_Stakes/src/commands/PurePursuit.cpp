@@ -121,7 +121,7 @@ Pose getLookaheadPoint(const Pose &pose, const std::vector<Pose> &path, const do
 }
 
 PurePursuit::PurePursuit(const asset &path) : path(getData(path)) {
-    if (this->path.size() == 0) {
+    if (this->path.empty()) {
         fprintf(stderr, "No points in path! Do you have the right format? Skipping motion");
         return;
     }
@@ -175,19 +175,15 @@ void PurePursuit::periodic() {
         targetRightVel /= ratio;
     }
 
-    drivetrain.set_drive_power(targetLeftVel, targetRightVel);
-
-    // Debugging
-    // printf("Last Point: %s\n", path.back().to_string().c_str());
-    printf("Curvature: %9f | Velocity: %9f | Motors: %4.0f %4.0f| Pose: %50s | Target X: %9f Y: %9f | Distance: %f\n | Done: %d\n",
-        curvature, targetVel, targetLeftVel, targetRightVel, pose.to_string().c_str(), lookaheadPoint.x, lookaheadPoint.y, pose.distance(path.back()), done);
+    // Set power
+    drivetrain.set_drive_power(static_cast<int>(targetLeftVel), static_cast<int>(targetRightVel));
 }
 
 void PurePursuit::shutdown() {
     printf("DONE!\n");
 
     // stop the robot
-    drivetrain.stop();
+    drivetrain.brake();
 }
 
 bool PurePursuit::is_complete() {
