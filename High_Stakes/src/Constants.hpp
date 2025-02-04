@@ -37,7 +37,7 @@ namespace Constants {
          *     • Measured between outer omni rollers
          *     • Measured in inches
         */
-        constexpr double TRACKING_DIAMETER = 3.1875;
+        constexpr double TRACKING_DIAMETER = 2.6875;
 
         /** Ratio of tracking wheel upper gear to lower wheel gear */
         constexpr double TRACKING_RATIO = 36.0 / 60.0;
