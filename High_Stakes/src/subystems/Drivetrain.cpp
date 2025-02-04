@@ -110,12 +110,6 @@ void Drivetrain::set_drive_power(int32_t left_power, int32_t right_power) {\
     drive_type = Constants::DriveType::POWER;
 }
 
-void Drivetrain::brake() {
-    left_motors->brake();
-    right_motors->brake();
-    set_drive_power(0,0);
-}
-
 void Drivetrain::set_velocity(const double target_left_velocity, const double target_right_velocity) {
     // Ensure motors are set to coast
     left_motors->set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
@@ -159,8 +153,8 @@ double Drivetrain::rpm_to_ips(double const rpm) {
 
 void Drivetrain::brake() {
     // Set brake mode to hold
-    left_motors->set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
-    right_motors->set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+    left_motors->set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
+    right_motors->set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
 
     // Clear old velocities
     left_drive_power = 0;
