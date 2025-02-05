@@ -35,6 +35,10 @@ void DriverControlScheduler::periodic() {
 
     drivetrain.set_drive_power(left_power_scaled, right_power_scaled);
 
+    if (left_power_scaled < 1 && right_power_scaled < 1) return;
+
+    drivetrain.set_braking(false);
+
     for (auto &[button, command] : Constants::Controller::BINDS) {
         // controller state for this tick
         const bool new_controller_state = controller.get_digital(button);

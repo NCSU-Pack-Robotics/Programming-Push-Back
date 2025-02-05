@@ -46,8 +46,16 @@ public:
      */
     void set_velocity(double target_left_velocity, double target_right_velocity);
 
-    /** Applies the breaks and sets the speed to 0 */
-    void brake();
+    /** Sets the robot to be breaking. When it is in this state all methods that would usually move the robot will not work
+     * @returns The previous brake state.
+     */
+    bool set_braking(bool braking);
+
+    /** Sets the robot to be reversing. All motor inputs will be reversed. This is done by changing each motors reversal value
+     * so that odometry still works
+     * @returns The previous reversal state.
+     */
+    bool set_reversing(bool reversing);
 
     /**
      * Get the position of the left and right motors in degrees.
@@ -68,6 +76,11 @@ private:
     int32_t left_drive_voltage = 0;
     /** Voltage in mV to set motors to. Will be between -12,000 and +12,000. */
     int32_t right_drive_voltage = 0;
+
+    /** The current braking state of the robot */
+    bool braking;
+    /** The current reversal state of the robot */
+    bool reversing;
 
     /**
     * This is the Odometry class. It is responsible for keeping track of the robot's

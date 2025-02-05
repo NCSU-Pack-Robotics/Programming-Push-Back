@@ -18,7 +18,7 @@ bool TurnAround::is_complete() {
     printf("difference: %f\n", fabs(drivetrain->get_pose().heading - starting_heading));
     if (fabs(drivetrain->get_pose().heading - starting_heading) >= M_PI) {
         printf("returning");
-        drivetrain->brake();
+        drivetrain->set_braking(true);
         return true;
     }
     return false;

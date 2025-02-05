@@ -55,6 +55,9 @@ void Drivetrain::initialize() {
     left_motors->set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
     right_motors->set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
 
+    reversing = false;
+    braking = false;
+
     // Construct initial pose
     Pose initial_pose = {Constants::Initial::Pose::INITIAL_X,
                          Constants::Initial::Pose::INITIAL_Y,
@@ -67,6 +70,20 @@ void Drivetrain::initialize() {
 void Drivetrain::periodic() {
     // Calculate the pose of the robot
     this->odometry->calculate();
+
+    if (braking) {
+        // Clear old velocities
+        left_drive_power = 0;
+        right_drive_power = 0;
+        right_drive_voltage = 0;
+        left_drive_voltage = 0;
+        // set braking
+        left_motors->brake();
+        right_motors->brake();
+        // return so that it keeps braking
+        return;
+    }
+
     switch (drive_type) {
         case Constants::DriveType::POWER: {
             left_motors->move(left_drive_power);
@@ -99,7 +116,7 @@ void Drivetrain::set_voltage(int32_t left_mV, int32_t right_mV) {
     drive_type = Constants::DriveType::VOLTAGE;
 }
 
-void Drivetrain::set_drive_power(int32_t left_power, int32_t right_power) {\
+void Drivetrain::set_drive_power(int32_t left_power, int32_t right_power) {
     // Ensure motors are set to coast
     left_motors->set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
     left_motors->set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
@@ -135,6 +152,43 @@ void Drivetrain::set_velocity(const double target_left_velocity, const double ta
     set_voltage(left_voltage, right_voltage);
 }
 
+bool Drivetrain::set_braking(const bool braking) {
+    // Don't need to do anything if its already in the right mode
+    if (braking == this->braking) return braking;
+    bool old = this->braking;
+
+    if (braking) {
+        left_motors->set_brake_mode_all(pros::E_MOTOR_BRAKE_BRAKE);
+        right_motors->set_brake_mode_all(pros::E_MOTOR_BRAKE_BRAKE);
+    } else {
+        left_motors->set_brake_mode_all(pros::E_MOTOR_BRAKE_COAST);
+        right_motors->set_brake_mode_all(pros::E_MOTOR_BRAKE_COAST);
+    }
+
+    this->braking = braking;
+    return old;
+}
+
+bool Drivetrain::set_reversing(const bool reversing) {
+    // Don't need to do anything if its already in the right mode
+    if (reversing == this->reversing) return reversing;
+    bool old = this->reversing;
+
+    // reverse all motors
+    std::vector<int32_t> left_motors_reversed = this->left_motors->is_reversed_all();
+    for (int i = 0; i < left_motors_reversed.size(); i++) {
+        this->left_motors->set_reversed(abs(left_motors_reversed[i] - 1), i);
+    }
+
+    std::vector<int32_t> right_motors_reversed = this->right_motors->is_reversed_all();
+    for (int i = 0; i < right_motors_reversed.size(); i++) {
+        this->right_motors->set_reversed(abs(right_motors_reversed[i] - 1), i);
+    }
+
+    this->reversing = reversing;
+    return old;
+}
+
 std::pair<double, double> Drivetrain::get_position() const {
     // Get current positions from the motors
     const std::vector<double> left_positions = left_motors->get_position_all();
@@ -149,22 +203,6 @@ std::pair<double, double> Drivetrain::get_position() const {
 
 double Drivetrain::rpm_to_ips(double const rpm) {
     return rpm * Constants::Hardware::TRACKING_DIAMETER * Constants::Math::PI * Constants::Hardware::TRACKING_RATIO / 60;
-}
-
-void Drivetrain::brake() {
-    // Set brake mode to hold
-    left_motors->set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
-    right_motors->set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
-
-    // Clear old velocities
-    left_drive_power = 0;
-    right_drive_power = 0;
-    right_drive_voltage = 0;
-    left_drive_voltage = 0;
-
-    // Stop the motors in place
-    left_motors->brake();
-    right_motors->brake();
 }
 
 Pose Drivetrain::get_pose() const {
