@@ -9,4 +9,5 @@ StartLiftingUp::StartLiftingUp() {
 void StartLiftingUp::execute() {
     Lift& lift = AbstractSubsystem::get_instance<Lift>();
     lift.set_drive_power(Constants::Controller::MotorSpeeds::LIFT_UP);
+    // TODO: Run at 50% power if LadyBrown is in LOAD position
 }

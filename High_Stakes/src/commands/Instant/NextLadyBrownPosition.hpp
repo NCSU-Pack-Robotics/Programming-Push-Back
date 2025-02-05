@@ -1,8 +1,8 @@
 #pragma once
 #include "../../Command.hpp"
-class LadyBrownDown : public InstantCommand {
+class NextLadyBrownPosition : public InstantCommand {
 public:
-    LadyBrownDown();
+    NextLadyBrownPosition();
 protected:
     void execute() override;
 };

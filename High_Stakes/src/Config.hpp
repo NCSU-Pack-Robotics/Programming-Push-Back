@@ -92,4 +92,16 @@ namespace Constants {
         /** The initial heading of the robot */
         constexpr double INITIAL_HEADING = 0;
     }
+
+    namespace LadyBrown {
+        /** An enum that contains the possible positions of the LadyBrown */
+        enum Position { STOW, LOAD, SCORE };
+
+        /** A map of the positions and their rotation in centidegrees */
+        inline std::array<std::pair<Position, int32_t>, 3> Positions{
+            std::pair{Position::STOW, 0},
+            std::pair{Position::LOAD, 4800},
+            std::pair{Position::SCORE, 20500},
+        };
+    }
 }
