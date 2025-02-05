@@ -1,5 +1,7 @@
 #include "Drivetrain.hpp"
 #include <numeric>
+#include <set>
+
 #include "../ports.hpp"
 
 Drivetrain::Drivetrain() : AbstractSubsystem() {
@@ -48,12 +50,11 @@ void Drivetrain::initialize() {
     right_motors->tare_position_all();
 
     // Ensure motors are stopped
-    left_motors->move_velocity(0);
-    right_motors->move_velocity(0);
+    brake();
 
     // Set the brake mode on the motors
-    left_motors->set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
-    right_motors->set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
+    left_motors->set_brake_mode_all(pros::E_MOTOR_BRAKE_BRAKE);
+    right_motors->set_brake_mode_all(pros::E_MOTOR_BRAKE_BRAKE);
 
     reversing = false;
     braking = false;
@@ -167,6 +168,19 @@ bool Drivetrain::set_braking(const bool braking) {
 
     this->braking = braking;
     return old;
+}
+
+void Drivetrain::brake() {
+    set_braking(true);
+
+    // Set all motor powers to 0
+    left_drive_voltage = 0;
+    right_drive_voltage = 0;
+    left_drive_power = 0;
+    right_drive_power = 0;
+
+    left_motors->brake();
+    right_motors->brake();
 }
 
 bool Drivetrain::set_reversing(const bool reversing) {

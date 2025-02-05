@@ -2,6 +2,11 @@
 
 #include <cmath>
 
+/** Constant to multiply curvature by to turn left. */
+#define LEFT (-1.0)
+/** Constant to multiply curvature by to turn right. */
+#define RIGHT 1.0
+
 /**
  * @brief function that returns elements in a file line, separated by a delimiter
  *
@@ -128,6 +133,7 @@ PurePursuit::PurePursuit(const asset &path) : path(get_data(path)) {
 }
 
 void PurePursuit::initialize() {
+    done = false;
 }
 
 void PurePursuit::periodic() {
@@ -160,8 +166,9 @@ void PurePursuit::periodic() {
     const double target_vel = get_closest_point(pose, path).heading;
 
     // Add sign to curvature based on the side of the robot the lookahead point is on
-    const double d_theta = atan2(lookahead_point.y - pose.y, lookahead_point.x - pose.x) - pose.heading;
-    const double side = d_theta > 0 ? -1 : 1;  // -1 for left, 1 for right
+    const double dx = lookahead_point.x - pose.x;
+    const double dy = lookahead_point.y - pose.y;
+    const double side = dx * sin(pose.heading) - dy * cos(pose.heading);
     curvature *= side;
 
     // calculate target left and right velocities
@@ -169,7 +176,7 @@ void PurePursuit::periodic() {
     double target_right_vel = target_vel * (2 - curvature * (Constants::Hardware::ROBOT_DIAMETER)) / 2;
 
     // ratio the speeds to respect the max speed
-    const double ratio = std::max(std::fabs(target_left_vel), std::fabs(target_right_vel)) / 80;
+    const double ratio = std::max(std::fabs(target_left_vel), std::fabs(target_right_vel)) / 56;
     if (ratio > 1) {
         target_left_vel /= ratio;
         target_right_vel /= ratio;
@@ -177,6 +184,14 @@ void PurePursuit::periodic() {
 
     // Set power
     drivetrain.set_drive_power(static_cast<int>(target_left_vel), static_cast<int>(target_right_vel));
+
+    // Debugging
+    // printf("Curvature: %9f | Velocity: %9f | Motors: %4.0f %4.0f| Pose: %50s | Target X: %9f Y: %9f | Distance: %f\n",
+    //     curvature, target_vel, target_left_vel, target_right_vel, pose.to_string().c_str(),
+    //     lookahead_point.x, lookahead_point.y, pose.distance(path.back()));
+
+    // Printing for graph via csv
+    // printf("%f, %f, %f, %f\n", pose.x, pose.y, lookahead_point.x, lookahead_point.y);
 }
 
 void PurePursuit::shutdown() {

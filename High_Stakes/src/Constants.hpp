@@ -41,7 +41,7 @@ namespace Constants {
         constexpr double TRACKING_DIAMETER = 2.6875;
 
         /** Ratio of tracking wheel upper gear to lower wheel gear */
-        constexpr double TRACKING_RATIO = 36.0 / 60.0;
+        constexpr double TRACKING_RATIO = 1.0;
 
         /**
          * The diameter of a tracking wheel
@@ -72,11 +72,11 @@ namespace Constants {
      * At the time of writing, this only pertains to pure pursuit, but could include others as well.
      */
     namespace PathFollowing {
-        /** In pure pursuit, the distance from the robot to the lookahead point */
-        constexpr double LOOKAHEAD_DISTANCE = 12;
+        /** In pure pursuit, the distance from the robot to the lookahead point (inches) */
+        constexpr double LOOKAHEAD_DISTANCE = 9.0;
 
-        /** In pure pursuit, the distance from the target point before the robot stops */
-        constexpr double STOP_DISTANCE = Hardware::ROBOT_RADIUS;
+        /** In pure pursuit, the distance from the target point before the robot stops (inches) */
+        constexpr double STOP_DISTANCE = 0.5;
     }
 
 }

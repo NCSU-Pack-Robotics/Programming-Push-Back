@@ -51,6 +51,11 @@ public:
      */
     bool set_braking(bool braking);
 
+    /**
+     * Immediately stops the robot, setting all power and voltage power to 0.
+     */
+    void brake();
+
     /** Sets the robot to be reversing. All motor inputs will be reversed. This is done by changing each motors reversal value
      * so that odometry still works
      * @returns The previous reversal state.

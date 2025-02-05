@@ -6,7 +6,7 @@
 #include "subystems/HookSensor.hpp"
 // #include "subystems/LadyBrown.hpp"
 #include "DriverControlScheduler.hpp"
-#include "asset.hpp"
+#include "AutonomousControlScheduler.hpp"
 #include "commands/PurePursuit.hpp"
 
 // Create all subsystems:
@@ -22,11 +22,6 @@ std::vector<AbstractSubsystem*> subsystems = {&drivetrain, &lift, &intake, &clam
 
 /** Controller object */
 pros::Controller controller{pros::E_CONTROLLER_MASTER};
-
-DriverControlScheduler driver_control_scheduler{};
-
-// example_txt is of type asset&
-ASSET(curve1_txt);
 
 /**
  * Runs initialization code. This occurs as soon as the program is started.
@@ -83,18 +78,22 @@ void competition_initialize() {
  * from where it left off.
  */
 void autonomous() {
-    const auto follow_path = new PurePursuit(curve1_txt);
-    drivetrain.initialize();
+    // Initialize the autonomous scheduler
+    AutonomousControlScheduler scheduler{};
+    scheduler.initialize();
 
     // Run disabled periodic for all subsystems
     while (true) {
-        follow_path->run();
+        // Run the autonomous scheduler to do our routine
+        scheduler.run();
 
+        // Run periodic for all subsystems
         for (AbstractSubsystem* subsystem : subsystems) {
             subsystem->periodic();
         }
 
-        pros::delay(50);
+        // Delay the loop to prevent the CPU from being overwhelmed
+        pros::delay(5);
     }
 }
 
@@ -112,9 +111,14 @@ void autonomous() {
  * task, not resume it from where it left off.
  */
 void opcontrol() {
+    // Initialize the driver control scheduler
+    DriverControlScheduler scheduler{};
+    scheduler.initialize();
+
     while (true) {
-        // Run the driver control scheduler, which gets input and sets all the motors.
-        driver_control_scheduler.run();
+        // Run the driver control scheduler to get inputs from controller
+        scheduler.run();
+
         // Run periodic for all subsystems
         for (AbstractSubsystem* subsystem : subsystems) {
             subsystem->periodic();
