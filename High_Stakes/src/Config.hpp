@@ -32,7 +32,7 @@ namespace Constants {
         }
 
         /** The scaling factor used for scaling the controller input */
-        constexpr int32_t INPUT_SCALING_FACTOR = 50;
+        constexpr int32_t INPUT_SCALING_FACTOR = 15;
 
         /** Keybindings. They are mapped like: button -> [button_just_pressed_event, button_down_event,
          * button_just_released_event].
