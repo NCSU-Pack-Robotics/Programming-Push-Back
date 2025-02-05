@@ -8,13 +8,16 @@ void TurnAround::initialize() {
 }
 
 void TurnAround::periodic() {
-    double output = heading_pid.calculate(180 - (drivetrain->get_pose().heading - starting_heading));
-    printf("output: %f", output);
-    // drivetrain->set_drive_power(127, -127);
+    double output = heading_pid.calculate(M_PI - fabs(drivetrain->get_pose().heading - starting_heading));
+    printf("heading: %f\n", drivetrain->get_pose().heading);
+    printf("output: %f\n", output);
+    drivetrain->set_voltage(output, -output);
 }
 
 bool TurnAround::is_complete() {
-    if (starting_heading - drivetrain->get_pose().heading >= 180) {
+    printf("difference: %f\n", fabs(drivetrain->get_pose().heading - starting_heading));
+    if (fabs(drivetrain->get_pose().heading - starting_heading) >= M_PI) {
+        printf("returning");
         drivetrain->brake();
         return true;
     }
@@ -22,6 +25,6 @@ bool TurnAround::is_complete() {
 }
 
 void TurnAround::shutdown() {
-
+    printf("shutting down");
 }
 

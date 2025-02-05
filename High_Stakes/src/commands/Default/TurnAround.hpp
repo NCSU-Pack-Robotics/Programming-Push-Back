@@ -1,6 +1,5 @@
 #pragma once
 #include "../../Command.hpp"
-// #include "../../subystems/Drivetrain.hpp"
 #include "../../AbstractSubsystem.hpp"
 #include "../../math/PID.hpp"
 
@@ -21,6 +20,5 @@ private:
     double starting_heading;
     /** The target heading */
     double target_heading;
-
-    PID heading_pid = PID(1,0,0);
+    PID heading_pid = PID(4200,0,0);
 };
