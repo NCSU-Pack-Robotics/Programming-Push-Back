@@ -4,13 +4,15 @@
 #include "asset.hpp"
 
 // Global paths defined here
-ASSET(loop1_txt);
-ASSET(loop2_txt);
+ASSET(straight72_txt);
+ASSET(back72_txt);
 
 AutonomousControlScheduler::AutonomousControlScheduler(): ChainCommand({}) {
     // Add commands to the chain here
-    add_command_and(std::make_unique<PurePursuit>(loop1_txt)).
-        add_command(std::make_unique<PurePursuit>(loop2_txt));
+    add_command_and(std::make_unique<PurePursuit>(straight72_txt)).
+        add_command_and(std::make_unique<InstantCommand>(std::make_unique<std::function<void()>>([&] { drivetrain.set_reversing(true); }))).
+        add_command_and(std::make_unique<PurePursuit>(back72_txt)).
+        add_command(std::make_unique<InstantCommand>(std::make_unique<std::function<void()>>([&] {drivetrain.set_reversing(false); })));
 }
 
 void AutonomousControlScheduler::initialize() {
