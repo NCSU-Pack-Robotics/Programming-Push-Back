@@ -2,6 +2,7 @@
 #include "../../Command.hpp"
 
 #include "../../subystems/HookSensor.hpp"
+#include "../../subystems/LadyBrown.hpp"
 #include "../../subystems/Lift.hpp"
 /** This command continues move the lift in the upwards direction until
  * the hook sensor is covered by the hook, meaning it has been reset.
@@ -17,6 +18,8 @@ private:
     Lift& lift = AbstractSubsystem::get_instance<Lift>();
     /** A reference to the hook sensor */
     HookSensor& hook_sensor = AbstractSubsystem::get_instance<HookSensor>();
+    /** A reference to the LadyBrown */
+    LadyBrown& lady_brown = AbstractSubsystem::get_instance<LadyBrown>();
     /** A bool that is true if the sensor has already detected the lift has passed */
     bool has_passed;
 };

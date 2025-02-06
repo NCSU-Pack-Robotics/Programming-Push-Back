@@ -33,11 +33,16 @@ void DriverControlScheduler::periodic() {
     const int32_t left_power_scaled = scale_power(left_power, Constants::Controller::INPUT_SCALING_FACTOR);
     const int32_t right_power_scaled = scale_power(right_power, Constants::Controller::INPUT_SCALING_FACTOR);
 
-    drivetrain.set_drive_power(left_power_scaled, right_power_scaled);
+    
 
-    if (left_power_scaled < 1 && right_power_scaled < 1) return;
+    if (abs(left_power_scaled) > 1 || abs(right_power_scaled) > 1) {
+        drivetrain.set_drive_power(left_power_scaled, right_power_scaled);
+        drivetrain.set_braking(false);
+    } else {
+        drivetrain.set_drive_power(0,0);
+    }
 
-    drivetrain.set_braking(false);
+    
 
     for (auto &[button, command] : Constants::Controller::BINDS) {
         // controller state for this tick

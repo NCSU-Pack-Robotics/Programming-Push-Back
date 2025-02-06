@@ -4,7 +4,7 @@
 #include "subystems/Intake.hpp"
 #include "subystems/Clamp.hpp"
 #include "subystems/HookSensor.hpp"
-// #include "subystems/LadyBrown.hpp"
+#include "subystems/LadyBrown.hpp"
 #include "DriverControlScheduler.hpp"
 #include "AutonomousControlScheduler.hpp"
 #include "commands/PurePursuit.hpp"
@@ -15,10 +15,10 @@ Lift& lift = AbstractSubsystem::get_instance<Lift>();
 Intake& intake = AbstractSubsystem::get_instance<Intake>();
 Clamp& clamp = AbstractSubsystem::get_instance<Clamp>();
 HookSensor& hook_sensor = AbstractSubsystem::get_instance<HookSensor>();
-// LadyBrown& lady_brown = AbstractSubsystem::get_instance<LadyBrown>();
+LadyBrown& lady_brown = AbstractSubsystem::get_instance<LadyBrown>();
 
 // Add subsystems to vector for iteration
-std::vector<AbstractSubsystem*> subsystems = {&drivetrain, &lift, &intake, &clamp, &hook_sensor};
+std::vector<AbstractSubsystem*> subsystems = {&drivetrain, &lift, &intake, &clamp, &hook_sensor, &lady_brown};
 
 /** Controller object */
 pros::Controller controller{pros::E_CONTROLLER_MASTER};
@@ -125,6 +125,6 @@ void opcontrol() {
         }
 
         // Delay the loop to prevent the CPU from being overwhelmed
-        pros::delay(1);
+        pros::delay(2);
     }
 }

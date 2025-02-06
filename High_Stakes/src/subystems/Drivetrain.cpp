@@ -135,10 +135,6 @@ void Drivetrain::set_voltage(int32_t left_mV, int32_t right_mV) {
 }
 
 void Drivetrain::set_drive_power(int32_t left_power, int32_t right_power) {
-    // Ensure motors are set to coast
-    left_motors->set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
-    left_motors->set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
-
     left_drive_power = std::clamp(left_power, INT32_C(-127), INT32_C(127));
     right_drive_power = std::clamp(right_power, INT32_C(-127), INT32_C(127));
 
@@ -146,10 +142,6 @@ void Drivetrain::set_drive_power(int32_t left_power, int32_t right_power) {
 }
 
 void Drivetrain::set_velocity(const double target_left_velocity, const double target_right_velocity) {
-    // Ensure motors are set to coast
-    left_motors->set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
-    right_motors->set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
-
     // Get current velocities from the motors
     const std::vector<double> left_velocities = left_motors->get_actual_velocity_all();
     const std::vector<double> right_velocities = right_motors->get_actual_velocity_all();

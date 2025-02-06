@@ -8,6 +8,9 @@ void ResetLift::initialize() {
 
 void ResetLift::periodic() {
     
+    // Do not activate if LadyBrown is in stow position.
+    if (lady_brown.get_position() == LadyBrown::Position::STOW) return;
+
     if (hook_sensor.isBlocked()) {
         lift.brake();
         has_passed = true;
@@ -23,7 +26,7 @@ bool ResetLift::is_complete() {
 
 
 void ResetLift::shutdown() {
-    // TODO: Figure out why shutdown is never called ?!?
+
 }
 
 

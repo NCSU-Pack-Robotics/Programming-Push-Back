@@ -20,5 +20,5 @@ private:
     double starting_heading;
     /** The target heading */
     double target_heading;
-    PID heading_pid = PID(4200,0,0);
+    PID heading_pid = PID(6000,0,0);
 };

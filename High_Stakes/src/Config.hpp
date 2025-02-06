@@ -4,6 +4,7 @@
 #include "Command.hpp"
 #include "commands/Default/ResetLift.hpp"
 #include "commands/Default/TurnAround.hpp"
+#include "commands/Instant/NextLadyBrownPosition.hpp"
 #include "commands/Instant/StartClamping.hpp"
 #include "commands/Instant/StartIntakingIn.hpp"
 #include "commands/Instant/StartIntakingOut.hpp"
@@ -24,6 +25,8 @@ namespace Constants {
             constexpr int32_t LIFT_DOWN = -44;
             /** Lift speed used for resetting, it is slower so that the lift sensor can pick up a reading. */
             constexpr int32_t LIFT_RESET = 25;
+
+            constexpr double LIFT_LADYBROWN_SPEED_MULTIPLIER = 0.7;
           
             /** Motor speed of the intake going inwards */
             constexpr int32_t INTAKE_INWARDS = 127;
@@ -49,7 +52,7 @@ namespace Constants {
             {pros::E_CONTROLLER_DIGITAL_RIGHT, {std::nullopt, std::nullopt, std::nullopt}},
             {pros::E_CONTROLLER_DIGITAL_X, {std::nullopt, std::nullopt, std::nullopt}},
             {pros::E_CONTROLLER_DIGITAL_B, {[] { return std::make_unique<TurnAround>(); }, std::nullopt, std::nullopt}},
-            {pros::E_CONTROLLER_DIGITAL_Y, {std::nullopt, std::nullopt, std::nullopt}},
+            {pros::E_CONTROLLER_DIGITAL_Y, {[] { return std::make_unique<NextLadyBrownPosition>(); }, std::nullopt, std::nullopt}},
             {pros::E_CONTROLLER_DIGITAL_A, {[] { return std::make_unique<StartClamping>(); }, std::nullopt, [] { return std::make_unique<StopClamping>(); }}}
         };
     }
@@ -91,17 +94,5 @@ namespace Constants {
         constexpr double INITIAL_Y = 0;
         /** The initial heading of the robot */
         constexpr double INITIAL_HEADING = 0;
-    }
-
-    namespace LadyBrown {
-        /** An enum that contains the possible positions of the LadyBrown */
-        enum Position { STOW, LOAD, SCORE };
-
-        /** A map of the positions and their rotation in centidegrees */
-        inline std::array<std::pair<Position, int32_t>, 3> Positions{
-            std::pair{Position::STOW, 0},
-            std::pair{Position::LOAD, 4800},
-            std::pair{Position::SCORE, 20500},
-        };
     }
 }
