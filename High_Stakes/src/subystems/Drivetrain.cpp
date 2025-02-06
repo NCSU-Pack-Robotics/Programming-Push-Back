@@ -4,7 +4,14 @@
 
 #include "../ports.hpp"
 
+/** Constant to multiply drive powers by to move robot forward. */
+#define FORWARDS 1
+/** Constant to multiply drive powers by to move robot backwards. */
+#define BACKWARDS -1
+
 Drivetrain::Drivetrain() : AbstractSubsystem() {
+    this->reversing = false;
+    this->direction = FORWARDS;
 }
 
 void Drivetrain::initialize() {
@@ -87,14 +94,24 @@ void Drivetrain::periodic() {
 
     switch (drive_type) {
         case Constants::DriveType::POWER: {
-            left_motors->move(left_drive_power);
-            right_motors->move(right_drive_power);
+            if (reversing) {
+                right_motors->move(direction * left_drive_power);
+                left_motors->move(direction * right_drive_power);
+            } else {
+                left_motors->move(direction * left_drive_power);
+                right_motors->move(direction * right_drive_power);
+            }
 
             break;  // Fuck bitch fuck (NEED THIS)
         }
         case Constants::DriveType::VOLTAGE: {
-            left_motors->move_voltage(left_drive_voltage);
-            right_motors->move_voltage(right_drive_voltage);
+            if (reversing) {
+                right_motors->move_voltage(direction * left_drive_voltage);
+                left_motors->move_voltage(direction * right_drive_voltage);
+            } else {
+                left_motors->move_voltage(direction * left_drive_voltage);
+                right_motors->move_voltage(direction * right_drive_voltage);
+            }
 
             break;
         }
@@ -146,8 +163,8 @@ void Drivetrain::set_velocity(const double target_left_velocity, const double ta
     const double right_error = target_right_velocity - right_velocity;
 
     // Calculate new voltages to set
-    const auto left_voltage = static_cast<int32_t>(left_velocity_pid.calculate(left_error));
-    const auto right_voltage = static_cast<int32_t>(right_velocity_pid.calculate(right_error));
+    const int32_t left_voltage = static_cast<int32_t>(left_velocity_pid.calculate(left_error));
+    const int32_t right_voltage = static_cast<int32_t>(right_velocity_pid.calculate(right_error));
 
     // Set the new voltages
     set_voltage(left_voltage, right_voltage);
@@ -186,18 +203,9 @@ void Drivetrain::brake() {
 bool Drivetrain::set_reversing(const bool reversing) {
     // Don't need to do anything if its already in the right mode
     if (reversing == this->reversing) return reversing;
-    bool old = this->reversing;
+    const bool old = this->reversing;
 
-    // reverse all motors
-    std::vector<int32_t> left_motors_reversed = this->left_motors->is_reversed_all();
-    for (int i = 0; i < left_motors_reversed.size(); i++) {
-        this->left_motors->set_reversed(abs(left_motors_reversed[i] - 1), i);
-    }
-
-    std::vector<int32_t> right_motors_reversed = this->right_motors->is_reversed_all();
-    for (int i = 0; i < right_motors_reversed.size(); i++) {
-        this->right_motors->set_reversed(abs(right_motors_reversed[i] - 1), i);
-    }
+    this->direction = reversing ? BACKWARDS : FORWARDS;
 
     this->reversing = reversing;
     return old;
@@ -220,5 +228,9 @@ double Drivetrain::rpm_to_ips(double const rpm) {
 }
 
 Pose Drivetrain::get_pose() const {
-    return this->odometry->get_pose();
+    Pose pose = this->odometry->get_pose();
+
+    if (reversing) pose.heading += M_PI;
+
+    return pose;
 }

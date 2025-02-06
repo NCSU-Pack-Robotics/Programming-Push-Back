@@ -56,8 +56,9 @@ public:
      */
     void brake();
 
-    /** Sets the robot to be reversing. All motor inputs will be reversed. This is done by changing each motors reversal value
-     * so that odometry still works
+    /**
+     * Sets the robot to be reversing. All motor inputs will be reversed.
+     * This is done by setting an internal flag and by setting motors to -1 * the power/voltage.
      * @returns The previous reversal state.
      */
     bool set_reversing(bool reversing);
@@ -86,6 +87,8 @@ private:
     bool braking;
     /** The current reversal state of the robot */
     bool reversing;
+    /** The direction the robot is moving in. 1 for forward, -1 for reverse */
+    int direction;
 
     /**
     * This is the Odometry class. It is responsible for keeping track of the robot's
