@@ -163,21 +163,22 @@ private:
 class InstantCommand : public Command {
 public:
     InstantCommand(){};
+
     /** Constructor that allows for a function to be passed as the execute method */
     InstantCommand(std::unique_ptr<std::function<void()>> executeFunction);
 
     /** Returns true because InstantCommands only run once */
-    bool is_complete();
+    bool is_complete() override;
 protected:
     /** Calls the execute function */
     void initialize() override;
 
     /** This is never called for an InstantCommand */
-    void periodic();
+    void periodic() override;
 
     /** This is called but no code should be put in it.
      * Put everything inside execute. */
-    void shutdown();
+    void shutdown() override;
 
     /** The function that gets run. By default, it is set in the constructor,
      * but can be overwritten in child classes */
