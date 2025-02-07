@@ -2,6 +2,7 @@
 
 #include "../../Config.hpp"
 #include "../../subystems/Lift.hpp"
+#include "../../subystems/LadyBrown.hpp"
 
 StartLiftingUp::StartLiftingUp() {
 }

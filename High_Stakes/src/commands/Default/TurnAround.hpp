@@ -2,8 +2,7 @@
 #include "../../Command.hpp"
 #include "../../AbstractSubsystem.hpp"
 #include "../../math/PID.hpp"
-
-class Drivetrain;
+#include "../../subystems/Drivetrain.hpp"
 
 /** This command flips the robot 180 degrees as fast and as accurate as possible */
 class TurnAround : public Command {
@@ -14,8 +13,8 @@ class TurnAround : public Command {
 
 private:
     /** A reference to the drivetrain */
-    // Drivetrain& drivetrain = AbstractSubsystem::get_instance<Drivetrain>();
-    Drivetrain* drivetrain;
+    Drivetrain& drivetrain = AbstractSubsystem::get_instance<Drivetrain>();
+    // Drivetrain* drivetrain;
     /** The starting heading */
     double starting_heading;
     /** The target heading */

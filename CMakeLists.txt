@@ -107,4 +107,5 @@ add_executable(Programming_High_Stakes
         High_Stakes/src/AutonomousControlScheduler.hpp
         High_Stakes/src/commands/Instant/NextLadyBrownPosition.hpp
         High_Stakes/src/commands/Instant/NextLadyBrownPosition.cpp
+        High_Stakes/src/ButtonMappings.hpp
 )
