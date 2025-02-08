@@ -113,7 +113,11 @@ private:
     */
     class Odometry {
         Drivetrain &drivetrain; // A reference to the enclosing Drivetrain instance.
-        Pose pose = {0, 0 ,0}; // Most recent pose of the robot
+        Pose pose = {
+            Constants::Initial::Pose::INITIAL_X,
+            Constants::Initial::Pose::INITIAL_Y,
+            Constants::Initial::Pose::INITIAL_HEADING
+            }; // Most recent pose of the robot
 
         double left_position = 0; // Most recent position of the left motor
         double right_position = 0; // Most recent position of the right motor
@@ -163,8 +167,9 @@ private:
             calculate_position_arc();
 
             // must be done after coordinate calculations
-            this->pose.heading = (right_distance - left_distance) /
-                Constants::Hardware::ROBOT_DIAMETER;
+            this->pose.heading = Constants::Initial::Pose::INITIAL_HEADING +
+                ((right_distance - left_distance) /
+                Constants::Hardware::ROBOT_DIAMETER);
 
             return this->get_pose();
         }
