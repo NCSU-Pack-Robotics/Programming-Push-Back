@@ -116,4 +116,6 @@ add_executable(Programming_High_Stakes
         High_Stakes/src/commands/Instant/ToggleArm.hpp
         High_Stakes/src/commands/Default/MoveLiftDegrees.cpp
         High_Stakes/src/commands/Default/MoveLiftDegrees.hpp
+        High_Stakes/src/commands/PPIntakeLift.cpp
+        High_Stakes/src/commands/PPIntakeLift.hpp
 )
