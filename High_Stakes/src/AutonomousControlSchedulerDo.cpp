@@ -1,11 +1,11 @@
-#include "AutonomousControlScheduler.hpp"
+#include "AutonomousControlSchedulerDo.hpp"
 
-#include "commands/PurePursuit.hpp"
 #include "asset.hpp"
 #include "commands/PPIntakeLift.hpp"
 #include "commands/Default/MoveLiftDegrees.hpp"
-#include "subystems/Lift.hpp"
+#include "commands/PurePursuit.hpp"
 #include "subystems/Clamp.hpp"
+#include "subystems/Lift.hpp"
 
 // Global paths defined here
 ASSET(getGoal_txt);
@@ -13,7 +13,7 @@ ASSET(getFirstRing_txt);
 
 using namespace std;
 
-AutonomousControlScheduler::AutonomousControlScheduler(): ChainCommand({}) {
+AutonomousControlSchedulerDo::AutonomousControlSchedulerDo(): ChainCommand({}) {
     Clamp& clamp = AbstractSubsystem::get_instance<Clamp>();
     Lift& lift = AbstractSubsystem::get_instance<Lift>();
     Drivetrain& drivetrain = AbstractSubsystem::get_instance<Drivetrain>();
@@ -33,10 +33,10 @@ AutonomousControlScheduler::AutonomousControlScheduler(): ChainCommand({}) {
     // add_command_and(make_unique<MoveLiftDegrees>(1600));
 }
 
-void AutonomousControlScheduler::initialize() {
+void AutonomousControlSchedulerDo::initialize() {
     drivetrain.initialize();
 }
 
-void AutonomousControlScheduler::shutdown() {
+void AutonomousControlSchedulerDo::shutdown() {
     drivetrain.brake();
 }

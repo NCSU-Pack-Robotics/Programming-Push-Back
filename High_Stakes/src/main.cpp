@@ -1,13 +1,13 @@
 #include "../include/main.h"
-#include "subystems/Drivetrain.hpp"
-#include "subystems/Lift.hpp"
-#include "subystems/Intake.hpp"
-#include "subystems/Clamp.hpp"
-#include "subystems/HookSensor.hpp"
-#include "subystems/LadyBrown.hpp"
+#include "AutonomousControlSchedulerDo.hpp"
 #include "DriverControlScheduler.hpp"
-#include "AutonomousControlScheduler.hpp"
 #include "commands/PurePursuit.hpp"
+#include "subystems/Clamp.hpp"
+#include "subystems/Drivetrain.hpp"
+#include "subystems/HookSensor.hpp"
+#include "subystems/Intake.hpp"
+#include "subystems/LadyBrown.hpp"
+#include "subystems/Lift.hpp"
 
 // Create all subsystems:
 Drivetrain& drivetrain = AbstractSubsystem::get_instance<Drivetrain>();
@@ -84,7 +84,7 @@ void competition_initialize() {
  */
 void autonomous() {
     // Initialize the autonomous scheduler
-    AutonomousControlScheduler scheduler{};
+    AutonomousControlSchedulerDo scheduler{};
     scheduler.initialize();
 
     // Run disabled periodic for all subsystems

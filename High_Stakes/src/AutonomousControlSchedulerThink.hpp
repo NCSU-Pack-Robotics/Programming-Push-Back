@@ -7,13 +7,13 @@
  * A subclass of ChainCommand. It is used during the autonomous portion of the event.
  * This is a chain command because autonomous consists of a series of actions back-to-back.
  */
-class AutonomousControlScheduler final : public ChainCommand {
+class AutonomousControlSchedulerThink final : public ChainCommand {
 public:
     /**
      * Constructs an instance of AutonomousControlScheduler.
      * The chain of commands is created in this constructor.
      */
-    AutonomousControlScheduler();
+    AutonomousControlSchedulerThink();
 
     void initialize() override;
 
