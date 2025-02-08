@@ -2,20 +2,29 @@
 
 #include <chrono>
 
+/**
+ * A simple timer/stopwatch class to measure elapsed time.
+ * All times are in seconds.
+ */
 class Timer {
-private:
     /** Time at which the timer was started. */
     std::chrono::system_clock::time_point start_timestamp;
     /** Time at which the timer was stopped. */
     std::chrono::system_clock::time_point end_timestamp;
 
-    /** Whether or not the timer has started. */
+    /** Whether the timer has started. */
     bool started = false;
 
-    /** Whether or not the timer has stopped. */
+    /** Whether the timer has stopped. */
     bool stopped = false;
 
 public:
+
+    /** Default constructor. */
+    Timer() = default;
+
+    /** Default destructor. */
+    ~Timer() = default;
 
     /**
      * Start timing.
@@ -30,21 +39,20 @@ public:
 
     /**
      * Get the duration for which the timer has been running in seconds.
-     * If the timer has not stopped, it will stop the timer.
      * If the timer has not started, it will return a minimum value of 1e-9 (1 nanosecond).
      *
      * @return Duration with a minimum value of 1e-9 (1 nanosecond), so it is always safe to use
      * as a divisor.
      */
-    [[nodiscard]] double get_duration();
+    [[nodiscard]] double get_duration() const;
 
     /**
-     * @return Whether or not the timer has started
+     * @return Whether the timer has started
      */
     [[nodiscard]] bool has_started() const;
 
     /**
-     * @return Whether or not the timer has stopped
+     * @return Whether the timer has stopped
      */
     [[nodiscard]] bool has_stopped() const;
 };

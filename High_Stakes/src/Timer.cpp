@@ -18,20 +18,15 @@ void Timer::stop() {
     this->stopped = true;
 }
 
-double Timer::get_duration() {
+double Timer::get_duration() const {
     // If the timer has not started, return a minimum value of 1e-9 (1 nanosecond)
     // Done to prevent division by zero
     if (!this->started) {
         return 1e-9;
     }
 
-    // If the timer has not stopped, stop the timer
-    if (!this->stopped) {
-        this->stop();
-    }
-
     // Get elapsed time
-    std::chrono::duration<double> elapsed_time = this->end_timestamp - this->start_timestamp;
+    const std::chrono::duration<double> elapsed_time = this->end_timestamp - this->start_timestamp;
 
     // Return the elapsed time in seconds ensuring a minimum value of 1e-9 (1 nanosecond)
     return std::max(1e-9, elapsed_time.count());
