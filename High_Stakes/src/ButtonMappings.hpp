@@ -51,30 +51,31 @@ namespace std {
 
 // CHRIS DRIVE CONFIG
 
-// const std::unordered_map<ButtonCombo,
-//                          std::array<std::optional<std::function<std::unique_ptr<Command>()>>, 3>> BINDS{
-//                              {ButtonCombo{std::vector{pros::E_CONTROLLER_DIGITAL_L1}}, {std::nullopt, [] { return std::make_unique<StartLiftingDown>(); }, [] { return std::make_unique<ResetLift>(); }}},
-//                              {ButtonCombo{std::vector{pros::E_CONTROLLER_DIGITAL_L2}}, {std::nullopt, [] { return std::make_unique<StartLiftingUp>(); }, [] { return std::make_unique<ResetLift>(); }}},
-//                              {ButtonCombo{std::vector{pros::E_CONTROLLER_DIGITAL_R1}}, {std::nullopt, [] { return std::make_unique<StartIntakingOut>(); }, [] { return std::make_unique<StopIntaking>(); }}},
-//                              {ButtonCombo{std::vector{pros::E_CONTROLLER_DIGITAL_R2}}, {std::nullopt, [] { return std::make_unique<StartIntakingIn>(); }, [] { return std::make_unique<StopIntaking>(); }}},
-//                              {ButtonCombo{std::vector{pros::E_CONTROLLER_DIGITAL_UP}}, {std::nullopt, std::nullopt, std::nullopt}},
-//                              {ButtonCombo{std::vector{pros::E_CONTROLLER_DIGITAL_DOWN}}, {std::nullopt, std::nullopt, std::nullopt}},
-//                              {ButtonCombo{std::vector{pros::E_CONTROLLER_DIGITAL_LEFT}}, {std::nullopt, std::nullopt, std::nullopt}},
-//                              {ButtonCombo{std::vector{pros::E_CONTROLLER_DIGITAL_RIGHT}}, {std::nullopt, std::nullopt, std::nullopt}},
-//                              {ButtonCombo{std::vector{pros::E_CONTROLLER_DIGITAL_X}}, {std::nullopt, std::nullopt, std::nullopt}},
-//                              {ButtonCombo{std::vector{pros::E_CONTROLLER_DIGITAL_B}}, {[] { return std::make_unique<TurnAround>(); }, std::nullopt, std::nullopt}},
-//                              {ButtonCombo{std::vector{pros::E_CONTROLLER_DIGITAL_Y}}, {[] { return std::make_unique<NextLadyBrownPosition>(); }, std::nullopt, std::nullopt}},
-//                              {ButtonCombo{std::vector{pros::E_CONTROLLER_DIGITAL_A}}, {[] { return std::make_unique<StartClamping>(); }, std::nullopt, [] { return std::make_unique<StopClamping>(); }}}
-// };
-
-// GARETT DRIVE CONFIG
 const std::unordered_map<ButtonCombo,
                          std::array<std::optional<std::function<std::unique_ptr<Command>()>>, 3>> BINDS{
-                             {ButtonCombo{std::vector{pros::E_CONTROLLER_DIGITAL_L2, pros::E_CONTROLLER_DIGITAL_R2}}, {[] { return std::make_unique<StartIntakingOut>(); }, std::nullopt, std::nullopt}},
-                                {ButtonCombo{std::vector{pros::E_CONTROLLER_DIGITAL_R2}}, {std::nullopt, std::nullopt, [] { return std::make_unique<StopIntaking>(); }}},
-                             {ButtonCombo{std::vector{pros::E_CONTROLLER_DIGITAL_L2, pros::E_CONTROLLER_DIGITAL_R1}}, {[] { return std::make_unique<StartLiftingDown>(); }, std::nullopt, std::nullopt}},
-                             {ButtonCombo{std::vector{pros::E_CONTROLLER_DIGITAL_R1}}, {std::nullopt, std::nullopt, [] { return std::make_unique<StopLifting>(); }}},
-                             // {ButtonCombo{std::vector{pros::E_CONTROLLER}}} // {ButtonCombo{std::vector{pros::E_CONTROLLER}}} // How to do a command if R2 is pressed and L2 is NOT pressed?
-
-
+                             {ButtonCombo{std::vector{pros::E_CONTROLLER_DIGITAL_L1}}, {std::nullopt, [] { return std::make_unique<StartLiftingDown>(); }, [] { return std::make_unique<StopLifting>(); }}},
+                             {ButtonCombo{std::vector{pros::E_CONTROLLER_DIGITAL_L2}},
+                             {std::nullopt, [] { return std::make_unique<StartLiftingUp>(); }, []{ return std::make_unique<StopLifting>(); }}},
+                             {ButtonCombo{std::vector{pros::E_CONTROLLER_DIGITAL_R1}}, {std::nullopt, [] { return std::make_unique<StartIntakingOut>(); }, [] { return std::make_unique<StopIntaking>(); }}},
+                             {ButtonCombo{std::vector{pros::E_CONTROLLER_DIGITAL_R2}}, {std::nullopt, [] { return std::make_unique<StartIntakingIn>(); }, [] { return std::make_unique<StopIntaking>(); }}},
+                             {ButtonCombo{std::vector{pros::E_CONTROLLER_DIGITAL_UP}}, {std::nullopt, std::nullopt, std::nullopt}},
+                             {ButtonCombo{std::vector{pros::E_CONTROLLER_DIGITAL_DOWN}}, {std::nullopt, std::nullopt, std::nullopt}},
+                             {ButtonCombo{std::vector{pros::E_CONTROLLER_DIGITAL_LEFT}}, {std::nullopt, std::nullopt, std::nullopt}},
+                             {ButtonCombo{std::vector{pros::E_CONTROLLER_DIGITAL_RIGHT}}, {std::nullopt, std::nullopt, std::nullopt}},
+                             {ButtonCombo{std::vector{pros::E_CONTROLLER_DIGITAL_X}}, {std::nullopt, std::nullopt, std::nullopt}},
+                             {ButtonCombo{std::vector{pros::E_CONTROLLER_DIGITAL_B}}, {[] { return std::make_unique<TurnAround>(); }, std::nullopt, std::nullopt}},
+                             {ButtonCombo{std::vector{pros::E_CONTROLLER_DIGITAL_Y}}, {[] { return std::make_unique<NextLadyBrownPosition>(); }, std::nullopt, std::nullopt}},
+                             {ButtonCombo{std::vector{pros::E_CONTROLLER_DIGITAL_A}}, {[] { return std::make_unique<StartClamping>(); }, std::nullopt, [] { return std::make_unique<StopClamping>(); }}}
 };
+
+// GARETT DRIVE CONFIG
+// const std::unordered_map<ButtonCombo,
+//                          std::array<std::optional<std::function<std::unique_ptr<Command>()>>, 3>> BINDS{
+//                              {ButtonCombo{std::vector{pros::E_CONTROLLER_DIGITAL_L2, pros::E_CONTROLLER_DIGITAL_R2}}, {[] { return std::make_unique<StartIntakingOut>(); }, std::nullopt, std::nullopt}},
+//                                 {ButtonCombo{std::vector{pros::E_CONTROLLER_DIGITAL_R2}}, {std::nullopt, std::nullopt, [] { return std::make_unique<StopIntaking>(); }}},
+//                              {ButtonCombo{std::vector{pros::E_CONTROLLER_DIGITAL_L2, pros::E_CONTROLLER_DIGITAL_R1}}, {[] { return std::make_unique<StartLiftingDown>(); }, std::nullopt, std::nullopt}},
+//                              {ButtonCombo{std::vector{pros::E_CONTROLLER_DIGITAL_R1}}, {std::nullopt, std::nullopt, [] { return std::make_unique<StopLifting>(); }}},
+//                              // {ButtonCombo{std::vector{pros::E_CONTROLLER}}} // {ButtonCombo{std::vector{pros::E_CONTROLLER}}} // How to do a command if R2 is pressed and L2 is NOT pressed?
+//
+//
+// };
