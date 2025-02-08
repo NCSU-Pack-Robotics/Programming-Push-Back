@@ -1,8 +1,8 @@
 #pragma once
 #include "../../Command.hpp"
-class StopClamping : public InstantCommand {
+class ToggleClamp : public InstantCommand {
 public:
-    StopClamping();
+    ToggleClamp();
 protected:
     void execute() override;
 };

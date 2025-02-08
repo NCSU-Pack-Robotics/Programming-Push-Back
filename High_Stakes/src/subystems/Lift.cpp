@@ -52,3 +52,6 @@ void Lift::brake() {
     lift_motor->brake();
 }
 
+int32_t Lift::get_degrees() {
+    return lift_motor->get_position();
+}

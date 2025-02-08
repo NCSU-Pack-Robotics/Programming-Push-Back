@@ -82,12 +82,10 @@ add_executable(Programming_High_Stakes
         High_Stakes/src/commands/Instant/StartIntakingOut.hpp
         High_Stakes/src/commands/Instant/StartLiftingDown.cpp
         High_Stakes/src/commands/Instant/StartLiftingDown.hpp
-        High_Stakes/src/commands/Instant/StartClamping.cpp
-        High_Stakes/src/commands/Instant/StartClamping.hpp
+        High_Stakes/src/commands/Instant/ToggleClamp.cpp
+        High_Stakes/src/commands/Instant/ToggleClamp.hpp
         High_Stakes/src/subystems/Clamp.cpp
         High_Stakes/src/subystems/Clamp.hpp
-        High_Stakes/src/commands/Instant/StopClamping.cpp
-        High_Stakes/src/commands/Instant/StopClamping.hpp
         High_Stakes/src/subystems/HookSensor.cpp
         High_Stakes/src/subystems/HookSensor.hpp
         High_Stakes/src/subystems/LadyBrown.cpp
@@ -112,4 +110,10 @@ add_executable(Programming_High_Stakes
         High_Stakes/src/commands/DriveStraight.hpp
         High_Stakes/src/commands/Turn.cpp
         High_Stakes/src/commands/Turn.hpp
+        High_Stakes/src/subystems/Arm.cpp
+        High_Stakes/src/subystems/Arm.hpp
+        High_Stakes/src/commands/Instant/ToggleArm.cpp
+        High_Stakes/src/commands/Instant/ToggleArm.hpp
+        High_Stakes/src/commands/Default/MoveLiftDegrees.cpp
+        High_Stakes/src/commands/Default/MoveLiftDegrees.hpp
 )

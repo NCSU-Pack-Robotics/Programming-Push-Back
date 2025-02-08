@@ -3,7 +3,7 @@
 #include "../AbstractSubsystem.hpp"
 #include "../../include/main.h"
 
-class Clamp : public AbstractSubsystem {
+class Arm : public AbstractSubsystem {
     friend class AbstractSubsystem;
 
 public:
@@ -15,17 +15,17 @@ public:
 
     void shutdown() override;
 
-    /** Sets if the clamp is enabled or not */
+    /** Sets if the arm is enabled or not */
     void set_enabled(bool enabled);
 
-    /** Toggles the state of the clamp */
+    /** Toggles the state of the arm */
     void toggle();
 
 private:
-    std::unique_ptr<pros::adi::DigitalOut> clamp_piston;
+    std::unique_ptr<pros::adi::DigitalOut> arm_piston;
 
     bool enabled;
 
 protected:
-    Clamp();
+    Arm();
 };

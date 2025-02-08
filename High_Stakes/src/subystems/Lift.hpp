@@ -33,6 +33,8 @@ public:
      * Stops all motors immediately and sets powers/voltages to 0.
      */
     void brake();
+
+    int32_t get_degrees();
 private:
     /** The motor used for the lift */
     std::unique_ptr<pros::Motor> lift_motor;
