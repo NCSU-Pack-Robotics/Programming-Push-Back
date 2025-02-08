@@ -52,6 +52,32 @@ namespace Constants {
     }
 
     /**
+     * Namespace for PID constants used to move the drivetrain some number of inches.
+     * # TODO: Tune
+     */
+    namespace PID::Drive::Distance {
+        /** PID Proportional coefficient for position calculations */
+        constexpr double Kp = 0.0;
+        /** PID Derivative coefficient for position calculations */
+        constexpr double Kd = 0.0;
+        /** PID Integral coefficient for position calculations */
+        constexpr double Ki = 0.0;
+    }
+
+    /**
+     * Namespace for PID constants used to move the drivetrain some number of degrees.
+     * # TODO: Tune
+    */
+    namespace PID::Drive::Degrees {
+        /** PID Proportional coefficient for position calculations */
+        constexpr double Kp = 0.0;
+        /** PID Derivative coefficient for position calculations */
+        constexpr double Kd = 0.0;
+        /** PID Integral coefficient for position calculations */
+        constexpr double Ki = 0.0;
+    }
+
+    /**
      * Namespace for PID containing constants used to the position of the LadyBrown (LB).
      */
     namespace PID::LadyBrown::Position {

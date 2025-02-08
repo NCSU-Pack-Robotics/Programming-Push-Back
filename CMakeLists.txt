@@ -108,4 +108,8 @@ add_executable(Programming_High_Stakes
         High_Stakes/src/commands/Instant/NextLadyBrownPosition.hpp
         High_Stakes/src/commands/Instant/NextLadyBrownPosition.cpp
         High_Stakes/src/ButtonMappings.hpp
+        High_Stakes/src/commands/DriveStraight.cpp
+        High_Stakes/src/commands/DriveStraight.hpp
+        High_Stakes/src/commands/Turn.cpp
+        High_Stakes/src/commands/Turn.hpp
 )
