@@ -50,6 +50,18 @@ namespace Constants {
         /** PID Integral coefficient for position calculations */
         constexpr double Ki = 0.0;
     }
+
+    /**
+     * Namespace for PID containing constants used to the position of the LadyBrown (LB).
+     */
+    namespace PID::LadyBrown::Position {
+        /** PID Proportional coefficient for position calculations */
+        constexpr double Kp = 2.4;
+        /** PID Derivative coefficient for position calculations */
+        constexpr double Kd = 0.0;
+        /** PID Integral coefficient for position calculations */
+        constexpr double Ki = 0.1;
+    }
   
     /**
      * This namespace is to be used for the starting configuration of the robot.

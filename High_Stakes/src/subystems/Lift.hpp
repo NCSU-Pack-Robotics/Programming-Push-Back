@@ -29,6 +29,9 @@ public:
      */
     void set_drive_power(int32_t power);
 
+    /**
+     * Stops all motors immediately and sets powers/voltages to 0.
+     */
     void brake();
 private:
     /** The motor used for the lift */
@@ -45,5 +48,4 @@ private:
 
 protected:
     Lift();
-
 };

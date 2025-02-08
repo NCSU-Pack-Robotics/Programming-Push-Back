@@ -22,6 +22,6 @@ void HookSensor::shutdown() {
 
 }
 
-bool HookSensor::isBlocked() {
+bool HookSensor::isBlocked() const {
      return (hook_sensor->get_value_calibrated() < 2000);
 }

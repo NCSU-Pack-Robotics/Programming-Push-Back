@@ -22,7 +22,7 @@ void Clamp::shutdown() {
 
 }
 
-void Clamp::set_enabled(bool enabled) {
+void Clamp::set_enabled(const bool enabled) const {
     clamp_piston->set_value(enabled);
 }
 

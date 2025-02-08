@@ -27,6 +27,12 @@ public:
      * @param power The power to set the intake to.
      */
     void set_drive_power(int32_t power);
+
+    /**
+     * Immediately stop the intake, setting all power and voltage power to 0.
+     */
+    void brake();
+
 private:
     /** The motor used for the lift */
     std::unique_ptr<pros::Motor> intake_motor;

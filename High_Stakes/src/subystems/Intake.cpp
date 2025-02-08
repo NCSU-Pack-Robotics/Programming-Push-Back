@@ -25,12 +25,11 @@ void Intake::periodic() {
 }
 
 void Intake::disabled_periodic() {
-    // TODO: Stop the motors
 
 }
 
 void Intake::shutdown() {
-    // TODO: Stop the motors
+    brake();
 }
 
 void Intake::set_voltage(int32_t voltage) {

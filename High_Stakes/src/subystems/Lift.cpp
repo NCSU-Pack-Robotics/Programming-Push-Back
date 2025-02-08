@@ -27,12 +27,11 @@ void Lift::periodic() {
 }
 
 void Lift::disabled_periodic() {
-    // TODO: Stop the motors
 
 }
 
 void Lift::shutdown() {
-    // TODO: Stop the motors
+    brake();
 }
 
 void Lift::set_voltage(int32_t voltage) {

@@ -2,6 +2,7 @@
 #include "../../include/main.h"
 #include "../AbstractSubsystem.hpp"
 #include "../math/PID.hpp"
+#include "../Config.hpp"
 
 class LadyBrown : public AbstractSubsystem {
     friend class AbstractSubsystem;
@@ -22,14 +23,16 @@ public:
 
     /** A map of the positions and their rotation in centidegrees */
     std::array<std::pair<Position, int32_t>, 3> Positions{
-        std::pair{Position::STOW, 500},
-        std::pair{Position::LOAD, 4800},
-        std::pair{Position::SCORE, 20500},
+        std::pair{STOW, 500},
+        std::pair{LOAD, 4800},
+        std::pair{SCORE, 20500},
     };
 
-    Position get_position();
-
-    
+    /**
+     * Gets the current enumeration <code>Position</code> of the LadyBrown.
+     * @return The current position of the LadyBrown.
+     */
+    Position get_position() const;
 
 private:
     /** The rotation sensor for the LadyBrown */
@@ -45,7 +48,9 @@ private:
     int position_index;
 
     /** The PID used for the LadyBrown */
-    PID lb_pid = PID(2.4,0,0.1);
+    PID lb_pid = PID(Constants::PID::LadyBrown::Position::Kp,
+        Constants::PID::LadyBrown::Position::Kd,
+        Constants::PID::LadyBrown::Position::Ki);
 
 protected:
     LadyBrown();

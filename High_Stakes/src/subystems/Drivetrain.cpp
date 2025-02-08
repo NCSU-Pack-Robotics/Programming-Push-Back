@@ -119,22 +119,22 @@ void Drivetrain::periodic() {
 }
 
 void Drivetrain::disabled_periodic() {
-    // TODO: Stop the motors
-
+    // In case robot is moved when disabled
+    odometry->calculate();
 }
 
 void Drivetrain::shutdown() {
-    // TODO: Stop the motors
+    brake();
 }
 
-void Drivetrain::set_voltage(int32_t left_mV, int32_t right_mV) {
+void Drivetrain::set_voltage(const int32_t left_mV, const int32_t right_mV) {
     left_drive_voltage = std::clamp(left_mV, INT32_C(-12000), INT32_C(12000));
     right_drive_voltage = std::clamp(right_mV, INT32_C(-12000), INT32_C(12000));
 
     drive_type = Constants::DriveType::VOLTAGE;
 }
 
-void Drivetrain::set_drive_power(int32_t left_power, int32_t right_power) {
+void Drivetrain::set_drive_power(const int32_t left_power, const int32_t right_power) {
     left_drive_power = std::clamp(left_power, INT32_C(-127), INT32_C(127));
     right_drive_power = std::clamp(right_power, INT32_C(-127), INT32_C(127));
 

@@ -15,7 +15,7 @@ public:
     void shutdown() override;
 
     /** Returns true if something is blocking the sensor */
-    bool isBlocked();
+    bool isBlocked() const;
 
 
 private:

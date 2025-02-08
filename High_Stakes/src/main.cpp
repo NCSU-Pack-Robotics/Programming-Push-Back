@@ -42,6 +42,11 @@ void initialize() {
  * the robot is enabled, this task will exit.
  */
 void disabled() {
+    // Ensure all subsystems have shutdown/stopped.
+    for (AbstractSubsystem* subsystem : subsystems) {
+        subsystem->shutdown();
+    }
+
     // Run disabled periodic for all subsystems
     while (true) {
         for (AbstractSubsystem* subsystem: subsystems) {

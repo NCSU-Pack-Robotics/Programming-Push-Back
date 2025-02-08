@@ -13,7 +13,7 @@ void LadyBrown::initialize() {
     lb_motor->tare_position();
     lb_motor->move_velocity(0);
 
-    position = Position::STOW;
+    position = STOW;
     position_index = 0;
 }
 
@@ -28,8 +28,8 @@ void LadyBrown::periodic() {
         curr_angle = 0;
     }
 
-    int32_t target_rotation = Positions[position_index].second;
-    int32_t voltage = lb_pid.calculate(target_rotation - curr_angle);
+    const int32_t target_rotation = Positions[position_index].second;
+    const int32_t voltage = lb_pid.calculate(target_rotation - curr_angle);
     lb_motor->move_voltage(voltage);
 
     // never go below 0 or over 215
@@ -37,7 +37,8 @@ void LadyBrown::periodic() {
 }
 
 void LadyBrown::shutdown() {
-
+    // Just stop the motor
+    lb_motor-> move_velocity(0);
 }
 
 void LadyBrown::disabled_periodic() {
@@ -54,6 +55,6 @@ void LadyBrown::next_position() {
     position = Positions[position_index].first;
 }
 
-LadyBrown::Position LadyBrown::get_position() {
+LadyBrown::Position LadyBrown::get_position() const {
     return position;
 }

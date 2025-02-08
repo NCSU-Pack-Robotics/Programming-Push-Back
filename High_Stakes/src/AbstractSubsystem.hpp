@@ -40,10 +40,17 @@ public:
     /** Runs every loop (when robot is not disabled)  */
     virtual void periodic() = 0;
 
-    /** Runs every loop (when robot is disabled) */
+    /**
+     * Runs every loop (when robot is disabled)
+     * <code>shutdown()</code> is called before looping over this method.
+     */
     virtual void disabled_periodic() = 0;
 
-    /** Runs when the robot shuts down */
+    /**
+     * Runs when the robot shuts down.
+     * This is called before looping over <code>disabled_periodic()</code> when the robot is
+     * disabled.
+     */
     virtual void shutdown() = 0;
 
 protected:

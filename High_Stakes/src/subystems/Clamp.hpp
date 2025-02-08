@@ -16,7 +16,7 @@ public:
     void shutdown() override;
 
     /** Sets if the clamp is enabled or not */
-    void set_enabled(bool enabled);
+    void set_enabled(bool enabled) const;
 
 private:
     std::unique_ptr<pros::adi::DigitalOut> clamp_piston;
