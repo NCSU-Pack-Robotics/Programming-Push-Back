@@ -1,9 +1,8 @@
 #pragma once
-#include "AbstractSubsystem.hpp"
-#include "asset.hpp"
-#include "Command.hpp"
-#include "Intake.hpp"
-#include "Lift.hpp"
+#include "../asset.hpp"
+#include "../Command.hpp"
+#include "../subystems/Intake.hpp"
+#include "../subystems/Lift.hpp"
 
 /**
  * Used to follow path, intake a ring, and lift the ring onto a mobile goal simultaneously.

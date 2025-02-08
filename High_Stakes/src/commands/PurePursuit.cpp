@@ -134,6 +134,7 @@ PurePursuit::PurePursuit(const asset &path) : path(get_data(path)) {
 
 void PurePursuit::initialize() {
     done = false;
+    drivetrain.set_braking(false);
 }
 
 void PurePursuit::periodic() {
@@ -142,6 +143,9 @@ void PurePursuit::periodic() {
     // When the robot is within some inches of the end of the path, stop
     if (pose.distance(path.back()) < Constants::PathFollowing::STOP_DISTANCE) {
         done = true;
+        // stop the robot
+        drivetrain.brake();
+        drivetrain.periodic();
         return;
     }
 
@@ -198,7 +202,8 @@ void PurePursuit::shutdown() {
     printf("DONE!\n");
 
     // stop the robot
-    drivetrain.set_braking(true);
+    drivetrain.brake();
+    drivetrain.periodic();
 }
 
 bool PurePursuit::is_complete() {

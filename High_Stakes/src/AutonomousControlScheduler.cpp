@@ -23,13 +23,14 @@ AutonomousControlScheduler::AutonomousControlScheduler(): ChainCommand({}) {
         [&] { drivetrain.set_reversing(true); }))).  // Reverse the drivetrain
     add_command_and(make_unique<PurePursuit>(getGoal_txt)).  // Follow path to goal
     add_command_and(make_unique<InstantCommand>(make_unique<function<void()>>(
-        [&] { clamp.set_enabled(true); }))).  // Enable the clamp
+        [&] { clamp.set_enabled(true); }))); // Enable the clamp
+    add_command_and(make_unique<InstantCommand>(make_unique<function<void()>>(
+        [&] { pros::delay(2000); }))).  // Pause for a second
     add_command_and(make_unique<MoveLiftDegrees>(1600)). // Lift the ring
     add_command_and(make_unique<InstantCommand>(make_unique<function<void()>>(
         [&] { drivetrain.set_reversing(false); }))).  // Stop reversing the drivetrain
-    add_command_and(make_unique<PPIntakeLift>(getFirstRing_txt)).  // Follow path, intake, and lift ring
+    add_command_and(make_unique<PPIntakeLift>(getFirstRing_txt));  // Follow path, intake, and lift ring
     add_command_and(make_unique<MoveLiftDegrees>(1600));
-
 }
 
 void AutonomousControlScheduler::initialize() {
