@@ -71,6 +71,17 @@ public:
     std::pair<double, double> get_position() const;
 
     /**
+     * Converts from encoder degree values to inches.
+     *
+     * @param position Number of degrees from the motor
+     * @return The inches corresponding to the given degree value
+     */
+    static inline double degrees_to_inches(const double position) {
+        return Constants::Hardware::TRACKING_RATIO * Constants::Hardware::TRACKING_DIAMETER *
+               Constants::Math::PI * (position / 360);
+    }
+
+    /**
     * Get the pose of the robot.
     * This is the result of odometer calculations.d
     * @return The pose of the robot.
@@ -243,17 +254,6 @@ private:
         void calculate_position_linear() {
             this->pose.x += delta_avg * cos(this->pose.heading);
             this->pose.y += delta_avg * sin(this->pose.heading);
-        }
-
-        /**
-         * Converts from encoder degree values to inches.
-         *
-         * @param position Number of degrees from the motor
-         * @return The inches corresponding to the given degree value
-         */
-        static inline double degrees_to_inches(const double position) {
-            return Constants::Hardware::TRACKING_RATIO * Constants::Hardware::TRACKING_DIAMETER *
-                   Constants::Math::PI * (position / 360);
         }
     };
 

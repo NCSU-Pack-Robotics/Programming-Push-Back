@@ -8,7 +8,7 @@
  * A Command to make the robot drive in a straight line, facing its current heading, forwards or
  * backwards some number of inches.
  */
-class DriveForward : public Command {
+class DriveStraight : public Command {
     /** The number of inches to drive forwards. */
     double target_distance;
 
@@ -22,7 +22,7 @@ public:
      * @param tolerance How close the robot needs to be to the target distance to be
      * considered done.
      */
-    explicit DriveForward(const double inches, const double tolerance)
+    explicit DriveStraight(const double inches, const double tolerance)
         : target_distance(inches), tolerance(tolerance) {}
 
     void initialize() override;
@@ -37,8 +37,11 @@ private:
     /** Whether the command is done executing. */
     bool done = false;
 
-    /** The distance driven by the robot. */
-    double distance_driven = 0;
+    /** The initial distance read from the drivetrain at the start of the command. */
+    double initial_left_distance = 0;
+    /** The initial distance read from the drivetrain at the start of the command. */
+    double initial_right_distance = 0;
+
 
     /** The PID controller used to control the drive motors. */
     PID pid = PID(Constants::PID::Drive::Distance::Kp,
