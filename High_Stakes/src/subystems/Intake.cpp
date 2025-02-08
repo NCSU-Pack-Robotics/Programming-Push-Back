@@ -32,7 +32,7 @@ void Intake::shutdown() {
     brake();
 }
 
-void Intake::set_voltage(int32_t voltage) {
+void Intake::set_voltage(const int32_t voltage) {
     intake_voltage = std::clamp(voltage, INT32_C(-12000), INT32_C(12000));
 
     drive_type = Constants::DriveType::VOLTAGE;
@@ -42,4 +42,11 @@ void Intake::set_drive_power(int32_t power) {
     intake_power = std::clamp(power, INT32_C(-127), INT32_C(127));
 
     drive_type = Constants::DriveType::POWER;
+}
+
+void Intake::brake() {
+    intake_voltage = 0;
+    intake_power = 0;
+
+    intake_motor->move_velocity(0);
 }

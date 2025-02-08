@@ -74,7 +74,7 @@ const std::unordered_map<ButtonCombo,
                                 {ButtonCombo{std::vector{pros::E_CONTROLLER_DIGITAL_R2}}, {std::nullopt, std::nullopt, [] { return std::make_unique<StopIntaking>(); }}},
                              {ButtonCombo{std::vector{pros::E_CONTROLLER_DIGITAL_L2, pros::E_CONTROLLER_DIGITAL_R1}}, {[] { return std::make_unique<StartLiftingDown>(); }, std::nullopt, std::nullopt}},
                              {ButtonCombo{std::vector{pros::E_CONTROLLER_DIGITAL_R1}}, {std::nullopt, std::nullopt, [] { return std::make_unique<StopLifting>(); }}},
-                             {ButtonCombo{std::vector{pros::E_CONTROLLER}}} // How to do a command if R2 is pressed and L2 is NOT pressed?
+                             // {ButtonCombo{std::vector{pros::E_CONTROLLER}}} // {ButtonCombo{std::vector{pros::E_CONTROLLER}}} // How to do a command if R2 is pressed and L2 is NOT pressed?
 
 
 };
