@@ -25,12 +25,12 @@ AutonomousControlScheduler::AutonomousControlScheduler(): ChainCommand({}) {
     add_command_and(make_unique<InstantCommand>(make_unique<function<void()>>(
         [&] { clamp.set_enabled(true); }))); // Enable the clamp
     add_command_and(make_unique<InstantCommand>(make_unique<function<void()>>(
-        [&] { pros::delay(2000); }))).  // Pause for a second
+        [&] { pros::delay(500); }))).  // Pause for a second
     add_command_and(make_unique<MoveLiftDegrees>(1600)). // Lift the ring
     add_command_and(make_unique<InstantCommand>(make_unique<function<void()>>(
         [&] { drivetrain.set_reversing(false); }))).  // Stop reversing the drivetrain
     add_command_and(make_unique<PPIntakeLift>(getFirstRing_txt));  // Follow path, intake, and lift ring
-    add_command_and(make_unique<MoveLiftDegrees>(1600));
+    // add_command_and(make_unique<MoveLiftDegrees>(1600));
 }
 
 void AutonomousControlScheduler::initialize() {
