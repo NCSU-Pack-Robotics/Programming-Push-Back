@@ -95,10 +95,10 @@ namespace Constants {
     */
     namespace Initial::Pose {
         /** The initial x position of the robot */
-        constexpr double INITIAL_X = 0;
+        constexpr double INITIAL_X = -58.5;
         /** The initial y position of the robot */
-        constexpr double INITIAL_Y = 0;
+        constexpr double INITIAL_Y = 24;
         /** The initial heading of the robot */
-        constexpr double INITIAL_HEADING = 0;
+        constexpr double INITIAL_HEADING = M_PI;
     }
 }
