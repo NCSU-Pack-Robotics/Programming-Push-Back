@@ -1,7 +1,7 @@
 #include "MoveLiftDegrees.hpp"
 
 #include "../../subystems/Lift.hpp"
-#include "Config.hpp"
+#include "../../Config.hpp"
 
 MoveLiftDegrees::MoveLiftDegrees(int32_t degrees) {
     start_degree = lift.get_degrees();
