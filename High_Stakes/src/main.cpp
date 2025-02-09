@@ -117,6 +117,7 @@ void autonomous() {
  * task, not resume it from where it left off.
  */
 void opcontrol() {
+    initialize();
     // Initialize the driver control scheduler
     DriverControlScheduler scheduler{};
     scheduler.initialize();

@@ -41,6 +41,8 @@ public:
      */
     Position get_position() const;
 
+    bool set_killed(bool killed);
+
 private:
     /** The rotation sensor for the LadyBrown */
     std::unique_ptr<pros::Rotation> lb_sensor;
@@ -53,6 +55,11 @@ private:
 
     /** The position index from the list of positions */
     int position_index;
+
+    /** A boolean that determines if all the motors should be off, otherwise the periodic sets the motors to the current position */
+    bool motors_killed;
+
+
 
     /** The PID used for the LadyBrown */
     PID lb_pid = PID(Constants::PID::LadyBrown::Position::Kp,

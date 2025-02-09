@@ -15,11 +15,16 @@ void LadyBrown::initialize() {
 
     position = STOW;
     position_index = 0;
+    motors_killed = false;
 }
 
 void LadyBrown::periodic() {
     // update the ladybrown to be in the correct position
 
+    if (motors_killed) {
+        lb_motor->move_velocity(0);
+        return;
+    }
 
     int32_t curr_angle = lb_sensor->get_angle();
 
@@ -59,4 +64,10 @@ void LadyBrown::next_position() {
 
 LadyBrown::Position LadyBrown::get_position() const {
     return position;
+}
+
+bool LadyBrown::set_killed(bool killed) {
+    bool last = this->motors_killed;
+    this->motors_killed = killed;
+    return last;
 }
