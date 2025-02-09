@@ -1,0 +1,121 @@
+cmake_minimum_required(VERSION 3.22.1)
+project(Programming_High_Stakes)
+
+set(CMAKE_CXX_STANDARD 20)
+
+include_directories(High_Stakes/include)
+include_directories(High_Stakes/include/pros)
+include_directories(High_Stakes/src)
+include_directories(High_Stakes/src/math)
+include_directories(High_Stakes/src/subystems)
+
+add_executable(Programming_High_Stakes
+        High_Stakes/include/pros/abstract_motor.hpp
+        High_Stakes/include/pros/adi.h
+        High_Stakes/include/pros/adi.hpp
+        High_Stakes/include/pros/apix.h
+        High_Stakes/include/pros/colors.h
+        High_Stakes/include/pros/colors.hpp
+        High_Stakes/include/pros/device.h
+        High_Stakes/include/pros/device.hpp
+        High_Stakes/include/pros/distance.h
+        High_Stakes/include/pros/distance.hpp
+        High_Stakes/include/pros/error.h
+        High_Stakes/include/pros/ext_adi.h
+        High_Stakes/include/pros/gps.h
+        High_Stakes/include/pros/gps.hpp
+        High_Stakes/include/pros/imu.h
+        High_Stakes/include/pros/imu.hpp
+        High_Stakes/include/pros/link.h
+        High_Stakes/include/pros/link.hpp
+        High_Stakes/include/pros/llemu.h
+        High_Stakes/include/pros/llemu.hpp
+        High_Stakes/include/pros/misc.h
+        High_Stakes/include/pros/misc.hpp
+        High_Stakes/include/pros/motor_group.hpp
+        High_Stakes/include/pros/motors.h
+        High_Stakes/include/pros/motors.hpp
+        High_Stakes/include/pros/optical.h
+        High_Stakes/include/pros/optical.hpp
+        High_Stakes/include/pros/rotation.h
+        High_Stakes/include/pros/rotation.hpp
+        High_Stakes/include/pros/rtos.h
+        High_Stakes/include/pros/rtos.hpp
+        High_Stakes/include/pros/screen.h
+        High_Stakes/include/pros/screen.hpp
+        High_Stakes/include/pros/serial.h
+        High_Stakes/include/pros/serial.hpp
+        High_Stakes/include/pros/vision.h
+        High_Stakes/include/pros/vision.hpp
+        High_Stakes/include/api.h
+        High_Stakes/include/main.h
+        High_Stakes/src/math/PID.cpp
+        High_Stakes/src/math/PID.hpp
+        High_Stakes/src/subystems/Drivetrain.cpp
+        High_Stakes/src/subystems/Drivetrain.hpp
+        High_Stakes/src/AbstractSubsystem.cpp
+        High_Stakes/src/AbstractSubsystem.hpp
+        High_Stakes/src/Config.hpp
+        High_Stakes/src/Timer.cpp
+        High_Stakes/src/Timer.hpp
+        High_Stakes/src/main.cpp
+        High_Stakes/src/ports.hpp
+        High_Stakes/src/Pose.hpp
+        High_Stakes/src/Constants.hpp
+        High_Stakes/src/Command.cpp
+        High_Stakes/src/Command.hpp
+        High_Stakes/src/subystems/Lift.cpp
+        High_Stakes/src/subystems/Lift.hpp
+        High_Stakes/src/subystems/Intake.cpp
+        High_Stakes/src/subystems/Intake.hpp
+        High_Stakes/src/DriverControlScheduler.cpp
+        High_Stakes/src/DriverControlScheduler.hpp
+        High_Stakes/src/commands/Instant/StartIntakingIn.cpp
+        High_Stakes/src/commands/Instant/StartIntakingIn.hpp
+        High_Stakes/src/commands/Instant/StopIntaking.cpp
+        High_Stakes/src/commands/Instant/StopIntaking.hpp
+        High_Stakes/src/commands/Instant/StartLiftingUp.cpp
+        High_Stakes/src/commands/Instant/StartLiftingUp.hpp
+        High_Stakes/src/commands/Instant/StopLifting.cpp
+        High_Stakes/src/commands/Instant/StopLifting.hpp
+        High_Stakes/src/commands/Instant/StartIntakingOut.cpp
+        High_Stakes/src/commands/Instant/StartIntakingOut.hpp
+        High_Stakes/src/commands/Instant/StartLiftingDown.cpp
+        High_Stakes/src/commands/Instant/StartLiftingDown.hpp
+        High_Stakes/src/commands/Instant/ToggleClamp.cpp
+        High_Stakes/src/commands/Instant/ToggleClamp.hpp
+        High_Stakes/src/subystems/Clamp.cpp
+        High_Stakes/src/subystems/Clamp.hpp
+        High_Stakes/src/subystems/HookSensor.cpp
+        High_Stakes/src/subystems/HookSensor.hpp
+        High_Stakes/src/subystems/LadyBrown.cpp
+        High_Stakes/src/subystems/LadyBrown.hpp
+        High_Stakes/src/commands/Default/ResetLift.cpp
+        High_Stakes/src/commands/Default/ResetLift.hpp
+        High_Stakes/src/commands/Default/TurnAround.cpp
+        High_Stakes/src/commands/Default/TurnAround.hpp
+        High_Stakes/src/commands/Instant/StopIntaking.cpp
+        High_Stakes/src/commands/Instant/StopIntaking.hpp
+        High_Stakes/src/asset.hpp
+        High_Stakes/src/commands/PurePursuit.cpp
+        High_Stakes/src/commands/PurePursuit.hpp
+        High_Stakes/src/Pose.cpp
+        High_Stakes/src/commands/PurePursuit.cpp
+        High_Stakes/src/AutonomousControlSchedulerDo.cpp
+        High_Stakes/src/AutonomousControlSchedulerDo.hpp
+        High_Stakes/src/commands/Instant/NextLadyBrownPosition.hpp
+        High_Stakes/src/commands/Instant/NextLadyBrownPosition.cpp
+        High_Stakes/src/ButtonMappings.hpp
+        High_Stakes/src/commands/DriveStraight.cpp
+        High_Stakes/src/commands/DriveStraight.hpp
+        High_Stakes/src/commands/Turn.cpp
+        High_Stakes/src/commands/Turn.hpp
+        High_Stakes/src/subystems/Arm.cpp
+        High_Stakes/src/subystems/Arm.hpp
+        High_Stakes/src/commands/Instant/ToggleArm.cpp
+        High_Stakes/src/commands/Instant/ToggleArm.hpp
+        High_Stakes/src/commands/Default/MoveLiftDegrees.cpp
+        High_Stakes/src/commands/Default/MoveLiftDegrees.hpp
+        High_Stakes/src/AutonomousControlSchedulerThink.cpp
+        High_Stakes/src/AutonomousControlSchedulerThink.hpp
+)
