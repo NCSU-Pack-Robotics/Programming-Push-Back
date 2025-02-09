@@ -23,7 +23,6 @@ void LadyBrown::periodic() {
 
     int32_t curr_angle = lb_sensor->get_angle();
 
-    // printf("Current angle: %d\n", curr_angle);
     // return;
 
     // prevent the angle from being read as 359 deg and trying to go backwards.

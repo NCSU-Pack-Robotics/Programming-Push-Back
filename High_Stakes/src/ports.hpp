@@ -31,79 +31,83 @@ namespace Ports {
 
     /** DO */ 
 
+    // /** Port of the left first front motor */
+    // constexpr std::int8_t LEFT_FRONT1_MOTOR_PORT = 12;
+    // /** Port of the left second front motor */
+    // constexpr std::int8_t LEFT_FRONT2_MOTOR_PORT = -11;
+    // /** Port of the left second back motor */
+    // constexpr std::int8_t LEFT_BACK2_MOTOR_PORT = 13;
+    // /** Port of the left first back motor */
+    // constexpr std::int8_t LEFT_BACK1_MOTOR_PORT = -14;
+    //
+    // /** Port of the right first front motor */
+    // constexpr std::int8_t RIGHT_FRONT1_MOTOR_PORT = -16;
+    // /** Port of the right second front motor */
+    // constexpr std::int8_t RIGHT_FRONT2_MOTOR_PORT = 17;
+    // /** Port of the right second back motor */
+    // constexpr std::int8_t RIGHT_BACK2_MOTOR_PORT = -18;
+    // /** Port of the right first back motor */
+    // constexpr std::int8_t RIGHT_BACK1_MOTOR_PORT = 19;
+    //
+    // /** Port of the lift motor */
+    // constexpr std::int8_t LIFT_MOTOR_PORT = 15;
+    //
+    // /** Port of the intake motor */
+    // constexpr std::int8_t INTAKE_MOTOR_PORT = -2;
+    //
+    // /** Port of the ladybrown motor */
+    // constexpr std::int8_t LADYBROWN_MOTOR_PORT = -3;
+    // /** Port of the ladybrown sensor motor */
+    // constexpr std::int8_t LADYBROWN_ROTATION_PORT = -10;
+    //
+    // /** Port of the clamp. */
+    // constexpr char CLAMP_BRAIN_PORT = 'B';
+    //
+    // /** Port of the hook sensor, LOW value means the sensor is blocked. */
+    // constexpr char HOOK_SENSOR_BRAIN_PORT = 'A';
+    //
+    // // /** Port of the extended arm port */
+    // /// Needed to compile, but there is no arm on DO
+    // constexpr char ARM_BRAIN_PORT = 'C';
+
+
+
+    /** THINK */
     /** Port of the left first front motor */
-    constexpr std::int8_t LEFT_FRONT1_MOTOR_PORT = 12;
+    constexpr std::int8_t LEFT_FRONT1_MOTOR_PORT = 15;
     /** Port of the left second front motor */
-    constexpr std::int8_t LEFT_FRONT2_MOTOR_PORT = -11;
+    constexpr std::int8_t LEFT_FRONT2_MOTOR_PORT = -16;
     /** Port of the left second back motor */
-    constexpr std::int8_t LEFT_BACK2_MOTOR_PORT = 13;
+    constexpr std::int8_t LEFT_BACK2_MOTOR_PORT = 17;
     /** Port of the left first back motor */
-    constexpr std::int8_t LEFT_BACK1_MOTOR_PORT = -14;
+    constexpr std::int8_t LEFT_BACK1_MOTOR_PORT = -18;
 
     /** Port of the right first front motor */
-    constexpr std::int8_t RIGHT_FRONT1_MOTOR_PORT = -16;
+    constexpr std::int8_t RIGHT_FRONT1_MOTOR_PORT = -14;
     /** Port of the right second front motor */
-    constexpr std::int8_t RIGHT_FRONT2_MOTOR_PORT = 17;
+    constexpr std::int8_t RIGHT_FRONT2_MOTOR_PORT = 13;
     /** Port of the right second back motor */
-    constexpr std::int8_t RIGHT_BACK2_MOTOR_PORT = -18;
+    constexpr std::int8_t RIGHT_BACK2_MOTOR_PORT = -12;
     /** Port of the right first back motor */
-    constexpr std::int8_t RIGHT_BACK1_MOTOR_PORT = 19;
+    constexpr std::int8_t RIGHT_BACK1_MOTOR_PORT = 11;
 
     /** Port of the lift motor */
-    constexpr std::int8_t LIFT_MOTOR_PORT = 15;
+    constexpr std::int8_t LIFT_MOTOR_PORT = 8;
 
     /** Port of the intake motor */
-    constexpr std::int8_t INTAKE_MOTOR_PORT = -2;
+    constexpr std::int8_t INTAKE_MOTOR_PORT = -9;
 
     /** Port of the ladybrown motor */
     constexpr std::int8_t LADYBROWN_MOTOR_PORT = -1;
-    /** Port of the ladybrown sensor motor */
-    constexpr std::int8_t LADYBROWN_ROTATION_PORT = 20;
+    /** Port of the ladybrown rotation sensor */
+    constexpr std::int8_t LADYBROWN_ROTATION_PORT = -19;
 
     /** Port of the clamp. */
-    constexpr char CLAMP_BRAIN_PORT = 'B';
+    constexpr char CLAMP_BRAIN_PORT = 'A';
 
     /** Port of the hook sensor, LOW value means the sensor is blocked. */
-    constexpr char HOOK_SENSOR_BRAIN_PORT = 'A';
+    constexpr char HOOK_SENSOR_BRAIN_PORT = 'B';
 
-
-
-    // /** THINK */
-    // /** Port of the left first front motor */
-    // constexpr std::int8_t LEFT_FRONT1_MOTOR_PORT = 15;
-    // /** Port of the left second front motor */
-    // constexpr std::int8_t LEFT_FRONT2_MOTOR_PORT = -16;
-    // /** Port of the left second back motor */
-    // constexpr std::int8_t LEFT_BACK2_MOTOR_PORT = 17;
-    // /** Port of the left first back motor */
-    // constexpr std::int8_t LEFT_BACK1_MOTOR_PORT = -18;
-    //
-    // /** Port of the right first front motor */
-    // constexpr std::int8_t RIGHT_FRONT1_MOTOR_PORT = -14;
-    // /** Port of the right second front motor */
-    // constexpr std::int8_t RIGHT_FRONT2_MOTOR_PORT = 13;
-    // /** Port of the right second back motor */
-    // constexpr std::int8_t RIGHT_BACK2_MOTOR_PORT = -12;
-    // /** Port of the right first back motor */
-    // constexpr std::int8_t RIGHT_BACK1_MOTOR_PORT = 11;
-    //
-    // /** Port of the lift motor */
-    // constexpr std::int8_t LIFT_MOTOR_PORT = 8;
-    //
-    // /** Port of the intake motor */
-    // constexpr std::int8_t INTAKE_MOTOR_PORT = -9;
-    //
-    // /** Port of the ladybrown motor */
-    // constexpr std::int8_t LADYBROWN_MOTOR_PORT = -1;
-    // /** Port of the ladybrown rotation sensor */
-    // constexpr std::int8_t LADYBROWN_ROTATION_PORT = -19;
-    //
-    // /** Port of the clamp. */
-    // constexpr char CLAMP_BRAIN_PORT = 'A';
-    //
-    // /** Port of the hook sensor, LOW value means the sensor is blocked. */
-    // constexpr char HOOK_SENSOR_BRAIN_PORT = 'B';
-    //
     /** Port of the extended arm port */
-    constexpr char ARM_BRAIN_PORT = 'D';
+    constexpr char ARM_BRAIN_PORT = 'C';
 }

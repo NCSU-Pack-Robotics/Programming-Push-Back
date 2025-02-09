@@ -60,8 +60,8 @@ void Drivetrain::initialize() {
     brake();
 
     // Set the brake mode on the motors
-    left_motors->set_brake_mode_all(pros::E_MOTOR_BRAKE_BRAKE);
-    right_motors->set_brake_mode_all(pros::E_MOTOR_BRAKE_BRAKE);
+    left_motors->set_brake_mode_all(pros::E_MOTOR_BRAKE_COAST);
+    right_motors->set_brake_mode_all(pros::E_MOTOR_BRAKE_COAST);
 
     reversing = false;
     braking = false;
@@ -80,6 +80,8 @@ void Drivetrain::periodic() {
     this->odometry->calculate();
 
     if (braking) {
+        left_motors->set_brake_mode_all(pros::E_MOTOR_BRAKE_BRAKE);
+        right_motors->set_brake_mode_all(pros::E_MOTOR_BRAKE_BRAKE);
         // Clear old velocities
         left_drive_power = 0;
         right_drive_power = 0;
@@ -90,6 +92,9 @@ void Drivetrain::periodic() {
         right_motors->brake();
         // return so that it keeps braking
         return;
+    } else {
+        left_motors->set_brake_mode_all(pros::E_MOTOR_BRAKE_COAST);
+        right_motors->set_brake_mode_all(pros::E_MOTOR_BRAKE_COAST);
     }
 
     switch (drive_type) {

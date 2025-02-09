@@ -1,7 +1,10 @@
 #include "DriverControlScheduler.hpp"
+
+#include <array>
+
+#include "ButtonMappings.hpp"
 #include "Config.hpp"
 #include "subystems/Intake.hpp"
-#include "ButtonMappings.hpp"
 
 DriverControlScheduler::DriverControlScheduler() : ParallelCommand({}){
 }
@@ -49,6 +52,12 @@ void DriverControlScheduler::periodic() {
         pros::controller_digital_e_t button = static_cast<pros::controller_digital_e_t>(i);
         new_controller_states[button] = controller.get_digital(button);
     }
+
+    // std::unordered_map<ButtonCombo, std::array<std::optional<std::function<std::unique_ptr<Command>()>>, 3>>& BINDS = BINDS_UNSHIFTED;
+    //
+    // if (Constants::shifted) {
+    //     BINDS = BINDS_SHIFTED;
+    // }
 
     for (auto &[button_combo, command] : BINDS) {
         // Keeps track of the matches in the button combo to the correct state

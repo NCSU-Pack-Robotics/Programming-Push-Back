@@ -4,7 +4,6 @@
 void TurnAround::initialize() {
     starting_heading = drivetrain.get_pose().heading;
     target_heading = starting_heading + M_PI;
-    printf("starting heading: %f", starting_heading);
     drivetrain.set_braking(false);
 }
 
@@ -16,9 +15,7 @@ void TurnAround::periodic() {
 }
 
 bool TurnAround::is_complete() {
-    printf("difference: %f\n", fabs(drivetrain.get_pose().heading - starting_heading));
     if (target_heading - drivetrain.get_pose().heading < 0.65) {
-        printf("returning");
         drivetrain.set_braking(true);
         return true;
     }
@@ -26,6 +23,6 @@ bool TurnAround::is_complete() {
 }
 
 void TurnAround::shutdown() {
-    printf("shutting down");
+
 }
 

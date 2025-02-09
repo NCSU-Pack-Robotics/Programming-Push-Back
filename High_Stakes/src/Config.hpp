@@ -97,9 +97,11 @@ namespace Constants {
         /** The initial x position of the robot */
         constexpr double INITIAL_X = -58.5;
         /** The initial y position of the robot */
-        // constexpr double INITIAL_Y = 24;  // Left Side
-        constexpr double INITIAL_Y = -24;  // Ride Side
+        // constexpr double INITIAL_Y = 24;  // Left Side DO
+        constexpr double INITIAL_Y = -24;  // Ride Side THINK
         /** The initial heading of the robot */
         constexpr double INITIAL_HEADING = M_PI;
     }
+
+    static bool shifted = false;
 }

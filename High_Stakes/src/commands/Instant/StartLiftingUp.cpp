@@ -13,7 +13,7 @@ void StartLiftingUp::execute() {
     int32_t speed = Constants::Controller::MotorSpeeds::LIFT_UP;
     // If ladybrown is in LOAD position, run at a modified speed.
     if (lady_brown.get_position() == LadyBrown::Position::LOAD) {
-        speed *= Constants::Controller::MotorSpeeds::LIFT_LADYBROWN_SPEED_MULTIPLIER;
+        speed = 127;
     }
     lift.set_drive_power(speed);
 }
