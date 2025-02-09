@@ -117,7 +117,7 @@ void autonomous() {
  * task, not resume it from where it left off.
  */
 void opcontrol() {
-    initialize();
+    lady_brown.set_killed(false);
     // Initialize the driver control scheduler
     DriverControlScheduler scheduler{};
     scheduler.initialize();
