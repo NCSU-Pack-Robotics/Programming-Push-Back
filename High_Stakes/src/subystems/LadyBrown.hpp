@@ -1,8 +1,10 @@
 #pragma once
+#include <array>
+
 #include "../../include/main.h"
 #include "../AbstractSubsystem.hpp"
-#include "../math/PID.hpp"
 #include "../Config.hpp"
+#include "../math/PID.hpp"
 
 class LadyBrown : public AbstractSubsystem {
     friend class AbstractSubsystem;
@@ -23,9 +25,14 @@ public:
 
     /** A map of the positions and their rotation in centidegrees */
     std::array<std::pair<Position, int32_t>, 3> Positions{
+        // THINK ANGLES
         std::pair{STOW, 500},
-        std::pair{LOAD, 4800},
-        std::pair{SCORE, 20500},
+        std::pair{LOAD, 4000},
+        std::pair{SCORE, 20000},
+        // DO ANGLES
+        // std::pair{STOW, 500},
+        // std::pair{LOAD, 2250},
+        // std::pair{SCORE, 11750},
     };
 
     /**

@@ -38,10 +38,8 @@ namespace std {
         std::size_t operator()(const ButtonCombo& combo) const {
             std::size_t seed = 0;
             for (const pros::controller_digital_e_t& btn : combo.buttons) {
-                printf("Hashing button %d" + btn);
                 seed ^= std::hash<int>()(btn) + GOLDEN_RATIO + (seed << 6) + (seed >> 2);
             }
-            printf("returning seed: %d\n", seed);
             return seed;
         }
     };
@@ -61,23 +59,33 @@ const std::unordered_map<ButtonCombo,
                              {ButtonCombo{std::vector{pros::E_CONTROLLER_DIGITAL_R1}}, {std::nullopt, [] { return std::make_unique<StartIntakingOut>(); }, [] { return std::make_unique<StopIntaking>(); }}},
                              {ButtonCombo{std::vector{pros::E_CONTROLLER_DIGITAL_R2}}, {std::nullopt, [] { return std::make_unique<StartIntakingIn>(); }, [] { return std::make_unique<StopIntaking>(); }}},
                              {ButtonCombo{std::vector{pros::E_CONTROLLER_DIGITAL_UP}}, {std::nullopt, std::nullopt, std::nullopt}},
-                             {ButtonCombo{std::vector{pros::E_CONTROLLER_DIGITAL_DOWN}}, {std::nullopt, std::nullopt, std::nullopt}},
-                             {ButtonCombo{std::vector{pros::E_CONTROLLER_DIGITAL_LEFT}}, {std::nullopt, std::nullopt, std::nullopt}},
+                             {ButtonCombo{std::vector{pros::E_CONTROLLER_DIGITAL_DOWN}}, {[] { return std::make_unique<ToggleArm>(); }, std::nullopt, std::nullopt}},
+                             {ButtonCombo{std::vector{pros::E_CONTROLLER_DIGITAL_LEFT}}, {[] { return std::make_unique<ToggleClamp>(); }, std::nullopt, std::nullopt}},
                              {ButtonCombo{std::vector{pros::E_CONTROLLER_DIGITAL_RIGHT}}, {std::nullopt, std::nullopt, std::nullopt}},
-                             {ButtonCombo{std::vector{pros::E_CONTROLLER_DIGITAL_X}}, {[] { return std::make_unique<ToggleArm>(); }, std::nullopt, std::nullopt}},
+                             {ButtonCombo{std::vector{pros::E_CONTROLLER_DIGITAL_X}}, {std::nullopt, std::nullopt, std::nullopt}},
                              {ButtonCombo{std::vector{pros::E_CONTROLLER_DIGITAL_B}}, {[] { return std::make_unique<TurnAround>(); }, std::nullopt, std::nullopt}},
-                             {ButtonCombo{std::vector{pros::E_CONTROLLER_DIGITAL_Y}}, {[] { return std::make_unique<NextLadyBrownPosition>(); }, std::nullopt, std::nullopt}},
-                             {ButtonCombo{std::vector{pros::E_CONTROLLER_DIGITAL_A}}, {[] { return std::make_unique<ToggleClamp>(); }, std::nullopt, std::nullopt}},
+                             {ButtonCombo{std::vector{pros::E_CONTROLLER_DIGITAL_Y}}, {std::nullopt, std::nullopt, std::nullopt}},
+                             {ButtonCombo{std::vector{pros::E_CONTROLLER_DIGITAL_A}}, {[] { return std::make_unique<NextLadyBrownPosition>(); }, std::nullopt, std::nullopt}},
 };
 
 // GARETT DRIVE CONFIG
-// const std::unordered_map<ButtonCombo,
-//                          std::array<std::optional<std::function<std::unique_ptr<Command>()>>, 3>> BINDS{
-//                              {ButtonCombo{std::vector{pros::E_CONTROLLER_DIGITAL_L2, pros::E_CONTROLLER_DIGITAL_R2}}, {[] { return std::make_unique<StartIntakingOut>(); }, std::nullopt, std::nullopt}},
-//                                 {ButtonCombo{std::vector{pros::E_CONTROLLER_DIGITAL_R2}}, {std::nullopt, std::nullopt, [] { return std::make_unique<StopIntaking>(); }}},
-//                              {ButtonCombo{std::vector{pros::E_CONTROLLER_DIGITAL_L2, pros::E_CONTROLLER_DIGITAL_R1}}, {[] { return std::make_unique<StartLiftingDown>(); }, std::nullopt, std::nullopt}},
-//                              {ButtonCombo{std::vector{pros::E_CONTROLLER_DIGITAL_R1}}, {std::nullopt, std::nullopt, [] { return std::make_unique<StopLifting>(); }}},
-//                              // {ButtonCombo{std::vector{pros::E_CONTROLLER}}} // {ButtonCombo{std::vector{pros::E_CONTROLLER}}} // How to do a command if R2 is pressed and L2 is NOT pressed?
-//
+// std::unordered_map<ButtonCombo,
+//                          std::array<std::optional<std::function<std::unique_ptr<Command>()>>, 3>> BINDS_UNSHIFTED{
+//                             {ButtonCombo{std::vector{pros::E_CONTROLLER_DIGITAL_R2}}, {[] { return std::unique_ptr<StartIntakingIn>(); }, std::nullopt, [] { return std::unique_ptr<StopIntaking>(); }}},
+//                              {ButtonCombo{std::vector{pros::E_CONTROLLER_DIGITAL_R1}}, {[] { return std::unique_ptr<StartLiftingUp>(); }, std::nullopt, [] { return std::unique_ptr<StopLifting>(); }}},
+//                              {ButtonCombo{std::vector{pros::E_CONTROLLER_DIGITAL_LEFT}}, {[] { return std::unique_ptr<ToggleClamp>(); }, std::nullopt, std::nullopt}},
+//                              // Shift button
+//                              {ButtonCombo{std::vector{pros::E_CONTROLLER_DIGITAL_L2}}, {[] { return std::unique_ptr<ToggleShiftKey>(); }, std::nullopt, [] { return std::unique_ptr<ToggleShiftKey>(); }}},
 //
 // };
+//
+// // GARRETT SHIFT KEY ENABLED DRIVE CONFIG
+// std::unordered_map<ButtonCombo,
+//                          std::array<std::optional<std::function<std::unique_ptr<Command>()>>, 3>> BINDS_SHIFTED{
+//                                 {ButtonCombo{std::vector{pros::E_CONTROLLER_DIGITAL_R2}}, {[] { return std::unique_ptr<StartIntakingOut>(); }, std::nullopt, [] { return std::unique_ptr<StopIntaking>(); }}},
+//                                  {ButtonCombo{std::vector{pros::E_CONTROLLER_DIGITAL_R1}}, {[] { return std::unique_ptr<StartLiftingDown>(); }, std::nullopt, [] { return std::unique_ptr<StopLifting>(); }}},
+//                                  {ButtonCombo{std::vector{pros::E_CONTROLLER_DIGITAL_LEFT}}, {[] { return std::unique_ptr<ToggleClamp>(); }, std::nullopt, std::nullopt}},
+//                                  // Shift button
+//                                  {ButtonCombo{std::vector{pros::E_CONTROLLER_DIGITAL_L2}}, {[] { return std::unique_ptr<ToggleShiftKey>(); }, std::nullopt, [] { return std::unique_ptr<ToggleShiftKey>(); }}},
+//
+//     };
