@@ -85,7 +85,7 @@ void competition_initialize() {
  */
 void autonomous() {
     // Initialize the autonomous scheduler
-    AutonomousControlSchedulerDo scheduler{};
+    AutonomousControlSchedulerThink scheduler{};
     scheduler.initialize();
 
     // Run disabled periodic for all subsystems
