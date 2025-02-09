@@ -50,7 +50,7 @@ void LadyBrown::periodic() {
 
 void LadyBrown::shutdown() {
     // Just stop the motor
-    lb_motor-> move_velocity(0);
+    lb_motor->move_voltage(0);
 }
 
 void LadyBrown::disabled_periodic() {
