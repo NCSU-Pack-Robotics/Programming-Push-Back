@@ -26,14 +26,20 @@ public:
     /** A map of the positions and their rotation in centidegrees */
     std::array<std::pair<Position, int32_t>, 3> Positions{
         // THINK ANGLES
-        std::pair{STOW, 500},
-        std::pair{LOAD, 4000},
-        std::pair{SCORE, 20000},
-        // DO ANGLES
         // std::pair{STOW, 500},
-        // std::pair{LOAD, 2250},
-        // std::pair{SCORE, 11750},
+        // std::pair{LOAD, 4000},
+        // std::pair{SCORE, 20000},
+        // DO ANGLES
+        std::pair{STOW, 500},
+        std::pair{LOAD, 2250},
+        std::pair{SCORE, 11750},
     };
+
+    /**
+     * Sets the target position of the LadyBrown.
+     * @param position
+     */
+    void set_position(Position position);
 
     /**
      * Gets the current enumeration <code>Position</code> of the LadyBrown.
@@ -41,6 +47,11 @@ public:
      */
     Position get_position() const;
 
+    /**
+     * Stops the motors so that the LadyBrown coasts if something hits it.
+     * @param killed Kills the motors if true, otherwise sets the motors to the current position.
+     * @return True if the motors are killed, false otherwise.
+     */
     bool set_killed(bool killed);
 
 private:

@@ -22,7 +22,7 @@ void LadyBrown::periodic() {
     // update the ladybrown to be in the correct position
 
     if (motors_killed) {
-        lb_motor->move_velocity(0);
+        lb_motor->move_voltage(0);
         return;
     }
 
@@ -60,6 +60,10 @@ void LadyBrown::next_position() {
         position_index++;
     }
     position = Positions[position_index].first;
+}
+
+void LadyBrown::set_position(const Position position) {
+    this->position_index = static_cast<int>(position);
 }
 
 LadyBrown::Position LadyBrown::get_position() const {
