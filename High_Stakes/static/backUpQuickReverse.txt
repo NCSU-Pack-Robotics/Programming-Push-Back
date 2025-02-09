@@ -1,0 +1,43 @@
+-14.084, -40.206, 99.172
+-15.073, -40.059, 98.344
+-16.063, -39.915, 97.516
+-17.053, -39.774, 96.688
+-18.043, -39.636, 95.86
+-19.034, -39.501, 95.032
+-20.025, -39.37, 94.205
+-21.017, -39.242, 93.377
+-22.009, -39.119, 92.549
+-23.002, -39.001, 91.721
+-23.996, -38.887, 90.893
+-24.99, -38.779, 90.065
+-25.985, -38.675, 88.696
+-26.98, -38.577, 87.252
+-27.975, -38.483, 85.785
+-28.971, -38.394, 84.291
+-29.968, -38.309, 82.771
+-30.964, -38.226, 81.222
+-31.961, -38.143, 79.643
+-32.957, -38.061, 78.032
+-33.954, -37.975, 76.387
+-34.95, -37.887, 74.706
+-35.946, -37.795, 72.986
+-36.941, -37.697, 71.225
+-37.936, -37.594, 69.419
+-38.93, -37.487, 67.565
+-39.923, -37.374, 65.658
+-40.916, -37.256, 63.695
+-41.909, -37.134, 61.668
+-42.901, -37.007, 59.573
+-43.892, -36.877, 57.402
+-44.883, -36.743, 55.145
+-45.874, -36.605, 52.792
+-46.864, -36.464, 50.329
+-47.853, -36.32, 47.739
+-48.843, -36.174, 45
+-50, -36, 0
+endData
+127
+100
+200
+-13.095, -40.355, -31.941, -37.49, -31.155, -38.865, -50, -36
+#PATH.JERRYIO-DATA {"appVersion":"0.8.3","format":"LemLib v0.5","gc":{"robotWidth":15,"robotHeight":13,"robotIsHolonomic":false,"showRobot":true,"uol":2.54,"pointDensity":1,"controlMagnetDistance":1.968503937007874,"fieldImage":{"displayName":"VURC 2025 - High Stakes","signature":"VURC 2025 - High Stakes","origin":{"__type":"built-in"}},"coordinateSystem":"Cartesian Plane"},"paths":[{"segments":[{"controls":[{"uid":"VDr5WZO8wY","x":-13.095,"y":-40.355,"lock":false,"visible":true,"heading":90,"__type":"end-point"},{"uid":"6zvtuwCpnd","x":-31.940717804171243,"y":-37.489818567885166,"lock":false,"visible":true,"__type":"control"},{"uid":"zK9MSm68qH","x":-31.15467954775321,"y":-38.865385516616726,"lock":false,"visible":true,"__type":"control"},{"uid":"vW1lg5rc8S","x":-50,"y":-36,"lock":false,"visible":true,"heading":0,"__type":"end-point"}],"speedProfiles":[{"uid":"TKGnVhd3F8","xPos":0.9736842105263158,"yPos":0.4430342548032098,"followBentRate":true},{"uid":"79QcYxdA5I","xPos":0.9736842105263158,"yPos":1,"followBentRate":true}],"lookaheadKeyframes":[],"uid":"CcoYgPvu8K"}],"pc":{"speedLimit":{"minLimit":{"value":0,"label":"0"},"maxLimit":{"value":127,"label":"127"},"step":1,"from":45,"to":100},"bentRateApplicableRange":{"minLimit":{"value":0,"label":"0"},"maxLimit":{"value":1,"label":"1"},"step":0.001,"from":0,"to":0.1},"maxDecelerationRate":127},"name":"Path","uid":"3Ia96ORI6D","lock":false,"visible":true}]}
