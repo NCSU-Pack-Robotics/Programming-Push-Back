@@ -122,4 +122,6 @@ add_executable(Programming_High_Stakes
         High_Stakes/src/commands/Instant/ToggleShiftKey.hpp
         High_Stakes/src/commands/Default/LadyBrownLoadingLiftReverse.cpp
         High_Stakes/src/commands/Default/LadyBrownLoadingLiftReverse.hpp
+        High_Stakes/src/commands/Default/MoveLadyBrownPosition.cpp
+        High_Stakes/src/commands/Default/MoveLadyBrownPosition.hpp
 )

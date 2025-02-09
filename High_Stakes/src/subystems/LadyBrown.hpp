@@ -26,32 +26,30 @@ public:
     /** A map of the positions and their rotation in centidegrees */
     std::array<std::pair<Position, int32_t>, 3> Positions{
         // THINK ANGLES
-        // std::pair{STOW, 500},
-        // std::pair{LOAD, 4000},
-        // std::pair{SCORE, 20000},
-        // DO ANGLES
         std::pair{STOW, 500},
-        std::pair{LOAD, 2250},
-        std::pair{SCORE, 11750},
+        std::pair{LOAD, 4000},
+        std::pair{SCORE, 20000},
+        // DO ANGLES
+        // std::pair{STOW, 500},
+        // std::pair{LOAD, 2250},
+        // std::pair{SCORE, 11750},
     };
 
     /**
+     * Gets the current target enumeration <code>Position</code> of the LadyBrown.
+     * @return The current position of the LadyBrown.
+     */
+    Position get_position() const;
+
+    /** Returns the last confirmed position of the LadyBrown */
+    Position get_last_position() const;
+
+     /**
      * Sets the target position of the LadyBrown.
      * @param position
      */
     void set_position(Position position);
 
-    /**
-     * Gets the current enumeration <code>Position</code> of the LadyBrown.
-     * @return The current position of the LadyBrown.
-     */
-    Position get_position() const;
-
-    /**
-     * Stops the motors so that the LadyBrown coasts if something hits it.
-     * @param killed Kills the motors if true, otherwise sets the motors to the current position.
-     * @return True if the motors are killed, false otherwise.
-     */
     bool set_killed(bool killed);
 
 private:
@@ -61,8 +59,11 @@ private:
     /** The motor for the LadyBrown */
     std::unique_ptr<pros::Motor> lb_motor;
 
-    /** The current position of the LadyBrown. It is not guaranteed to be in this position, but it will be attempting to get there */
-    Position position;
+    /** This last position that the LadyBrown was in. If moving to a new position, until it is in that position this will be the last one */
+    Position last_confirmed_position;
+
+    /** The target position of the LadyBrown. It is not guaranteed to be in this position, but it will be attempting to get there */
+    Position target_position;
 
     /** The position index from the list of positions */
     int position_index;
