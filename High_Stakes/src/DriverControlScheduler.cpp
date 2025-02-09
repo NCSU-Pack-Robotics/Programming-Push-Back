@@ -1,7 +1,5 @@
 #include "DriverControlScheduler.hpp"
 
-#include <array>
-
 #include "ButtonMappings.hpp"
 #include "Config.hpp"
 #include "subystems/Intake.hpp"
@@ -37,8 +35,6 @@ void DriverControlScheduler::periodic() {
     const int32_t left_power_scaled = scale_power(left_power, Constants::Controller::INPUT_SCALING_FACTOR);
     const int32_t right_power_scaled = scale_power(right_power, Constants::Controller::INPUT_SCALING_FACTOR);
 
-    
-
     if (abs(left_power_scaled) > 1 || abs(right_power_scaled) > 1) {
         drivetrain.set_drive_power(left_power_scaled, right_power_scaled);
         drivetrain.set_braking(false);
@@ -46,47 +42,21 @@ void DriverControlScheduler::periodic() {
         drivetrain.set_drive_power(0,0);
     }
 
-    std::unordered_map<pros::controller_digital_e_t, bool> new_controller_states;
+    for (auto &[button, command] : BINDS) {
+        // controller state for this tick
+        const bool new_controller_state = controller.get_digital(button);
 
-    for (int i = 6; i < 18; i++) {
-        pros::controller_digital_e_t button = static_cast<pros::controller_digital_e_t>(i);
-        new_controller_states[button] = controller.get_digital(button);
-    }
-
-    // std::unordered_map<ButtonCombo, std::array<std::optional<std::function<std::unique_ptr<Command>()>>, 3>>& BINDS = BINDS_UNSHIFTED;
-    //
-    // if (Constants::shifted) {
-    //     BINDS = BINDS_SHIFTED;
-    // }
-
-    for (auto &[button_combo, command] : BINDS) {
-        // Keeps track of the matches in the button combo to the correct state
-        std::array button_combo_values{0,0,0};
-        for (const pros::controller_digital_e_t button : button_combo.buttons) {
-
-            // TODO: Confirm that get_digital_new_press works. It may not because it warns it is not thread safe and we are calling it a lot here.
-            if (command[0].has_value() && controller.get_digital_new_press(button)) { // button just pressed
-                button_combo_values[0]++;
-            } else if (command[1].has_value() && controller.get_digital(button)) { // button down but not just pressed
-                button_combo_values[1]++;
-            } else if (command[2].has_value() && !new_controller_states[button] && controller_state[button]) { // if the button isn't pressed this tick and it was pressed last tick
-                button_combo_values[2]++;
-            }
+        if (command[0].has_value() && controller.get_digital_new_press(button)) { // button just pressed
+            this->add_command(command[0].value()());
+        } else if (command[1].has_value() && controller.get_digital(button)) { // button down but not just pressed
+            this->add_command(command[1].value()());
+        } else if (command[2].has_value() && !new_controller_state && controller_state[button]) { // if the button isn't pressed this tick and it was pressed last tick
+            this->add_command(command[2].value()());
         }
 
-        // Button states will not overlap, so we can just check if for a certain state all the buttons in the combo match.
-
-        // If all the buttons were in the correct state
-        for (int i = 0; i < button_combo_values.size(); i++) {
-            if (button_combo_values[i] == button_combo.buttons.size()) {
-                this->add_command(command[i].value()());
-            }
-        }
+        // update actual map
+        controller_state[button] = new_controller_state;
     }
-
-    // update actual map
-    controller_state = new_controller_states;
-
     ParallelCommand::periodic();
 }
 

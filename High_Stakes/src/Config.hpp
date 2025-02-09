@@ -22,7 +22,7 @@ namespace Constants {
         }
 
         /** The scaling factor used for scaling the controller input */
-        constexpr int32_t INPUT_SCALING_FACTOR = 15;
+        constexpr int32_t INPUT_SCALING_FACTOR = 0;
     }
   
     /**
@@ -97,8 +97,8 @@ namespace Constants {
         /** The initial x position of the robot */
         constexpr double INITIAL_X = -58.5;
         /** The initial y position of the robot */
-        // constexpr double INITIAL_Y = 24;  // Left Side DO
-        constexpr double INITIAL_Y = -24;  // Ride Side THINK
+        constexpr double INITIAL_Y = 24;  // Left Side DO
+        // constexpr double INITIAL_Y = -24;  // Ride Side THINK
         /** The initial heading of the robot */
         constexpr double INITIAL_HEADING = M_PI;
     }

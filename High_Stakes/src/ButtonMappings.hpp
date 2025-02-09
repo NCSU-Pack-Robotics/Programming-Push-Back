@@ -50,42 +50,30 @@ namespace std {
  */
 // If you need to map a ButtonCombo to multiple commands, use an inline parallel or chain command.
 
-// CHRIS DRIVE CONFIG
 
-const std::unordered_map<ButtonCombo,
-                         std::array<std::optional<std::function<std::unique_ptr<Command>()>>, 3>> BINDS{
-                             {ButtonCombo{std::vector{pros::E_CONTROLLER_DIGITAL_L1}}, {std::nullopt, [] { return std::make_unique<StartLiftingDown>(); }, [] { return std::make_unique<StopLifting>(); }}},
-                             {ButtonCombo{std::vector{pros::E_CONTROLLER_DIGITAL_L2}}, {std::nullopt, [] { return std::make_unique<StartLiftingUp>(); }, [] { return std::make_unique<StopLifting>(); }}},
-                             {ButtonCombo{std::vector{pros::E_CONTROLLER_DIGITAL_R1}}, {std::nullopt, [] { return std::make_unique<StartIntakingOut>(); }, [] { return std::make_unique<StopIntaking>(); }}},
-                             {ButtonCombo{std::vector{pros::E_CONTROLLER_DIGITAL_R2}}, {std::nullopt, [] { return std::make_unique<StartIntakingIn>(); }, [] { return std::make_unique<StopIntaking>(); }}},
-                             {ButtonCombo{std::vector{pros::E_CONTROLLER_DIGITAL_UP}}, {std::nullopt, std::nullopt, std::nullopt}},
-                             {ButtonCombo{std::vector{pros::E_CONTROLLER_DIGITAL_DOWN}}, {[] { return std::make_unique<ToggleArm>(); }, std::nullopt, std::nullopt}},
-                             {ButtonCombo{std::vector{pros::E_CONTROLLER_DIGITAL_LEFT}}, {[] { return std::make_unique<ToggleClamp>(); }, std::nullopt, std::nullopt}},
-                             {ButtonCombo{std::vector{pros::E_CONTROLLER_DIGITAL_RIGHT}}, {std::nullopt, std::nullopt, std::nullopt}},
-                             {ButtonCombo{std::vector{pros::E_CONTROLLER_DIGITAL_X}}, {std::nullopt, std::nullopt, std::nullopt}},
-                             {ButtonCombo{std::vector{pros::E_CONTROLLER_DIGITAL_B}}, {[] { return std::make_unique<TurnAround>(); }, std::nullopt, std::nullopt}},
-                             {ButtonCombo{std::vector{pros::E_CONTROLLER_DIGITAL_Y}}, {std::nullopt, std::nullopt, std::nullopt}},
-                             {ButtonCombo{std::vector{pros::E_CONTROLLER_DIGITAL_A}}, {[] { return std::make_unique<NextLadyBrownPosition>(); }, std::nullopt, std::nullopt}},
+
+// Declaration of BINDS
+extern std::unordered_map<pros::controller_digital_e_t,
+                          std::array<std::optional<std::function<std::unique_ptr<Command>()>>, 3>> BINDS;
+
+class GarretShiftIn : public InstantCommand {
+public:
+
+    GarretShiftIn() = default;
+
+    void execute() override {
+        BINDS[pros::E_CONTROLLER_DIGITAL_R1] = {std::nullopt, [] { return std::make_unique<StartLiftingDown>(); }, [] { return std::make_unique<StopLifting>(); }};
+        BINDS[pros::E_CONTROLLER_DIGITAL_R2] = {std::nullopt, [] { return std::make_unique<StartIntakingOut>(); }, [] { return std::make_unique<StopIntaking>(); }};
+    }
 };
 
-// GARETT DRIVE CONFIG
-// std::unordered_map<ButtonCombo,
-//                          std::array<std::optional<std::function<std::unique_ptr<Command>()>>, 3>> BINDS_UNSHIFTED{
-//                             {ButtonCombo{std::vector{pros::E_CONTROLLER_DIGITAL_R2}}, {[] { return std::unique_ptr<StartIntakingIn>(); }, std::nullopt, [] { return std::unique_ptr<StopIntaking>(); }}},
-//                              {ButtonCombo{std::vector{pros::E_CONTROLLER_DIGITAL_R1}}, {[] { return std::unique_ptr<StartLiftingUp>(); }, std::nullopt, [] { return std::unique_ptr<StopLifting>(); }}},
-//                              {ButtonCombo{std::vector{pros::E_CONTROLLER_DIGITAL_LEFT}}, {[] { return std::unique_ptr<ToggleClamp>(); }, std::nullopt, std::nullopt}},
-//                              // Shift button
-//                              {ButtonCombo{std::vector{pros::E_CONTROLLER_DIGITAL_L2}}, {[] { return std::unique_ptr<ToggleShiftKey>(); }, std::nullopt, [] { return std::unique_ptr<ToggleShiftKey>(); }}},
-//
-// };
-//
-// // GARRETT SHIFT KEY ENABLED DRIVE CONFIG
-// std::unordered_map<ButtonCombo,
-//                          std::array<std::optional<std::function<std::unique_ptr<Command>()>>, 3>> BINDS_SHIFTED{
-//                                 {ButtonCombo{std::vector{pros::E_CONTROLLER_DIGITAL_R2}}, {[] { return std::unique_ptr<StartIntakingOut>(); }, std::nullopt, [] { return std::unique_ptr<StopIntaking>(); }}},
-//                                  {ButtonCombo{std::vector{pros::E_CONTROLLER_DIGITAL_R1}}, {[] { return std::unique_ptr<StartLiftingDown>(); }, std::nullopt, [] { return std::unique_ptr<StopLifting>(); }}},
-//                                  {ButtonCombo{std::vector{pros::E_CONTROLLER_DIGITAL_LEFT}}, {[] { return std::unique_ptr<ToggleClamp>(); }, std::nullopt, std::nullopt}},
-//                                  // Shift button
-//                                  {ButtonCombo{std::vector{pros::E_CONTROLLER_DIGITAL_L2}}, {[] { return std::unique_ptr<ToggleShiftKey>(); }, std::nullopt, [] { return std::unique_ptr<ToggleShiftKey>(); }}},
-//
-//     };
+class GarretShiftOut : public InstantCommand {
+public:
+
+    GarretShiftOut() = default;
+
+    void execute() override {
+        BINDS[pros::E_CONTROLLER_DIGITAL_R1] = {std::nullopt, [] { return std::make_unique<StartLiftingUp>(); }, [] { return std::make_unique<StopLifting>(); }};
+        BINDS[pros::E_CONTROLLER_DIGITAL_R2] = {std::nullopt, [] { return std::make_unique<StartIntakingIn>(); }, [] { return std::make_unique<StopIntaking>(); }};
+    }
+};
