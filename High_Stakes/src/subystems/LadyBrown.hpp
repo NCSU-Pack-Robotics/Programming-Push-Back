@@ -23,12 +23,9 @@ public:
 
     /** A map of the positions and their rotation in centidegrees */
     std::array<std::pair<Position, int32_t>, 3> Positions{
-        // std::pair{STOW, 500},
-        // std::pair{LOAD, 4800},
-        // std::pair{SCORE, 20500},
-        std::pair{STOW, 15500},
-        std::pair{LOAD, 19000},
-        std::pair{SCORE, 34000},
+        std::pair{STOW, 500},
+        std::pair{LOAD, 4800},
+        std::pair{SCORE, 20500},
     };
 
     /**

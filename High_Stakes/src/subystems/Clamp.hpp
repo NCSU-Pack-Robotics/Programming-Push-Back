@@ -2,6 +2,7 @@
 #include <memory>
 #include "../AbstractSubsystem.hpp"
 #include "../../include/main.h"
+#include "../ports.hpp"
 
 class Clamp : public AbstractSubsystem {
     friend class AbstractSubsystem;
@@ -22,7 +23,7 @@ public:
     void toggle();
 
 private:
-    std::unique_ptr<pros::adi::DigitalOut> clamp_piston;
+    pros::adi::DigitalOut clamp_piston = pros::adi::DigitalOut(Ports::CLAMP_BRAIN_PORT);
 
     bool enabled;
 

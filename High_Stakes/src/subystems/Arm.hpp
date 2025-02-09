@@ -1,7 +1,10 @@
 #pragma once
 #include <memory>
-#include "../AbstractSubsystem.hpp"
+
 #include "../../include/main.h"
+#include "../AbstractSubsystem.hpp"
+#include "../ports.hpp"
+
 
 class Arm : public AbstractSubsystem {
     friend class AbstractSubsystem;
@@ -22,7 +25,7 @@ public:
     void toggle();
 
 private:
-    std::unique_ptr<pros::adi::DigitalOut> arm_piston;
+    pros::adi::DigitalOut arm_piston = pros::adi::DigitalOut(Ports::ARM_BRAIN_PORT);
 
     bool enabled;
 

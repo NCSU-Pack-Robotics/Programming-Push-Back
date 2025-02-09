@@ -1,5 +1,6 @@
 #pragma once
 
+#include <algorithm>
 #include <unordered_map>
 #include "Command.hpp"
 #include "commands/Default/ResetLift.hpp"
@@ -63,7 +64,7 @@ const std::unordered_map<ButtonCombo,
                              {ButtonCombo{std::vector{pros::E_CONTROLLER_DIGITAL_DOWN}}, {std::nullopt, std::nullopt, std::nullopt}},
                              {ButtonCombo{std::vector{pros::E_CONTROLLER_DIGITAL_LEFT}}, {std::nullopt, std::nullopt, std::nullopt}},
                              {ButtonCombo{std::vector{pros::E_CONTROLLER_DIGITAL_RIGHT}}, {std::nullopt, std::nullopt, std::nullopt}},
-                             {ButtonCombo{std::vector{pros::E_CONTROLLER_DIGITAL_X}}, {std::nullopt, std::nullopt, std::nullopt}},
+                             {ButtonCombo{std::vector{pros::E_CONTROLLER_DIGITAL_X}}, {[] { return std::make_unique<ToggleArm>(); }, std::nullopt, std::nullopt}},
                              {ButtonCombo{std::vector{pros::E_CONTROLLER_DIGITAL_B}}, {[] { return std::make_unique<TurnAround>(); }, std::nullopt, std::nullopt}},
                              {ButtonCombo{std::vector{pros::E_CONTROLLER_DIGITAL_Y}}, {[] { return std::make_unique<NextLadyBrownPosition>(); }, std::nullopt, std::nullopt}},
                              {ButtonCombo{std::vector{pros::E_CONTROLLER_DIGITAL_A}}, {[] { return std::make_unique<ToggleClamp>(); }, std::nullopt, std::nullopt}},

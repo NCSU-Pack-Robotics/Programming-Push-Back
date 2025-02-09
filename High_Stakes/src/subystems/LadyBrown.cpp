@@ -27,9 +27,9 @@ void LadyBrown::periodic() {
     // return;
 
     // prevent the angle from being read as 359 deg and trying to go backwards.
-    // if (curr_angle > 35900 && curr_angle < 36000) {
-    //     curr_angle = 0;
-    // }
+    if (curr_angle > 35900 && curr_angle < 36000) {
+        curr_angle = 0;
+    }
 
     const int32_t target_rotation = Positions[position_index].second;
     const int32_t voltage = lb_pid.calculate(target_rotation - curr_angle);
