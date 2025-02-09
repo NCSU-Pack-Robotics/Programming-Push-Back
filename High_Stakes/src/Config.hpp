@@ -7,9 +7,9 @@ namespace Constants {
         namespace MotorSpeeds {
           
             /** Lift speed for the lift moving upwards */
-            constexpr int32_t LIFT_UP = 102;
+            constexpr int32_t LIFT_UP = 99;
             /** Lift speed for the lift moving backwards */
-            constexpr int32_t LIFT_DOWN = -44;
+            constexpr int32_t LIFT_DOWN = -51;
             /** Lift speed used for resetting, it is slower so that the lift sensor can pick up a reading. */
             constexpr int32_t LIFT_RESET = 25;
 
@@ -18,7 +18,7 @@ namespace Constants {
             /** Motor speed of the intake going inwards */
             constexpr int32_t INTAKE_INWARDS = 127;
             /** Motor speed of the intake going outwards */
-            constexpr int32_t INTAKE_OUTWARDS = -44;
+            constexpr int32_t INTAKE_OUTWARDS = -89;
         }
 
         /** The scaling factor used for scaling the controller input */
@@ -97,7 +97,8 @@ namespace Constants {
         /** The initial x position of the robot */
         constexpr double INITIAL_X = -58.5;
         /** The initial y position of the robot */
-        constexpr double INITIAL_Y = 24;
+        // constexpr double INITIAL_Y = 24;  // Left Side
+        constexpr double INITIAL_Y = -24;  // Ride Side
         /** The initial heading of the robot */
         constexpr double INITIAL_HEADING = M_PI;
     }

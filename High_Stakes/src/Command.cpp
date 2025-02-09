@@ -83,16 +83,27 @@ void ParallelCommand::set_commands(std::vector<std::unique_ptr<Command>> command
 }
 
 void ParallelCommand::periodic() {
-    // Iterate through all commands
-    for (auto it = commands.begin(); it != commands.end();) {
-        // Run the command
-        (*it)->run();
+    if (commands.size() == 1) {  // Edge case: one command
+        commands[0]->run();
 
-        // If the command is complete, remove it
-        if ((*it)->is_complete()) {
-            it = commands.erase(it);
-        } else {
-            it++;
+        if (commands[0]->is_complete()) {
+            commands[0]->shutdown();
+            commands.clear();
+        }
+
+    } else {  // More than one command
+        // Iterate through all commands
+        for (auto it = commands.begin(); it != commands.end();) {
+            // Run the command
+            (*it)->run();
+
+            // If the command is complete, remove it
+            if ((*it)->is_complete()) {
+                (*it)->shutdown();
+                it = commands.erase(it);
+            } else {
+                ++it;
+            }
         }
     }
 }
@@ -109,6 +120,9 @@ void InstantCommand::execute() {
     (*executeFunction)();
 }
 
+void InstantCommand::shutdown() {
+}
+
 bool InstantCommand::is_complete() {
     return true;
 }
@@ -116,11 +130,6 @@ bool InstantCommand::is_complete() {
 void InstantCommand::periodic() {
     // This is never called
 }
-
-void InstantCommand::shutdown() {
-    // This is called, but all logic for instant commands should be in execute
-}
-
 
 InstantCommand::InstantCommand(std::unique_ptr<std::function<void()>> executeFunction) {
     this->executeFunction = std::move(executeFunction);

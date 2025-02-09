@@ -50,6 +50,7 @@ void Lift::brake() {
     lift_voltage = 0;
     lift_power = 0;
     lift_motor->brake();
+    lift_motor->move(0);
 }
 
 int32_t Lift::get_degrees() {

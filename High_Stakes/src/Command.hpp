@@ -25,7 +25,6 @@ public:
     /** Return true when the command is complete. */
     virtual bool is_complete() = 0;
 
-protected:
     /** The number of loops this command has run. */
     unsigned int loops = 0;
 
@@ -169,7 +168,7 @@ public:
 
     /** Returns true because InstantCommands only run once */
     bool is_complete() override;
-protected:
+
     /** Calls the execute function */
     void initialize() override;
 
