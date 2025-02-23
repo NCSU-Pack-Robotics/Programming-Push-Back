@@ -25,14 +25,15 @@ public:
 
     /** A map of the positions and their rotation in centidegrees */
     std::array<std::pair<Position, int32_t>, 3> Positions{
-        // THINK ANGLES
+        #if THINK
         std::pair{STOW, 500},
         std::pair{LOAD, 4000},
         std::pair{SCORE, 20000},
-        // DO ANGLES
-        // std::pair{STOW, 500},
-        // std::pair{LOAD, 2250},
-        // std::pair{SCORE, 11750},
+        #elif DO
+        std::pair{STOW, 500},
+        std::pair{LOAD, 2250},
+        std::pair{SCORE, 11750},
+        #endif
     };
 
     /**

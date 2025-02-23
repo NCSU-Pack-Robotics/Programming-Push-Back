@@ -21,8 +21,14 @@ namespace Constants {
             constexpr int32_t INTAKE_OUTWARDS = -89;
         }
 
+        #if THINK
         /** The scaling factor used for scaling the controller input */
         constexpr int32_t INPUT_SCALING_FACTOR = 15;
+        #elif DO
+        /** The scaling factor used for scaling the controller input */
+        constexpr int32_t INPUT_SCALING_FACTOR = 0;
+        #endif
+
     }
   
     /**
@@ -94,13 +100,24 @@ namespace Constants {
      * Specifically, this namespace is for the initial pose of the robot.
     */
     namespace Initial::Pose {
+        #if THINK
         /** The initial x position of the robot */
         constexpr double INITIAL_X = -58.5;
         /** The initial y position of the robot */
-        // constexpr double INITIAL_Y = 24;  // Left Side DO
-        constexpr double INITIAL_Y = -24;  // Ride Side THINK
+        constexpr double INITIAL_Y = -24;
         /** The initial heading of the robot */
         constexpr double INITIAL_HEADING = M_PI;
+
+        #elif DO
+        /** The initial x position of the robot */
+        constexpr double INITIAL_X = -58.5;
+        /** The initial y position of the robot */
+        constexpr double INITIAL_Y = 24;
+        /** The initial heading of the robot */
+        constexpr double INITIAL_HEADING = M_PI;
+
+        #endif
+
     }
 
     static bool shifted = false;

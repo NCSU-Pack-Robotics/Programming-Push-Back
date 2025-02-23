@@ -9,6 +9,12 @@ include_directories(High_Stakes/src)
 include_directories(High_Stakes/src/math)
 include_directories(High_Stakes/src/subystems)
 
+if (DO)
+    add_definitions(-DDO)
+elseif(THINK)
+    add_definitions(-DTHINK)
+endif()
+
 add_executable(Programming_High_Stakes
         High_Stakes/include/pros/abstract_motor.hpp
         High_Stakes/include/pros/adi.h
@@ -101,8 +107,8 @@ add_executable(Programming_High_Stakes
         High_Stakes/src/commands/PurePursuit.hpp
         High_Stakes/src/Pose.cpp
         High_Stakes/src/commands/PurePursuit.cpp
-        High_Stakes/src/AutonomousControlSchedulerDo.cpp
-        High_Stakes/src/AutonomousControlSchedulerDo.hpp
+        High_Stakes/src/AutonomousControlScheduler.cpp
+        High_Stakes/src/AutonomousControlScheduler.hpp
         High_Stakes/src/commands/Instant/NextLadyBrownPosition.hpp
         High_Stakes/src/commands/Instant/NextLadyBrownPosition.cpp
         High_Stakes/src/ButtonMappings.hpp
@@ -116,10 +122,9 @@ add_executable(Programming_High_Stakes
         High_Stakes/src/commands/Instant/ToggleArm.hpp
         High_Stakes/src/commands/Default/MoveLiftDegrees.cpp
         High_Stakes/src/commands/Default/MoveLiftDegrees.hpp
-        High_Stakes/src/AutonomousControlSchedulerThink.cpp
-        High_Stakes/src/AutonomousControlSchedulerThink.hpp
         High_Stakes/src/commands/Default/LadyBrownLoadingLiftReverse.cpp
         High_Stakes/src/commands/Default/LadyBrownLoadingLiftReverse.hpp
         High_Stakes/src/commands/Default/MoveLadyBrownPosition.cpp
         High_Stakes/src/commands/Default/MoveLadyBrownPosition.hpp
+        High_Stakes/src/ButtonMappings.cpp
 )

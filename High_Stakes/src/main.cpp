@@ -1,8 +1,7 @@
 #include "../include/main.h"
-#include "AutonomousControlSchedulerDo.hpp"
-#include "AutonomousControlSchedulerThink.hpp"
+
+#include "AutonomousControlScheduler.hpp"
 #include "DriverControlScheduler.hpp"
-#include "commands/PurePursuit.hpp"
 #include "subystems/Clamp.hpp"
 #include "subystems/Drivetrain.hpp"
 #include "subystems/HookSensor.hpp"
@@ -85,7 +84,8 @@ void competition_initialize() {
  */
 void autonomous() {
     // Initialize the autonomous scheduler
-    AutonomousControlSchedulerThink scheduler{};
+    AutonomousControlScheduler scheduler{};
+
     scheduler.initialize();
 
     // Run disabled periodic for all subsystems

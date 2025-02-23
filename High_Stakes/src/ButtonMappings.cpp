@@ -1,36 +1,36 @@
 #include "ButtonMappings.hpp"
 
-// GARETT DRIVE CONFIG DO
-
 // Definition of BINDS
-//std::unordered_map<pros::controller_digital_e_t, std::array<std::optional<std::function<std::unique_ptr<Command>()>>, 3>> BINDS {
-//    {pros::E_CONTROLLER_DIGITAL_L1, {[] { return std::make_unique<NextLadyBrownPosition>(); }, std::nullopt, std::nullopt}},
-//    {pros::E_CONTROLLER_DIGITAL_L2, {[] { return std::make_unique<GarretShiftIn>(); }, std::nullopt, [] { return std::make_unique<GarretShiftOut>(); }}},
-//    {pros::E_CONTROLLER_DIGITAL_R1, {std::nullopt, [] { return std::make_unique<StartLiftingUp>(); }, [] { return std::make_unique<StopLifting>(); }}},
-//    {pros::E_CONTROLLER_DIGITAL_R2, {std::nullopt, [] { return std::make_unique<StartIntakingIn>(); }, [] { return std::make_unique<StopIntaking>(); }}},
-//    {pros::E_CONTROLLER_DIGITAL_UP, {std::nullopt, std::nullopt, std::nullopt}},
-//    {pros::E_CONTROLLER_DIGITAL_DOWN, {std::nullopt, std::nullopt, std::nullopt}},
-//    {pros::E_CONTROLLER_DIGITAL_LEFT, {[] { return std::make_unique<ToggleClamp>(); }, std::nullopt, std::nullopt}},
-//    {pros::E_CONTROLLER_DIGITAL_RIGHT, {std::nullopt, std::nullopt, std::nullopt}},
-//    {pros::E_CONTROLLER_DIGITAL_X, {std::nullopt, std::nullopt, std::nullopt}},
-//    {pros::E_CONTROLLER_DIGITAL_B, {std::nullopt, std::nullopt, std::nullopt}},
-//    {pros::E_CONTROLLER_DIGITAL_Y, {std::nullopt, std::nullopt, std::nullopt}},
-//    {pros::E_CONTROLLER_DIGITAL_A, {std::nullopt, std::nullopt, std::nullopt}}
-//};
-
-// CHRIS DRIVE CONFIG THINK
-
+#if THINK
+// Chris's bindings
 std::unordered_map<pros::controller_digital_e_t, std::array<std::optional<std::function<std::unique_ptr<Command>()>>, 3>> BINDS{
-                             {pros::E_CONTROLLER_DIGITAL_L1, {std::nullopt, [] { return std::make_unique<StartLiftingDown>(); }, [] { return std::make_unique<StopLifting>(); }}},
-                             {pros::E_CONTROLLER_DIGITAL_L2, {std::nullopt, [] { return std::make_unique<StartLiftingUp>(); }, [] { return std::make_unique<StopLifting>(); }}},
-                             {pros::E_CONTROLLER_DIGITAL_R1, {std::nullopt, [] { return std::make_unique<StartIntakingOut>(); }, [] { return std::make_unique<StopIntaking>(); }}},
-                             {pros::E_CONTROLLER_DIGITAL_R2, {std::nullopt, [] { return std::make_unique<StartIntakingIn>(); }, [] { return std::make_unique<StopIntaking>(); }}},
-                             {pros::E_CONTROLLER_DIGITAL_UP, {std::nullopt, std::nullopt, std::nullopt}},
-                             {pros::E_CONTROLLER_DIGITAL_DOWN, {[] { return std::make_unique<ToggleArm>(); }, std::nullopt, std::nullopt}},
-                             {pros::E_CONTROLLER_DIGITAL_LEFT, {[] { return std::make_unique<ToggleClamp>(); }, std::nullopt, std::nullopt}},
-                             {pros::E_CONTROLLER_DIGITAL_RIGHT, {std::nullopt, std::nullopt, std::nullopt}},
-                             {pros::E_CONTROLLER_DIGITAL_X, {std::nullopt, std::nullopt, std::nullopt}},
-                             {pros::E_CONTROLLER_DIGITAL_B, {[] { return std::make_unique<TurnAround>(); }, std::nullopt, std::nullopt}},
-                             {pros::E_CONTROLLER_DIGITAL_Y, {std::nullopt, std::nullopt, std::nullopt}},
-                             {pros::E_CONTROLLER_DIGITAL_A, {[] { return std::make_unique<NextLadyBrownPosition>(); }, std::nullopt, std::nullopt}},
+         {pros::E_CONTROLLER_DIGITAL_L1, {std::nullopt, [] { return std::make_unique<StartLiftingDown>(); }, [] { return std::make_unique<StopLifting>(); }}},
+         {pros::E_CONTROLLER_DIGITAL_L2, {std::nullopt, [] { return std::make_unique<StartLiftingUp>(); }, [] { return std::make_unique<StopLifting>(); }}},
+         {pros::E_CONTROLLER_DIGITAL_R1, {std::nullopt, [] { return std::make_unique<StartIntakingOut>(); }, [] { return std::make_unique<StopIntaking>(); }}},
+         {pros::E_CONTROLLER_DIGITAL_R2, {std::nullopt, [] { return std::make_unique<StartIntakingIn>(); }, [] { return std::make_unique<StopIntaking>(); }}},
+         {pros::E_CONTROLLER_DIGITAL_UP, {std::nullopt, std::nullopt, std::nullopt}},
+         {pros::E_CONTROLLER_DIGITAL_DOWN, {[] { return std::make_unique<ToggleArm>(); }, std::nullopt, std::nullopt}},
+         {pros::E_CONTROLLER_DIGITAL_LEFT, {[] { return std::make_unique<ToggleClamp>(); }, std::nullopt, std::nullopt}},
+         {pros::E_CONTROLLER_DIGITAL_RIGHT, {std::nullopt, std::nullopt, std::nullopt}},
+         {pros::E_CONTROLLER_DIGITAL_X, {std::nullopt, std::nullopt, std::nullopt}},
+         {pros::E_CONTROLLER_DIGITAL_B, {[] { return std::make_unique<TurnAround>(); }, std::nullopt, std::nullopt}},
+         {pros::E_CONTROLLER_DIGITAL_Y, {std::nullopt, std::nullopt, std::nullopt}},
+         {pros::E_CONTROLLER_DIGITAL_A, {[] { return std::make_unique<NextLadyBrownPosition>(); }, std::nullopt, std::nullopt}},
 };
+#elif DO
+// Garret's bindings
+std::unordered_map<pros::controller_digital_e_t, std::array<std::optional<std::function<std::unique_ptr<Command>()>>, 3>> BINDS {
+         {pros::E_CONTROLLER_DIGITAL_L1, {[] { return std::make_unique<NextLadyBrownPosition>(); }, std::nullopt, std::nullopt}},
+         {pros::E_CONTROLLER_DIGITAL_L2, {[] { return std::make_unique<GarretShiftIn>(); }, std::nullopt, [] { return std::make_unique<GarretShiftOut>(); }}},
+         {pros::E_CONTROLLER_DIGITAL_R1, {std::nullopt, [] { return std::make_unique<StartLiftingUp>(); }, [] { return std::make_unique<StopLifting>(); }}},
+         {pros::E_CONTROLLER_DIGITAL_R2, {std::nullopt, [] { return std::make_unique<StartIntakingIn>(); }, [] { return std::make_unique<StopIntaking>(); }}},
+         {pros::E_CONTROLLER_DIGITAL_UP, {std::nullopt, std::nullopt, std::nullopt}},
+         {pros::E_CONTROLLER_DIGITAL_DOWN, {std::nullopt, std::nullopt, std::nullopt}},
+         {pros::E_CONTROLLER_DIGITAL_LEFT, {[] { return std::make_unique<ToggleClamp>(); }, std::nullopt, std::nullopt}},
+         {pros::E_CONTROLLER_DIGITAL_RIGHT, {std::nullopt, std::nullopt, std::nullopt}},
+         {pros::E_CONTROLLER_DIGITAL_X, {std::nullopt, std::nullopt, std::nullopt}},
+         {pros::E_CONTROLLER_DIGITAL_B, {std::nullopt, std::nullopt, std::nullopt}},
+         {pros::E_CONTROLLER_DIGITAL_Y, {std::nullopt, std::nullopt, std::nullopt}},
+         {pros::E_CONTROLLER_DIGITAL_A, {std::nullopt, std::nullopt, std::nullopt}}
+};
+#endif
