@@ -49,6 +49,7 @@ void ChainCommand::periodic() {
 
     // If this command is complete, remove it
     if (command_queue.front()->is_complete()) {
+        command_queue.front()->run();  // Run the command one last time - will shutdown the command
         command_queue.pop();
     }
 }
@@ -97,9 +98,9 @@ void ParallelCommand::periodic() {
             // Run the command
             (*it)->run();
 
-            // If the command is complete, remove it
+            // If the command is complete, remove its
             if ((*it)->is_complete()) {
-                (*it)->shutdown();
+                (*it)->run();  // Run the command one last time - will shutdown the command
                 it = commands.erase(it);
             } else {
                 ++it;
