@@ -12,7 +12,8 @@ bool DriverControlScheduler::is_complete() {
 }
 
 void DriverControlScheduler::initialize() {
-
+    // TODO: remove when better system is implemented, see issue #29
+    drivetrain.set_reversing(false);
 }
 
 int32_t DriverControlScheduler::scale_power(const int32_t power, double scaling_factor) const {
