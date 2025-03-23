@@ -12,7 +12,7 @@ void ResetLift::periodic() {
     if (lady_brown.get_position() == LadyBrown::Position::STOW) return;
 
     if (hook_sensor.isBlocked()) {
-        lift.brake();
+        lift.brake_now();
         has_passed = true;
     } else {
         lift.set_drive_power(Constants::Controller::MotorSpeeds::LIFT_RESET);

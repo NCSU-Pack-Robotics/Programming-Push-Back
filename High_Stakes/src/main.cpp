@@ -88,6 +88,7 @@ void autonomous() {
 
     scheduler.initialize();
 
+
     // Run disabled periodic for all subsystems
     while (true) {
         // Run the autonomous scheduler to do our routine

@@ -77,5 +77,6 @@ void AutonomousControlScheduler::initialize() {
 }
 
 void AutonomousControlScheduler::shutdown() {
-    drivetrain.brake();
+    // drivetrain.brake_now();
+    // TODO: verify that drivetrain brakes when the system shuts down. It should not need to be called here because it is called in drive trains shutdown method
 }

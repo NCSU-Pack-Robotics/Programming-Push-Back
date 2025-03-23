@@ -144,7 +144,7 @@ void PurePursuit::periodic() {
     if (pose.distance(path.back()) < Constants::PathFollowing::STOP_DISTANCE) {
         done = true;
         // stop the robot
-        drivetrain.brake();
+        drivetrain.brake_now();
         drivetrain.periodic();
         return;
     }
@@ -202,7 +202,7 @@ void PurePursuit::shutdown() {
     printf("DONE!\n");
 
     // stop the robot
-    drivetrain.brake();
+    drivetrain.brake_now();
     drivetrain.periodic();
 }
 

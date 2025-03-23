@@ -12,7 +12,6 @@ bool DriverControlScheduler::is_complete() {
 }
 
 void DriverControlScheduler::initialize() {
-
 }
 
 int32_t DriverControlScheduler::scale_power(const int32_t power, double scaling_factor) const {
