@@ -88,8 +88,8 @@ void autonomous() {
 
     scheduler.initialize();
 
-    // Run disabled periodic for all subsystems
-    while (true) {
+    // Run while the autonomous routine is not complete.
+    while (!scheduler.is_complete())
         // Run the autonomous scheduler to do our routine
         scheduler.run();
 
