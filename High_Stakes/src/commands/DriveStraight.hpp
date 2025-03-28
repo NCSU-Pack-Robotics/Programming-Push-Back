@@ -19,7 +19,7 @@ public:
     /**
      * Constructor for the DriveStraight command.
      * @param inches The number of inches to drive. May be negative to drive backwards.
-     * @param tolerance How close the robot needs to be to the target distance to be
+     * @param tolerance How close (in inches) the robot needs to be to the target distance to be
      * considered done.
      */
     explicit DriveStraight(const double inches, const double tolerance)
@@ -44,7 +44,11 @@ private:
 
 
     /** The PID controller used to control the drive motors. */
-    PID pid = PID(Constants::PID::Drive::Distance::Kp,
+    PID pid_left = PID(Constants::PID::Drive::Distance::Kp,
+                  Constants::PID::Drive::Distance::Ki,
+                  Constants::PID::Drive::Distance::Kd);
+
+    PID pid_right = PID(Constants::PID::Drive::Distance::Kp,
                   Constants::PID::Drive::Distance::Ki,
                   Constants::PID::Drive::Distance::Kd);
 

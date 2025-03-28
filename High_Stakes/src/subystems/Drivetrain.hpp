@@ -65,10 +65,11 @@ public:
 
     /**
      * Get the position of the left and right motors in degrees.
+     * @param respect_reverse If true, the returned values will be negated if the robot is in reverse mode.
      * @return A pair of the left and right motor positions in degrees. The first value is the left
      * motor position, and the second value is the right motor position. 
      */
-    std::pair<double, double> get_position() const;
+    std::pair<double, double> get_position(bool respect_reverse=false) const;
 
     /**
      * Converts from encoder degree values to inches.
