@@ -65,7 +65,8 @@ public:
 
     /**
      * Get the position of the left and right motors in degrees.
-     * @param respect_reverse If true, the returned values will be negated if the robot is in reverse mode.
+     * @param respect_reverse If true, the returned values will be negated and swapped.
+     * This should be used if dealing with position deltas and you want to pass positive or negative values to some sort of PID
      * @return A pair of the left and right motor positions in degrees. The first value is the left
      * motor position, and the second value is the right motor position. 
      */
@@ -77,7 +78,7 @@ public:
      * @param position Number of degrees from the motor
      * @return The inches corresponding to the given degree value
      */
-    static inline double degrees_to_inches(const double position) {
+    static double degrees_to_inches(const double position) {
         return Constants::Hardware::TRACKING_RATIO * Constants::Hardware::TRACKING_DIAMETER *
                Constants::Math::PI * (position / 360);
     }
