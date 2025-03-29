@@ -30,8 +30,7 @@ bool MoveLiftDegrees::is_complete() {
 }
 
 void MoveLiftDegrees::shutdown() {
-    lift.set_drive_power(0);
-    lift.brake();
+    lift.brake_now();
 }
 
 

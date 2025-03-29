@@ -15,6 +15,6 @@ void PPIntakeLift::initialize() {
 
 void PPIntakeLift::shutdown() {
     // Stop intake and lift
-    lift.brake();
-    intake.brake();
+    lift.set_braking(true);
+    intake.set_braking(true);
 }

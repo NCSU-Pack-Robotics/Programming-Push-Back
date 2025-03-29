@@ -57,11 +57,11 @@ void Drivetrain::initialize() {
     right_motors->tare_position_all();
 
     // Ensure motors are stopped
-    brake();
+    // brake();
 
     // Set the brake mode on the motors
-    left_motors->set_brake_mode_all(pros::E_MOTOR_BRAKE_COAST);
-    right_motors->set_brake_mode_all(pros::E_MOTOR_BRAKE_COAST);
+    // left_motors->set_brake_mode_all(pros::E_MOTOR_BRAKE_COAST);
+    // right_motors->set_brake_mode_all(pros::E_MOTOR_BRAKE_COAST);
 
     reversing = false;
     braking = false;
@@ -80,17 +80,8 @@ void Drivetrain::periodic() {
     this->odometry->calculate();
 
     if (braking) {
-        left_motors->set_brake_mode_all(pros::E_MOTOR_BRAKE_BRAKE);
-        right_motors->set_brake_mode_all(pros::E_MOTOR_BRAKE_BRAKE);
-        // Clear old velocities
-        left_drive_power = 0;
-        right_drive_power = 0;
-        right_drive_voltage = 0;
-        left_drive_voltage = 0;
-        // set braking
-        left_motors->brake();
-        right_motors->brake();
-        // return so that it keeps braking
+        brake_now();
+        // return because nothing after this matters if it is braking.
         return;
     } else {
         left_motors->set_brake_mode_all(pros::E_MOTOR_BRAKE_COAST);
@@ -129,7 +120,7 @@ void Drivetrain::disabled_periodic() {
 }
 
 void Drivetrain::shutdown() {
-    brake();
+    brake_now();
 }
 
 void Drivetrain::set_voltage(const int32_t left_mV, const int32_t right_mV) {
@@ -172,27 +163,19 @@ bool Drivetrain::set_braking(const bool braking) {
     if (braking == this->braking) return braking;
     bool old = this->braking;
 
-    if (braking) {
-        left_motors->set_brake_mode_all(pros::E_MOTOR_BRAKE_BRAKE);
-        right_motors->set_brake_mode_all(pros::E_MOTOR_BRAKE_BRAKE);
-    } else {
-        left_motors->set_brake_mode_all(pros::E_MOTOR_BRAKE_COAST);
-        right_motors->set_brake_mode_all(pros::E_MOTOR_BRAKE_COAST);
-    }
-
     this->braking = braking;
     return old;
 }
 
-void Drivetrain::brake() {
-    set_braking(true);
-
-    // Set all motor powers to 0
-    left_drive_voltage = 0;
-    right_drive_voltage = 0;
+void Drivetrain::brake_now() {
+    left_motors->set_brake_mode_all(pros::E_MOTOR_BRAKE_BRAKE);
+    right_motors->set_brake_mode_all(pros::E_MOTOR_BRAKE_BRAKE);
+    // Clear old velocities
     left_drive_power = 0;
     right_drive_power = 0;
-
+    right_drive_voltage = 0;
+    left_drive_voltage = 0;
+    // set braking
     left_motors->brake();
     right_motors->brake();
 }
