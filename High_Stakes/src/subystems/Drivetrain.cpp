@@ -221,6 +221,8 @@ std::pair<double, double> Drivetrain::get_position(const bool respect_reverse) c
     if (respect_reverse && reversing) {
         left_position = -left_position;
         right_position = -right_position;
+
+        return std::make_pair(right_position, left_position);
     }
 
     return std::make_pair(left_position, right_position);

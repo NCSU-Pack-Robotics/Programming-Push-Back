@@ -3,8 +3,6 @@
 void DriveStraight::initialize() {
     this->done = false;
 
-    printf("DriveStraight::initialize() called\n");
-
     // Get the initial distances
     this->initial_left_distance = Drivetrain::degrees_to_inches(drivetrain.get_position().first);
     this->initial_right_distance = Drivetrain::degrees_to_inches(drivetrain.get_position().second);
@@ -14,17 +12,17 @@ void DriveStraight::periodic() {
     // If the command is done, do nothing
     if (this->done) return;
 
-    // Update the distances drive
-    const double distance_driven_left = Drivetrain::degrees_to_inches(drivetrain.get_position(true).first);
-    const double distance_driven_right = Drivetrain::degrees_to_inches(drivetrain.get_position(true).second);
+    // Get the absolute motor positions
+    double distance_driven_left = Drivetrain::degrees_to_inches(drivetrain.get_position(true).first);
+    double distance_driven_right = Drivetrain::degrees_to_inches(drivetrain.get_position(true).second);
+
+    // Calculate the distance driven since the start of the command
+    distance_driven_left -= this->initial_left_distance;
+    distance_driven_right -= this->initial_right_distance;
 
     // Get errors
     const double left_error = target_distance - distance_driven_left;
     const double right_error = target_distance - distance_driven_right;
-
-    // Print errors:
-    printf("Distance: %.2f, Error: %.2f\n", distance_driven_right, right_error);
-    // printf("DriveStraight::periodic() - left error: %.2f, right error: %.2f\n", left_error, right_error);
 
     // Calculate new voltages
     auto left_voltage = static_cast<int32_t>(pid_left.calculate(left_error));
@@ -41,13 +39,10 @@ void DriveStraight::periodic() {
     if (std::abs(target_distance - distance_driven_right) < tolerance) {
 
         this->done = true;
-        printf("DriveStraight::periodic() - done driving\n");
-        drivetrain.brake();
     }
 }
 
 void DriveStraight::shutdown() {
-    printf("DriveStraight::shutdown() called\n");
     drivetrain.brake();
 }
 
