@@ -43,7 +43,7 @@ void DriveStraight::periodic() {
 }
 
 void DriveStraight::shutdown() {
-    // drivetrain.brake_now();
+    drivetrain.brake_now();
 }
 
 bool DriveStraight::is_complete() {
