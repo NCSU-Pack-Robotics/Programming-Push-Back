@@ -29,10 +29,18 @@ public:
      */
     void set_drive_power(int32_t power);
 
+    /** Sets the lift to be braking. When it is in this state all methods that would usually move the lift will not work. When this method is called the lift is not
+     * guaranteed to be braked, it will become braked when the next periodic loop runs if braking is still true.
+     * @returns The previous brake state.
+     */
+    bool set_braking(bool braking);
+
     /**
      * Stops all motors immediately and sets powers/voltages to 0.
      */
-    void brake();
+    void brake_now();
+
+
 
     int32_t get_degrees();
 private:
@@ -44,6 +52,9 @@ private:
 
     /** The power of the lift */
     int32_t lift_power = 0;
+
+    /** The current braking state of the lift */
+    bool braking;
 
     /** Type of drive control to use. */
     Constants::DriveType drive_type;

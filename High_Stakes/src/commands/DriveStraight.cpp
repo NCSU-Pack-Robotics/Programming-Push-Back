@@ -36,12 +36,12 @@ void DriveStraight::periodic() {
         std::abs(target_distance - distance_driven_right) < tolerance) {
 
         this->done = true;
-        drivetrain.brake();
+        // drivetrain.brake_now();
     }
 }
 
 void DriveStraight::shutdown() {
-    drivetrain.brake();
+    // drivetrain.brake_now();
 }
 
 bool DriveStraight::is_complete() {

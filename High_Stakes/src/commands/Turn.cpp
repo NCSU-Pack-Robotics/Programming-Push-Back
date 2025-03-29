@@ -24,7 +24,7 @@ void Turn::periodic() {
 }
 
 void Turn::shutdown() {
-    drivetrain.brake();
+    drivetrain.brake_now();
 }
 
 bool Turn::is_complete() {

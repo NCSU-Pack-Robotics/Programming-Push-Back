@@ -46,15 +46,18 @@ public:
      */
     void set_velocity(double target_left_velocity, double target_right_velocity);
 
-    /** Sets the robot to be breaking. When it is in this state all methods that would usually move the robot will not work
+    /** Sets the robot to be braking. When it is in this state all methods that would usually move the robot will not work. When this method is called the robot is not
+     * guaranteed to be braked, it will become braked when the next periodic loop runs if braking is still true.
      * @returns The previous brake state.
      */
     bool set_braking(bool braking);
 
     /**
      * Immediately stops the robot, setting all power and voltage power to 0.
+     * This is an instantaneous setting of the brake, and should not be used unless you know it won't be reset
+     * in the next periodic loop.
      */
-    void brake();
+    void brake_now();
 
     /**
      * Sets the robot to be reversing. All motor inputs will be reversed.
