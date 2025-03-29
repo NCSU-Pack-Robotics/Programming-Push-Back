@@ -191,7 +191,7 @@ bool Drivetrain::set_reversing(const bool reversing) {
     return old;
 }
 
-std::pair<double, double> Drivetrain::get_position() const {
+std::pair<double, double> Drivetrain::get_position(const bool respect_reverse) const {
     // Get current positions from the motors
     const std::vector<double> left_positions = left_motors->get_position_all();
     const std::vector<double> right_positions = right_motors->get_position_all();
@@ -199,6 +199,14 @@ std::pair<double, double> Drivetrain::get_position() const {
     // Average both motor positions to be more accurate
     double left_position = std::reduce(left_positions.begin(), left_positions.end(), 0.0) / left_positions.size();
     double right_position = std::reduce(right_positions.begin(), right_positions.end(), 0.0) / right_positions.size();
+
+    // Reverse values if we are in reverse mode
+    if (respect_reverse && reversing) {
+        left_position = -left_position;
+        right_position = -right_position;
+
+        return std::make_pair(right_position, left_position);
+    }
 
     return std::make_pair(left_position, right_position);
 }

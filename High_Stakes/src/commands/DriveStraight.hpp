@@ -19,7 +19,7 @@ public:
     /**
      * Constructor for the DriveStraight command.
      * @param inches The number of inches to drive. May be negative to drive backwards.
-     * @param tolerance How close the robot needs to be to the target distance to be
+     * @param tolerance How close (in inches) the robot needs to be to the target distance to be
      * considered done.
      */
     explicit DriveStraight(const double inches, const double tolerance)
@@ -37,14 +37,25 @@ private:
     /** Whether the command is done executing. */
     bool done = false;
 
-    /** The initial distance read from the drivetrain at the start of the command. */
+    /**
+     * The initial distance (inches) read from the drivetrain at the start of the command.
+     * Needs to be updated in Drivetrain::initialize() to be accurate.
+     */
     double initial_left_distance = 0;
-    /** The initial distance read from the drivetrain at the start of the command. */
+    /**
+     * The initial distance (inches) read from the drivetrain at the start of the command.
+     * Needs to updated in Drivetrain::initialize() to be accurate.
+     */
     double initial_right_distance = 0;
 
 
-    /** The PID controller used to control the drive motors. */
-    PID pid = PID(Constants::PID::Drive::Distance::Kp,
+    /** The PID controller used to control the left drive motors. */
+    PID pid_left = PID(Constants::PID::Drive::Distance::Kp,
+                  Constants::PID::Drive::Distance::Ki,
+                  Constants::PID::Drive::Distance::Kd);
+
+    /** The PID controller used to control the right drive motors. */
+    PID pid_right = PID(Constants::PID::Drive::Distance::Kp,
                   Constants::PID::Drive::Distance::Ki,
                   Constants::PID::Drive::Distance::Kd);
 
