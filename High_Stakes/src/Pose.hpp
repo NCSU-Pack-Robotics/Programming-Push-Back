@@ -93,11 +93,8 @@ public:
      */
     Pose lerp(const Pose& other, float t) const;
 
-    std::string to_string() const {
-        // Convert heading to degrees
-        const double heading = this->heading * 180 / M_PI;
-
-        return "X: " + std::to_string(this->x) + " Y: " + std::to_string(this->y) + " Heading: " +
-               std::to_string(heading);
-    }
+    /**
+     * @return Returns the string representation of the pose.
+     */
+    std::string to_string() const;
 };

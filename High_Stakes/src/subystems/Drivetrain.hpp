@@ -8,6 +8,7 @@
 #include "../math/PID.hpp"
 #include "../Constants.hpp"
 #include "../Config.hpp"
+#include "../math/odometry/OdometryArc.hpp"
 
 
 /**
@@ -270,7 +271,7 @@ private:
     };
 
     // Pointer to calculate instance
-    std::unique_ptr<Odometry> odometry;
+    std::unique_ptr<OdometryArc> odometry;
 
     /** Power to set motors to from analog sticks. Will be between -127 and 127 */
     int32_t left_drive_power = 0;

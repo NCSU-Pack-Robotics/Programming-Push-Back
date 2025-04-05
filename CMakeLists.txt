@@ -127,6 +127,13 @@ add_executable(Programming_High_Stakes
         High_Stakes/src/commands/Default/MoveLadyBrownPosition.cpp
         High_Stakes/src/commands/Default/MoveLadyBrownPosition.hpp
         High_Stakes/src/ButtonMappings.cpp
+        High_Stakes/src/math/odometry/OdometryArc.cpp
+        High_Stakes/src/math/odometry/OdometryArc.hpp
+        High_Stakes/src/math/odometry/AbstractOdometry.cpp
+        High_Stakes/src/math/odometry/AbstractOdometry.cpp
+        High_Stakes/src/math/odometry/AbstractOdometry.hpp
+        High_Stakes/src/math/odometry/OdometryArc.cpp
+        High_Stakes/src/math/odometry/OdometryArc.hpp
         High_Stakes/src/commands/Instant/SetReversed.cpp
         High_Stakes/src/commands/Instant/SetReversed.hpp
 )

@@ -56,13 +56,6 @@ void Drivetrain::initialize() {
     left_motors->tare_position_all();
     right_motors->tare_position_all();
 
-    // Ensure motors are stopped
-    // brake();
-
-    // Set the brake mode on the motors
-    // left_motors->set_brake_mode_all(pros::E_MOTOR_BRAKE_COAST);
-    // right_motors->set_brake_mode_all(pros::E_MOTOR_BRAKE_COAST);
-
     reversing = false;
     braking = false;
 
@@ -72,12 +65,12 @@ void Drivetrain::initialize() {
                          Constants::Initial::Pose::INITIAL_HEADING};
 
     // Initialize calculate
-    odometry = std::make_unique<Odometry>(initial_pose, *this);
+    odometry = std::make_unique<OdometryArc>(initial_pose);
 }
 
 void Drivetrain::periodic() {
     // Calculate the pose of the robot
-    this->odometry->calculate();
+    this->odometry->calculate(this->get_position());
 
     if (braking) {
         brake_now();
