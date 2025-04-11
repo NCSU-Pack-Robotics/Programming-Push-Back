@@ -81,9 +81,9 @@ namespace Ports {
     /** Port of the right first front motor */
     constexpr std::int8_t RIGHT_FRONT1_MOTOR_PORT = -16;
     /** Port of the right second front motor */
-    constexpr std::int8_t RIGHT_FRONT2_MOTOR_PORT = 17;
+    constexpr std::int8_t RIGHT_FRONT2_MOTOR_PORT = 18;
     /** Port of the right second back motor */
-    constexpr std::int8_t RIGHT_BACK2_MOTOR_PORT = -18;
+    constexpr std::int8_t RIGHT_BACK2_MOTOR_PORT = -17;
     /** Port of the right first back motor */
     constexpr std::int8_t RIGHT_BACK1_MOTOR_PORT = 19;
 
@@ -99,10 +99,10 @@ namespace Ports {
     constexpr std::int8_t LADYBROWN_ROTATION_PORT = -10;
 
     /** Port of the clamp. */
-    constexpr char CLAMP_BRAIN_PORT = 'B';
+    constexpr char CLAMP_BRAIN_PORT = 'A';
 
     /** Port of the hook sensor, LOW value means the sensor is blocked. */
-    constexpr char HOOK_SENSOR_BRAIN_PORT = 'A';
+    constexpr char HOOK_SENSOR_BRAIN_PORT = 'H';
 
     // /** Port of the extended arm port */
     /// Needed to compile, but there is no arm on DO
