@@ -113,7 +113,7 @@ namespace Constants {
         constexpr double INITIAL_X = 0.0;
         /** The initial y position of the robot */
         constexpr double INITIAL_Y = 0.0;
-        /** The initial heading of the robot */
+        /** The initial heading of the robot, needs to be PI if the robot starts reversed. */
         constexpr double INITIAL_HEADING = M_PI;
 
         #endif

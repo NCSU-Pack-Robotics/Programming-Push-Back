@@ -72,7 +72,7 @@ namespace Constants {
      */
     namespace PathFollowing {
         /** In pure pursuit, the distance from the robot to the lookahead point (inches) */
-        constexpr double LOOKAHEAD_DISTANCE = 9.0;
+        constexpr double LOOKAHEAD_DISTANCE = 5.0;
 
         /** In pure pursuit, the distance from the target point before the robot stops (inches) */
         constexpr double STOP_DISTANCE = 0.5;
