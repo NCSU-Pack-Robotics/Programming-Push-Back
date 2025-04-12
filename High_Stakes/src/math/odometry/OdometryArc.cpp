@@ -1,5 +1,7 @@
 #include "OdometryArc.hpp"
+
 #include "../../subystems/Drivetrain.hpp"
+#include "../Utils.hpp"
 
 OdometryArc::OdometryArc(Pose initial_pose)
     : AbstractOdometry(initial_pose) {
@@ -19,21 +21,24 @@ Pose OdometryArc::calculate(const std::pair<double, double> &positions) {
 
     // must be done after coordinate calculations
     this->pose.heading = Constants::Initial::Pose::INITIAL_HEADING +
-        ((right_distance - left_distance) /
-        Constants::Hardware::ROBOT_DIAMETER);
+                         ((right_distance - left_distance) / Constants::Hardware::ROBOT_DIAMETER);
 
     return this->get_pose();
 }
 
+OdometryArc::~OdometryArc() {
+    // Implement if needed
+}
+
 void OdometryArc::update_deltas() {
-    this->delta_left = Drivetrain::degrees_to_inches(this->left_position) - left_distance;
-    this->delta_right = Drivetrain::degrees_to_inches(this->right_position) - right_distance;
+    this->delta_left = utils.degrees_to_inches(this->left_position) - left_distance;
+    this->delta_right = utils.degrees_to_inches(this->right_position) - right_distance;
     this->delta_avg = (delta_left + delta_right) / 2;
 }
 
 void OdometryArc::update_distance() {
-    this->left_distance = Drivetrain::degrees_to_inches(left_position);
-    this->right_distance = Drivetrain::degrees_to_inches(right_position);
+    this->left_distance = utils.degrees_to_inches(left_position);
+    this->right_distance = utils.degrees_to_inches(right_position);
 }
 
 void OdometryArc::calculate_position_linear() {

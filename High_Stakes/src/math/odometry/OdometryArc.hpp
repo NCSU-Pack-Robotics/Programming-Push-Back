@@ -2,8 +2,7 @@
 
 #include "AbstractOdometry.hpp"
 
-
-class OdometryArc : public AbstractOdometry {
+class OdometryArc final : public AbstractOdometry {
 public:
     /**
      * Constructor for the Odometry class.
@@ -13,12 +12,13 @@ public:
 
     /**
      * Calculate the pose of the robot using motor encoders.
-     * @param positions The left and right positions of the axels in degrees.
+     * @param positions The left and right positions of the axles in degrees.
      * @return Returns the pose of the robot after calculating it.
      */
     Pose calculate(const std::pair<double, double> &positions);
 
-    ~OdometryArc() override = 0;
+    /** Deconstructor for the Odometry class. */
+    ~OdometryArc() override;
 
 protected:
     /** Most recent position of the left motor */

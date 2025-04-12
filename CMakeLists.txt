@@ -136,4 +136,5 @@ add_executable(Programming_High_Stakes
         High_Stakes/src/math/odometry/OdometryArc.hpp
         High_Stakes/src/commands/Instant/SetReversed.cpp
         High_Stakes/src/commands/Instant/SetReversed.hpp
+        High_Stakes/src/math/Utils.hpp
 )

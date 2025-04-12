@@ -4,7 +4,8 @@
 
 /**
  * This is the AbstractOdometry class. It is responsible for keeping track of the robot's
- * pose: position, orientation, etc.
+ * pose: position, orientation, etc. Call concrete implementation of this class with some flavor of
+ * <code>Odometry.calculate()</code> method to update the pose.
  * <p>
  * This is an abstract class from which concrete odometry implementations can be implemented.
  * <p>
@@ -21,14 +22,6 @@ public:
      * @param initial_pose The initial pose of the robot.
      */
     explicit AbstractOdometry(Pose initial_pose);
-
-    /**
-     * Call this method to run Odometry. This method will update the robot's pose.
-     * <p>
-     * This is the process of estimating the robot's pose over time.
-     * @return The pose of the robot after the calculate calculations.
-     */
-    virtual Pose calculate() = 0;
 
     /**
      * Gets the most recent pose of the robot.

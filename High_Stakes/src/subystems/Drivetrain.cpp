@@ -3,15 +3,18 @@
 #include <set>
 
 #include "../ports.hpp"
+#include "../math/Utils.hpp"
 
 /** Constant to multiply drive powers by to move robot forward. */
 #define FORWARDS 1
 /** Constant to multiply drive powers by to move robot backwards. */
-#define BACKWARDS -1
+#define BACKWARDS (-1)
 
 Drivetrain::Drivetrain() : AbstractSubsystem() {
     this->reversing = false;
+    this->braking = false;
     this->direction = FORWARDS;
+    this->drive_type = Constants::DriveType::VOLTAGE;
 }
 
 void Drivetrain::initialize() {
@@ -109,7 +112,7 @@ void Drivetrain::periodic() {
 
 void Drivetrain::disabled_periodic() {
     // In case robot is moved when disabled
-    odometry->calculate();
+    odometry->calculate(this->get_position());
 }
 
 void Drivetrain::shutdown() {
@@ -136,8 +139,10 @@ void Drivetrain::set_velocity(const double target_left_velocity, const double ta
     const std::vector<double> right_velocities = right_motors->get_actual_velocity_all();
 
     // Add all left/right motors together and divide by count to get average velocity
-    const double left_velocity = rpm_to_ips(std::reduce(left_velocities.begin(), left_velocities.end(), 0.0) / left_velocities.size());
-    const double right_velocity = rpm_to_ips(std::reduce(right_velocities.begin(), right_velocities.end(), 0.0) / right_velocities.size());
+    const double left_velocity = utils.rpm_to_ips(std::reduce(left_velocities.begin(),
+    left_velocities.end(), 0.0) / left_velocities.size());
+    const double right_velocity = utils.rpm_to_ips(std::reduce(right_velocities.begin(),
+    right_velocities.end(), 0.0) / right_velocities.size());
 
     // Calculate current error
     const double left_error = target_left_velocity - left_velocity;
@@ -202,10 +207,6 @@ std::pair<double, double> Drivetrain::get_position(const bool respect_reverse) c
     }
 
     return std::make_pair(left_position, right_position);
-}
-
-double Drivetrain::rpm_to_ips(double const rpm) {
-    return rpm * Constants::Hardware::TRACKING_DIAMETER * Constants::Math::PI * Constants::Hardware::TRACKING_RATIO / 60;
 }
 
 Pose Drivetrain::get_pose() const {

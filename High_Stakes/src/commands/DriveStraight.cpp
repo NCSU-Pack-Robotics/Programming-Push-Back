@@ -1,11 +1,13 @@
 #include "DriveStraight.hpp"
 
+#include "../math/Utils.hpp"
+
 void DriveStraight::initialize() {
     this->done = false;
 
     // Get the initial distances
-    this->initial_left_distance = Drivetrain::degrees_to_inches(drivetrain.get_position().first);
-    this->initial_right_distance = Drivetrain::degrees_to_inches(drivetrain.get_position().second);
+    this->initial_left_distance = utils.degrees_to_inches(drivetrain.get_position().first);
+    this->initial_right_distance = utils.degrees_to_inches(drivetrain.get_position().second);
 }
 
 void DriveStraight::periodic() {
@@ -13,8 +15,8 @@ void DriveStraight::periodic() {
     if (this->done) return;
 
     // Get the absolute motor positions
-    double distance_driven_left = Drivetrain::degrees_to_inches(drivetrain.get_position(true).first);
-    double distance_driven_right = Drivetrain::degrees_to_inches(drivetrain.get_position(true).second);
+    double distance_driven_left = utils.degrees_to_inches(drivetrain.get_position(true).first);
+    double distance_driven_right = utils.degrees_to_inches(drivetrain.get_position(true).second);
 
     // Calculate the distance driven since the start of the command
     distance_driven_left -= this->initial_left_distance;
