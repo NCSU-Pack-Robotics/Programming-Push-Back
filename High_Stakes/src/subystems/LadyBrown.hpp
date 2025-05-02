@@ -27,8 +27,8 @@ public:
     std::array<std::pair<Position, int32_t>, 3> Positions{
         #if THINK
         std::pair{STOW, 500},
-        std::pair{LOAD, 4000},
-        std::pair{SCORE, 20000},
+        std::pair{LOAD, 3800},
+        std::pair{SCORE, 15000},
         #elif DO
         std::pair{STOW, 500},
         std::pair{LOAD, 2250},

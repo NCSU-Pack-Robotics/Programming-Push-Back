@@ -7,9 +7,9 @@ namespace Constants {
         namespace MotorSpeeds {
           
             /** Lift speed for the lift moving upwards */
-            constexpr int32_t LIFT_UP = 99;
+            constexpr int32_t LIFT_UP = 127;
             /** Lift speed for the lift moving backwards */
-            constexpr int32_t LIFT_DOWN = -51;
+            constexpr int32_t LIFT_DOWN = -102;
             /** Lift speed used for resetting, it is slower so that the lift sensor can pick up a reading. */
             constexpr int32_t LIFT_RESET = 25;
 
