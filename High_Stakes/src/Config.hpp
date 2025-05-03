@@ -102,11 +102,11 @@ namespace Constants {
     namespace Initial::Pose {
         #if THINK
         /** The initial x position of the robot */
-        constexpr double INITIAL_X = -58.5;
+        constexpr double INITIAL_X = 118;
         /** The initial y position of the robot */
-        constexpr double INITIAL_Y = -24;
+        constexpr double INITIAL_Y = 90;
         /** The initial heading of the robot */
-        constexpr double INITIAL_HEADING = M_PI;
+        constexpr double INITIAL_HEADING = -26.25;
 
         #elif DO
         /** The initial x position of the robot */

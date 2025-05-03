@@ -75,7 +75,7 @@ namespace Constants {
         constexpr double LOOKAHEAD_DISTANCE = 5.0;
 
         /** In pure pursuit, the distance from the target point before the robot stops (inches) */
-        constexpr double STOP_DISTANCE = 0.5;
+        constexpr double STOP_DISTANCE = 1.5;
     }
 
 }
