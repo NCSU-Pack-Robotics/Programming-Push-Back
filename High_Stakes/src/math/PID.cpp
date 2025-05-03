@@ -31,8 +31,6 @@ double PID::calculate_proportional(const double error) const {
 }
 
 double PID::calculate_integral(const double error, const double delta_time) {
-    printf("Integrator: %.2f\n", this->integrator);
-
     // Integral is the sum of the error over time
     const double integral = error * delta_time;
 
