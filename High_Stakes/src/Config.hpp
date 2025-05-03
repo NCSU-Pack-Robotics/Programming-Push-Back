@@ -63,11 +63,11 @@ namespace Constants {
      */
     namespace PID::Drive::Distance {
         /** PID Proportional coefficient for position calculations */
-        constexpr double Kp = 300;
+        constexpr double Kp = 280;
         /** PID Derivative coefficient for position calculations */
         constexpr double Kd = 0.0;
         /** PID Integral coefficient for position calculations */
-        constexpr double Ki = 0.0;
+        constexpr double Ki = 40;
     }
 
     /**

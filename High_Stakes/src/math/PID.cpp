@@ -1,5 +1,7 @@
 #include "PID.hpp"
 
+#include <cstdio>
+
 double PID::calculate(const double error) {
     // If first loop, start the timer and return the proportional term
     if (this->first_loop) {
@@ -29,11 +31,23 @@ double PID::calculate_proportional(const double error) const {
 }
 
 double PID::calculate_integral(const double error, const double delta_time) {
-    // Integral term is the sum of all errors over time
-    this->integral += error * delta_time;
+    printf("Integrator: %.2f\n", this->integrator);
+
+    // Integral is the sum of the error over time
+    const double integral = error * delta_time;
+
+    this ->integrators.push(integral);  // Add the new integral to the queue
+    this->integrator += integral;  // Add the new integral to the sum
+
+    // Limit the size of the queue
+    if (this->integrators.size() > 200) {  // At a 5ms delay, size 200 is 1 second worth of errors
+        // Remove the oldest integral
+        this-> integrator -= this->integrators.front();
+        this->integrators.pop();
+    }
 
     // Multiply by the integral coefficient
-    return this->k_integral * this->integral;
+    return this->k_integral * this->integrator;
 }
 
 double PID::calculate_derivative(const double error, const double delta_time) {

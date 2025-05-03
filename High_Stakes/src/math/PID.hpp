@@ -1,5 +1,7 @@
 #pragma once
 
+#include <queue>
+
 #include "../Timer.hpp"
 
 /**
@@ -21,9 +23,17 @@ class PID {
 
     /** Timer to calculate elapsed time between calls */
     Timer timer;
+
+    /** Flag to indicate if this is the first loop */
     bool first_loop = true;
 
-    double integral = 0;
+    /** The sum of errors over time */
+    double integrator = 0;
+
+    /** A queue of integrals summed to calculate the integrator */
+    std::queue<double> integrators;
+
+    /** The last value of the error */
     double last_error = 0;
 
 public:
@@ -35,7 +45,7 @@ public:
      * @param k_integral Integral coefficient
      * @param k_derivative Derivative coefficient
      */
-    constexpr PID(const double k_proportional, const double k_integral, const double k_derivative)
+    PID(const double k_proportional, const double k_integral, const double k_derivative)
         : k_proportional(k_proportional), k_integral(k_integral), k_derivative(k_derivative) {}
 
     /**

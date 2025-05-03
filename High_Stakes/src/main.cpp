@@ -99,7 +99,7 @@ void autonomous() {
         }
 
         // Delay the loop to prevent the CPU from being overwhelmed
-        pros::delay(10);
+        pros::delay(5);
     }
 }
 
@@ -132,6 +132,6 @@ void opcontrol() {
         }
 
         // Delay the loop to prevent the CPU from being overwhelmed
-        pros::delay(2);
+        pros::delay(5);
     }
 }

@@ -49,10 +49,6 @@ namespace std {
  * button_just_released_event].
  */
 // If you need to map a ButtonCombo to multiple commands, use an inline parallel or chain command.
-
-
-
-// Declaration of BINDS
 extern std::unordered_map<pros::controller_digital_e_t,
                           std::array<std::optional<std::function<std::unique_ptr<Command>()>>, 3>> BINDS;
 
