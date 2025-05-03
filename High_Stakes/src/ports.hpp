@@ -1,7 +1,5 @@
 #pragma once
 
-#include <cstdint>
-
 /**
  * This namespace contains all the ports for the robot.
  * Motors, sensors, and other devices should be declared here.

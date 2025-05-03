@@ -1,8 +1,6 @@
 #pragma once
 #include <string>
 
-#include "Constants.hpp"
-
 /**
  * Represents the pose of the robot.
  * In robotics, pose to the current state of a robot in the world.

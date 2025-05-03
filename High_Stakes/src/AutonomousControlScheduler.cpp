@@ -68,7 +68,6 @@ AutonomousControlScheduler::AutonomousControlScheduler(): ChainCommand({}) {
 }
 
 void AutonomousControlScheduler::initialize() {
-    printf("initializing");
     drivetrain.initialize();
 }
 

@@ -1,7 +1,6 @@
 #pragma once
-#include <memory>
-#include "../AbstractSubsystem.hpp"
 #include "../../include/main.h"
+#include "../AbstractSubsystem.hpp"
 #include "../ports.hpp"
 
 class Clamp : public AbstractSubsystem {

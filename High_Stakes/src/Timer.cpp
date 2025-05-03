@@ -1,6 +1,5 @@
 #include "Timer.hpp"
 #include <cmath>
-#include <cstdio>
 
 void Timer::start() {
     // Save current time as start time
