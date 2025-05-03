@@ -8,10 +8,14 @@ void Command::run() {
     // Run periodic
     if (!is_complete()) {
         periodic();
-        loops++;
     } else {  // If complete, finish
         shutdown();
     }
+
+    /* This values must be updated, unconditionally, at the end of the run() method. Previously,
+     * we placed right after the call to periodic() in the if statement. This caused Instant
+     * Command to run twice b/c they're always complete and never run periodic() */
+    loops++;
 }
 
 ChainCommand::ChainCommand(std::initializer_list<std::unique_ptr<Command>> commands) {
