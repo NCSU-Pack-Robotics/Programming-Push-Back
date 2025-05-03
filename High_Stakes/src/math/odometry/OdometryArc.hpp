@@ -1,6 +1,7 @@
 #pragma once
 
 #include "AbstractOdometry.hpp"
+#include "../../Timer.hpp"
 
 class OdometryArc final : public AbstractOdometry {
 public:
@@ -35,8 +36,15 @@ protected:
     double delta_left = 0;
     /** difference between last cycle and this cycle for right side distance (inches) */
     double delta_right = 0;
-    /** average difference between last cycle and this cycle for both sides (inches) */
+    /** the average difference between the last cycle and this cycle for both sides (inches)
+     * This represents the total distance traveled by the robot over the course of the last cycle. */
     double delta_avg = 0;
+
+    /** the difference in heading between the last cycle and this cycle (degrees) */
+    double delta_heading = 0;
+
+    /** Timer used to record elapsed time between calls to <code>calculate()</code> */
+    Timer timer;
 
     /**
      * Updates the delta values.

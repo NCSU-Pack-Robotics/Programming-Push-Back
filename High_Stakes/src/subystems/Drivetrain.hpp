@@ -80,7 +80,7 @@ public:
 
     /**
     * Get the pose of the robot.
-    * This is the result of odometer calculations.d
+    * This is the result of odometer calculations.
     * @return The pose of the robot.
     */
     Pose get_pose() const;
@@ -146,6 +146,12 @@ private:
     std::unique_ptr<pros::MotorGroup> left_motors;
     /** Group of all motors on the right side of the robot. */
     std::unique_ptr<pros::MotorGroup> right_motors;
+
+    // Rotation sensors:
+    /** Smart pointer to the left rotation sensor. */
+    std::unique_ptr<pros::Rotation> left_rotation_sensor;
+    /** Smart pointer to the right rotation sensor. */
+    std::unique_ptr<pros::Rotation> right_rotation_sensor;
 
 protected:
     /**

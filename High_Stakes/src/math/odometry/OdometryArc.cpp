@@ -3,8 +3,17 @@
 #include "../../subystems/Drivetrain.hpp"
 #include "../Utils.hpp"
 
+/**
+ * The angular velocity (degrees per second) under which odometry will be calculated using
+ * the linear method. Over this value, the arc method will be used.
+ */
+#define ANGULAR_THRESHOLD 4.0
+
 OdometryArc::OdometryArc(Pose initial_pose)
     : AbstractOdometry(initial_pose) {
+
+    // Begin timing
+    this->timer.start();
 }
 
 Pose OdometryArc::calculate(const std::pair<double, double> &positions) {
@@ -16,8 +25,19 @@ Pose OdometryArc::calculate(const std::pair<double, double> &positions) {
     update_deltas(); // Needs to be done after positions calculations
     update_distance(); // Needs to be done after delta calculations
 
-    // Update coordinates with preferred method
-    calculate_position_arc();
+    // Get elapsed time since last calculation
+    const double elapsed_time = this->timer.get_duration();
+    this->timer.start();
+
+    /** Angular velocity of the robot using heading (degrees per second) */
+    const double angular_velocity = delta_heading / elapsed_time;
+
+    // Update coordinates with the preferred method
+    if (fabs(angular_velocity) > ANGULAR_THRESHOLD) {  // If turning
+        calculate_position_arc();
+    } else {  // If moving somewhat straight
+        calculate_position_linear();
+    }
 
     // must be done after coordinate calculations
     this->pose.heading = Constants::Initial::Pose::INITIAL_HEADING +
@@ -50,7 +70,7 @@ void OdometryArc::calculate_position_arc() {
     // position calculations
     const double turning_radius = fabs(Constants::Hardware::ROBOT_RADIUS *
                                        (delta_right + delta_left) / (delta_right - delta_left));
-    const double delta_heading = (delta_right - delta_left) / Constants::Hardware::ROBOT_DIAMETER;
+    this->delta_heading = (delta_right - delta_left) / Constants::Hardware::ROBOT_DIAMETER;
 
     // variables to store changes in x andy y
     double delta_x = 0.0;
@@ -62,18 +82,18 @@ void OdometryArc::calculate_position_arc() {
         if (fabs(delta_right) - fabs(delta_left) > 0) {
             // turning left
             delta_x = turning_radius *
-                      (cos(this->pose.heading - Constants::Math::HALF_PI + delta_heading) -
+                      (cos(this->pose.heading - Constants::Math::HALF_PI + this->delta_heading ) -
                        cos(this->pose.heading - Constants::Math::HALF_PI));
             delta_y = turning_radius *
-                      (sin(this->pose.heading - Constants::Math::HALF_PI + delta_heading) -
+                      (sin(this->pose.heading - Constants::Math::HALF_PI + this->delta_heading ) -
                        sin(this->pose.heading - Constants::Math::HALF_PI));
         } else if (fabs(delta_right) - fabs(delta_left) < 0) {
             // turning right
             delta_x = turning_radius *
-                      (cos(this->pose.heading + Constants::Math::HALF_PI + delta_heading) -
+                      (cos(this->pose.heading + Constants::Math::HALF_PI + this->delta_heading ) -
                        cos(this->pose.heading + Constants::Math::HALF_PI));
             delta_y = turning_radius *
-                      (sin(this->pose.heading + Constants::Math::HALF_PI + delta_heading) -
+                      (sin(this->pose.heading + Constants::Math::HALF_PI + this->delta_heading ) -
                        sin(this->pose.heading + Constants::Math::HALF_PI));
         }
 
@@ -82,6 +102,9 @@ void OdometryArc::calculate_position_arc() {
         this->pose.y += delta_y;
     } else {  // Avoids division by zero
 
-        this->calculate_position_linear();
+        // not turning
+        const double delta_average = (delta_left + delta_right) / 2;
+        delta_x = delta_average * cos(this->pose.heading);
+        delta_y = delta_average * sin(this->pose.heading);
     }
 }

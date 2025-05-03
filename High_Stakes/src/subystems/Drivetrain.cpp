@@ -15,9 +15,7 @@ Drivetrain::Drivetrain() : AbstractSubsystem() {
     this->braking = false;
     this->direction = FORWARDS;
     this->drive_type = Constants::DriveType::VOLTAGE;
-}
 
-void Drivetrain::initialize() {
     // Initialize motor objects:
     left_front1 = std::make_unique<pros::Motor>(Ports::LEFT_FRONT1_MOTOR_PORT,
                                                pros::v5::MotorGears::blue,
@@ -55,20 +53,31 @@ void Drivetrain::initialize() {
              right_front1->get_gearing(),
              right_front1->get_encoder_units());
 
-    // Set all positions to 0
-    left_motors->tare_position_all();
-    right_motors->tare_position_all();
-
-    reversing = false;
-    braking = false;
+    // Construct rotation sensors
+    left_rotation_sensor = std::make_unique<pros::Rotation>(Ports::LEFT_ROTATION_SENSOR_PORT);
+    right_rotation_sensor = std::make_unique<pros::Rotation>(Ports::RIGHT_ROTATION_SENSOR_PORT);
 
     // Construct initial pose
     Pose initial_pose = {Constants::Initial::Pose::INITIAL_X,
                          Constants::Initial::Pose::INITIAL_Y,
                          Constants::Initial::Pose::INITIAL_HEADING};
 
-    // Initialize calculate
+    // Initialize odometry
     odometry = std::make_unique<OdometryArc>(initial_pose);
+}
+
+void Drivetrain::initialize() {
+    // Set all positions to 0
+    left_motors->tare_position_all();
+    right_motors->tare_position_all();
+
+    left_rotation_sensor->reset();
+    right_rotation_sensor->reset();
+    left_rotation_sensor->reset_position();
+    right_rotation_sensor->reset_position();
+
+    reversing = false;
+    braking = false;
 }
 
 void Drivetrain::periodic() {
@@ -168,11 +177,13 @@ bool Drivetrain::set_braking(const bool braking) {
 void Drivetrain::brake_now() {
     left_motors->set_brake_mode_all(pros::E_MOTOR_BRAKE_BRAKE);
     right_motors->set_brake_mode_all(pros::E_MOTOR_BRAKE_BRAKE);
+
     // Clear old velocities
     left_drive_power = 0;
     right_drive_power = 0;
     right_drive_voltage = 0;
     left_drive_voltage = 0;
+
     // set braking
     left_motors->brake();
     right_motors->brake();
@@ -190,23 +201,19 @@ bool Drivetrain::set_reversing(const bool reversing) {
 }
 
 std::pair<double, double> Drivetrain::get_position(const bool respect_reverse) const {
-    // Get current positions from the motors
-    const std::vector<double> left_positions = left_motors->get_position_all();
-    const std::vector<double> right_positions = right_motors->get_position_all();
-
-    // Average both motor positions to be more accurate
-    double left_position = std::reduce(left_positions.begin(), left_positions.end(), 0.0) / left_positions.size();
-    double right_position = std::reduce(right_positions.begin(), right_positions.end(), 0.0) / right_positions.size();
+    // Get the positions of the drivetrain in degrees - https://www.vexforum.com/t/get-angle-vs-get-position-pros/115915
+    double left_position  = left_rotation_sensor->get_position() / 100;
+    double right_position = right_rotation_sensor->get_position() / 100;
 
     // Reverse values if we are in reverse mode
     if (respect_reverse && reversing) {
         left_position = -left_position;
         right_position = -right_position;
 
-        return std::make_pair(right_position, left_position);
+        return {right_position, left_position};
     }
 
-    return std::make_pair(left_position, right_position);
+    return {left_position, right_position};
 }
 
 Pose Drivetrain::get_pose() const {

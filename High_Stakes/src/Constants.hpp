@@ -44,7 +44,7 @@ namespace Constants {
 
         /**
          * The diameter of a tracking wheel
-         *     • Measured between outer omni rollers
+         *     • Measured between the centers of the outer wheels
          *     • Measured in inches
         */
         constexpr double ROBOT_DIAMETER = 12.6875;
