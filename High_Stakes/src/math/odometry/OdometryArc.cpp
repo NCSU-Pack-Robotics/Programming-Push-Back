@@ -96,10 +96,6 @@ void OdometryArc::calculate_position_arc() {
                       (sin(this->pose.heading + Constants::Math::HALF_PI + this->delta_heading ) -
                        sin(this->pose.heading + Constants::Math::HALF_PI));
         }
-
-        // Update x and y coordinates
-        this->pose.x += delta_x;
-        this->pose.y += delta_y;
     } else {  // Avoids division by zero
 
         // not turning
@@ -107,4 +103,8 @@ void OdometryArc::calculate_position_arc() {
         delta_x = delta_average * cos(this->pose.heading);
         delta_y = delta_average * sin(this->pose.heading);
     }
+
+    // Update the pose's x and y coordinates
+    this->pose.x += delta_x;
+    this->pose.y += delta_y;
 }
