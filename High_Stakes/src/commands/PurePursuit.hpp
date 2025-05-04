@@ -24,14 +24,15 @@ class PurePursuit : public Command {
     std::vector<Pose> path;
 
     /** The distance between the robot and the lookahead point. */
-    double lookahead = Constants::PathFollowing::LOOKAHEAD_DISTANCE;
+    double lookahead;
 
 public:
     /**
     * Constructor for the PurePursuit command.
     * @param path The path to follow.
+    * @param lookahead The distance in inches for the lookahead distance
     */
-    explicit PurePursuit(const asset& path);
+    explicit PurePursuit(const asset& path, double lookahead = Constants::PathFollowing::LOOKAHEAD_DISTANCE);
 
     void initialize() override;
 

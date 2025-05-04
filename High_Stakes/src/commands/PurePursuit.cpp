@@ -125,7 +125,8 @@ Pose get_lookahead_point(const Pose &pose, const std::vector<Pose> &path, const 
     return get_closest_point(raw_lookahead, path);
 }
 
-PurePursuit::PurePursuit(const asset &path) : path(get_data(path)) {
+PurePursuit::PurePursuit(const asset &path, double lookahead) : path(get_data(path)) {
+    this->lookahead = lookahead;
     if (this->path.empty()) {
         fprintf(stderr, "No points in path! Do you have the right format? Skipping motion");
         return;
@@ -142,10 +143,11 @@ void PurePursuit::periodic() {
 
     // When the robot is within some inches of the end of the path, stop
     if (pose.distance(path.back()) < Constants::PathFollowing::STOP_DISTANCE) {
+        printf("Stopped pure pursuit at X: %f", pose.x);
         done = true;
         // stop the robot
         drivetrain.brake_now();
-        drivetrain.periodic();
+        // drivetrain.periodic();
         return;
     }
 
