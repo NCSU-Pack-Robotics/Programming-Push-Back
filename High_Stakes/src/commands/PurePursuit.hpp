@@ -17,11 +17,12 @@ class PurePursuit : public Command {
     /** An instance of the drivetrain subsystem. */
     Drivetrain &drivetrain = AbstractSubsystem::get_instance<Drivetrain>();
 
-    /** The pose of the robot as it follows the path. */
-    Pose current;
-
     /** List of poses that make up the path. */
     std::vector<Pose> path;
+
+    /** The last point in the path. This is necessary b/c points are added to the end of the path.
+     * This will be the point that the robot will stop at. */
+    Pose last_point;
 
     /** The distance between the robot and the lookahead point. */
     double lookahead;
