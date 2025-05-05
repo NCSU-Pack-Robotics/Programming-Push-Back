@@ -12,10 +12,10 @@ public:
      * @param rpm The RPM to convert to inches per second.
      * @return The RPM converted to inches per second.
      */
-     static inline double rpm_to_ips(const double rpm) {
-         return rpm * Constants::Hardware::TRACKING_DIAMETER * Constants::Math::PI *
-           Constants::Hardware::TRACKING_RATIO / 60;
-     }
+    static inline double rpm_to_ips(const double rpm) {
+        return rpm * Constants::Hardware::TRACKING_DIAMETER * Constants::Math::PI *
+               Constants::Hardware::TRACKING_RATIO / 60;
+    }
 
     /**
      * Converts from <code>Drivetrain</code> encoder degree values to inches.
@@ -24,9 +24,22 @@ public:
      * @return The inches corresponding to the given degree value
      */
     static inline double degrees_to_inches(const double position) {
-         return Constants::Hardware::TRACKING_RATIO * Constants::Hardware::TRACKING_DIAMETER *
+        return Constants::Hardware::TRACKING_RATIO * Constants::Hardware::TRACKING_DIAMETER *
                Constants::Math::PI * (position / 360);
-     }
+    }
+
+    /**
+     * Ensures that the given angle is between 0 and 2 * PI radians.
+     * @return The normalized angle in radians.
+     */
+    static inline double ensure_positive_radians(double radians) {
+        radians = fmod(radians, Constants::Math::TAU);
+        if (radians < 0) {
+            radians += Constants::Math::TAU;
+        }
+
+        return radians;
+    }
 };
 
 /**

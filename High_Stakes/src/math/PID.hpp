@@ -15,11 +15,11 @@
  */
 class PID {
     /** Proportional coefficient */
-    const double k_proportional;
+    double k_proportional;
     /** Integral coefficient */
-    const double k_integral;
+    double k_integral;
     /** Derivative coefficient */
-    const double k_derivative;
+    double k_derivative;
 
     /** Timer to calculate elapsed time between calls */
     Timer timer;

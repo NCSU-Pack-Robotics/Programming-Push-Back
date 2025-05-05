@@ -135,4 +135,8 @@ add_executable(Programming_High_Stakes
         High_Stakes/src/math/odometry/OdometryArc.cpp
         High_Stakes/src/math/odometry/OdometryArc.hpp
         High_Stakes/src/math/Utils.hpp
+        High_Stakes/src/commands/Default/TurnToHeading.cpp
+        High_Stakes/src/commands/Default/TurnToHeading.hpp
+        High_Stakes/src/commands/Default/TurnToPoint.cpp
+        High_Stakes/src/commands/Default/TurnToPoint.hpp
 )
