@@ -39,7 +39,7 @@ namespace Ports {
     /** Port of the ladybrown motor */
     constexpr std::int8_t LADYBROWN_MOTOR_PORT = 8;
     /** Port of the ladybrown rotation sensor */
-    constexpr std::int8_t LADYBROWN_ROTATION_PORT = 9;
+    constexpr std::int8_t LADYBROWN_ROTATION_PORT = 21;
 
     /** Port of the clamp. */
     constexpr char CLAMP_BRAIN_PORT = 'E';
