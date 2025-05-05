@@ -71,7 +71,7 @@ namespace Constants {
     }
 
     /**
-     * Namespace for PID constants used to move the drivetrain some number of degrees.
+     * Namespace for PID constants used to move the drivetrain some number of es.
      * # TODO: Tune
     */
     namespace PID::Drive::Degrees {
@@ -102,11 +102,11 @@ namespace Constants {
     namespace Initial::Pose {
         #if THINK
         /** The initial x position of the robot */
-        constexpr double INITIAL_X = 118;
+        constexpr double INITIAL_X = 118.25;
         /** The initial y position of the robot */
-        constexpr double INITIAL_Y = 90;
+        constexpr double INITIAL_Y = 51.56;
         /** The initial heading of the robot */
-        constexpr double INITIAL_HEADING = -26.25;
+        constexpr double INITIAL_HEADING = 3.60846823;
 
         #elif DO
         /** The initial x position of the robot */

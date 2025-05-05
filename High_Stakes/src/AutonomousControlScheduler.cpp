@@ -3,6 +3,7 @@
 #include "asset.hpp"
 #include "commands/Default/MoveLadyBrownPosition.hpp"
 #include "commands/Default/TurnAround.hpp"
+#include "commands/Default/TurnToPoint.hpp"
 #include "commands/DriveStraight.hpp"
 #include "commands/Instant/SetReversed.hpp"
 #include "commands/Instant/ToggleArm.hpp"
@@ -29,10 +30,11 @@ AutonomousControlScheduler::AutonomousControlScheduler(): ChainCommand({}) {
     add_command_and(make_unique<DriveStraight>(42, 1.5)).
     add_command_and(make_unique<ToggleArm>()).
     add_command_and(make_unique<InstantCommand>(make_unique<function<void()>>([&] {pros::delay(250);}))).
-    add_command_and(make_unique<DriveStraight>(-35, 5)).
+    add_command_and(make_unique<DriveStraight>(-25, 5)).
     add_command_and(make_unique<ToggleArm>()).
     add_command_and(make_unique<InstantCommand>(make_unique<function<void()>>([&] {pros::delay(350);}))).
-    add_command_and(make_unique<PurePursuit>(rushCenterFromLeft_txt)).
+    add_command_and(make_unique<TurnToPoint>(70, 70, 0.0872665));
+    add_command_and(make_unique<PurePursuit>(rushCenterFromLeft_txt, 5)).
     add_command_and(make_unique<ToggleArm>()).
     add_command_and(make_unique<InstantCommand>(make_unique<function<void()>>([&] {pros::delay(250);}))).
     add_command_and(make_unique<DriveStraight>(-20, 5)).
