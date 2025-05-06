@@ -23,7 +23,7 @@ namespace Constants {
 
         #if THINK
         /** The scaling factor used for scaling the controller input */
-        constexpr int32_t INPUT_SCALING_FACTOR = 15;
+        constexpr int32_t INPUT_SCALING_FACTOR = 0;
         #elif DO
         /** The scaling factor used for scaling the controller input */
         constexpr int32_t INPUT_SCALING_FACTOR = 0;
