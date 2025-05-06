@@ -26,15 +26,15 @@ public:
     /** A map of the positions and their rotation in centidegrees */
     std::array<std::pair<Position, int32_t>, 4> Positions{
         #if THINK
-        std::pair{STOW, 9800},
-        std::pair{LOAD, 12000},
-        std::pair{ALIGN, 20000},
-        std::pair{SCORE, 20500}
+        std::pair{STOW, 300},
+        std::pair{LOAD, 2500},
+        std::pair{ALIGN, 11100},
+        std::pair{SCORE, 14000}
         #elif DO
         std::pair{STOW, 100},
         std::pair{LOAD, 3000},
         std::pair{ALIGN, 10900},
-        std::pair{SCORE, 13500}
+        std::pair{SCORE, 14500}
         #endif
     };
 

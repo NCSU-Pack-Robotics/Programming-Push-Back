@@ -31,6 +31,6 @@ std::unordered_map<pros::controller_digital_e_t, std::array<std::optional<std::f
          {pros::E_CONTROLLER_DIGITAL_X, {std::nullopt, std::nullopt, std::nullopt}},
          {pros::E_CONTROLLER_DIGITAL_B, {std::nullopt, std::nullopt, std::nullopt}},
          {pros::E_CONTROLLER_DIGITAL_Y, {std::nullopt, std::nullopt, std::nullopt}},
-         {pros::E_CONTROLLER_DIGITAL_A, {std::nullopt, std::nullopt, std::nullopt}}
+         {pros::E_CONTROLLER_DIGITAL_A, {[] { return std::make_unique<ToggleArm>(); }, std::nullopt, std::nullopt}}
 };
 #endif
