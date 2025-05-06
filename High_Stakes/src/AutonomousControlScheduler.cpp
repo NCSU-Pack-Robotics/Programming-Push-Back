@@ -3,9 +3,10 @@
 #include "asset.hpp"
 #include "commands/Default/MoveLadyBrownPosition.hpp"
 #include "commands/Default/TurnAround.hpp"
-#include "commands/Default/TurnToPoint.hpp"
 #include "commands/DriveStraight.hpp"
+#include "commands/Instant/SetPose.hpp"
 #include "commands/Instant/SetReversed.hpp"
+#include "commands/Instant/ToggleClamp.hpp"
 #include "commands/Instant/ToggleArm.hpp"
 #include "commands/PPIntakeLift.hpp"
 #include "commands/PurePursuit.hpp"
@@ -15,6 +16,9 @@
 
 // Global paths defined here
 ASSET(rushCenterFromLeft_txt)
+ASSET(alignForGoal_txt)
+ASSET(getGoal_txt)
+ASSET(intake1_txt)
 
 using namespace std;
 
@@ -27,19 +31,29 @@ AutonomousControlScheduler::AutonomousControlScheduler(): ChainCommand({}) {
 
     // Add commands to the chain here
     #if THINK
-    add_command_and(make_unique<DriveStraight>(42, 1.5)).
-    add_command_and(make_unique<ToggleArm>()).
-    add_command_and(make_unique<InstantCommand>(make_unique<function<void()>>([&] {pros::delay(250);}))).
-    add_command_and(make_unique<DriveStraight>(-25, 5)).
-    add_command_and(make_unique<ToggleArm>()).
-    add_command_and(make_unique<InstantCommand>(make_unique<function<void()>>([&] {pros::delay(350);}))).
-    add_command_and(make_unique<TurnToPoint>(70, 70, 0.0872665));
-    add_command_and(make_unique<PurePursuit>(rushCenterFromLeft_txt, 5)).
-    add_command_and(make_unique<ToggleArm>()).
-    add_command_and(make_unique<InstantCommand>(make_unique<function<void()>>([&] {pros::delay(250);}))).
-    add_command_and(make_unique<DriveStraight>(-20, 5)).
-    add_command_and(make_unique<ToggleArm>());
-
+    add_command(make_unique<DriveStraight>(42, 1.5));
+    add_command(make_unique<ToggleArm>());
+    add_command(make_unique<InstantCommand>(make_unique<function<void()>>([&] {pros::delay(250);})));
+    add_command(make_unique<DriveStraight>(-42, 5));  // Pull first goal back
+    add_command(make_unique<ToggleArm>());
+    add_command(make_unique<DriveStraight>(-25, 5, 2.75));  // Slam into the wall
+    add_command(make_unique<InstantCommand>(make_unique<function<void()>>([&] {
+        Pose pose = drivetrain.get_pose();
+        pose.x = 140.41;
+        pose.y = 44.85;
+        pose.heading = M_PI;
+        drivetrain.set_pose(pose);
+    })));  // Reset pose to match the wall
+    add_command(make_unique<PurePursuit>(alignForGoal_txt, 3.5));
+    add_command(make_unique<InstantCommand>(make_unique<function<void()>>([&] {
+        drivetrain.set_reversing(true);
+    })));
+    add_command(make_unique<PurePursuit>(getGoal_txt, 18));
+    add_command(make_unique<ToggleClamp>());
+    add_command(make_unique<InstantCommand>(make_unique<function<void()>>([&] {
+        drivetrain.set_reversing(false);
+    })));
+    add_command(make_unique<PPIntakeLift>(intake1_txt, 3));
     #elif DO
 
 
