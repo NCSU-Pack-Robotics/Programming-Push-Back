@@ -15,15 +15,24 @@ class DriveStraight : public Command {
     /** Amount of error to allow in the distance driven. */
     double tolerance;
 
+    /** Maximum number of seconds this command is allowed to run. */
+    double max_time;
+    /** Timer to track the time this command has been running. */
+    Timer timer;
+
+
 public:
     /**
      * Constructor for the DriveStraight command.
      * @param inches The number of inches to drive. May be negative to drive backwards.
      * @param tolerance How close (in inches) the robot needs to be to the target distance to be
      * considered done.
+     * @param max_time The maximum time (in seconds) this command is allowed to run. If the command
+     * exceeds this time, it will be considered done. Default does not use this.
      */
-    explicit DriveStraight(const double inches, const double tolerance)
-        : target_distance(inches), tolerance(tolerance) {}
+    explicit DriveStraight(const double inches, const double tolerance,
+        const double max_time = std::numeric_limits<double>::max())
+        : target_distance(inches), tolerance(tolerance), max_time(max_time) {}
 
     void initialize() override;
 

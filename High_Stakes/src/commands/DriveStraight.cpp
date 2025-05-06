@@ -8,9 +8,17 @@ void DriveStraight::initialize() {
     // Get the initial distances
     this->initial_left_distance = utils.degrees_to_inches(drivetrain.get_position().first);
     this->initial_right_distance = utils.degrees_to_inches(drivetrain.get_position().second);
+
+    /** Begin the timer */
+    timer.start();
 }
 
 void DriveStraight::periodic() {
+    // If maximum time for the command has been reached, stop the command
+    if (timer.get_duration() > max_time) {
+        this->done = true;
+    }
+
     // If the command is done, do nothing
     if (this->done) return;
 
