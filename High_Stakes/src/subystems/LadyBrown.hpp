@@ -28,8 +28,8 @@ public:
         #if THINK
         std::pair{STOW, 9800},
         std::pair{LOAD, 12000},
-        std::pair{ALIGN, 20000}
-        std::pair{SCORE, 20500},
+        std::pair{ALIGN, 20000},
+        std::pair{SCORE, 20500}
         #elif DO
         std::pair{STOW, 100},
         std::pair{LOAD, 3000},
