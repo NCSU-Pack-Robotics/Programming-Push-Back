@@ -139,4 +139,6 @@ add_executable(Programming_High_Stakes
         High_Stakes/src/commands/Default/TurnToHeading.hpp
         High_Stakes/src/commands/Default/TurnToPoint.cpp
         High_Stakes/src/commands/Default/TurnToPoint.hpp
+        High_Stakes/src/commands/Instant/SetPose.cpp
+        High_Stakes/src/commands/Instant/SetPose.hpp
 )

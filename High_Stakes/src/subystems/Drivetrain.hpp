@@ -83,6 +83,13 @@ public:
     */
     Pose get_pose() const;
 
+    /**
+     * Set the pose of the robot.
+     * This method is intended to be used when the robot hits a wall to realign itself.
+     * @param new_pose The new pose of the robot.
+     */
+    void set_pose(Pose new_pose) const;
+
 private:
     /** Voltage in mV to set motors to. Will be between -12,000 and +12,000. */
     int32_t left_drive_voltage = 0;

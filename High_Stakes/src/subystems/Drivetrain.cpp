@@ -223,3 +223,7 @@ Pose Drivetrain::get_pose() const {
 
     return pose;
 }
+
+void Drivetrain::set_pose(const Pose new_pose) const {
+    this->odometry->set_pose(new_pose);
+}

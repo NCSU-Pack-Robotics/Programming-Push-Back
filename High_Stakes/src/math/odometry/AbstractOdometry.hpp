@@ -32,6 +32,13 @@ public:
     [[nodiscard]] Pose get_pose() const;
 
     /**
+     * Sets the pose of the robot.
+     * This method is intended to be used when the robot hits a wall to realign itself.
+     * @param new_pose The new pose of the robot.
+     */
+    void set_pose(Pose new_pose);
+
+    /**
      * Deleted default constructor for the AbstractOdometry class.
      * This constructor is deleted to prevent instantiation without parameters.
      */
