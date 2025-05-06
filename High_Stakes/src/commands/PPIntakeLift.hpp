@@ -13,7 +13,7 @@ public:
      * Constructor that sets the path to follow.
      * @param path The pah to follow.
      */
-    PPIntakeLift(asset path);
+    PPIntakeLift(asset path, double lookahead = Constants::PathFollowing::LOOKAHEAD_DISTANCE);
 
     void initialize() override;
 

@@ -2,8 +2,8 @@
 
 #include "PurePursuit.hpp"
 
-PPIntakeLift::PPIntakeLift(asset path): ParallelCommand{} {
-    add_command(std::make_unique<PurePursuit>(path));
+PPIntakeLift::PPIntakeLift(asset path, const double lookahead): ParallelCommand{} {
+    add_command(std::make_unique<PurePursuit>(path, lookahead));
     add_command(std::make_unique<InstantCommand>(std::make_unique<std::function<void()>>(
         [&] { lift.set_drive_power(Constants::Controller::MotorSpeeds::LIFT_UP); })));
     add_command(std::make_unique<InstantCommand>(std::make_unique<std::function<void()>>(
