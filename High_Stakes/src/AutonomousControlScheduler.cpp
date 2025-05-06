@@ -37,13 +37,7 @@ AutonomousControlScheduler::AutonomousControlScheduler(): ChainCommand({}) {
     add_command(make_unique<DriveStraight>(-42, 5));  // Pull first goal back
     add_command(make_unique<ToggleArm>());
     add_command(make_unique<DriveStraight>(-25, 5, 2.75));  // Slam into the wall
-    add_command(make_unique<InstantCommand>(make_unique<function<void()>>([&] {
-        Pose pose = drivetrain.get_pose();
-        pose.x = 140.41;
-        pose.y = 44.85;
-        pose.heading = M_PI;
-        drivetrain.set_pose(pose);
-    })));  // Reset pose to match the wall
+    add_command(make_unique<InstantCommand>(make_unique<function<void()>>([&] {Pose(140.41, 44.85, M_PI); })));  // Reset pose to match the wall
     add_command(make_unique<PurePursuit>(alignForGoal_txt, 3.5));
     add_command(make_unique<InstantCommand>(make_unique<function<void()>>([&] {
         drivetrain.set_reversing(true);
@@ -53,7 +47,7 @@ AutonomousControlScheduler::AutonomousControlScheduler(): ChainCommand({}) {
     add_command(make_unique<InstantCommand>(make_unique<function<void()>>([&] {
         drivetrain.set_reversing(false);
     })));
-    add_command(make_unique<PPIntakeLift>(intake1_txt, 3));
+    add_command(make_unique<PPIntakeLift>(intake1_txt, 3, 4));
     #elif DO
 
 
