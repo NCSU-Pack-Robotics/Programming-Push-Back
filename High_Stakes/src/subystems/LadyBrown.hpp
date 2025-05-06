@@ -21,18 +21,20 @@ public:
     void next_position();
 
     /** An enum that contains the possible positions of the LadyBrown */
-    enum Position { STOW, LOAD, SCORE };
+    enum Position { STOW, LOAD, ALIGN, SCORE };
 
     /** A map of the positions and their rotation in centidegrees */
-    std::array<std::pair<Position, int32_t>, 3> Positions{
+    std::array<std::pair<Position, int32_t>, 4> Positions{
         #if THINK
         std::pair{STOW, 9800},
         std::pair{LOAD, 12000},
-        std::pair{SCORE, 20000},
+        std::pair{ALIGN, 20000}
+        std::pair{SCORE, 20500},
         #elif DO
-        std::pair{STOW, 500},
-        std::pair{LOAD, 2250},
-        std::pair{SCORE, 11750},
+        std::pair{STOW, 100},
+        std::pair{LOAD, 3000},
+        std::pair{ALIGN, 10900},
+        std::pair{SCORE, 13500}
         #endif
     };
 
@@ -71,8 +73,6 @@ private:
 
     /** A boolean that determines if all the motors should be off, otherwise the periodic sets the motors to the current position */
     bool motors_killed;
-
-
 
     /** The PID used for the LadyBrown */
     PID lb_pid = PID(Constants::PID::LadyBrown::Position::Kp,

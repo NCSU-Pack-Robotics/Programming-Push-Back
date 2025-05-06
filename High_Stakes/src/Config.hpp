@@ -91,7 +91,7 @@ namespace Constants {
         /** PID Derivative coefficient for position calculations */
         constexpr double Kd = 0.0;
         /** PID Integral coefficient for position calculations */
-        constexpr double Ki = 0.1;
+        constexpr double Ki = 0.15;
     }
   
     /**

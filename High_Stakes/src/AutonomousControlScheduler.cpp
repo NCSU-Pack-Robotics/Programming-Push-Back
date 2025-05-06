@@ -40,23 +40,7 @@ AutonomousControlScheduler::AutonomousControlScheduler(): ChainCommand({}) {
     add_command_and(make_unique<DriveStraight>(-20, 5)).
     add_command_and(make_unique<ToggleArm>());
 
-
     #elif DO
-    add_command_and(std::make_unique<InstantCommand>(std::make_unique<std::function<void()>>(
-        [&] { drivetrain.set_reversing(true); }))).
-    add_command_and(make_unique<PurePursuit>(pathPart0_txt)).
-    add_command_and(make_unique<InstantCommand>(make_unique<function<void()>>(
-        [&] { clamp.set_enabled(true); })));
-    add_command_and(std::make_unique<InstantCommand>(std::make_unique<std::function<void()>>(
-        [&] { drivetrain.set_reversing(false); }))).
-    add_command_and(make_unique<PPIntakeLift>(pathPart1_txt)).  // Follow path, intake, and lift ring
-    add_command_and(make_unique<PPIntakeLift>(pathPart2_txt)).
-    add_command_and(make_unique<PPIntakeLift>(pathPart3_txt)).
-    add_command_and(std::make_unique<InstantCommand>(std::make_unique<std::function<void()>>(
-        [&] { drivetrain.set_reversing(true); }))).
-    add_command_and(make_unique<PurePursuit>(pathPart4_txt));
-    add_command_and(make_unique<InstantCommand>(make_unique<function<void()>>(
-        [&] { clamp.set_enabled(false); })));
 
 
     #endif
