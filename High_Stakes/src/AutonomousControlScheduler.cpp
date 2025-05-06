@@ -34,22 +34,22 @@ AutonomousControlScheduler::AutonomousControlScheduler(): ChainCommand({}) {
     add_command(make_unique<DriveStraight>(42, 1.5));
     add_command(make_unique<ToggleArm>());
     add_command(make_unique<InstantCommand>(make_unique<function<void()>>([&] {pros::delay(250);})));
-    add_command(make_unique<DriveStraight>(-42, 5));  // Pull first goal back
+    add_command(make_unique<DriveStraight>(-36, 5));  // Pull first goal back
     add_command(make_unique<ToggleArm>());
-    add_command(make_unique<DriveStraight>(-25, 5, 2.75));  // Slam into the wall
-    add_command(make_unique<InstantCommand>(make_unique<function<void()>>([&] {Pose(140.41, 44.85, M_PI); })));  // Reset pose to match the wall
+    add_command(make_unique<DriveStraight>(-25, 5, 3));  // Slam into the wall
+    add_command(make_unique<InstantCommand>(make_unique<function<void()>>([&] {drivetrain.set_pose(Pose(133.41, 43.38, M_PI)); })));  // Reset pose to match the wall
     add_command(make_unique<PurePursuit>(alignForGoal_txt, 3.5));
     add_command(make_unique<InstantCommand>(make_unique<function<void()>>([&] {
         drivetrain.set_reversing(true);
     })));
-    add_command(make_unique<PurePursuit>(getGoal_txt, 18));
+    add_command(make_unique<PurePursuit>(getGoal_txt, 18, 2));
     add_command(make_unique<ToggleClamp>());
     add_command(make_unique<InstantCommand>(make_unique<function<void()>>([&] {
         drivetrain.set_reversing(false);
     })));
     add_command(make_unique<PPIntakeLift>(intake1_txt, 3, 4));
     #elif DO
-
+t
 
     #endif
 }
