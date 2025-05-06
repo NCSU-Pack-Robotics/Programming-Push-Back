@@ -37,7 +37,7 @@ namespace Constants {
          *     • Measured between outer omni rollers
          *     • Measured in inches
         */
-        constexpr double TRACKING_DIAMETER = 2.6875;
+        constexpr double TRACKING_DIAMETER = 2.7250;
 
         /** Ratio of tracking wheel upper gear to lower wheel gear */
         constexpr double TRACKING_RATIO = 1.0;
@@ -47,7 +47,7 @@ namespace Constants {
          *     • Measured between the centers of the outer wheels
          *     • Measured in inches
         */
-        constexpr double ROBOT_DIAMETER = 12.6875;
+        constexpr double ROBOT_DIAMETER = 11.18;
 
         /**
          * Half the distance between the centers of each tracking wheel
@@ -75,7 +75,7 @@ namespace Constants {
         constexpr double LOOKAHEAD_DISTANCE = 5.0;
 
         /** In pure pursuit, the distance from the target point before the robot stops (inches) */
-        constexpr double STOP_DISTANCE = 1.5;
+        constexpr double STOP_DISTANCE = 2;
     }
 
 }

@@ -59,15 +59,14 @@ namespace Constants {
 
     /**
      * Namespace for PID constants used to move the drivetrain some number of inches.
-     * # TODO: Tune
      */
     namespace PID::Drive::Distance {
         /** PID Proportional coefficient for position calculations */
-        constexpr double Kp = 280;
+        constexpr double Kp =  260; // 250;
         /** PID Derivative coefficient for position calculations */
-        constexpr double Kd = 0.0;
+        constexpr double Kd = 15.0; // 50;
         /** PID Integral coefficient for position calculations */
-        constexpr double Ki = 40;
+        constexpr double Ki = 60.0; // 110;
     }
 
     /**
@@ -102,11 +101,11 @@ namespace Constants {
     namespace Initial::Pose {
         #if THINK
         /** The initial x position of the robot */
-        constexpr double INITIAL_X = 118.25;
+        constexpr double INITIAL_X = 118.36;
         /** The initial y position of the robot */
-        constexpr double INITIAL_Y = 51.56;
+        constexpr double INITIAL_Y = 51.49;
         /** The initial heading of the robot */
-        constexpr double INITIAL_HEADING = 3.60846823;
+        constexpr double INITIAL_HEADING = 3.53307;
 
         #elif DO
         /** The initial x position of the robot */
