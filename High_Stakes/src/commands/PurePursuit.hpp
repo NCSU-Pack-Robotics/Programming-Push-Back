@@ -26,14 +26,19 @@ class PurePursuit : public Command {
 
     /** The distance between the robot and the lookahead point. */
     double lookahead;
+    /** The distance from the end of the path to stop at. */
+    double tolerance;
 
 public:
     /**
     * Constructor for the PurePursuit command.
     * @param path The path to follow.
     * @param lookahead The distance in inches for the lookahead distance
+    * @param tolerance The number of inches from the end of the path to stop at.
     */
-    explicit PurePursuit(const asset& path, double lookahead = Constants::PathFollowing::LOOKAHEAD_DISTANCE);
+    explicit PurePursuit(const asset& path,
+        double lookahead = Constants::PathFollowing::LOOKAHEAD_DISTANCE,
+        double tolerance = Constants::PathFollowing::STOP_DISTANCE);
 
     void initialize() override;
 

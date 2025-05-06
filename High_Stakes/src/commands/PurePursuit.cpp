@@ -120,10 +120,11 @@ Pose get_lookahead_point(const Pose &pose, const std::vector<Pose> &path, const 
     return get_closest_point(raw_lookahead, path);
 }
 
-PurePursuit::PurePursuit(const asset &path, const double lookahead) {
+PurePursuit::PurePursuit(const asset &path, const double lookahead, const double tolerance) {
     this->path = get_data(path);
     this->last_point = this->path.back();
     this->lookahead = lookahead;
+    this->tolerance = tolerance;
 
     // Ensure path is not empty
     if (this->path.empty()) {
@@ -216,7 +217,7 @@ bool PurePursuit::is_complete() {
     const Pose pose = drivetrain.get_pose();
 
     // When the robot is within some inches of the end of the path, stop
-    if (pose.distance(this->last_point) < Constants::PathFollowing::STOP_DISTANCE) {
+    if (pose.distance(this->last_point) < this->tolerance) {
         return true;
     }
 

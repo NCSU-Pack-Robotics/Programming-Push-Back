@@ -1,4 +1,5 @@
 #pragma once
+
 #include "../asset.hpp"
 #include "../Command.hpp"
 #include "../subystems/Intake.hpp"
@@ -12,8 +13,12 @@ public:
     /**
      * Constructor that sets the path to follow.
      * @param path The pah to follow.
+     * @param lookahead The distance in inches for the lookahead distance
+     * @param tolerance The number of inches from the end of the path to stop at.
      */
-    PPIntakeLift(asset path, double lookahead = Constants::PathFollowing::LOOKAHEAD_DISTANCE);
+    PPIntakeLift(asset path,
+        double lookahead = Constants::PathFollowing::LOOKAHEAD_DISTANCE,
+        double tolerance = Constants::PathFollowing::STOP_DISTANCE);
 
     void initialize() override;
 
