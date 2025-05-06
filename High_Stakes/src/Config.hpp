@@ -105,7 +105,7 @@ namespace Constants {
         /** The initial y position of the robot */
         constexpr double INITIAL_Y = 51.49;
         /** The initial heading of the robot */
-        constexpr double INITIAL_HEADING = 3.53307;
+        constexpr double INITIAL_HEADING = 3.52120177;
 
         #elif DO
         /** The initial x position of the robot */
