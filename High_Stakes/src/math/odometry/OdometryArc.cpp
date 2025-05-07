@@ -7,7 +7,7 @@
  * The angular velocity (degrees per second) under which odometry will be calculated using
  * the linear method. Over this value, the arc method will be used.
  */
-#define ANGULAR_THRESHOLD 4.0
+#define ANGULAR_THRESHOLD 1000000000
 
 OdometryArc::OdometryArc(Pose initial_pose)
     : AbstractOdometry(initial_pose) {
@@ -18,8 +18,8 @@ OdometryArc::OdometryArc(Pose initial_pose)
 
 Pose OdometryArc::calculate(const std::pair<double, double> &positions) {
     // Update positions first
-    this->left_position = positions.first;
-    this->right_position = positions.second;
+    this->left_position = positions.first - this->reset_position_left;
+    this->right_position = positions.second - this->reset_position_right;
 
     // Preliminary calculations
     update_deltas(); // Needs to be done after positions calculations
@@ -33,17 +33,41 @@ Pose OdometryArc::calculate(const std::pair<double, double> &positions) {
     const double angular_velocity = delta_heading / elapsed_time;
 
     // Update coordinates with the preferred method
-    if (fabs(angular_velocity) > ANGULAR_THRESHOLD) {  // If turning
+    if (fabs(angular_velocity) > ANGULAR_THRESHOLD) { // If turning
         calculate_position_arc();
-    } else {  // If moving somewhat straight
+    } else { // If moving somewhat straight
         calculate_position_linear();
     }
 
     // must be done after coordinate calculations
-    this->pose.heading = Constants::Initial::Pose::INITIAL_HEADING +
+    const double initial_heading = this->pose_updated ? this->reset_heading : Constants::Initial::Pose::INITIAL_HEADING;
+    this->pose.heading = initial_heading +
                          ((right_distance - left_distance) / Constants::Hardware::ROBOT_DIAMETER);
 
     return this->get_pose();
+}
+
+void OdometryArc::set_pose(const Pose new_pose) {
+    AbstractOdometry::set_pose(new_pose);
+    this->pose = new_pose;
+
+    this->pose_updated = true;
+
+    // Update the last reset positions
+    this->reset_position_left = this->left_position;
+    this->reset_position_right = this->right_position;
+    this->reset_heading = new_pose.heading;
+
+    // Reset fields
+    this->left_position = 0;
+    this->right_position = 0;
+    this->left_distance = 0;
+    this->right_distance = 0;
+    this->delta_left = 0;
+    this->delta_right = 0;
+    this->delta_avg = 0;
+    this->delta_heading = 0;
+    this->timer.start();
 }
 
 OdometryArc::~OdometryArc() {
@@ -54,6 +78,7 @@ void OdometryArc::update_deltas() {
     this->delta_left = utils.degrees_to_inches(this->left_position) - left_distance;
     this->delta_right = utils.degrees_to_inches(this->right_position) - right_distance;
     this->delta_avg = (delta_left + delta_right) / 2;
+    this->delta_heading = (delta_right - delta_left) / Constants::Hardware::ROBOT_DIAMETER;
 }
 
 void OdometryArc::update_distance() {
@@ -70,7 +95,6 @@ void OdometryArc::calculate_position_arc() {
     // position calculations
     const double turning_radius = fabs(Constants::Hardware::ROBOT_RADIUS *
                                        (delta_right + delta_left) / (delta_right - delta_left));
-    this->delta_heading = (delta_right - delta_left) / Constants::Hardware::ROBOT_DIAMETER;
 
     // variables to store changes in x andy y
     double delta_x = 0.0;

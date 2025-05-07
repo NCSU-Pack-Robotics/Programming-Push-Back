@@ -18,6 +18,8 @@ public:
      */
     Pose calculate(const std::pair<double, double> &positions);
 
+    void set_pose(Pose new_pose) override;
+
     /** Deconstructor for the Odometry class. */
     ~OdometryArc() override;
 
@@ -26,6 +28,19 @@ protected:
     double left_position = 0;
     /** Most recent position of the right motor */
     double right_position = 0;
+
+    /** Weather or not the robot's pose was updated. At the time of writing, this is used to update
+     * the heading of the robot after a reset */
+    bool pose_updated = false;
+
+    /** Left position before resetting the pose. This will be subtracted from all positions
+     * to get the relative position of the robot. */
+    double reset_position_left = 0;
+    /** Right position before resetting the pose. This will be subtracted from all positions
+     * to get the relative position of the robot. */
+    double reset_position_right = 0;
+    /** The heading the robot's pose was reset to. */
+    double reset_heading = 0;
 
     /** total distance left side of robot has travelled (inches) */
     double left_distance = 0; // total distance left side of robot has travelled (inches)
@@ -43,7 +58,8 @@ protected:
     /** the difference in heading between the last cycle and this cycle (degrees) */
     double delta_heading = 0;
 
-    /** Timer used to record elapsed time between calls to <code>calculate()</code> */
+    /** Timer used to record elapsed time between calls to <code>calculate()</code>. At the time of
+     * writing, it used to calculate angular velocity. */
     Timer timer;
 
     /**
