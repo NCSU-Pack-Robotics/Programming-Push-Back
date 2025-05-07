@@ -49,12 +49,6 @@ AutonomousControlScheduler::AutonomousControlScheduler(): ChainCommand({}) {
         drivetrain.set_reversing(false);
     })));
     add_command(make_unique<PPIntakeLift>(intake1_txt, 12, 2));
-    // add_command(make_unique<DriveStraightIntakeLift>(-12, 3, 2));
-    // add_command(make_unique<PurePursuit>(intakeCorner_txt, 12, 2));
-    // add_command(make_unique<DriveStraight>(-8, 1, 2));
-    // add_command(make_unique<TurnAround>());
-    // add_command(make_unique<DriveStraight>(24, 1, 3));
-    // add_command(make_unique<ToggleClamp>());
     #elif DO
 t
 
