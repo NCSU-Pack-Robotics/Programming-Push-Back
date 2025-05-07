@@ -74,12 +74,12 @@ namespace Ports {
     constexpr std::int8_t RIGHT_BACK1_MOTOR_PORT = 7;
 
     /** Port of the left rotation sensor */
-    constexpr std::int8_t LEFT_ROTATION_SENSOR_PORT = 2;
+    constexpr std::int8_t LEFT_ROTATION_SENSOR_PORT = 15;
     /** Port of the right rotation sensor */
-    constexpr std::int8_t RIGHT_ROTATION_SENSOR_PORT = -15;
+    constexpr std::int8_t RIGHT_ROTATION_SENSOR_PORT = 3;
 
     /** Port of the gyroscope used for odometry */
-    constexpr std::int8_t GYRO_PORT = 19;
+    constexpr std::int8_t GYRO_PORT = 16;
 
     /** Port of the lift motor */
     constexpr std::int8_t LIFT_MOTOR_PORT = 8;
