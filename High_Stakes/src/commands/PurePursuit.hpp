@@ -28,6 +28,8 @@ class PurePursuit : public Command {
     double lookahead;
     /** The distance from the end of the path to stop at. */
     double tolerance;
+    /** The maximum power Pure Pursuit can use. */
+    double max_speed;
 
 public:
     /**
@@ -35,10 +37,12 @@ public:
     * @param path The path to follow.
     * @param lookahead The distance in inches for the lookahead distance
     * @param tolerance The number of inches from the end of the path to stop at.
+    * @param max_speed The maximum power Pure Pursuit can apply to the drive motors.
     */
     explicit PurePursuit(const asset& path,
         double lookahead = Constants::PathFollowing::LOOKAHEAD_DISTANCE,
-        double tolerance = Constants::PathFollowing::STOP_DISTANCE);
+        double tolerance = Constants::PathFollowing::STOP_DISTANCE,
+        double max_speed = 56);
 
     void initialize() override;
 

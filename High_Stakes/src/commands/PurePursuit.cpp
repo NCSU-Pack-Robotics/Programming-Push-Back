@@ -120,11 +120,13 @@ Pose get_lookahead_point(const Pose &pose, const std::vector<Pose> &path, const 
     return get_closest_point(raw_lookahead, path);
 }
 
-PurePursuit::PurePursuit(const asset &path, const double lookahead, const double tolerance) {
+PurePursuit::PurePursuit(const asset &path, const double lookahead, const double tolerance,
+    const double max_speed) {
     this->path = get_data(path);
     this->last_point = this->path.back();
     this->lookahead = lookahead;
     this->tolerance = tolerance;
+    this->max_speed = max_speed;
 
     // Ensure path is not empty
     if (this->path.empty()) {
@@ -190,7 +192,7 @@ void PurePursuit::periodic() {
     double target_right_vel = target_vel * (2 - curvature * (Constants::Hardware::ROBOT_DIAMETER)) / 2;
 
     // ratio the speeds to respect the max speed
-    const double ratio = std::max(std::fabs(target_left_vel), std::fabs(target_right_vel)) / 56;
+    const double ratio = std::max(std::fabs(target_left_vel), std::fabs(target_right_vel)) / this->max_speed;
     if (ratio > 1) {
         target_left_vel /= ratio;
         target_right_vel /= ratio;

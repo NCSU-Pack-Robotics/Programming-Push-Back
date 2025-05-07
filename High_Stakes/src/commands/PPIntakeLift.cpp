@@ -2,9 +2,10 @@
 
 #include "PurePursuit.hpp"
 
-PPIntakeLift::PPIntakeLift(asset path, const double lookahead, const double tolerance): ParallelCommand{} {
+PPIntakeLift::PPIntakeLift(asset path, const double lookahead, const double tolerance,
+    const double max_speed): ParallelCommand{} {
     // Add the path to follow
-    add_command(std::make_unique<PurePursuit>(path, lookahead, tolerance));
+    add_command(std::make_unique<PurePursuit>(path, lookahead, tolerance, max_speed));
 
     // Commands to run lift and intake in parallel
     add_command(std::make_unique<InstantCommand>(std::make_unique<std::function<void()>>(
