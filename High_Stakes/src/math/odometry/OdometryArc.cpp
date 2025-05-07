@@ -40,9 +40,7 @@ Pose OdometryArc::calculate(const std::pair<double, double> &positions) {
     }
 
     // must be done after coordinate calculations
-    const double initial_heading = this->pose_updated ? this->reset_heading : Constants::Initial::Pose::INITIAL_HEADING;
-    this->pose.heading = initial_heading +
-                         ((right_distance - left_distance) / Constants::Hardware::ROBOT_DIAMETER);
+    update_heading();
 
     return this->get_pose();
 }
@@ -84,6 +82,12 @@ void OdometryArc::update_deltas() {
 void OdometryArc::update_distance() {
     this->left_distance = utils.degrees_to_inches(left_position);
     this->right_distance = utils.degrees_to_inches(right_position);
+}
+
+void OdometryArc::update_heading() {
+    const double initial_heading = this->pose_updated ? this->reset_heading : Constants::Initial::Pose::INITIAL_HEADING;
+    this->pose.heading = initial_heading +
+                         ((right_distance - left_distance) / Constants::Hardware::ROBOT_DIAMETER);
 }
 
 void OdometryArc::calculate_position_linear() {

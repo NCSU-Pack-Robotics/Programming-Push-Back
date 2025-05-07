@@ -3,7 +3,7 @@
 #include "AbstractOdometry.hpp"
 #include "../../Timer.hpp"
 
-class OdometryArc final : public AbstractOdometry {
+class OdometryArc : public AbstractOdometry {
 public:
     /**
      * Constructor for the Odometry class.
@@ -66,13 +66,18 @@ protected:
      * Updates the delta values.
      * Deltas are measures in inches.
      */
-    void update_deltas();
+    virtual void update_deltas();
 
     /**
      * Update the total distances travelled.
      * Distance is measured in inches.
      */
     void update_distance();
+
+    /**
+     * Updated the heading of the robot using the left and right distances.
+     */
+    virtual void update_heading();
 
     /**
      * This method estimates all robot movements as arcs and updates the x and y

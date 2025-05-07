@@ -57,13 +57,16 @@ Drivetrain::Drivetrain() : AbstractSubsystem() {
     left_rotation_sensor = std::make_unique<pros::Rotation>(Ports::LEFT_ROTATION_SENSOR_PORT);
     right_rotation_sensor = std::make_unique<pros::Rotation>(Ports::RIGHT_ROTATION_SENSOR_PORT);
 
+    // Construct the gyro
+    gyro = std::make_unique<pros::Imu>(Ports::GYRO_PORT);
+
     // Construct initial pose
     Pose initial_pose = {Constants::Initial::Pose::INITIAL_X,
                          Constants::Initial::Pose::INITIAL_Y,
                          Constants::Initial::Pose::INITIAL_HEADING};
 
     // Initialize odometry
-    odometry = std::make_unique<OdometryArc>(initial_pose);
+    odometry = std::make_unique<OdometryGyro>(initial_pose);
 }
 
 void Drivetrain::initialize() {
@@ -76,13 +79,19 @@ void Drivetrain::initialize() {
     left_rotation_sensor->reset_position();
     right_rotation_sensor->reset_position();
 
+    // Calibrate the gryo
+    gyro->reset(true);  // Takes about 2 seconds - max 3 seconds
+    gyro->tare();
+    gyro->tare_euler();
+
     reversing = false;
     braking = false;
 }
 
 void Drivetrain::periodic() {
     // Calculate the pose of the robot
-    this->odometry->calculate(this->get_position());
+    const double heading = -this->gyro->get_rotation() * M_PI / 180;
+    this->odometry->calculate(this->get_position(), heading);
 
     if (braking) {
         brake_now();
@@ -121,7 +130,8 @@ void Drivetrain::periodic() {
 
 void Drivetrain::disabled_periodic() {
     // In case robot is moved when disabled
-    odometry->calculate(this->get_position());
+    const double heading = -this->gyro->get_rotation()  * M_PI / 180;
+    odometry->calculate(this->get_position(), heading);
 }
 
 void Drivetrain::shutdown() {

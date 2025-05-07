@@ -141,4 +141,8 @@ add_executable(Programming_High_Stakes
         High_Stakes/src/commands/Default/TurnToPoint.hpp
         High_Stakes/src/commands/Instant/SetPose.cpp
         High_Stakes/src/commands/Instant/SetPose.hpp
+        High_Stakes/src/math/odometry/OdometryGyro.cpp
+        High_Stakes/src/math/odometry/OdometryGyro.hpp
+        High_Stakes/src/math/odometry/OdometrySimpleGyro.cpp
+        High_Stakes/src/math/odometry/OdometrySimpleGyro.hpp
 )

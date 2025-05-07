@@ -6,7 +6,7 @@
 #include "../Constants.hpp"
 #include "../Pose.hpp"
 #include "../math/PID.hpp"
-#include "../math/odometry/OdometryArc.hpp"
+#include "../math/odometry/OdometryGyro.hpp"
 
 
 /**
@@ -104,7 +104,7 @@ private:
     int direction;
 
     // Pointer to calculate instance
-    std::unique_ptr<OdometryArc> odometry;
+    std::unique_ptr<OdometryGyro> odometry;
 
     /** Power to set motors to from analog sticks. Will be between -127 and 127 */
     int32_t left_drive_power = 0;
@@ -157,6 +157,10 @@ private:
     std::unique_ptr<pros::Rotation> left_rotation_sensor;
     /** Smart pointer to the right rotation sensor. */
     std::unique_ptr<pros::Rotation> right_rotation_sensor;
+
+    // Gyro:
+    /** Smart pointer to the gyro sensor. */
+    std::unique_ptr<pros::Imu> gyro;
 
 protected:
     /**
