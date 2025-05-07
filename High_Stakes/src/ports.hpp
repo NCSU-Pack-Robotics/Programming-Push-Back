@@ -30,6 +30,9 @@ namespace Ports {
     /** Port of the right rotation sensor */
     constexpr std::int8_t RIGHT_ROTATION_SENSOR_PORT = 1;
 
+    /** Port of the gyroscope used for odometry */
+    constexpr std::int8_t GYRO_PORT = 19;
+
     /** Port of the lift motor */
     constexpr std::int8_t LIFT_MOTOR_PORT = 7;
 
@@ -42,10 +45,10 @@ namespace Ports {
     constexpr std::int8_t LADYBROWN_ROTATION_PORT = 21;
 
     /** Port of the clamp. */
-    constexpr char CLAMP_BRAIN_PORT = 'E';
+    constexpr char CLAMP_BRAIN_PORT = 'B';
 
     /** Port of the hook sensor, LOW value means the sensor is blocked. */
-    constexpr char HOOK_SENSOR_BRAIN_PORT = 'B';
+    constexpr char HOOK_SENSOR_BRAIN_PORT = 'E';
 
     /** Port of the extended arm port */
     constexpr char ARM_BRAIN_PORT = 'A';
@@ -74,6 +77,9 @@ namespace Ports {
     constexpr std::int8_t LEFT_ROTATION_SENSOR_PORT = 2;
     /** Port of the right rotation sensor */
     constexpr std::int8_t RIGHT_ROTATION_SENSOR_PORT = -15;
+
+    /** Port of the gyroscope used for odometry */
+    constexpr std::int8_t GYRO_PORT = 19;
 
     /** Port of the lift motor */
     constexpr std::int8_t LIFT_MOTOR_PORT = 8;
