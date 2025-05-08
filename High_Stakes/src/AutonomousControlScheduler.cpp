@@ -60,7 +60,10 @@ AutonomousControlScheduler::AutonomousControlScheduler(): ChainCommand({}) {
     })));
     add_command(make_unique<PurePursuit>(getGoal_txt, 16, 6));
     add_command(make_unique<ToggleClamp>());
-    add_command(make_unique<InstantCommand>(make_unique<function<void()>>([&] {pros::delay(500);})));
+    add_command(make_unique<InstantCommand>(make_unique<function<void()>>([&] {pros::delay(300);})));
+    add_command(make_unique<ToggleClamp>());
+    add_command(make_unique<DumbDriveStraight>(20, 0.75));  // Backup to better align
+    add_command(make_unique<ToggleClamp>());
     add_command(make_unique<LiftTime>(1));
     add_command(make_unique<InstantCommand>(make_unique<function<void()>>([&] {
         drivetrain.set_reversing(false);
