@@ -4,11 +4,15 @@
 #include "../Command.hpp"
 #include "../subystems/Intake.hpp"
 #include "../subystems/Lift.hpp"
+#include "../subystems/Drivetrain.hpp"
 
 /**
  * Used to follow path, intake a ring, and lift the ring onto a mobile goal simultaneously.
  */
 class PPIntakeLift : public ParallelCommand {
+    /** Reference to drivetrain subsystem. */
+    Drivetrain& drivetrain = AbstractSubsystem::get_instance<Drivetrain>();
+
 public:
     /**
      * Constructor that sets the path to follow.
