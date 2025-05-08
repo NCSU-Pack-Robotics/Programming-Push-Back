@@ -155,4 +155,6 @@ add_executable(Programming_High_Stakes
         High_Stakes/src/commands/Default/IntakeLiftTime.hpp
         High_Stakes/src/commands/Default/DumbDriveStraight.cpp
         High_Stakes/src/commands/Default/DumbDriveStraight.hpp
+        High_Stakes/src/commands/Default/TurnDegrees.cpp
+        High_Stakes/src/commands/Default/TurnDegrees.hpp
 )
