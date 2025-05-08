@@ -65,10 +65,6 @@ void disabled() {
  * starts.
  */
 void competition_initialize() {
-    // Run disabled periodic for all subsystems
-    for (AbstractSubsystem* subsystem : subsystems) {
-        subsystem->initialize();
-    }
 }
 
 /**
@@ -88,6 +84,9 @@ void autonomous() {
 
     scheduler.initialize();
 
+    Timer timer;
+    timer.start();
+
     // Run forever
     while (true) {
         // Run the autonomous scheduler to do our routine
@@ -96,6 +95,11 @@ void autonomous() {
         // Run periodic for all subsystems
         for (AbstractSubsystem* subsystem : subsystems) {
             subsystem->periodic();
+        }
+
+        if (timer.get_duration() > 0.25) {
+            pros::screen::print(TEXT_MEDIUM, 1, "%s", drivetrain.get_pose().to_string().c_str());
+            timer.start();
         }
 
         // Delay the loop to prevent the CPU from being overwhelmed
