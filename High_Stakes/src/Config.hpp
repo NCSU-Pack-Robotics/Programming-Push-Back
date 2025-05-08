@@ -18,7 +18,7 @@ namespace Constants {
             /** Motor speed of the intake going inwards */
             constexpr int32_t INTAKE_INWARDS = 127;
             /** Motor speed of the intake going outwards */
-            constexpr int32_t INTAKE_OUTWARDS = -89;
+            constexpr int32_t INTAKE_OUTWARDS = -127;
         }
 
         #if THINK
@@ -109,11 +109,11 @@ namespace Constants {
 
         #elif DO
         /** The initial x position of the robot */
-        constexpr double INITIAL_X = 0.0;
+        constexpr double INITIAL_X = 120.375;
         /** The initial y position of the robot */
-        constexpr double INITIAL_Y = 0.0;
+        constexpr double INITIAL_Y = 130.72;
         /** The initial heading of the robot, needs to be PI if the robot starts reversed. */
-        constexpr double INITIAL_HEADING = M_PI;
+        constexpr double INITIAL_HEADING = 3.275284874;
 
         #endif
 
