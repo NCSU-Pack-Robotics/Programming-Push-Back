@@ -2,8 +2,8 @@
 
 #include "../../math/Utils.hpp"
 
-TurnToHeading::TurnToHeading(double target_heading, const double tolerance) :
-    tolerance(tolerance), controller(0, 0, 0) {
+TurnToHeading::TurnToHeading(double target_heading, const double tolerance, const double max_time) :
+    tolerance(tolerance), controller(0, 0, 0), max_time(max_time) {
 
     this->target_heading = utils.ensure_positive_radians(target_heading);
 }
@@ -44,6 +44,8 @@ void TurnToHeading::initialize() {
     // Ensue this is positive for the following scaling to work correctly
     error = utils.ensure_positive_radians(error);
 
+#if THINK
+
     // Scale Kp between PI/4:8000 and PI:6000
     double m = (6000 - 8000) / (M_PI - M_PI/4);
     double b = 8000 - m * M_PI/4;
@@ -62,11 +64,23 @@ void TurnToHeading::initialize() {
     double Kd = m * error + b;
     Kd = std::clamp(Kd, 0.0, 120.0);
 
+#elif DO
+
+    const double Kp = 6000;
+    const double Ki = 0;
+    const double Kd = 150;
+
+#endif
+
     // Construct the controller with the scaled values
     this->controller = PID(Kp, Ki, Kd);
+
+    timer.start();
 }
 
 void TurnToHeading::periodic() {
+
+
     // Get the error in the heading
     const double current_heading = this->drivetrain.get_pose().heading;
     const double error = angle_difference(current_heading, target_heading);
@@ -86,6 +100,10 @@ void TurnToHeading::periodic() {
 bool TurnToHeading::is_complete() {
     double current_heading = this->drivetrain.get_pose().heading;
     current_heading = utils.ensure_positive_radians(current_heading);
+
+    if (timer.get_duration() >= max_time) {
+        return true;
+    }
 
     if (fabs(target_heading - current_heading) < tolerance) {
         return true;
