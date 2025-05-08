@@ -2,20 +2,20 @@
 
 #include "PurePursuit.hpp"
 
-PPIntake::PPIntake(asset path, const double lookahead, const double tolerance,
-    const double max_speed): ParallelCommand{} {
-    // Add the path to follow
-    add_command(std::make_unique<PurePursuit>(path, lookahead, tolerance, max_speed));
-
-    // Commands to run lift and intake in parallel
-    add_command(std::make_unique<InstantCommand>(std::make_unique<std::function<void()>>(
-        [&] { intake.set_drive_power(Constants::Controller::MotorSpeeds::LIFT_UP); })));
+PPIntake::PPIntake(asset path, const double lookahead, const double tolerance, const double max_speed, const double intake_speed) :
+        PurePursuit(path, lookahead, tolerance, max_speed){
+    this->intake_speed = intake_speed;
 }
 
 void PPIntake::initialize() {
+    intake.set_drive_power(this->intake_speed);
 }
 
 void PPIntake::shutdown() {
+    PurePursuit::shutdown();
+
     // Stop intake and lift
     intake.set_drive_power(0);
+
+    drivetrain.brake_now();
 }
