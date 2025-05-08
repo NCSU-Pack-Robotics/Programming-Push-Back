@@ -11,16 +11,12 @@ void DriveStraightIntakeLift::initialize() {
     // Turn on lift and intake
     lift.set_drive_power(Constants::Controller::MotorSpeeds::LIFT_UP);
     intake.set_drive_power(Constants::Controller::MotorSpeeds::INTAKE_INWARDS);
-    intake.set_braking(false);
-    lift.set_braking(false);
 }
 
 void DriveStraightIntakeLift::shutdown() {
     DriveStraight::shutdown();
 
     // Stop intake and lift
-    lift.set_braking(true);
-    intake.set_braking(true);
     intake.set_drive_power(0);
     lift.set_drive_power(0);
 }

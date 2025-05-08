@@ -145,4 +145,14 @@ add_executable(Programming_High_Stakes
         High_Stakes/src/math/odometry/OdometryGyro.hpp
         High_Stakes/src/math/odometry/OdometrySimpleGyro.cpp
         High_Stakes/src/math/odometry/OdometrySimpleGyro.hpp
+        High_Stakes/src/commands/Default/IntakeLift.cpp
+        High_Stakes/src/commands/Default/IntakeLift.hpp
+        High_Stakes/src/commands/Default/IntakeTime.cpp
+        High_Stakes/src/commands/Default/IntakeTime.hpp
+        High_Stakes/src/commands/Default/LiftTime.cpp
+        High_Stakes/src/commands/Default/LiftTime.hpp
+        High_Stakes/src/commands/Default/IntakeLiftTime.cpp
+        High_Stakes/src/commands/Default/IntakeLiftTime.hpp
+        High_Stakes/src/commands/Default/DumbDriveStraight.cpp
+        High_Stakes/src/commands/Default/DumbDriveStraight.hpp
 )
