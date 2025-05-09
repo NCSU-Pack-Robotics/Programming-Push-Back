@@ -87,11 +87,11 @@ namespace Constants {
      */
     namespace PID::LadyBrown::Position {
         /** PID Proportional coefficient for position calculations */
-        constexpr double Kp = 2.4;
+        constexpr double Kp = 3.5;
         /** PID Derivative coefficient for position calculations */
         constexpr double Kd = 0.0;
         /** PID Integral coefficient for position calculations */
-        constexpr double Ki = 0.1;
+        constexpr double Ki = 0;
     }
   
     /**
