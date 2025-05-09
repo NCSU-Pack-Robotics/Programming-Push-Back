@@ -25,6 +25,7 @@
 ASSET(rushCenterFromLeft_txt)
 ASSET(alignForGoal_txt)
 ASSET(getGoal_txt)
+ASSET(getGoal2_txt)
 ASSET(intake1_txt)
 ASSET(intakeCorner_txt)
 ASSET(intake1Do_txt)
@@ -67,8 +68,23 @@ AutonomousControlScheduler::AutonomousControlScheduler(): ChainCommand({}) {
     add_command(make_unique<InstantCommand>(make_unique<function<void()>>([&] {
         drivetrain.set_reversing(false);
     })));
-    add_command(make_unique<PPIntakeLift>(intake1_txt, 12, 8));
-    add_command(make_unique<LiftTime>(1.5));
+    add_command(make_unique<PPIntake>(intake1_txt, 12, 8));
+    add_command(make_unique<DumbDriveStraight>(-30, 1.25));  // Push goal away
+    add_command(make_unique<ToggleClamp>());
+    add_command(make_unique<DumbDriveStraight>(30, 1.25));  // Move away from goal
+    add_command(make_unique<InstantCommand>(make_unique<function<void()>>([&] {
+        drivetrain.set_reversing(true);
+    })));
+    add_command(make_unique<PPIntake>(getGoal2_txt, 8, 2));
+    add_command(make_unique<ToggleClamp>());
+    add_command(make_unique<InstantCommand>(make_unique<function<void()>>([&] {pros::delay(300);})));
+    add_command(make_unique<ToggleClamp>());
+    add_command(make_unique<DumbDriveStraight>(20, 0.75));  // Backup to better align
+    add_command(make_unique<ToggleClamp>());
+    add_command(make_unique<IntakeLiftTime>(2, 127, 127, 1));
+    add_command(make_unique<DumbDriveStraight>(-40, 1));
+
+
     #elif DO
     add_command(make_unique<DriveStraight>(40, 1.5, 3));
     add_command(make_unique<ToggleArm>());
