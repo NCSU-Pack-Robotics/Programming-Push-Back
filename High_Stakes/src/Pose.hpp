@@ -1,8 +1,6 @@
 #pragma once
 #include <string>
 
-#include "Constants.hpp"
-
 /**
  * Represents the pose of the robot.
  * In robotics, pose to the current state of a robot in the world.
@@ -93,11 +91,8 @@ public:
      */
     Pose lerp(const Pose& other, float t) const;
 
-    std::string to_string() const {
-        // Convert heading to degrees
-        const double heading = this->heading * 180 / M_PI;
-
-        return "X: " + std::to_string(this->x) + " Y: " + std::to_string(this->y) + " Heading: " +
-               std::to_string(heading);
-    }
+    /**
+     * @return Returns the string representation of the pose.
+     */
+    std::string to_string() const;
 };

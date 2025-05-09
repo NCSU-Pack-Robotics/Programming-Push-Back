@@ -28,10 +28,16 @@ public:
      */
     void set_drive_power(int32_t power);
 
+    /** Sets the intake to be braking. When it is in this state all methods that would usually move the intake will not work. When this method is called the intake is not
+     * guaranteed to be braked, it will become braked when the next periodic loop runs if braking is still true.
+     * @returns The previous brake state.
+     */
+    bool set_braking(bool braking);
+
     /**
      * Immediately stop the intake, setting all power and voltage power to 0.
      */
-    void brake();
+    void brake_now();
 
 private:
     /** The motor used for the lift */
@@ -45,6 +51,9 @@ private:
 
     /** Type of drive control to use. */
     Constants::DriveType drive_type;
+
+    /** The current braking state of the intake */
+    bool braking;
 
 protected:
     Intake();

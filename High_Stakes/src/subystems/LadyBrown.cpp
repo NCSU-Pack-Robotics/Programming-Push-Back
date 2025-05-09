@@ -13,13 +13,18 @@ void LadyBrown::initialize() {
     lb_motor->tare_position();
     lb_motor->move_velocity(0);
 
-    position = STOW;
+    target_position = STOW;
     position_index = 0;
+    motors_killed = false;
 }
 
 void LadyBrown::periodic() {
     // update the ladybrown to be in the correct position
 
+    if (motors_killed) {
+        lb_motor->move_voltage(0);
+        return;
+    }
 
     int32_t curr_angle = lb_sensor->get_angle();
 
@@ -36,11 +41,16 @@ void LadyBrown::periodic() {
 
     // never go below 0 or over 215
 
+    for (std::pair<Position, int32_t> position : Positions) {
+        if (abs(curr_angle - position.second) > 100) {
+            last_confirmed_position = position.first;
+        }
+    }
 }
 
 void LadyBrown::shutdown() {
     // Just stop the motor
-    lb_motor-> move_velocity(0);
+    lb_motor->move_voltage(0);
 }
 
 void LadyBrown::disabled_periodic() {
@@ -54,9 +64,23 @@ void LadyBrown::next_position() {
     } else {
         position_index++;
     }
-    position = Positions[position_index].first;
+    target_position = Positions[position_index].first;
 }
 
 LadyBrown::Position LadyBrown::get_position() const {
-    return position;
+    return target_position;
+}
+
+LadyBrown::Position LadyBrown::get_last_position() const {
+    return last_confirmed_position;
+}
+
+void LadyBrown::set_position(const Position position) {
+    this->position_index = static_cast<int>(position);
+}
+
+bool LadyBrown::set_killed(bool killed) {
+    bool last = this->motors_killed;
+    this->motors_killed = killed;
+    return last;
 }

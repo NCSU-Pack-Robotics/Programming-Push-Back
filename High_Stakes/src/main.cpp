@@ -1,8 +1,7 @@
 #include "../include/main.h"
-#include "AutonomousControlSchedulerDo.hpp"
-#include "AutonomousControlSchedulerThink.hpp"
+
+#include "AutonomousControlScheduler.hpp"
 #include "DriverControlScheduler.hpp"
-#include "commands/PurePursuit.hpp"
 #include "subystems/Clamp.hpp"
 #include "subystems/Drivetrain.hpp"
 #include "subystems/HookSensor.hpp"
@@ -66,10 +65,6 @@ void disabled() {
  * starts.
  */
 void competition_initialize() {
-    // Run disabled periodic for all subsystems
-    for (AbstractSubsystem* subsystem : subsystems) {
-        subsystem->initialize();
-    }
 }
 
 /**
@@ -85,10 +80,14 @@ void competition_initialize() {
  */
 void autonomous() {
     // Initialize the autonomous scheduler
-    AutonomousControlSchedulerThink scheduler{};
+    AutonomousControlScheduler scheduler{};
+
     scheduler.initialize();
 
-    // Run disabled periodic for all subsystems
+    Timer timer;
+    timer.start();
+
+    // Run forever
     while (true) {
         // Run the autonomous scheduler to do our routine
         scheduler.run();
@@ -96,6 +95,11 @@ void autonomous() {
         // Run periodic for all subsystems
         for (AbstractSubsystem* subsystem : subsystems) {
             subsystem->periodic();
+        }
+
+        if (timer.get_duration() > 0.25) {
+            pros::screen::print(TEXT_MEDIUM, 1, "%s", drivetrain.get_pose().to_string().c_str());
+            timer.start();
         }
 
         // Delay the loop to prevent the CPU from being overwhelmed
@@ -117,6 +121,7 @@ void autonomous() {
  * task, not resume it from where it left off.
  */
 void opcontrol() {
+    lady_brown.set_killed(false);
     // Initialize the driver control scheduler
     DriverControlScheduler scheduler{};
     scheduler.initialize();
@@ -131,6 +136,6 @@ void opcontrol() {
         }
 
         // Delay the loop to prevent the CPU from being overwhelmed
-        pros::delay(2);
+        pros::delay(5);
     }
 }

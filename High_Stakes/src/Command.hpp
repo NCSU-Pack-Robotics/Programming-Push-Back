@@ -25,7 +25,7 @@ public:
     /** Return true when the command is complete. */
     virtual bool is_complete() = 0;
 
-    /** The number of loops this command has run. */
+    /** The number of times a Command's <code>run()</code> method has been called. */
     unsigned int loops = 0;
 
     /** Called on the command's first loop right before periodic(). */

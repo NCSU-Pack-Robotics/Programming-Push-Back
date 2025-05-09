@@ -17,21 +17,32 @@ class PurePursuit : public Command {
     /** An instance of the drivetrain subsystem. */
     Drivetrain &drivetrain = AbstractSubsystem::get_instance<Drivetrain>();
 
-    /** The pose of the robot as it follows the path. */
-    Pose current;
-
     /** List of poses that make up the path. */
     std::vector<Pose> path;
 
+    /** The last point in the path. This is necessary b/c points are added to the end of the path.
+     * This will be the point that the robot will stop at. */
+    Pose last_point;
+
     /** The distance between the robot and the lookahead point. */
-    double lookahead = Constants::PathFollowing::LOOKAHEAD_DISTANCE;
+    double lookahead;
+    /** The distance from the end of the path to stop at. */
+    double tolerance;
+    /** The maximum power Pure Pursuit can use. */
+    double max_speed;
 
 public:
     /**
     * Constructor for the PurePursuit command.
     * @param path The path to follow.
+    * @param lookahead The distance in inches for the lookahead distance
+    * @param tolerance The number of inches from the end of the path to stop at.
+    * @param max_speed The maximum power Pure Pursuit can apply to the drive motors.
     */
-    explicit PurePursuit(const asset& path);
+    explicit PurePursuit(const asset& path,
+        double lookahead = Constants::PathFollowing::LOOKAHEAD_DISTANCE,
+        double tolerance = Constants::PathFollowing::STOP_DISTANCE,
+        double max_speed = 56);
 
     void initialize() override;
 

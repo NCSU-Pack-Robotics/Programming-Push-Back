@@ -1,11 +1,6 @@
-#include "PurePursuit.hpp"
-
 #include <cmath>
 
-/** Constant to multiply curvature by to turn left. */
-#define LEFT (-1.0)
-/** Constant to multiply curvature by to turn right. */
-#define RIGHT 1.0
+#include "PurePursuit.hpp"
 
 /**
  * @brief function that returns elements in a file line, separated by a delimiter
@@ -125,10 +120,36 @@ Pose get_lookahead_point(const Pose &pose, const std::vector<Pose> &path, const 
     return get_closest_point(raw_lookahead, path);
 }
 
-PurePursuit::PurePursuit(const asset &path) : path(get_data(path)) {
+PurePursuit::PurePursuit(const asset &path, const double lookahead, const double tolerance,
+    const double max_speed) {
+    this->path = get_data(path);
+    this->last_point = this->path.back();
+    this->lookahead = lookahead;
+    this->tolerance = tolerance;
+    this->max_speed = max_speed;
+
+    // Ensure path is not empty
     if (this->path.empty()) {
         fprintf(stderr, "No points in path! Do you have the right format? Skipping motion");
         return;
+    }
+
+    // Find the dx and dx of the last two points of the path. Will be used later.
+    const Pose last_point = this->path.back();
+    const Pose second_last_point = this->path[this->path.size() - 2];
+    const double dx = last_point.x - second_last_point.x;
+    const double dy = last_point.y - second_last_point.y;
+
+    /* Adding some point to the end of the path. When this is not done, the effective lookahead
+     * reduces to the distance between the robot and the end of the path. This shrinking of the
+     * lookahead causes oscillation towards the end of the path and during shorter paths.
+     * This code imply adds more points to the end of the path in the direction of the last point
+     * so that there is a points close to the lookahead point when the robot reaches the end of
+     * the path. */
+    Pose new_last_point = last_point;
+    while (last_point.distance(new_last_point) < lookahead * 2) {  // *2 just to be safe
+        new_last_point = Pose(new_last_point.x + dx, new_last_point.y + dy, new_last_point.heading);
+        this->path.push_back(new_last_point);
     }
 }
 
@@ -139,15 +160,6 @@ void PurePursuit::initialize() {
 
 void PurePursuit::periodic() {
     const Pose pose = drivetrain.get_pose();
-
-    // When the robot is within some inches of the end of the path, stop
-    if (pose.distance(path.back()) < Constants::PathFollowing::STOP_DISTANCE) {
-        done = true;
-        // stop the robot
-        drivetrain.brake();
-        drivetrain.periodic();
-        return;
-    }
 
     const Pose lookahead_point = get_lookahead_point(pose, path, lookahead);
 
@@ -180,13 +192,13 @@ void PurePursuit::periodic() {
     double target_right_vel = target_vel * (2 - curvature * (Constants::Hardware::ROBOT_DIAMETER)) / 2;
 
     // ratio the speeds to respect the max speed
-    const double ratio = std::max(std::fabs(target_left_vel), std::fabs(target_right_vel)) / 56;
+    const double ratio = std::max(std::fabs(target_left_vel), std::fabs(target_right_vel)) / this->max_speed;
     if (ratio > 1) {
         target_left_vel /= ratio;
         target_right_vel /= ratio;
     }
 
-    // Set power
+    // Set power  TODO: Maybe make this voltage
     drivetrain.set_drive_power(static_cast<int>(target_left_vel), static_cast<int>(target_right_vel));
 
     // Debugging
@@ -199,13 +211,17 @@ void PurePursuit::periodic() {
 }
 
 void PurePursuit::shutdown() {
-    printf("DONE!\n");
-
     // stop the robot
-    drivetrain.brake();
-    drivetrain.periodic();
+    drivetrain.brake_now();
 }
 
 bool PurePursuit::is_complete() {
-    return this->done;
+    const Pose pose = drivetrain.get_pose();
+
+    // When the robot is within some inches of the end of the path, stop
+    if (pose.distance(this->last_point) < this->tolerance) {
+        return true;
+    }
+
+    return false;
 }

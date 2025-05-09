@@ -9,6 +9,12 @@ include_directories(High_Stakes/src)
 include_directories(High_Stakes/src/math)
 include_directories(High_Stakes/src/subystems)
 
+if (DO)
+    add_definitions(-DDO)
+elseif(THINK)
+    add_definitions(-DTHINK)
+endif()
+
 add_executable(Programming_High_Stakes
         High_Stakes/include/pros/abstract_motor.hpp
         High_Stakes/include/pros/adi.h
@@ -101,8 +107,8 @@ add_executable(Programming_High_Stakes
         High_Stakes/src/commands/PurePursuit.hpp
         High_Stakes/src/Pose.cpp
         High_Stakes/src/commands/PurePursuit.cpp
-        High_Stakes/src/AutonomousControlSchedulerDo.cpp
-        High_Stakes/src/AutonomousControlSchedulerDo.hpp
+        High_Stakes/src/AutonomousControlScheduler.cpp
+        High_Stakes/src/AutonomousControlScheduler.hpp
         High_Stakes/src/commands/Instant/NextLadyBrownPosition.hpp
         High_Stakes/src/commands/Instant/NextLadyBrownPosition.cpp
         High_Stakes/src/ButtonMappings.hpp
@@ -116,10 +122,35 @@ add_executable(Programming_High_Stakes
         High_Stakes/src/commands/Instant/ToggleArm.hpp
         High_Stakes/src/commands/Default/MoveLiftDegrees.cpp
         High_Stakes/src/commands/Default/MoveLiftDegrees.hpp
-        High_Stakes/src/AutonomousControlSchedulerThink.cpp
-        High_Stakes/src/AutonomousControlSchedulerThink.hpp
-        High_Stakes/src/commands/Instant/ToggleShiftKey.cpp
-        High_Stakes/src/commands/Instant/ToggleShiftKey.hpp
         High_Stakes/src/commands/Default/LadyBrownLoadingLiftReverse.cpp
         High_Stakes/src/commands/Default/LadyBrownLoadingLiftReverse.hpp
+        High_Stakes/src/commands/Default/MoveLadyBrownPosition.cpp
+        High_Stakes/src/commands/Default/MoveLadyBrownPosition.hpp
+        High_Stakes/src/ButtonMappings.cpp
+        High_Stakes/src/math/odometry/OdometryArc.cpp
+        High_Stakes/src/math/odometry/OdometryArc.hpp
+        High_Stakes/src/math/odometry/AbstractOdometry.cpp
+        High_Stakes/src/math/odometry/AbstractOdometry.cpp
+        High_Stakes/src/math/odometry/AbstractOdometry.hpp
+        High_Stakes/src/math/odometry/OdometryArc.cpp
+        High_Stakes/src/math/odometry/OdometryArc.hpp
+        High_Stakes/src/math/Utils.hpp
+        High_Stakes/src/commands/Default/TurnToHeading.cpp
+        High_Stakes/src/commands/Default/TurnToHeading.hpp
+        High_Stakes/src/commands/Default/TurnToPoint.cpp
+        High_Stakes/src/commands/Default/TurnToPoint.hpp
+        High_Stakes/src/commands/Instant/SetPose.cpp
+        High_Stakes/src/commands/Instant/SetPose.hpp
+        High_Stakes/src/math/odometry/OdometryGyro.cpp
+        High_Stakes/src/math/odometry/OdometryGyro.hpp
+        High_Stakes/src/commands/Default/IntakeTime.cpp
+        High_Stakes/src/commands/Default/IntakeTime.hpp
+        High_Stakes/src/commands/Default/LiftTime.cpp
+        High_Stakes/src/commands/Default/LiftTime.hpp
+        High_Stakes/src/commands/Default/IntakeLiftTime.cpp
+        High_Stakes/src/commands/Default/IntakeLiftTime.hpp
+        High_Stakes/src/commands/Default/DumbDriveStraight.cpp
+        High_Stakes/src/commands/Default/DumbDriveStraight.hpp
+        High_Stakes/src/commands/Default/TurnDegrees.cpp
+        High_Stakes/src/commands/Default/TurnDegrees.hpp
 )

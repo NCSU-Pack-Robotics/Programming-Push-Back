@@ -1,4 +1,8 @@
 ### C++ template
+
+cmake-build-do
+cmake-build-think
+
 # Compiled Object files
 *.slo
 *.lo
