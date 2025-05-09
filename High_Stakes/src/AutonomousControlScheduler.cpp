@@ -1,7 +1,6 @@
 #include "AutonomousControlScheduler.hpp"
 
 #include "asset.hpp"
-#include "commands/Default/DriveStraightSmart.hpp"
 #include "commands/Default/DumbDriveStraight.hpp"
 #include "commands/Default/IntakeLiftTime.hpp"
 #include "commands/Default/LiftTime.hpp"
