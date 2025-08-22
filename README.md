@@ -1,2 +1,2 @@
 # Programming-High-Stakes
-Programming team repository for the 2024-2025 High Stakes Robots
+Programming team repository for the 2025-2026 Push Back Robots
