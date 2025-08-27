@@ -6,8 +6,8 @@ void DriveStraight::initialize() {
     this->done = false;
 
     // Get the initial distances
-    this->initial_left_distance = utils.degrees_to_inches(drivetrain.get_position().first);
-    this->initial_right_distance = utils.degrees_to_inches(drivetrain.get_position().second);
+    this->initial_left_distance = Utils::degrees_to_inches(drivetrain.get_position().first);
+    this->initial_right_distance = Utils::degrees_to_inches(drivetrain.get_position().second);
 
     /** Begin the timer */
     timer.start();
@@ -23,8 +23,8 @@ void DriveStraight::periodic() {
     if (this->done) return;
 
     // Get the absolute motor positions
-    double distance_driven_left = utils.degrees_to_inches(drivetrain.get_position(true).first);
-    double distance_driven_right = utils.degrees_to_inches(drivetrain.get_position(true).second);
+    double distance_driven_left = Utils::degrees_to_inches(drivetrain.get_position(true).first);
+    double distance_driven_right = Utils::degrees_to_inches(drivetrain.get_position(true).second);
 
     // Calculate the distance driven since the start of the command
     distance_driven_left -= this->initial_left_distance;
@@ -47,7 +47,6 @@ void DriveStraight::periodic() {
 
     // Check if the command is done
     if (std::abs(target_distance - distance_driven_right) < tolerance) {
-
         this->done = true;
     }
 }

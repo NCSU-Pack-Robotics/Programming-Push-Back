@@ -9,7 +9,7 @@
  */
 #define ANGULAR_THRESHOLD 1000000000
 
-OdometryArc::OdometryArc(Pose initial_pose)
+OdometryArc::OdometryArc(const Pose& initial_pose)
     : AbstractOdometry(initial_pose) {
 
     // Begin timing
@@ -73,15 +73,15 @@ OdometryArc::~OdometryArc() {
 }
 
 void OdometryArc::update_deltas() {
-    this->delta_left = utils.degrees_to_inches(this->left_position) - left_distance;
-    this->delta_right = utils.degrees_to_inches(this->right_position) - right_distance;
+    this->delta_left = Utils::degrees_to_inches(this->left_position) - left_distance;
+    this->delta_right = Utils::degrees_to_inches(this->right_position) - right_distance;
     this->delta_avg = (delta_left + delta_right) / 2;
     this->delta_heading = (delta_right - delta_left) / Constants::Hardware::ROBOT_DIAMETER;
 }
 
 void OdometryArc::update_distance() {
-    this->left_distance = utils.degrees_to_inches(left_position);
-    this->right_distance = utils.degrees_to_inches(right_position);
+    this->left_distance = Utils::degrees_to_inches(left_position);
+    this->right_distance = Utils::degrees_to_inches(right_position);
 }
 
 void OdometryArc::update_heading() {

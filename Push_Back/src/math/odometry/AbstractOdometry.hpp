@@ -21,7 +21,7 @@ public:
      * Constructor for the Odometry class.
      * @param initial_pose The initial pose of the robot.
      */
-    explicit AbstractOdometry(Pose initial_pose);
+    explicit AbstractOdometry(const Pose& initial_pose);
 
     /**
      * Gets the most recent pose of the robot.

@@ -41,9 +41,3 @@ public:
         return radians;
     }
 };
-
-/**
- * An instance of the Utils class.
- * This contains utility methods for the project.
- */
-static constexpr Utils utils;

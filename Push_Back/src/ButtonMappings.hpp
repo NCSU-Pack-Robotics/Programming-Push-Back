@@ -14,25 +14,23 @@ struct ButtonCombo {
         if (buttons.size() != other.buttons.size()) return false;
         std::vector<pros::controller_digital_e_t> sorted_buttons = buttons;
         std::vector<pros::controller_digital_e_t> sorted_other = other.buttons;
-        std::sort(sorted_buttons.begin(), sorted_buttons.end());
-        std::sort(sorted_other.begin(), sorted_other.end());
+        std::ranges::sort(sorted_buttons);
+        std::ranges::sort(sorted_other);
         return sorted_buttons == sorted_other;
     }
 };
 
 // Needed so we can use it in an unordered_map
-namespace std {
-    template <>
-    struct hash<ButtonCombo> {
-        std::size_t operator()(const ButtonCombo& combo) const {
-            std::size_t seed = 0;
-            for (const pros::controller_digital_e_t& btn : combo.buttons) {
-                seed ^= std::hash<int>()(btn) + GOLDEN_RATIO + (seed << 6) + (seed >> 2);
-            }
-            return seed;
+template <>
+struct std::hash<ButtonCombo> {
+    std::size_t operator()(const ButtonCombo& combo) const {
+        std::size_t seed = 0;
+        for (const pros::controller_digital_e_t& btn : combo.buttons) {
+            seed ^= std::hash<int>()(btn) + GOLDEN_RATIO + (seed << 6) + (seed >> 2);
         }
-    };
-}
+        return seed;
+    }
+};
 
 /** Keybindings. They are mapped like: button -> [button_just_pressed_event, button_down_event,
  * button_just_released_event].

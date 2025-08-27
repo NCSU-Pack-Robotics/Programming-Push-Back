@@ -1,7 +1,5 @@
 #include "PID.hpp"
 
-#include <cstdio>
-
 double PID::calculate(const double error) {
     // If first loop, start the timer and return the proportional term
     if (this->first_loop) {

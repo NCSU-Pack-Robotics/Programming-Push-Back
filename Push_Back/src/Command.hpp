@@ -161,10 +161,10 @@ private:
 /** A command that is only run once. Useful for setting things like motor speeds. */
 class InstantCommand : public Command {
 public:
-    InstantCommand(){};
+    InstantCommand() = default;
 
     /** Constructor that allows for a function to be passed as the execute method */
-    InstantCommand(std::unique_ptr<std::function<void()>> executeFunction);
+    explicit InstantCommand(std::unique_ptr<std::function<void()>> executeFunction);
 
     /** Returns true because InstantCommands only run once */
     bool is_complete() override;

@@ -2,7 +2,7 @@
 
 #include "../../Config.hpp"
 
-OdometryGyro::OdometryGyro(Pose initial_pose)
+OdometryGyro::OdometryGyro(const Pose& initial_pose)
     : OdometryArc(initial_pose) {
 
     this->injected_heading = initial_pose.heading;
@@ -31,6 +31,3 @@ void OdometryGyro::update_deltas() {
 
     this->delta_heading = this->injected_heading - this->last_injected_heading;
 }
-
-
-

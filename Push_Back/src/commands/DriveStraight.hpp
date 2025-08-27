@@ -69,5 +69,5 @@ private:
                   Constants::PID::Drive::Distance::Kd);
 
     /** The drivetrain subsystem. */
-    Drivetrain &drivetrain = AbstractSubsystem::get_instance<Drivetrain>();
+    Drivetrain& drivetrain = AbstractSubsystem::get_instance<Drivetrain>();
 };

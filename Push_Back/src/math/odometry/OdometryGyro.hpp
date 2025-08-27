@@ -1,4 +1,4 @@
-# pragma once
+#pragma once
 
 #include "OdometryArc.hpp"
 
@@ -13,14 +13,14 @@ class OdometryGyro final : public OdometryArc {
     /** The last heading given to the <code>calculate</code> method. */
     double last_injected_heading = 0;
 
-    double initial_pose;
+    double initial_pose = 0;
 
 public:
     /**
      * Constructor for the OdometryGyro class.
      * @param initial_pose The initial pose of the robot.
      */
-    OdometryGyro(Pose initial_pose);
+    explicit OdometryGyro(const Pose& initial_pose);
 
     /**
      * Calculate the pose of the robot using motor encoders and a heading.
@@ -28,7 +28,7 @@ public:
      * @param heading The heading of the robot in degrees.
      * @return Returns the pose of the robot after calculating it.
      */
-    Pose calculate(const std::pair<double, double> &positions, const double heading);
+    Pose calculate(const std::pair<double, double> &positions, double heading);
 
 private:
     /** Updates the heading of the robot using the injected heading. */

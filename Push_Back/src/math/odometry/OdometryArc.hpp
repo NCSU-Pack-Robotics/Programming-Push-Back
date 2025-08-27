@@ -9,7 +9,7 @@ public:
      * Constructor for the Odometry class.
      * @param initial_pose The initial pose of the robot.
      */
-    explicit OdometryArc(Pose initial_pose);
+    explicit OdometryArc(const Pose& initial_pose);
 
     /**
      * Calculate the pose of the robot using motor encoders.

@@ -1,6 +1,6 @@
 #include "AbstractOdometry.hpp"
 
-AbstractOdometry::AbstractOdometry(Pose initial_pose)
+AbstractOdometry::AbstractOdometry(const Pose& initial_pose)
  : pose(initial_pose) {
 }
 

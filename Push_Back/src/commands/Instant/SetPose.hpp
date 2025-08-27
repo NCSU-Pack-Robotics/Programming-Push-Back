@@ -14,14 +14,14 @@ class SetPose : public InstantCommand {
     Pose new_pose;
 
     /** An instance of the Drivetrain class to set the pose of */
-    Drivetrain &drivetrain = AbstractSubsystem::get_instance<Drivetrain>();
+    Drivetrain& drivetrain = AbstractSubsystem::get_instance<Drivetrain>();
 
 public:
     /**
      * Constructor for SetPose command.
      * @param new_pose The new pose to set the robot to.
      */
-    SetPose(Pose new_pose);
+    explicit SetPose(const Pose& new_pose);
 
     void execute() override;
 };

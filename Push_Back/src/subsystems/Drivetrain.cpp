@@ -158,9 +158,9 @@ void Drivetrain::set_velocity(const double target_left_velocity, const double ta
     const std::vector<double> right_velocities = right_motors->get_actual_velocity_all();
 
     // Add all left/right motors together and divide by count to get average velocity
-    const double left_velocity = utils.rpm_to_ips(std::reduce(left_velocities.begin(),
+    const double left_velocity = Utils::rpm_to_ips(std::reduce(left_velocities.begin(),
     left_velocities.end(), 0.0) / left_velocities.size());
-    const double right_velocity = utils.rpm_to_ips(std::reduce(right_velocities.begin(),
+    const double right_velocity = Utils::rpm_to_ips(std::reduce(right_velocities.begin(),
     right_velocities.end(), 0.0) / right_velocities.size());
 
     // Calculate current error
