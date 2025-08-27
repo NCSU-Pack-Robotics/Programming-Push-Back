@@ -16,7 +16,7 @@
 #include "commands/PPIntake.hpp"
 #include "commands/PPIntakeLift.hpp"
 #include "commands/PurePursuit.hpp"
-#include "commands/default/DriveStraightIntakeLift.hpp"
+#include "commands/Default/DriveStraightIntakeLift.hpp"
 #include "subystems/Clamp.hpp"
 #include "subystems/LadyBrown.hpp"
 #include "subystems/Lift.hpp"
