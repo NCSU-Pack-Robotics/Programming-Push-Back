@@ -2,8 +2,8 @@
 
 #include "../asset.hpp"
 #include "../Command.hpp"
-#include "../subystems/Intake.hpp"
-#include "../subystems/Drivetrain.hpp"
+#include "../subsystems/Intake.hpp"
+#include "../subsystems/Drivetrain.hpp"
 #include "../Config.hpp"
 #include "PurePursuit.hpp"
 

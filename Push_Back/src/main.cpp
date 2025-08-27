@@ -2,12 +2,12 @@
 
 #include "AutonomousControlScheduler.hpp"
 #include "DriverControlScheduler.hpp"
-#include "subystems/Clamp.hpp"
-#include "subystems/Drivetrain.hpp"
-#include "subystems/HookSensor.hpp"
-#include "subystems/Intake.hpp"
-#include "subystems/LadyBrown.hpp"
-#include "subystems/Lift.hpp"
+#include "subsystems/Clamp.hpp"
+#include "subsystems/Drivetrain.hpp"
+#include "subsystems/HookSensor.hpp"
+#include "subsystems/Intake.hpp"
+#include "subsystems/LadyBrown.hpp"
+#include "subsystems/Lift.hpp"
 
 // Create all subsystems:
 Drivetrain& drivetrain = AbstractSubsystem::get_instance<Drivetrain>();

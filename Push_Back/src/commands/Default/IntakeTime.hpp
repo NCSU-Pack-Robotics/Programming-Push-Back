@@ -2,7 +2,7 @@
 
 #include "../../Command.hpp"
 #include "../../Timer.hpp"
-#include "../../subystems/Intake.hpp"
+#include "../../subsystems/Intake.hpp"
 #include "../../Config.hpp"
 
 /** Intakes for a specified amount of time. */

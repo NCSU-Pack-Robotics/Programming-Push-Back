@@ -2,9 +2,9 @@
 
 #include "../asset.hpp"
 #include "../Command.hpp"
-#include "../subystems/Intake.hpp"
-#include "../subystems/Lift.hpp"
-#include "../subystems/Drivetrain.hpp"
+#include "../subsystems/Intake.hpp"
+#include "../subsystems/Lift.hpp"
+#include "../subsystems/Drivetrain.hpp"
 
 /**
  * Used to follow path, intake a ring, and lift the ring onto a mobile goal simultaneously.

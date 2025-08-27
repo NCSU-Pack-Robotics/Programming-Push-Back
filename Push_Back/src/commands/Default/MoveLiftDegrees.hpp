@@ -1,6 +1,6 @@
 #pragma once
 #include "../../Command.hpp"
-#include "../../subystems/Lift.hpp"
+#include "../../subsystems/Lift.hpp"
 
 class MoveLiftDegrees : public Command {
 public:

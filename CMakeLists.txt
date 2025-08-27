@@ -7,7 +7,7 @@ include_directories(Push_Back/include)
 include_directories(Push_Back/include/pros)
 include_directories(Push_Back/src)
 include_directories(Push_Back/src/math)
-include_directories(Push_Back/src/subystems)
+include_directories(Push_Back/src/subsystems)
 
 if (DO)
     add_definitions(-DDO)
@@ -57,8 +57,8 @@ add_executable(Programming_Push_Back
         Push_Back/include/main.h
         Push_Back/src/math/PID.cpp
         Push_Back/src/math/PID.hpp
-        Push_Back/src/subystems/Drivetrain.cpp
-        Push_Back/src/subystems/Drivetrain.hpp
+        Push_Back/src/subsystems/Drivetrain.cpp
+        Push_Back/src/subsystems/Drivetrain.hpp
         Push_Back/src/AbstractSubsystem.cpp
         Push_Back/src/AbstractSubsystem.hpp
         Push_Back/src/Config.hpp
@@ -70,10 +70,10 @@ add_executable(Programming_Push_Back
         Push_Back/src/Constants.hpp
         Push_Back/src/Command.cpp
         Push_Back/src/Command.hpp
-        Push_Back/src/subystems/Lift.cpp
-        Push_Back/src/subystems/Lift.hpp
-        Push_Back/src/subystems/Intake.cpp
-        Push_Back/src/subystems/Intake.hpp
+        Push_Back/src/subsystems/Lift.cpp
+        Push_Back/src/subsystems/Lift.hpp
+        Push_Back/src/subsystems/Intake.cpp
+        Push_Back/src/subsystems/Intake.hpp
         Push_Back/src/DriverControlScheduler.cpp
         Push_Back/src/DriverControlScheduler.hpp
         Push_Back/src/commands/Instant/StartIntakingIn.cpp
@@ -90,12 +90,12 @@ add_executable(Programming_Push_Back
         Push_Back/src/commands/Instant/StartLiftingDown.hpp
         Push_Back/src/commands/Instant/ToggleClamp.cpp
         Push_Back/src/commands/Instant/ToggleClamp.hpp
-        Push_Back/src/subystems/Clamp.cpp
-        Push_Back/src/subystems/Clamp.hpp
-        Push_Back/src/subystems/HookSensor.cpp
-        Push_Back/src/subystems/HookSensor.hpp
-        Push_Back/src/subystems/LadyBrown.cpp
-        Push_Back/src/subystems/LadyBrown.hpp
+        Push_Back/src/subsystems/Clamp.cpp
+        Push_Back/src/subsystems/Clamp.hpp
+        Push_Back/src/subsystems/HookSensor.cpp
+        Push_Back/src/subsystems/HookSensor.hpp
+        Push_Back/src/subsystems/LadyBrown.cpp
+        Push_Back/src/subsystems/LadyBrown.hpp
         Push_Back/src/commands/Default/ResetLift.cpp
         Push_Back/src/commands/Default/ResetLift.hpp
         Push_Back/src/commands/Default/TurnAround.cpp
@@ -116,8 +116,8 @@ add_executable(Programming_Push_Back
         Push_Back/src/commands/DriveStraight.hpp
         Push_Back/src/commands/Turn.cpp
         Push_Back/src/commands/Turn.hpp
-        Push_Back/src/subystems/Arm.cpp
-        Push_Back/src/subystems/Arm.hpp
+        Push_Back/src/subsystems/Arm.cpp
+        Push_Back/src/subsystems/Arm.hpp
         Push_Back/src/commands/Instant/ToggleArm.cpp
         Push_Back/src/commands/Instant/ToggleArm.hpp
         Push_Back/src/commands/Default/MoveLiftDegrees.cpp

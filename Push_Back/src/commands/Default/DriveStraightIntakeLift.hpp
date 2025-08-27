@@ -1,8 +1,8 @@
 #pragma once
 
 #include "../DriveStraight.hpp"
-#include "../../subystems/Intake.hpp"
-#include "../../subystems/Lift.hpp"
+#include "../../subsystems/Intake.hpp"
+#include "../../subsystems/Lift.hpp"
 
 /**
  * This command uses the <code>DriveStraight</code> command to drive the robot straight while

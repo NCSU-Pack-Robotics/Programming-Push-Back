@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../subystems/Drivetrain.hpp"
+#include "../../subsystems/Drivetrain.hpp"
 #include "../../Timer.hpp"
 #include "../../Command.hpp"
 

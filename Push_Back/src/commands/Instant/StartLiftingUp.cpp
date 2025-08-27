@@ -1,8 +1,8 @@
 #include "StartLiftingUp.hpp"
 
 #include "../../Config.hpp"
-#include "../../subystems/Lift.hpp"
-#include "../../subystems/LadyBrown.hpp"
+#include "../../subsystems/Lift.hpp"
+#include "../../subsystems/LadyBrown.hpp"
 
 StartLiftingUp::StartLiftingUp() {
 }

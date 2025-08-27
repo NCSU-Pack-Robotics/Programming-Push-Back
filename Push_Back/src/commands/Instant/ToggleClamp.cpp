@@ -1,6 +1,6 @@
 #include "ToggleClamp.hpp"
 
-#include "../../subystems/Clamp.hpp"
+#include "../../subsystems/Clamp.hpp"
 
 ToggleClamp::ToggleClamp() {
 }

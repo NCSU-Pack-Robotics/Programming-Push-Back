@@ -1,7 +1,7 @@
 #pragma once
 #include "AbstractSubsystem.hpp"
 #include "Command.hpp"
-#include "subystems/Drivetrain.hpp"
+#include "subsystems/Drivetrain.hpp"
 
 /**
  * A subclass of ChainCommand. It is used during the autonomous portion of the event.

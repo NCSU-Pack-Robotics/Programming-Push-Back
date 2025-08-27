@@ -1,9 +1,9 @@
 #pragma once
 #include "../../Command.hpp"
 
-#include "../../subystems/HookSensor.hpp"
-#include "../../subystems/LadyBrown.hpp"
-#include "../../subystems/Lift.hpp"
+#include "../../subsystems/HookSensor.hpp"
+#include "../../subsystems/LadyBrown.hpp"
+#include "../../subsystems/Lift.hpp"
 /** This command continues move the lift in the upwards direction until
  * the hook sensor is covered by the hook, meaning it has been reset.
  */

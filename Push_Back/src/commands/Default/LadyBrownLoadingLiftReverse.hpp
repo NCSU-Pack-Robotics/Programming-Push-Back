@@ -1,7 +1,7 @@
 #pragma once
 #include "../../Command.hpp"
-#include "../../subystems/LadyBrown.hpp"
-#include "../../subystems/Lift.hpp"
+#include "../../subsystems/LadyBrown.hpp"
+#include "../../subsystems/Lift.hpp"
 
 class LadyBrownLoadingLiftReverse : public Command {
     void initialize() override;

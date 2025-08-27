@@ -1,6 +1,6 @@
 #include "MoveLiftDegrees.hpp"
 
-#include "../../subystems/Lift.hpp"
+#include "../../subsystems/Lift.hpp"
 #include "../../Config.hpp"
 
 MoveLiftDegrees::MoveLiftDegrees(int32_t degrees) {

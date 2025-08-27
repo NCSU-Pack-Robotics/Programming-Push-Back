@@ -2,7 +2,7 @@
 
 #include "../Command.hpp"
 #include "../Config.hpp"
-#include "../subystems/Drivetrain.hpp"
+#include "../subsystems/Drivetrain.hpp"
 #include "../math/PID.hpp"
 
 /**

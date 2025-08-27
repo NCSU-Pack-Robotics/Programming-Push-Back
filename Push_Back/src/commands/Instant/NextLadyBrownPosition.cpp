@@ -1,5 +1,5 @@
 #include "NextLadyBrownPosition.hpp"
-#include "../../subystems/LadyBrown.hpp"
+#include "../../subsystems/LadyBrown.hpp"
 
 NextLadyBrownPosition::NextLadyBrownPosition() {
 

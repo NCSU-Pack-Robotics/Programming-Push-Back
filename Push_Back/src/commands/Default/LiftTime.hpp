@@ -3,7 +3,7 @@
 
 #include "../../Command.hpp"
 #include "../../Timer.hpp"
-#include "../../subystems/Lift.hpp"
+#include "../../subsystems/Lift.hpp"
 #include "../../Config.hpp"
 
 /** Intakes for a specified amount of time. */

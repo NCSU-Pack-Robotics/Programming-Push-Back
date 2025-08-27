@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../asset.hpp"
-#include "../subystems/Drivetrain.hpp"
+#include "../subsystems/Drivetrain.hpp"
 #include "../Command.hpp"
 #include "../Pose.hpp"
 

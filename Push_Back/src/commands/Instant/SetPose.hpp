@@ -2,7 +2,7 @@
 
 #include "../../Command.hpp"
 #include "../../Pose.hpp"
-#include "../../subystems/Drivetrain.hpp"
+#include "../../subsystems/Drivetrain.hpp"
 
 /**
  * This command sets the pose of the robot to a specified location.

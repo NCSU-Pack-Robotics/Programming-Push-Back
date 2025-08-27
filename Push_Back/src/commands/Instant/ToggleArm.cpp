@@ -1,6 +1,6 @@
 #include "ToggleArm.hpp"
 
-#include "../../subystems/Arm.hpp"
+#include "../../subsystems/Arm.hpp"
 
 ToggleArm::ToggleArm() {
 }

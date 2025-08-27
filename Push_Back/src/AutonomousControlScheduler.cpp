@@ -17,9 +17,9 @@
 #include "commands/PPIntakeLift.hpp"
 #include "commands/PurePursuit.hpp"
 #include "commands/Default/DriveStraightIntakeLift.hpp"
-#include "subystems/Clamp.hpp"
-#include "subystems/LadyBrown.hpp"
-#include "subystems/Lift.hpp"
+#include "subsystems/Clamp.hpp"
+#include "subsystems/LadyBrown.hpp"
+#include "subsystems/Lift.hpp"
 
 // Global paths defined here
 ASSET(rushCenterFromLeft_txt)
