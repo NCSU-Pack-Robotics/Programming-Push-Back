@@ -2,23 +2,13 @@
 
 #include "AutonomousControlScheduler.hpp"
 #include "DriverControlScheduler.hpp"
-#include "subsystems/Clamp.hpp"
 #include "subsystems/Drivetrain.hpp"
-#include "subsystems/HookSensor.hpp"
-#include "subsystems/Intake.hpp"
-#include "subsystems/LadyBrown.hpp"
-#include "subsystems/Lift.hpp"
 
 // Create all subsystems:
 Drivetrain& drivetrain = AbstractSubsystem::get_instance<Drivetrain>();
-Lift& lift = AbstractSubsystem::get_instance<Lift>();
-Intake& intake = AbstractSubsystem::get_instance<Intake>();
-Clamp& clamp = AbstractSubsystem::get_instance<Clamp>();
-HookSensor& hook_sensor = AbstractSubsystem::get_instance<HookSensor>();
-LadyBrown& lady_brown = AbstractSubsystem::get_instance<LadyBrown>();
 
 // Add subsystems to vector for iteration
-std::vector<AbstractSubsystem*> subsystems = {&drivetrain, &lift, &intake, &clamp, &hook_sensor, &lady_brown};
+std::vector<AbstractSubsystem*> subsystems = { &drivetrain };
 
 /** Controller object */
 pros::Controller controller{pros::E_CONTROLLER_MASTER};
@@ -121,7 +111,6 @@ void autonomous() {
  * task, not resume it from where it left off.
  */
 void opcontrol() {
-    lady_brown.set_killed(false);
     // Initialize the driver control scheduler
     DriverControlScheduler scheduler{};
     scheduler.initialize();

@@ -3,17 +3,6 @@
 #include <algorithm>
 #include <unordered_map>
 #include "Command.hpp"
-#include "commands/Default/ResetLift.hpp"
-#include "commands/Default/TurnAround.hpp"
-#include "commands/Instant/NextLadyBrownPosition.hpp"
-#include "commands/Instant/StartIntakingIn.hpp"
-#include "commands/Instant/StartIntakingOut.hpp"
-#include "commands/Instant/StartLiftingDown.hpp"
-#include "commands/Instant/StartLiftingUp.hpp"
-#include "commands/Instant/StopIntaking.hpp"
-#include "commands/Instant/StopLifting.hpp"
-#include "commands/Instant/ToggleArm.hpp"
-#include "commands/Instant/ToggleClamp.hpp"
 
 // Magic hash number
 #define GOLDEN_RATIO 0x9e3779b1
@@ -51,25 +40,3 @@ namespace std {
 // If you need to map a ButtonCombo to multiple commands, use an inline parallel or chain command.
 extern std::unordered_map<pros::controller_digital_e_t,
                           std::array<std::optional<std::function<std::unique_ptr<Command>()>>, 3>> BINDS;
-
-class GarretShiftIn : public InstantCommand {
-public:
-
-    GarretShiftIn() = default;
-
-    void execute() override {
-        BINDS[pros::E_CONTROLLER_DIGITAL_R1] = {std::nullopt, [] { return std::make_unique<StartLiftingDown>(); }, [] { return std::make_unique<StopLifting>(); }};
-        BINDS[pros::E_CONTROLLER_DIGITAL_R2] = {std::nullopt, [] { return std::make_unique<StartIntakingOut>(); }, [] { return std::make_unique<StopIntaking>(); }};
-    }
-};
-
-class GarretShiftOut : public InstantCommand {
-public:
-
-    GarretShiftOut() = default;
-
-    void execute() override {
-        BINDS[pros::E_CONTROLLER_DIGITAL_R1] = {std::nullopt, [] { return std::make_unique<StartLiftingUp>(); }, [] { return std::make_unique<StopLifting>(); }};
-        BINDS[pros::E_CONTROLLER_DIGITAL_R2] = {std::nullopt, [] { return std::make_unique<StartIntakingIn>(); }, [] { return std::make_unique<StopIntaking>(); }};
-    }
-};

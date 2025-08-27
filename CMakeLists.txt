@@ -70,38 +70,8 @@ add_executable(Programming_Push_Back
         Push_Back/src/Constants.hpp
         Push_Back/src/Command.cpp
         Push_Back/src/Command.hpp
-        Push_Back/src/subsystems/Lift.cpp
-        Push_Back/src/subsystems/Lift.hpp
-        Push_Back/src/subsystems/Intake.cpp
-        Push_Back/src/subsystems/Intake.hpp
         Push_Back/src/DriverControlScheduler.cpp
         Push_Back/src/DriverControlScheduler.hpp
-        Push_Back/src/commands/Instant/StartIntakingIn.cpp
-        Push_Back/src/commands/Instant/StartIntakingIn.hpp
-        Push_Back/src/commands/Instant/StopIntaking.cpp
-        Push_Back/src/commands/Instant/StopIntaking.hpp
-        Push_Back/src/commands/Instant/StartLiftingUp.cpp
-        Push_Back/src/commands/Instant/StartLiftingUp.hpp
-        Push_Back/src/commands/Instant/StopLifting.cpp
-        Push_Back/src/commands/Instant/StopLifting.hpp
-        Push_Back/src/commands/Instant/StartIntakingOut.cpp
-        Push_Back/src/commands/Instant/StartIntakingOut.hpp
-        Push_Back/src/commands/Instant/StartLiftingDown.cpp
-        Push_Back/src/commands/Instant/StartLiftingDown.hpp
-        Push_Back/src/commands/Instant/ToggleClamp.cpp
-        Push_Back/src/commands/Instant/ToggleClamp.hpp
-        Push_Back/src/subsystems/Clamp.cpp
-        Push_Back/src/subsystems/Clamp.hpp
-        Push_Back/src/subsystems/HookSensor.cpp
-        Push_Back/src/subsystems/HookSensor.hpp
-        Push_Back/src/subsystems/LadyBrown.cpp
-        Push_Back/src/subsystems/LadyBrown.hpp
-        Push_Back/src/commands/Default/ResetLift.cpp
-        Push_Back/src/commands/Default/ResetLift.hpp
-        Push_Back/src/commands/Default/TurnAround.cpp
-        Push_Back/src/commands/Default/TurnAround.hpp
-        Push_Back/src/commands/Instant/StopIntaking.cpp
-        Push_Back/src/commands/Instant/StopIntaking.hpp
         Push_Back/src/asset.hpp
         Push_Back/src/commands/PurePursuit.cpp
         Push_Back/src/commands/PurePursuit.hpp
@@ -109,23 +79,7 @@ add_executable(Programming_Push_Back
         Push_Back/src/commands/PurePursuit.cpp
         Push_Back/src/AutonomousControlScheduler.cpp
         Push_Back/src/AutonomousControlScheduler.hpp
-        Push_Back/src/commands/Instant/NextLadyBrownPosition.hpp
-        Push_Back/src/commands/Instant/NextLadyBrownPosition.cpp
         Push_Back/src/ButtonMappings.hpp
-        Push_Back/src/commands/DriveStraight.cpp
-        Push_Back/src/commands/DriveStraight.hpp
-        Push_Back/src/commands/Turn.cpp
-        Push_Back/src/commands/Turn.hpp
-        Push_Back/src/subsystems/Arm.cpp
-        Push_Back/src/subsystems/Arm.hpp
-        Push_Back/src/commands/Instant/ToggleArm.cpp
-        Push_Back/src/commands/Instant/ToggleArm.hpp
-        Push_Back/src/commands/Default/MoveLiftDegrees.cpp
-        Push_Back/src/commands/Default/MoveLiftDegrees.hpp
-        Push_Back/src/commands/Default/LadyBrownLoadingLiftReverse.cpp
-        Push_Back/src/commands/Default/LadyBrownLoadingLiftReverse.hpp
-        Push_Back/src/commands/Default/MoveLadyBrownPosition.cpp
-        Push_Back/src/commands/Default/MoveLadyBrownPosition.hpp
         Push_Back/src/ButtonMappings.cpp
         Push_Back/src/math/odometry/OdometryArc.cpp
         Push_Back/src/math/odometry/OdometryArc.hpp
@@ -135,22 +89,8 @@ add_executable(Programming_Push_Back
         Push_Back/src/math/odometry/OdometryArc.cpp
         Push_Back/src/math/odometry/OdometryArc.hpp
         Push_Back/src/math/Utils.hpp
-        Push_Back/src/commands/Default/TurnToHeading.cpp
-        Push_Back/src/commands/Default/TurnToHeading.hpp
-        Push_Back/src/commands/Default/TurnToPoint.cpp
-        Push_Back/src/commands/Default/TurnToPoint.hpp
         Push_Back/src/commands/Instant/SetPose.cpp
         Push_Back/src/commands/Instant/SetPose.hpp
         Push_Back/src/math/odometry/OdometryGyro.cpp
         Push_Back/src/math/odometry/OdometryGyro.hpp
-        Push_Back/src/commands/Default/IntakeTime.cpp
-        Push_Back/src/commands/Default/IntakeTime.hpp
-        Push_Back/src/commands/Default/LiftTime.cpp
-        Push_Back/src/commands/Default/LiftTime.hpp
-        Push_Back/src/commands/Default/IntakeLiftTime.cpp
-        Push_Back/src/commands/Default/IntakeLiftTime.hpp
-        Push_Back/src/commands/Default/DumbDriveStraight.cpp
-        Push_Back/src/commands/Default/DumbDriveStraight.hpp
-        Push_Back/src/commands/Default/TurnDegrees.cpp
-        Push_Back/src/commands/Default/TurnDegrees.hpp
 )
