@@ -4,21 +4,7 @@
 #include "commands/DriveStraight.hpp"
 
 // Global paths defined here
-ASSET(rushCenterFromLeft_txt)
-ASSET(alignForGoal_txt)
-ASSET(getGoal_txt)
-ASSET(getGoal2_txt)
-ASSET(intake1_txt)
-ASSET(intakeCorner_txt)
-ASSET(intake1Do_txt)
-ASSET(intake2Do_txt)
-ASSET(getGoalDo_txt)
-ASSET(doinkTopRingDo_txt)
-ASSET(intake1SimpleDo_txt)
-ASSET(getGoalSimpleDo_txt)
-ASSET(intake2SimpleDo_txt)
-ASSET(intake3SimpleDo_txt)
-ASSET(touchStakeSimpleDo_txt)
+// Ex. ASSET(asset_name_txt)
 
 using namespace std;
 
