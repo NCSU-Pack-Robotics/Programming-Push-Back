@@ -70,26 +70,18 @@ void competition_initialize() {
  */
 void autonomous() {
     // Initialize the autonomous scheduler
-    AutonomousControlScheduler scheduler{};
+    AutonomousControlScheduler autonomous_scheduler{};
 
-    scheduler.initialize();
-
-    Timer timer;
-    timer.start();
+    autonomous_scheduler.initialize();
 
     // Run forever
     while (true) {
         // Run the autonomous scheduler to do our routine
-        scheduler.run();
+        autonomous_scheduler.run();
 
         // Run periodic for all subsystems
         for (AbstractSubsystem* subsystem : subsystems) {
             subsystem->periodic();
-        }
-
-        if (timer.get_duration() > 0.25) {
-            pros::screen::print(TEXT_MEDIUM, 1, "%s", drivetrain.get_pose().to_string().c_str());
-            timer.start();
         }
 
         // Delay the loop to prevent the CPU from being overwhelmed
@@ -112,12 +104,12 @@ void autonomous() {
  */
 void opcontrol() {
     // Initialize the driver control scheduler
-    DriverControlScheduler scheduler{};
-    scheduler.initialize();
+    DriverControlScheduler driver_scheduler{};
+    driver_scheduler.initialize();
 
     while (true) {
         // Run the driver control scheduler to get inputs from controller
-        scheduler.run();
+        driver_scheduler.run();
 
         // Run periodic for all subsystems
         for (AbstractSubsystem* subsystem : subsystems) {
