@@ -10,9 +10,6 @@ Drivetrain& drivetrain = AbstractSubsystem::get_instance<Drivetrain>();
 // Add subsystems to vector for iteration
 std::vector<AbstractSubsystem*> subsystems = { &drivetrain };
 
-/** Controller object */
-pros::Controller controller{pros::E_CONTROLLER_MASTER};
-
 /**
  * Runs initialization code. This occurs as soon as the program is started.
  *
