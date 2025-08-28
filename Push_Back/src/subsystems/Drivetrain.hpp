@@ -88,7 +88,7 @@ public:
      * This method is intended to be used when the robot hits a wall to realign itself.
      * @param new_pose The new pose of the robot.
      */
-    void set_pose(Pose new_pose) const;
+    void set_pose(const Pose& new_pose);
 
 private:
     /** Voltage in mV to set motors to. Will be between -12,000 and +12,000. */
@@ -104,7 +104,7 @@ private:
     int direction;
 
     // Pointer to calculate instance
-    std::unique_ptr<OdometryGyro> odometry;
+    OdometryGyro odometry;
 
     /** Power to set motors to from analog sticks. Will be between -127 and 127 */
     int32_t left_drive_power = 0;
@@ -128,39 +128,39 @@ private:
     Constants::DriveType drive_type;
 
     // Motors:
-    /** Smart pointer to the left, front motor. */
-    std::unique_ptr<pros::Motor> left_front1;
-    /** Smart pointer to the left, front motor. */
-    std::unique_ptr<pros::Motor> left_front2;
-    /** Smart pointer to the left, front motor. */
-    std::unique_ptr<pros::Motor> left_back2;
-    /** Smart pointer to the left, front motor. */
-    std::unique_ptr<pros::Motor> left_back1;
+    /** The left, front motor. */
+    pros::Motor left_front1;
+    /** The left, front motor. */
+    pros::Motor left_front2;
+    /** The left, front motor. */
+    pros::Motor left_back2;
+    /** The left, front motor. */
+    pros::Motor left_back1;
 
-    /** Smart pointer to the left, front motor. */
-    std::unique_ptr<pros::Motor> right_front1;
-    /** Smart pointer to the left, front motor. */
-    std::unique_ptr<pros::Motor> right_front2;
-    /** Smart pointer to the left, front motor. */
-    std::unique_ptr<pros::Motor> right_back2;
-    /** Smart pointer to the left, front motor. */
-    std::unique_ptr<pros::Motor> right_back1;
+    /** The left, front motor. */
+    pros::Motor right_front1;
+    /** The left, front motor. */
+    pros::Motor right_front2;
+    /** The left, front motor. */
+    pros::Motor right_back2;
+    /** The left, front motor. */
+    pros::Motor right_back1;
 
     // Motor groups:
     /** Group of all motors on the left side of the robot. */
-    std::unique_ptr<pros::MotorGroup> left_motors;
+    pros::MotorGroup left_motors;
     /** Group of all motors on the right side of the robot. */
-    std::unique_ptr<pros::MotorGroup> right_motors;
+    pros::MotorGroup right_motors;
 
     // Rotation sensors:
     /** Smart pointer to the left rotation sensor. */
-    std::unique_ptr<pros::Rotation> left_rotation_sensor;
+    pros::Rotation left_rotation_sensor;
     /** Smart pointer to the right rotation sensor. */
-    std::unique_ptr<pros::Rotation> right_rotation_sensor;
+    pros::Rotation right_rotation_sensor;
 
     // Gyro:
     /** Smart pointer to the gyro sensor. */
-    std::unique_ptr<pros::Imu> gyro;
+    pros::Imu gyro;
 
 protected:
     /**
@@ -170,4 +170,3 @@ protected:
      */
     Drivetrain();
 };
-
