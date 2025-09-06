@@ -19,9 +19,9 @@ jobs:
 
       - name: Install Dependencies
         run: |
-          sudo python3 -m pip install pros-cli
-          # sudo apt-get update
-          # sudo apt-get install -y gcc-arm-none-eabi
+          python3 -m pip install pros-cli
+          apt-get update
+          apt-get install -y gcc-arm-none-eabi
 
       - name: Build ${{ matrix.target }}
         working-directory: ./Push_Back
