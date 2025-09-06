@@ -19,7 +19,6 @@ jobs:
 
       - name: Install Dependencies
         run: |
-          cat /etc/os-release
           apt-get install python
           python3 -m pip install pros-cli
           apt-get update
