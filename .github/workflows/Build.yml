@@ -44,7 +44,9 @@ jobs:
           rm -f armgcc.tar.gz
           # Add to path
           echo "$HOME/.local/arm-none-eabi-gcc-${XPACK_ARM_GCC_VERSION}/bin" >> "$GITHUB_PATH"
-          arm-none-eabi-g++ --version
+        
+      - name: Verify ARM GCC
+        run: arm-none-eabi-g++ --version
 
       - name: Build ${{ matrix.target }}
         working-directory: ./Push_Back
