@@ -7,21 +7,46 @@ on:
 
 jobs:
   Build:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     strategy:
       fail-fast: true
       matrix:
         target: [THINK, DO]
 
+    env:
+      XPACK_ARM_GCC_VERSION: "14.2.1-1.1"
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install Dependencies
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install PROS
         run: |
-          sudo python3 -m pip install pros-cli
-          # sudo apt-get update
-          # sudo apt-get install -y gcc-arm-none-eabi
+          python3 -m pip install pros-cli
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+          pros --version || true
+          # apt-get install -y gcc-arm-none-eabi
+
+      - name: Install ARM GCC
+        run: |
+          set -eux
+          mkdir -p "$HOME/.local"
+          cd "$HOME/.local"
+          curl -L -o armgcc.tar.gz \
+            "https://github.com/xpack-dev-tools/arm-none-eabi-gcc-xpack/releases/download/v${XPACK_ARM_GCC_VERSION}/xpack-arm-none-eabi-gcc-${XPACK_ARM_GCC_VERSION}-linux-x64.tar.gz"
+          mkdir -p "arm-none-eabi-gcc-${XPACK_ARM_GCC_VERSION}"
+          tar -xzf armgcc.tar.gz -C "arm-none-eabi-gcc-${XPACK_ARM_GCC_VERSION}" --strip-components=1
+          rm -f armgcc.tar.gz
+          # Add to path
+          echo "$HOME/.local/arm-none-eabi-gcc-${XPACK_ARM_GCC_VERSION}/bin" >> "$GITHUB_PATH"
+        
+      - name: Verify ARM GCC
+        run: arm-none-eabi-g++ --version
 
       - name: Build ${{ matrix.target }}
         working-directory: ./Push_Back
