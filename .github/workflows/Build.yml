@@ -1,0 +1,30 @@
+name: PROS Build
+run-name: Building PROS Project 🛠️
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  Build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        target: [THINK, DO]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Dependencies
+        run: |
+          sudo python3 -m pip install pros-cli
+          # sudo apt-get update
+          # sudo apt-get install -y gcc-arm-none-eabi
+
+      - name: Build ${{ matrix.target }}
+        working-directory: ./Push_Back
+        run: |
+          pros make clean
+          pros make EXTRA_CXXFLAGS="-D${{ matrix.target }}" EXTRA_CFLAGS="-D${{ matrix.target }}"
