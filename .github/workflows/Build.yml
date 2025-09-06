@@ -25,7 +25,6 @@ jobs:
       - name: Install Dependencies
         run: |
           python3 -m pip install pros-cli
-          apt-get update
           apt-get install -y gcc-arm-none-eabi
 
       - name: Build ${{ matrix.target }}
