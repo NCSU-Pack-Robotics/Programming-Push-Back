@@ -13,6 +13,9 @@ jobs:
       matrix:
         target: [THINK, DO]
 
+    env:
+      XPACK_ARM_GCC_VERSION: "14.2.1-1.1"
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -29,7 +32,7 @@ jobs:
           pros --version || true
           # apt-get install -y gcc-arm-none-eabi
 
-      - name: Install ARM GCC (no sudo)
+      - name: Install ARM GCC
         run: |
           set -eux
           mkdir -p "$HOME/.local"
