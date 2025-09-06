@@ -22,10 +22,26 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Install Dependencies
+      - name: Install PROS
         run: |
           python3 -m pip install pros-cli
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+          pros --version || true
           # apt-get install -y gcc-arm-none-eabi
+
+      - name: Install ARM GCC (no sudo)
+        run: |
+          set -eux
+          mkdir -p "$HOME/.local"
+          cd "$HOME/.local"
+          curl -L -o armgcc.tar.gz \
+            "https://github.com/xpack-dev-tools/arm-none-eabi-gcc-xpack/releases/download/v${XPACK_ARM_GCC_VERSION}/xpack-arm-none-eabi-gcc-${XPACK_ARM_GCC_VERSION}-linux-x64.tar.gz"
+          mkdir -p "arm-none-eabi-gcc-${XPACK_ARM_GCC_VERSION}"
+          tar -xzf armgcc.tar.gz -C "arm-none-eabi-gcc-${XPACK_ARM_GCC_VERSION}" --strip-components=1
+          rm -f armgcc.tar.gz
+          # Add to path
+          echo "$HOME/.local/arm-none-eabi-gcc-${XPACK_ARM_GCC_VERSION}/bin" >> "$GITHUB_PATH"
+          arm-none-eabi-g++ --version
 
       - name: Build ${{ matrix.target }}
         working-directory: ./Push_Back
