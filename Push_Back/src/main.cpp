@@ -1,14 +1,71 @@
 #include "../include/main.h"
+#include "../include/pros/apix.h"
 
+#include <cstring>
+#include <fcntl.h>
+#include <thread>
+#include <bits/this_thread_sleep.h>
 #include "AutonomousControlScheduler.hpp"
 #include "DriverControlScheduler.hpp"
 #include "subsystems/Drivetrain.hpp"
+#include "../Programming-Push-Back-Common/COBS.hpp"
+
+// Turn off pros banner. Seems to only work in the macro version
+ENABLE_BANNER(false)
 
 // Create all subsystems:
 Drivetrain& drivetrain = AbstractSubsystem::get_instance<Drivetrain>();
 
 // Add subsystems to vector for iteration
 std::vector<AbstractSubsystem*> subsystems = { &drivetrain };
+
+pros::Mutex pi_mutex;
+
+struct test_struct
+{
+    int x;
+    int y;
+    int z;
+    float w;
+    double q;
+};
+
+
+void pi_communication()
+{
+    // Send a single null byte to be a delimiter between pros/vex junk bytes and our data
+    // With cobs off there's actually no bytes sent, but good to have just in case
+    fwrite("", 1, 1, stdout);
+    test_struct test{};
+    test.x = 1;
+    test.y = 2;
+    test.z = 5;
+    test.w = 1.75F;
+    test.q = 3.14159265;
+
+
+    std::vector<uint8_t> encoded = cobs_encode(reinterpret_cast<const uint8_t*>(&test), sizeof(test_struct));
+
+    fwrite(encoded.data(), encoded.size(), 1, stdout);
+    // while (true)
+    // {
+    //
+    //     // Read packet from stdin and cobs_decode it
+    //
+    //
+    //
+    //
+    //
+    //     pi_mutex.take();
+    //
+    //     // Call packet reader function
+    //
+    //     pi_mutex.give();
+    //
+    //     pros::delay(5);
+    // }
+}
+
 
 /**
  * Runs initialization code. This occurs as soon as the program is started.
@@ -17,10 +74,18 @@ std::vector<AbstractSubsystem*> subsystems = { &drivetrain };
  * to keep execution time for this mode under a few seconds.
  */
 void initialize() {
+    // Disable pros COBS which seems to include the sout/serr prefixes
+    pros::c::serctl(SERCTL_DISABLE_COBS, nullptr);
+    // Turn off buffering
+    setvbuf(stdout, NULL, _IONBF, 0);
+    setvbuf(stdin, NULL, _IONBF, 0);
+
     // Initialize all subsystems
     for (AbstractSubsystem* subsystem : subsystems) {
         subsystem->initialize();
     }
+
+    pros::Task communication_task(pi_communication);
 }
 
 /**
@@ -71,6 +136,8 @@ void autonomous() {
 
     autonomous_scheduler.initialize();
 
+    // TODO: Tell pi we have entered autonomous
+
     // Run forever
     while (true) {
         // Run the autonomous scheduler to do our routine
@@ -103,6 +170,8 @@ void opcontrol() {
     // Initialize the driver control scheduler
     DriverControlScheduler driver_scheduler{};
     driver_scheduler.initialize();
+
+    // TODO: Tell pi we have entered opcontrol
 
     while (true) {
         // Run the driver control scheduler to get inputs from controller
