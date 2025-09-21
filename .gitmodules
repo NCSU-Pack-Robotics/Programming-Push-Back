@@ -1,5 +1,5 @@
 [submodule "Push_Back/Programming-Push-Back-Common"]
 	path = Push_Back/Programming-Push-Back-Common
-	url = https://github.ncsu.edu/Wolf-Pack-Robotics/Programming-Push-Back-Common.git
+	url = ../Programming-Push-Back-Common.git
 	branch = main
 	
