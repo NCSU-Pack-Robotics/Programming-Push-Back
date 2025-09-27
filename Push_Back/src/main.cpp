@@ -7,8 +7,8 @@
 #include "AutonomousControlScheduler.hpp"
 #include "DriverControlScheduler.hpp"
 #include "subsystems/Drivetrain.hpp"
-#include "Programming-Push-Back-Common/COBS.hpp"
-#include "Programming-Push-Back-Common/SerialHandler.hpp"
+#include "common/COBS.hpp"
+#include "common/SerialHandler.hpp"
 
 // Turn off pros banner. Seems to only work in the macro version
 ENABLE_BANNER(false)
