@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Build Think" type="ShConfigurationType">
-    <option name="SCRIPT_TEXT" value="pros make EXTRA_CXXFLAGS=&quot;-DTHINK&quot; EXTRA_CFLAGS=&quot;-DTHINK&quot;" />
+    <option name="SCRIPT_TEXT" value="wsl pros make EXTRA_CXXFLAGS=&quot;-DTHINK&quot; EXTRA_CFLAGS=&quot;-DTHINK&quot;" />
     <option name="INDEPENDENT_SCRIPT_PATH" value="true" />
     <option name="SCRIPT_PATH" value="" />
     <option name="SCRIPT_OPTIONS" value="" />
