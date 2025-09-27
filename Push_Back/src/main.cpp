@@ -8,9 +8,12 @@
 #include "DriverControlScheduler.hpp"
 #include "subsystems/Drivetrain.hpp"
 #include "Programming-Push-Back-Common/COBS.hpp"
+#include "Programming-Push-Back-Common/SerialHandler.hpp"
 
 // Turn off pros banner. Seems to only work in the macro version
 ENABLE_BANNER(false)
+
+SerialHandler serial_handler(DeviceType::BRAIN);
 
 // Create all subsystems:
 Drivetrain& drivetrain = AbstractSubsystem::get_instance<Drivetrain>();
@@ -22,11 +25,7 @@ pros::Mutex pi_mutex;
 
 struct test_struct
 {
-    int x;
-    int y;
-    int z;
-    float w;
-    double q;
+    int a, b, c;
 };
 
 
@@ -35,12 +34,6 @@ void pi_communication()
     // Send a single null byte to be a delimiter between pros/vex junk bytes and our data
     // With cobs off there's actually no bytes sent, but good to have just in case
     fwrite("", 1, 1, stdout);
-    test_struct test{};
-    test.x = 1;
-    test.y = 2;
-    test.z = 5;
-    test.w = 1.75F;
-    test.q = 3.14159265;
 }
 
 
@@ -53,9 +46,12 @@ void pi_communication()
 void initialize() {
     // Disable pros COBS which seems to include the sout/serr prefixes
     pros::c::serctl(SERCTL_DISABLE_COBS, nullptr);
-    // Turn off buffering
-    setvbuf(stdout, NULL, _IONBF, 0);
-    setvbuf(stdin, NULL, _IONBF, 0);
+
+    serial_handler = SerialHandler(DeviceType::BRAIN);
+
+    serial_handler.structs_to_packet_ids.emplace(std::type_index(typeid(test_struct)), PacketId::Hello);
+
+    serial_handler.send(test_struct{1, 2, 3});
 
     // Initialize all subsystems
     for (AbstractSubsystem* subsystem : subsystems) {

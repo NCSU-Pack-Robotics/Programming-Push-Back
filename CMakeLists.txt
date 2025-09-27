@@ -93,9 +93,8 @@ add_executable(Programming_Push_Back
         Push_Back/src/commands/Instant/SetPose.hpp
         Push_Back/src/math/odometry/OdometryGyro.cpp
         Push_Back/src/math/odometry/OdometryGyro.hpp
+
         Push_Back/src/Programming-Push-Back-Common/COBS.cpp
-        Push_Back/src/Programming-Push-Back-Common/COBS.hpp
-        Push_Back/src/Programming-Push-Back-Common/PacketId.hpp
         Push_Back/src/Programming-Push-Back-Common/SerialHandler.cpp
-        Push_Back/src/Programming-Push-Back-Common/SerialHandler.hpp
+
 )
