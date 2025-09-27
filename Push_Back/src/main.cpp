@@ -4,11 +4,10 @@
 #include <cstring>
 #include <fcntl.h>
 #include <thread>
-#include <bits/this_thread_sleep.h>
 #include "AutonomousControlScheduler.hpp"
 #include "DriverControlScheduler.hpp"
 #include "subsystems/Drivetrain.hpp"
-#include "../Programming-Push-Back-Common/COBS.hpp"
+#include "Programming-Push-Back-Common/COBS.hpp"
 
 // Turn off pros banner. Seems to only work in the macro version
 ENABLE_BANNER(false)
@@ -42,28 +41,6 @@ void pi_communication()
     test.z = 5;
     test.w = 1.75F;
     test.q = 3.14159265;
-
-
-    std::vector<uint8_t> encoded = cobs_encode(reinterpret_cast<const uint8_t*>(&test), sizeof(test_struct));
-
-    fwrite(encoded.data(), encoded.size(), 1, stdout);
-    // while (true)
-    // {
-    //
-    //     // Read packet from stdin and cobs_decode it
-    //
-    //
-    //
-    //
-    //
-    //     pi_mutex.take();
-    //
-    //     // Call packet reader function
-    //
-    //     pi_mutex.give();
-    //
-    //     pros::delay(5);
-    // }
 }
 
 
