@@ -1,5 +1,4 @@
-[submodule "Push_Back/src/Programming-Push-Back-Common"]
-	path = Push_Back/src/Programming-Push-Back-Common/Programming-Push-Back-Common
-	url = ../Programming-Push-Back-Common.git
+[submodule "Push_Back/src/common"]
+	path = Push_Back/src/common
+	url = ../Programming-Push-Back-Common
 	branch = main
-	
