@@ -94,7 +94,12 @@ add_executable(Programming_Push_Back
         Push_Back/src/math/odometry/OdometryGyro.cpp
         Push_Back/src/math/odometry/OdometryGyro.hpp
 
-        Push_Back/src/common/COBS.cpp
         Push_Back/src/common/SerialHandler.cpp
-
+        Push_Back/src/common/packet/Header.hpp
+        Push_Back/src/common/packet/Packet.hpp
+        Push_Back/src/common/packet/Header.hpp
+        Push_Back/src/common/packet/types/optical.hpp
+        Push_Back/src/common/utils.cpp
+        Push_Back/src/common/utils.hpp
+        Push_Back/src/common/packet/types/encoder.hpp
 )
