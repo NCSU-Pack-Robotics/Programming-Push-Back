@@ -7,8 +7,9 @@
 #include "AutonomousControlScheduler.hpp"
 #include "DriverControlScheduler.hpp"
 #include "subsystems/Drivetrain.hpp"
-#include "common/COBS.hpp"
 #include "common/SerialHandler.hpp"
+#include "common/packet/types/encoder.hpp"
+
 
 // Turn off pros banner. Seems to only work in the macro version
 ENABLE_BANNER(false)
@@ -20,13 +21,6 @@ Drivetrain& drivetrain = AbstractSubsystem::get_instance<Drivetrain>();
 
 // Add subsystems to vector for iteration
 std::vector<AbstractSubsystem*> subsystems = { &drivetrain };
-
-pros::Mutex pi_mutex;
-
-struct test_struct
-{
-    int a, b, c;
-};
 
 
 void pi_communication()
@@ -48,10 +42,8 @@ void initialize() {
     pros::c::serctl(SERCTL_DISABLE_COBS, nullptr);
 
     serial_handler = SerialHandler(DeviceType::BRAIN);
-
-    serial_handler.structs_to_packet_ids.emplace(std::type_index(typeid(test_struct)), PacketId::Hello);
-
-    serial_handler.send(test_struct{1, 2, 3});
+    EncoderData testData{67.69};
+    serial_handler.send(Packet(PacketId::ENCODER, reinterpret_cast<uint8_t*>(&testData), sizeof(testData)));
 
     // Initialize all subsystems
     for (AbstractSubsystem* subsystem : subsystems) {

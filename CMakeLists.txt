@@ -8,6 +8,7 @@ include_directories(Push_Back/include/pros)
 include_directories(Push_Back/src)
 include_directories(Push_Back/src/math)
 include_directories(Push_Back/src/subsystems)
+include_directories(Push_Back/src/common)
 
 if (DO)
     add_definitions(-DDO)
@@ -94,7 +95,15 @@ add_executable(Programming_Push_Back
         Push_Back/src/math/odometry/OdometryGyro.cpp
         Push_Back/src/math/odometry/OdometryGyro.hpp
 
-        Push_Back/src/common/COBS.cpp
+        Push_Back/src/common/utils.cpp
+        Push_Back/src/common/utils.hpp
         Push_Back/src/common/SerialHandler.cpp
-
+        Push_Back/src/common/SerialHandler.hpp
+        Push_Back/src/common/PacketId.hpp
+        Push_Back/src/common/Buffer.cpp
+        Push_Back/src/common/Buffer.hpp
+        Push_Back/src/common/packet/Header.hpp
+        Push_Back/src/common/packet/Packet.hpp
+        Push_Back/src/common/packet/types/encoder.hpp
+        Push_Back/src/common/packet/types/optical.hpp
 )
