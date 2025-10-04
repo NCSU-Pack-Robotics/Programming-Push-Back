@@ -190,3 +190,11 @@ private:
      */
     std::unique_ptr<std::function<void()>> executeFunction;
 };
+
+/** A command that can have its progress tracked and perform tasks at a set progress completed */
+class ProgressCommand : public Command {
+
+public:
+    /** Tracks and returns the desired progress of the ProgressCommand */
+    virtual double get_progress() = 0;
+};

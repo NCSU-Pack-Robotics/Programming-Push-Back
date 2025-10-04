@@ -93,4 +93,6 @@ add_executable(Programming_Push_Back
         Push_Back/src/commands/Instant/SetPose.hpp
         Push_Back/src/math/odometry/OdometryGyro.cpp
         Push_Back/src/math/odometry/OdometryGyro.hpp
+        Push_Back/src/commands/DriveStraightProgress.cpp
+        Push_Back/src/commands/DriveStraightProgress.hpp
 )
