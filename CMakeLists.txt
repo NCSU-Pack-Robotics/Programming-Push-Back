@@ -3,12 +3,30 @@ project(Programming_Push_Back)
 
 set(CMAKE_CXX_STANDARD 23)
 
+set(CMAKE_SYSTEM_NAME Generic)
+set(CMAKE_SYSTEM_PROCESSOR arm)
+
+set(CMAKE_C_COMPILER arm-none-eabi-gcc)
+set(CMAKE_CXX_COMPILER arm-none-eabi-g++)
+set(CMAKE_ASM_COMPILER arm-none-eabi-gcc)
+
+set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
+set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)
+set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
+
 include_directories(Push_Back/include)
 include_directories(Push_Back/include/pros)
 include_directories(Push_Back/src)
-include_directories(Push_Back/src/math)
-include_directories(Push_Back/src/subsystems)
-include_directories(Push_Back/src/common)
+
+# Loop to include all src directories
+file(GLOB_RECURSE SRC_DIRS LIST_DIRECTORIES true Push_Back/src/*)
+foreach(dir ${SRC_DIRS})
+    if(IS_DIRECTORY ${dir})
+        include_directories(${dir})
+    endif()
+endforeach()
+
+
 
 if (DO)
     add_definitions(-DDO)
@@ -16,94 +34,19 @@ elseif(THINK)
     add_definitions(-DTHINK)
 endif()
 
+file(GLOB_RECURSE SRC_FILES Push_Back/src/*.cpp Push_Back/src/*.hpp Push_Back/src/*.h)
+file(GLOB_RECURSE PROS_FILES Push_Back/include/pros/*.hpp Push_Back/include/pros/*.h)
+
+link_directories(Push_Back/firmware)
+
 add_executable(Programming_Push_Back
-        Push_Back/include/pros/abstract_motor.hpp
-        Push_Back/include/pros/adi.h
-        Push_Back/include/pros/adi.hpp
-        Push_Back/include/pros/apix.h
-        Push_Back/include/pros/colors.h
-        Push_Back/include/pros/colors.hpp
-        Push_Back/include/pros/device.h
-        Push_Back/include/pros/device.hpp
-        Push_Back/include/pros/distance.h
-        Push_Back/include/pros/distance.hpp
-        Push_Back/include/pros/error.h
-        Push_Back/include/pros/ext_adi.h
-        Push_Back/include/pros/gps.h
-        Push_Back/include/pros/gps.hpp
-        Push_Back/include/pros/imu.h
-        Push_Back/include/pros/imu.hpp
-        Push_Back/include/pros/link.h
-        Push_Back/include/pros/link.hpp
-        Push_Back/include/pros/llemu.h
-        Push_Back/include/pros/llemu.hpp
-        Push_Back/include/pros/misc.h
-        Push_Back/include/pros/misc.hpp
-        Push_Back/include/pros/motor_group.hpp
-        Push_Back/include/pros/motors.h
-        Push_Back/include/pros/motors.hpp
-        Push_Back/include/pros/optical.h
-        Push_Back/include/pros/optical.hpp
-        Push_Back/include/pros/rotation.h
-        Push_Back/include/pros/rotation.hpp
-        Push_Back/include/pros/rtos.h
-        Push_Back/include/pros/rtos.hpp
-        Push_Back/include/pros/screen.h
-        Push_Back/include/pros/screen.hpp
-        Push_Back/include/pros/serial.h
-        Push_Back/include/pros/serial.hpp
-        Push_Back/include/pros/vision.h
-        Push_Back/include/pros/vision.hpp
         Push_Back/include/api.h
         Push_Back/include/main.h
-        Push_Back/src/math/PID.cpp
-        Push_Back/src/math/PID.hpp
-        Push_Back/src/subsystems/Drivetrain.cpp
-        Push_Back/src/subsystems/Drivetrain.hpp
-        Push_Back/src/AbstractSubsystem.cpp
-        Push_Back/src/AbstractSubsystem.hpp
-        Push_Back/src/Config.hpp
-        Push_Back/src/Timer.cpp
-        Push_Back/src/Timer.hpp
-        Push_Back/src/main.cpp
-        Push_Back/src/ports.hpp
-        Push_Back/src/Pose.hpp
-        Push_Back/src/Constants.hpp
-        Push_Back/src/Command.cpp
-        Push_Back/src/Command.hpp
-        Push_Back/src/DriverControlScheduler.cpp
-        Push_Back/src/DriverControlScheduler.hpp
-        Push_Back/src/asset.hpp
-        Push_Back/src/commands/PurePursuit.cpp
-        Push_Back/src/commands/PurePursuit.hpp
-        Push_Back/src/Pose.cpp
-        Push_Back/src/commands/PurePursuit.cpp
-        Push_Back/src/AutonomousControlScheduler.cpp
-        Push_Back/src/AutonomousControlScheduler.hpp
-        Push_Back/src/ButtonMappings.hpp
-        Push_Back/src/ButtonMappings.cpp
-        Push_Back/src/math/odometry/OdometryArc.cpp
-        Push_Back/src/math/odometry/OdometryArc.hpp
-        Push_Back/src/math/odometry/AbstractOdometry.cpp
-        Push_Back/src/math/odometry/AbstractOdometry.cpp
-        Push_Back/src/math/odometry/AbstractOdometry.hpp
-        Push_Back/src/math/odometry/OdometryArc.cpp
-        Push_Back/src/math/odometry/OdometryArc.hpp
-        Push_Back/src/math/Utils.hpp
-        Push_Back/src/commands/Instant/SetPose.cpp
-        Push_Back/src/commands/Instant/SetPose.hpp
-        Push_Back/src/math/odometry/OdometryGyro.cpp
-        Push_Back/src/math/odometry/OdometryGyro.hpp
 
-        Push_Back/src/common/utils.cpp
-        Push_Back/src/common/utils.hpp
-        Push_Back/src/common/SerialHandler.cpp
-        Push_Back/src/common/SerialHandler.hpp
-        Push_Back/src/common/PacketId.hpp
-        Push_Back/src/common/Buffer.cpp
-        Push_Back/src/common/Buffer.hpp
-        Push_Back/src/common/packet/Header.hpp
-        Push_Back/src/common/packet/Packet.hpp
-        Push_Back/src/common/packet/types/encoder.hpp
-        Push_Back/src/common/packet/types/optical.hpp
+        ${PROS_FILES}
+        ${SRC_FILES}
 )
+
+target_compile_options(Programming_Push_Back PRIVATE -Wno-deprecated-declarations)
+target_compile_options(Programming_Push_Back PRIVATE -Wno-psabi)
+
