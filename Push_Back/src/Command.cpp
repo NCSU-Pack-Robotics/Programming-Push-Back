@@ -62,6 +62,18 @@ bool ChainCommand::is_complete() {
     return command_queue.empty();
 }
 
+
+std::string ChainCommand::to_string() const {
+    std::string result = "ChainCommand(queue: " + std::to_string(command_queue.size()) + " commands left";
+    
+    if (!command_queue.empty()) {
+        result += ", current: " + command_queue.front()->to_string();
+    }
+    
+    result += ")";
+    return result;
+}
+
 ParallelCommand::ParallelCommand(std::initializer_list<std::unique_ptr<Command>> commands) {
     // Initialize the vector
     this->commands = std::vector<std::unique_ptr<Command>>();
@@ -113,6 +125,18 @@ void ParallelCommand::periodic() {
     }
 }
 
+std::string ParallelCommand::to_string() const {
+    std::string result = "ParallelCommand([";
+    for (size_t i = 0; i < commands.size(); i++) {
+        if (i > 0) {
+            result += ", ";
+        }
+        result += commands[i]->to_string();
+    }
+    result += "])";
+    return result;
+}
+
 bool ParallelCommand::is_complete() {
     return commands.empty();
 }
@@ -138,4 +162,8 @@ void InstantCommand::periodic() {
 
 InstantCommand::InstantCommand(std::unique_ptr<std::function<void()>> executeFunction) {
     this->executeFunction = std::move(executeFunction);
+}
+
+std::string InstantCommand::to_string() const {
+    return "InstantCommand()";
 }
