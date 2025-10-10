@@ -24,5 +24,7 @@ public:
     explicit SetPose(const Pose& new_pose);
 
     void execute() override;
+
+    std::string to_string() const override;
 };
 

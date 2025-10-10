@@ -58,3 +58,9 @@ void DriveStraight::shutdown() {
 bool DriveStraight::is_complete() {
     return this->done;
 }
+
+std::string DriveStraight::to_string() const {
+    return "DriveStraight(" + std::to_string(target_distance) + " inches, tolerance: " + 
+           std::to_string(tolerance) + ", max_time: " + std::to_string(max_time) + 
+           "s, elapsed: " + std::to_string(timer.get_duration()) + "s)";
+}

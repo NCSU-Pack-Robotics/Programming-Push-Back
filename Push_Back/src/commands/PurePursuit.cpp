@@ -225,3 +225,23 @@ bool PurePursuit::is_complete() {
 
     return false;
 }
+
+std::string PurePursuit::to_string() const {
+    std::string result = "PurePursuit([";
+
+    for (size_t i = 0; i < path.size(); ++i) {
+        if (i > 0) {
+            result += ", ";
+        }
+        
+        result += "(" + std::to_string(path[i].x) + ", " + std::to_string(path[i].y) + 
+                 ", " + std::to_string(path[i].heading) + ")";
+    }
+    
+    result += "], last_point: (" + std::to_string(last_point.x) + ", " + 
+             std::to_string(last_point.y) + ", " + std::to_string(last_point.heading) + 
+             "), lookahead: " + std::to_string(lookahead) + ", tolerance: " + 
+             std::to_string(tolerance) + ", max_speed: " + std::to_string(max_speed) + ")";
+    
+    return result;
+}

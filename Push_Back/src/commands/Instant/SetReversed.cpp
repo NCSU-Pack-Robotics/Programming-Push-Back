@@ -7,3 +7,14 @@ void SetReversed::execute() {
 
     drivetrain.set_reversing(this->reversed);
 }
+
+std::string SetReversed::to_string() const {
+    std::string result = "SetReversed(";
+    if (reversed) {
+        result += "true";
+    } else {
+        result += "false";
+    }
+    result += ")";
+    return result;
+}
