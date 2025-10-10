@@ -30,3 +30,7 @@ void Turn::shutdown() {
 bool Turn::is_complete() {
     return this->done;
 }
+
+std::string Turn::to_string() const {
+    return "Turn(" + std::to_string(target_degrees) + " degrees, tolerance: " + std::to_string(tolerance) + ")";
+}

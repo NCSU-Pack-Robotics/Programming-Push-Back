@@ -7,6 +7,8 @@ public:
 protected:
     void execute() override;
 
+    std::string to_string() const override;
+
 private:
     bool reversed;
 };

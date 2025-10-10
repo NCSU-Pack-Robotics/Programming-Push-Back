@@ -45,6 +45,13 @@ public:
      * If no follow up is needed, return nullptr.
      */
     // virtual std::unique_ptr<Command> follow_up();
+
+    /**
+     * Returns some identifying string related to what the command does
+     * @return some identifying string related to what the command does
+     */
+    virtual std::string to_string() const = 0;
+
 };
 
 /**
@@ -96,6 +103,12 @@ public:
      * The function is complete when all commands in the chain have been completed and removed.
      */
     bool is_complete() override;
+
+    /**
+     * Returns some identifying string related to what the command does
+     * @return some identifying string related to what the command does
+     */
+    std::string to_string() const override;
 
 private:
     /** The queue of commands to run. */
@@ -153,6 +166,12 @@ public:
      */
     bool is_complete() override;
 
+    /**
+     * Returns some identifying string related to what the command does
+     * @return some identifying string related to what the command does
+     */
+    std::string to_string() const override;
+
 private:
     /** The list of commands to run. */
     std::vector<std::unique_ptr<Command>> commands;
@@ -182,6 +201,12 @@ public:
     /** The function that gets run. By default, it is set in the constructor,
      * but can be overwritten in child classes */
     virtual void execute();
+
+    /**
+     * Returns some identifying string related to what the command does
+     * @return some identifying string related to what the command does
+     */
+    std::string to_string() const override;
 
 private:
     /** The execute function passed from the constructor */

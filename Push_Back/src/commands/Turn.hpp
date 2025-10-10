@@ -32,6 +32,8 @@ public:
 
     bool is_complete() override;
 
+    std::string to_string() const override;
+
 private:
     /** Whether the command is done executing. */
     bool done = false;
