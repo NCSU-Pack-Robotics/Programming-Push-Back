@@ -14,7 +14,7 @@
 // Turn off pros banner. Seems to only work in the macro version
 ENABLE_BANNER(false)
 
-SerialHandler serial_handler(DeviceType::BRAIN);
+SerialHandler serial_handler{};
 
 // Create all subsystems:
 Drivetrain& drivetrain = AbstractSubsystem::get_instance<Drivetrain>();
@@ -41,7 +41,7 @@ void initialize() {
     // Disable pros COBS which seems to include the sout/serr prefixes
     pros::c::serctl(SERCTL_DISABLE_COBS, nullptr);
 
-    serial_handler = SerialHandler(DeviceType::BRAIN);
+    serial_handler = SerialHandler();
     EncoderData testData{67.69};
     serial_handler.send(Packet(PacketId::ENCODER, reinterpret_cast<uint8_t*>(&testData), sizeof(testData)));
 

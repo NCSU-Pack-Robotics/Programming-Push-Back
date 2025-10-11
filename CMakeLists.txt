@@ -34,6 +34,9 @@ elseif(THINK)
     add_definitions(-DTHINK)
 endif()
 
+# For the common module
+add_definitions(-DBRAIN)
+
 file(GLOB_RECURSE SRC_FILES Push_Back/src/*.cpp Push_Back/src/*.hpp Push_Back/src/*.h)
 file(GLOB_RECURSE PROS_FILES Push_Back/include/pros/*.hpp Push_Back/include/pros/*.h)
 
