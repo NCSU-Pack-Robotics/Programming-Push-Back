@@ -184,6 +184,9 @@ public:
     virtual void execute();
 
 private:
-    /** The execute function passed from the constructor */
+    /**
+     * The execute function passed from the constructor
+     * @return A unique pointer to a function that takes no arguments and returns nothing.
+     */
     std::unique_ptr<std::function<void()>> executeFunction;
 };
