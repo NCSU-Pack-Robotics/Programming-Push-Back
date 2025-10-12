@@ -61,5 +61,5 @@ bool DriveStraight::is_complete() {
 }
 
 double DriveStraight::get_progress() {
-    return distance_driven / target_distance;
+    return std::clamp(distance_driven / target_distance, 0.0, 1.0);
 }
