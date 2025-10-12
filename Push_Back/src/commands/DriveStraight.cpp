@@ -29,6 +29,7 @@ void DriveStraight::periodic() {
     // Calculate the distance driven since the start of the command
     distance_driven_left -= this->initial_left_distance;
     distance_driven_right -= this->initial_right_distance;
+    distance_driven = (distance_driven_right + distance_driven_left) / 2;
 
     // Get errors
     const double left_error = target_distance - distance_driven_left;
@@ -57,4 +58,8 @@ void DriveStraight::shutdown() {
 
 bool DriveStraight::is_complete() {
     return this->done;
+}
+
+double DriveStraight::get_progress() {
+    return std::clamp(distance_driven / target_distance, 0.0, 1.0);
 }

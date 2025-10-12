@@ -8,7 +8,7 @@
  * A Command to make the robot drive in a straight line, facing its current heading, forwards or
  * backwards some number of inches.
  */
-class DriveStraight : public Command {
+class DriveStraight : public ProgressCommand {
     /** The number of inches to drive forwards. */
     double target_distance;
 
@@ -42,6 +42,8 @@ public:
 
     bool is_complete() override;
 
+    double get_progress() override;
+
 private:
     /** Whether the command is done executing. */
     bool done = false;
@@ -56,6 +58,9 @@ private:
      * Needs to updated in Drivetrain::initialize() to be accurate.
      */
     double initial_right_distance = 0;
+
+    /** The distance that has currently been covered for use in the progress command */
+    double distance_driven = 0;
 
 
     /** The PID controller used to control the left drive motors. */
