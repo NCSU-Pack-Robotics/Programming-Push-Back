@@ -1,7 +1,7 @@
 #include "AutonomousControlScheduler.hpp"
 
 #include "asset.hpp"
-#include "commands/DriveStraightProgress.hpp"
+#include "commands/DriveStraight.hpp"
 
 // Global paths defined here
 // Ex. ASSET(asset_name_txt)
@@ -14,7 +14,6 @@ AutonomousControlScheduler::AutonomousControlScheduler(): ChainCommand({}) {
     // Add commands to the chain here
     #if THINK
     // Thinks autonomous routine goes here:
-    add_command(std::make_unique<DriveStraightProgress>(36,0));
 
     #elif DO
     // Dos autonomous routine goes here:
