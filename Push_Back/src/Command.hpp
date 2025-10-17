@@ -183,7 +183,7 @@ public:
     InstantCommand() = default;
 
     /** Constructor that allows for a function to be passed as the execute method */
-    explicit InstantCommand(std::unique_ptr<std::function<void()>> executeFunction);
+    explicit InstantCommand(std::unique_ptr<std::function<void()>> executeFunction, std::string description = "");
 
     /** Returns true because InstantCommands only run once */
     bool is_complete() override;
@@ -211,4 +211,7 @@ public:
 private:
     /** The execute function passed from the constructor */
     std::unique_ptr<std::function<void()>> executeFunction;
+
+    /** Optional description */
+    std::string description;
 };

@@ -227,21 +227,35 @@ bool PurePursuit::is_complete() {
 }
 
 std::string PurePursuit::to_string() const {
-    std::string result = "PurePursuit([";
+    std::string result = "PurePursuit(";
+    
+    result += std::to_string(path.size()) + " points, ";
+    
+    Pose current = drivetrain.get_pose();
+    
+    if (!path.empty()) {
+        Pose closest = get_closest_point(current, path);
 
-    for (size_t i = 0; i < path.size(); ++i) {
-        if (i > 0) {
-            result += ", ";
+        size_t pointsLeft = 0;
+        // Find the point closest to the robot and count how many points are left
+        for (size_t i = 0; i < path.size(); i++) {
+            if (path[i].x == closest.x && path[i].y == closest.y && path[i].heading == closest.heading) {
+                pointsLeft = path.size() - i;
+                break;
+            }
         }
+        result += std::to_string(pointsLeft) + " points left, ";
+        result += "start: (" + std::to_string(path[0].x) + ", " + std::to_string(path[0].y) + "), ";
+        result += "end: (" + std::to_string(last_point.x) + ", " + std::to_string(last_point.y) + "), ";
         
-        result += "(" + std::to_string(path[i].x) + ", " + std::to_string(path[i].y) + 
-                 ", " + std::to_string(path[i].heading) + ")";
+        result += "current: (" + std::to_string(current.x) + ", " + std::to_string(current.y) + "), ";
+        Pose next = get_lookahead_point(current, path, lookahead);
+        result += "next: (" + std::to_string(next.x) + ", " + std::to_string(next.y) + "), ";
     }
     
-    result += "], last_point: (" + std::to_string(last_point.x) + ", " + 
-             std::to_string(last_point.y) + ", " + std::to_string(last_point.heading) + 
-             "), lookahead: " + std::to_string(lookahead) + ", tolerance: " + 
-             std::to_string(tolerance) + ", max_speed: " + std::to_string(max_speed) + ")";
+    result += "lookahead: " + std::to_string(lookahead) + ", ";
+    result += "tolerance: " + std::to_string(tolerance) + ", ";
+    result += "max_speed: " + std::to_string(max_speed) + ")";
     
     return result;
 }

@@ -62,12 +62,19 @@ bool ChainCommand::is_complete() {
     return command_queue.empty();
 }
 
-
 std::string ChainCommand::to_string() const {
     std::string result = "ChainCommand(queue: " + std::to_string(command_queue.size()) + " commands left";
     
     if (!command_queue.empty()) {
-        result += ", current: " + command_queue.front()->to_string();
+        result += ",\n  current: ";
+        std::string command_str = command_queue.front()->to_string();
+        
+        for (char c : command_str) {
+            result += c;
+            if (c == '\n') {
+                result += "  ";
+            }
+        }
     }
     
     result += ")";
@@ -126,12 +133,22 @@ void ParallelCommand::periodic() {
 }
 
 std::string ParallelCommand::to_string() const {
-    std::string result = "ParallelCommand([";
+    std::string result = "ParallelCommand([\n";
     for (size_t i = 0; i < commands.size(); i++) {
-        if (i > 0) {
-            result += ", ";
+        std::string command_str = commands[i]->to_string();
+        
+        result += "  ";
+        for (char c : command_str) {
+            result += c;
+            if (c == '\n') {
+                result += "  ";
+            }
         }
-        result += commands[i]->to_string();
+        
+        if (i < commands.size() - 1) {
+            result += ",";
+        }
+        result += "\n";
     }
     result += "])";
     return result;
@@ -160,10 +177,11 @@ void InstantCommand::periodic() {
     // This is never called
 }
 
-InstantCommand::InstantCommand(std::unique_ptr<std::function<void()>> executeFunction) {
+InstantCommand::InstantCommand(std::unique_ptr<std::function<void()>> executeFunction, std::string description) {
     this->executeFunction = std::move(executeFunction);
+    this->description = std::move(description);
 }
 
 std::string InstantCommand::to_string() const {
-    return "InstantCommand()";
+    return "InstantCommand(" + description + ")";
 }
