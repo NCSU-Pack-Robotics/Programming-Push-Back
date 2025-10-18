@@ -7,7 +7,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # Find relevent files
 file(GLOB_RECURSE SRC_FILES Push_Back/src/*.cpp Push_Back/src/*.hpp Push_Back/src/*.h)
 file(GLOB_RECURSE PROS_FILES Push_Back/include/pros/*.hpp Push_Back/include/pros/*.h)
-file(GLOB_RECURSE TEST_FILES CONFIGURE_DEPENDS ./Push_Back/src/test/*.cc)
+file(GLOB_RECURSE TEST_FILES CONFIGURE_DEPENDS ./Push_Back/src/test/*.cc ./Push_Back/src/common/test/*.cc)
 
 # Exclude build and external directories from source/header globs
 list(FILTER SRC_FILES EXCLUDE REGEX ".*/cmake-build-.*|.*/_deps/.*|.*/CMakeFiles/.*")
