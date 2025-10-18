@@ -31,9 +31,17 @@ pkg_check_modules(LIBUSB REQUIRED libusb-1.0)
 
 if (DO)
     add_definitions(-DDO)
-elseif(THINK)
+endif()
+if(THINK)
     add_definitions(-DTHINK)
 endif()
+if (BRAIN)
+    add_definitions(-DBRAIN)
+endif()
+if (PI)
+    add_definitions(-DPI)
+endif()
+
 
 # For the common module
 add_definitions(-DBRAIN)
