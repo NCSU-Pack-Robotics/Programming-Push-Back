@@ -43,7 +43,7 @@ void initialize() {
 
     serial_handler = SerialHandler();
     EncoderData testData{67.69};
-    serial_handler.send(Packet(PacketId::ENCODER, reinterpret_cast<uint8_t*>(&testData), sizeof(testData)));
+    serial_handler.send(Header{PacketId::ENCODER}, testData);
 
     // Initialize all subsystems
     for (AbstractSubsystem* subsystem : subsystems) {
