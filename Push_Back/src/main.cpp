@@ -42,8 +42,8 @@ void initialize() {
     pros::c::serctl(SERCTL_DISABLE_COBS, nullptr);
 
     serial_handler = SerialHandler();
-    EncoderData testData{67.69};
-    serial_handler.send(Header{PacketId::ENCODER}, testData);
+    constexpr EncoderData testData{67.69};
+    serial_handler.send({PacketId::ENCODER, &testData});
 
     // Initialize all subsystems
     for (AbstractSubsystem* subsystem : subsystems) {
