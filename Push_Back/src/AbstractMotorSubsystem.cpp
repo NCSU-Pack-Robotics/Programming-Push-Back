@@ -1,5 +1,13 @@
 #include "AbstractMotorSubsystem.hpp"
 
+AbstractMotorSubsystem::AbstractMotorSubsystem(std::vector<int8_t> motor_ports, 
+                                               pros::v5::MotorGears gear,
+                                               pros::v5::MotorUnits units) {
+    for (auto port : motor_ports) {
+        motors.push_back(std::make_shared<pros::Motor>(port, gear, units));
+    }
+}
+
 void AbstractMotorSubsystem::move() {
     if (braking) {
         brake_now();

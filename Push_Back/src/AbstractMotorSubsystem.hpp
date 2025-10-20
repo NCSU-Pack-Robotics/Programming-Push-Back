@@ -60,7 +60,9 @@ protected:
      * Constructor for AbstractMotorSubsystem.
      * Takes no arguments and is protected to ensure only subclasses can instantiate.
      */
-    AbstractMotorSubsystem() = default;
+    AbstractMotorSubsystem(std::vector<int8_t> motor_ports, 
+        pros::v5::MotorGears gear = pros::v5::MotorGears::blue,
+        pros::v5::MotorUnits units = pros::v5::MotorUnits::degrees);
 
     /** Vector of motor objects used for the subsystem */
     std::vector<std::shared_ptr<pros::Motor>> motors;
