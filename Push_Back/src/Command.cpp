@@ -139,3 +139,47 @@ void InstantCommand::periodic() {
 InstantCommand::InstantCommand(std::unique_ptr<std::function<void()>> executeFunction) {
     this->executeFunction = std::move(executeFunction);
 }
+
+TimelineCommand::TimelineCommand(std::unique_ptr<ProgressCommand> mainCommand,
+    const std::initializer_list<Checkpoint> checkpoints)
+: ParallelCommand({}) {
+    this->mainCommand = std::move(mainCommand);
+
+    for (auto checkpoint : checkpoints) {
+        this->checkpoints.push_back(checkpoint);
+    }
+}
+
+void TimelineCommand::periodic() {
+    // This loop checks mainCommand progress to activate checkpoints
+    if (this->mainCommand) {
+        mainCommand->run();
+
+        const double progress = mainCommand->get_progress();
+
+        auto it = checkpoints.begin();
+
+        // Once a checkpoint is reached, remove it so it doesn't keep adding the same command on subsequent loops
+        while (it != checkpoints.end()) {
+            if (it->activationPoint >= progress) {
+                // ParallelCommand:: is added for clarity
+                ParallelCommand::add_command(std::move(it->command));
+                it = checkpoints.erase(it);
+            } else {
+                ++it;
+            }
+        }
+
+        // Once mainCommand finishes, there is no need to check progress
+        if (this->mainCommand->is_complete()) {
+            mainCommand = nullptr;
+        }
+    }
+
+    // Runs all commands that were part of checkpoints. mainCommand does NOT get run here
+    ParallelCommand::periodic();
+}
+
+void TimelineCommand::shutdown() {}
+
+void TimelineCommand::initialize() {}
