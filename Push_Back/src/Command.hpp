@@ -252,7 +252,7 @@ public:
     * @param mainCommand The command whose progress is tracked to activate other commands
     * @param checkpoints The list of Checkpoints that will activate throughout mainCommand
     */
-    TimelineCommand(std::unique_ptr<ProgressCommand> mainCommand, std::initializer_list<Checkpoint> checkpoints);
+    TimelineCommand(std::unique_ptr<ProgressCommand> mainCommand, std::vector<Checkpoint>&& checkpoints);
 
     std::unique_ptr<ProgressCommand> mainCommand;
     std::vector<Checkpoint> checkpoints;

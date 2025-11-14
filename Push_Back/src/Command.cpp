@@ -140,14 +140,9 @@ InstantCommand::InstantCommand(std::unique_ptr<std::function<void()>> executeFun
     this->executeFunction = std::move(executeFunction);
 }
 
-TimelineCommand::TimelineCommand(std::unique_ptr<ProgressCommand> mainCommand,
-    const std::initializer_list<Checkpoint> checkpoints)
-: ParallelCommand({}) {
-    this->mainCommand = std::move(mainCommand);
+TimelineCommand::TimelineCommand(std::unique_ptr<ProgressCommand> mainCommand, std::vector<Checkpoint>&& checkpoints)
+: ParallelCommand({}), mainCommand(std::move(mainCommand)), checkpoints(std::move(checkpoints)) {
 
-    for (auto checkpoint : checkpoints) {
-        this->checkpoints.push_back(checkpoint);
-    }
 }
 
 void TimelineCommand::periodic() {
