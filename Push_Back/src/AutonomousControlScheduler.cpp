@@ -18,10 +18,12 @@ AutonomousControlScheduler::AutonomousControlScheduler(): ChainCommand({}) {
     // Thinks autonomous routine goes here:
 
     // for testing
-    add_command(make_unique<TimelineCommand>(make_unique<DriveStraight>(12, 2),
-    std::initializer_list<TimelineCommand::Checkpoint>{
-    {1.0, std::make_unique<DriveStraight>(1.0, 1.0)}
-    }));
+    std::vector<TimelineCommand::Checkpoint> checkpoints;
+    checkpoints.emplace_back(1.0, make_unique<DriveStraight>(1.0, 1.0));
+    add_command(make_unique<TimelineCommand>(
+        make_unique<DriveStraight>(1.0, 1.0),
+        std::move(checkpoints)
+    ));
 
     #elif DO
     // Dos autonomous routine goes here:
