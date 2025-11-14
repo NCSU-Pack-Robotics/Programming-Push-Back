@@ -214,24 +214,6 @@ public:
     */
     struct Checkpoint {
         /**
-        * Not sure why we need this but without it the compiler thinks that there is no
-        * Checkpoint constructor
-        */
-        Checkpoint(const Checkpoint &checkpoint) {
-            activationPoint = checkpoint.activationPoint;
-            command = std::unique_ptr<Command>(checkpoint.command.get());
-        }
-
-        /**
-        * We cannot do <code>it = checkpoints.erase(it)</code> without defining the = operator.
-        */
-        Checkpoint& operator=(const Checkpoint & checkpoint) {
-            activationPoint = checkpoint.activationPoint;
-            command = std::unique_ptr<Command>(checkpoint.command.get());
-            return *this;
-        }
-
-        /**
         * The actual constructor for Checkpoint. Takes in an activation point corresponding to
         * an amount of progress along the main command, and a command that starts at that point.
         * @param activationPoint The amount of progress along the main command at which another command activates
