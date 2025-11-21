@@ -6,15 +6,18 @@
 #include <thread>
 #include "AutonomousControlScheduler.hpp"
 #include "DriverControlScheduler.hpp"
+#include "InitializeOptical.hpp"
 #include "subsystems/Drivetrain.hpp"
 #include "common/SerialHandler.hpp"
-#include "common/packet/types/encoder.hpp"
+#include "common/packet/types/Encoder.hpp"
 
 
 // Turn off pros banner. Seems to only work in the macro version
 ENABLE_BANNER(false)
 
 SerialHandler serial_handler{};
+void pi_communication();
+pros::Task communication_task(pi_communication);
 
 // Create all subsystems:
 Drivetrain& drivetrain = AbstractSubsystem::get_instance<Drivetrain>();
@@ -25,11 +28,21 @@ std::vector<AbstractSubsystem*> subsystems = { &drivetrain };
 
 void pi_communication()
 {
+    // Disable pros COBS which seems to include the sout/serr prefixes
+    pros::c::serctl(SERCTL_DISABLE_COBS, nullptr);
+
     // Send a single null byte to be a delimiter between pros/vex junk bytes and our data
     // With cobs off there's actually no bytes sent, but good to have just in case
     fwrite("", 1, 1, stdout);
-}
 
+    serial_handler = SerialHandler();
+
+    serial_handler.add_listener(PacketId::INITIALIZE_OPTICAL_COMPLETE, [](SerialHandler& serial_handler, const Packet& packet) {
+        pros::c::screen_print_at(TEXT_LARGE, 0, 0, "RECEIVED PACKET");
+    });
+
+    serial_handler.send(Packet{{PacketId::INITIALIZE_OPTICAL}, InitializeOptical{}});
+}
 
 /**
  * Runs initialization code. This occurs as soon as the program is started.
@@ -38,19 +51,12 @@ void pi_communication()
  * to keep execution time for this mode under a few seconds.
  */
 void initialize() {
-    // Disable pros COBS which seems to include the sout/serr prefixes
-    pros::c::serctl(SERCTL_DISABLE_COBS, nullptr);
 
-    serial_handler = SerialHandler();
-    constexpr EncoderData testData{67.69};
-    serial_handler.send({PacketId::ENCODER, &testData});
 
     // Initialize all subsystems
     for (AbstractSubsystem* subsystem : subsystems) {
         subsystem->initialize();
     }
-
-    pros::Task communication_task(pi_communication);
 }
 
 /**
