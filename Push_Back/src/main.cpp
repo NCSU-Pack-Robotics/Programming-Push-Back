@@ -6,10 +6,10 @@
 #include <thread>
 #include "AutonomousControlScheduler.hpp"
 #include "DriverControlScheduler.hpp"
-#include "InitializeOptical.hpp"
 #include "subsystems/Drivetrain.hpp"
 #include "common/SerialHandler.hpp"
 #include "common/packet/types/Encoder.hpp"
+#include "common/packet/types/InitializeOptical.hpp"
 
 
 // Turn off pros banner. Seems to only work in the macro version
