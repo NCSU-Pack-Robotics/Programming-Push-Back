@@ -6,6 +6,7 @@
 #include <thread>
 #include "AutonomousControlScheduler.hpp"
 #include "DriverControlScheduler.hpp"
+#include "common/packet/types/Optical.hpp"
 #include "subsystems/Drivetrain.hpp"
 #include "common/SerialHandler.hpp"
 #include "common/packet/types/Encoder.hpp"
@@ -25,6 +26,8 @@ Drivetrain& drivetrain = AbstractSubsystem::get_instance<Drivetrain>();
 // Add subsystems to vector for iteration
 std::vector<AbstractSubsystem*> subsystems = { &drivetrain };
 
+volatile bool debug = false;
+volatile std::float64_t x, y, heading = 0.0;
 
 void pi_communication()
 {
@@ -35,13 +38,26 @@ void pi_communication()
     // With cobs off there's actually no bytes sent, but good to have just in case
     fwrite("", 1, 1, stdout);
 
-    serial_handler = SerialHandler();
-
     serial_handler.add_listener(PacketId::INITIALIZE_OPTICAL_COMPLETE, [](SerialHandler& serial_handler, const Packet& packet) {
-        pros::c::screen_print_at(TEXT_LARGE, 0, 0, "RECEIVED PACKET");
+
     });
 
+    serial_handler.add_listener(PacketId::OPTICAL, [](SerialHandler& serial_handler, const Packet& packet) {
+        debug = true;
+        auto data = packet.get_data<OpticalData>();
+        x = data.x;
+        y = data.y;
+        heading = data.heading;
+    });
+
+
+
     serial_handler.send(Packet{{PacketId::INITIALIZE_OPTICAL}, InitializeOptical{}});
+
+    while (true)
+    {
+        serial_handler.receive();
+    }
 }
 
 /**
@@ -52,7 +68,7 @@ void pi_communication()
  */
 void initialize() {
 
-
+    // debug = true;
     // Initialize all subsystems
     for (AbstractSubsystem* subsystem : subsystems) {
         subsystem->initialize();
@@ -145,7 +161,10 @@ void opcontrol() {
     // TODO: Tell pi we have entered opcontrol
 
     while (true) {
-        // Run the driver control scheduler to get inputs from controller
+        std::float64_t x2 = x;
+        std::float64_t y2 = y;
+        std::float64_t heading2 = heading;
+        if (debug) pros::c::screen_print_at(TEXT_LARGE, 0, 0, std::format("{:.2f} {:.2f} {:.2f}", x2, y2, heading2).c_str());
         driver_scheduler.run();
 
         // Run periodic for all subsystems
