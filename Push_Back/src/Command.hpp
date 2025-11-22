@@ -245,6 +245,8 @@ public:
     */
     void periodic() override;
 
+    bool is_complete() override;
+
     // These shouldn't need to be overridden, but it throws an error if they aren't and TimelineCommand is used
     void shutdown() override;
     void initialize() override;
