@@ -4,13 +4,16 @@
 #include <cstring>
 #include <fcntl.h>
 #include <thread>
+#include <stdfloat>
+
 #include "AutonomousControlScheduler.hpp"
 #include "DriverControlScheduler.hpp"
-#include "common/packet/types/Optical.hpp"
 #include "subsystems/Drivetrain.hpp"
-#include "common/SerialHandler.hpp"
-#include "common/packet/types/Encoder.hpp"
-#include "common/packet/types/InitializeOptical.hpp"
+
+#include "SerialHandler.hpp"
+#include "packets/OpticalPacket.hpp"
+#include "packets/InitializeOpticalPacket.hpp"
+#include "packets/InitializeOpticalCompletePacket.hpp"
 
 
 // Turn off pros banner. Seems to only work in the macro version
@@ -38,21 +41,19 @@ void pi_communication()
     // With cobs off there's actually no bytes sent, but good to have just in case
     fwrite("", 1, 1, stdout);
 
-    serial_handler.add_listener(PacketId::INITIALIZE_OPTICAL_COMPLETE, [](SerialHandler& serial_handler, const Packet& packet) {
+    serial_handler.add_listener<InitializeOpticalCompletePacket>([](SerialHandler& serial_handler, const Packet& packet) {
 
     });
 
-    serial_handler.add_listener(PacketId::OPTICAL, [](SerialHandler& serial_handler, const Packet& packet) {
+    serial_handler.add_listener<OpticalPacket>([](SerialHandler& serial_handler, const Packet& packet) {
         debug = true;
-        auto data = packet.get_data<OpticalData>();
+        auto data = packet.get_data<OpticalPacket>();
         x = data.x;
         y = data.y;
         heading = data.heading;
     });
 
-
-
-    serial_handler.send(Packet{{PacketId::INITIALIZE_OPTICAL}, InitializeOptical{}});
+    serial_handler.send(InitializeOpticalPacket{});
 
     while (true)
     {

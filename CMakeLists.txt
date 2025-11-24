@@ -106,7 +106,8 @@ add_executable(Programming_Push_Back
         ${PROS_FILES}
         ${SRC_FILES}
 )
-target_link_libraries(Programming_Push_Back ${LIBUSB_LIBRARIES})
+
+target_include_directories(Programming_Push_Back PUBLIC Push_Back/dependencies/common/src)
 
 target_compile_options(Programming_Push_Back PRIVATE -Wno-deprecated-declarations)
 target_compile_options(Programming_Push_Back PRIVATE -Wno-psabi)
