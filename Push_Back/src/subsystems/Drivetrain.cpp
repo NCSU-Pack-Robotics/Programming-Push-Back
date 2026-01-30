@@ -61,11 +61,13 @@ void Drivetrain::initialize() {
     back_right_motors.tare_position_all();
     back_right_motors.tare_position_all();
 
+    // TODO: Change these when odom pods are added
     // left_rotation_sensor.reset();
     // right_rotation_sensor.reset();
     // left_rotation_sensor.reset_position();
     // right_rotation_sensor.reset_position();
 
+    // TODO: Change when gyro is added
     // Calibrate the gryo
     // gyro.reset(true);  // Takes about 2 seconds - max 3 seconds
     // gyro.tare();
@@ -93,6 +95,7 @@ void Drivetrain::periodic() {
 
     switch (drive_type) {
         case Constants::DriveType::POWER: {
+            // TODO: Figure out how to reverse; is reversing even needed with an x-drive?
             // if (reversing) {
                 // right_motors.move(direction * left_drive_power);
                 // left_motors.move(direction * right_drive_power);
@@ -104,7 +107,7 @@ void Drivetrain::periodic() {
                 back_left_motors.move(direction * back_left_power);
             // }
 
-            break;  // Fuck bitch fuck (NEED THIS)
+            break;
         }
         case Constants::DriveType::VOLTAGE: {
             // if (reversing) {
@@ -123,6 +126,8 @@ void Drivetrain::periodic() {
 }
 
 void Drivetrain::disabled_periodic() {
+    // Figure out when odom hardware is usable
+
     // In case robot is moved when disabled
     // const double heading = -this->gyro.get_rotation()  * M_PI / 180;
     // this->odometry.calculate(this->get_position(), heading);
@@ -227,6 +232,7 @@ bool Drivetrain::set_reversing(const bool reversing) {
     return old;
 }
 
+// TODO: Figure out when odom hardware is available
 // std::pair<double, double> Drivetrain::get_position(const bool respect_reverse) const {
 //     // Get the positions of the drivetrain in degrees - https://www.vexforum.com/t/get-angle-vs-get-position-pros/115915
 //     double left_position  = left_rotation_sensor.get_position() / 100.0;
