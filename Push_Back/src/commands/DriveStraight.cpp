@@ -47,7 +47,7 @@ void DriveStraight::periodic() {
     drivetrain.set_voltage(left_voltage, right_voltage);
 
     // Check if the command is done
-    if (std::abs(target_distance - distance_driven_right) < tolerance) {
+    if (std::abs(target_distance - distance_driven) < tolerance) {
         this->done = true;
     }
 }
@@ -61,5 +61,5 @@ bool DriveStraight::is_complete() {
 }
 
 double DriveStraight::get_progress() {
-    return std::clamp(distance_driven / target_distance, 0.0, 1.0);
+    return distance_driven / target_distance;
 }
