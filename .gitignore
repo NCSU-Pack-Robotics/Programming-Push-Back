@@ -2,6 +2,7 @@
 
 cmake-build-do
 cmake-build-think
+build
 
 # Compiled Object files
 *.slo

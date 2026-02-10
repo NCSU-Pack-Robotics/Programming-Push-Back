@@ -1,0 +1,2 @@
+cmake -S . -B arm-build -DCMAKE_TOOLCHAIN_FILE=toolchain-arm-none-eabi.cmake
+cmake --build arm-build --target Programming_Push_Back_Common_lib
