@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Build &amp; Upload Think" type="ShConfigurationType">
-    <option name="SCRIPT_TEXT" value="wsl pros make-upload -m EXTRA_CXXFLAGS=&quot;-DTHINK -DBRAIN&quot; -m EXTRA_CFLAGS=&quot;-DTHINK -DBRAIN&quot;" />
+    <option name="SCRIPT_TEXT" value="pros make-upload -m EXTRA_CXXFLAGS=&quot;-DTHINK -DBRAIN&quot; -m EXTRA_CFLAGS=&quot;-DTHINK -DBRAIN&quot;" />
     <option name="INDEPENDENT_SCRIPT_PATH" value="true" />
     <option name="SCRIPT_PATH" value="wsl -d Ubuntu pros make-upload EXTRA_CFLAGS=&quot;-DDO&quot;" />
     <option name="SCRIPT_OPTIONS" value="" />

@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Stop" type="ShConfigurationType">
-    <option name="SCRIPT_TEXT" value="wsl pros v5 stop" />
+    <option name="SCRIPT_TEXT" value="pros v5 stop" />
     <option name="INDEPENDENT_SCRIPT_PATH" value="true" />
     <option name="SCRIPT_PATH" value="" />
     <option name="SCRIPT_OPTIONS" value="" />
