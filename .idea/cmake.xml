@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CMakeSharedSettings">
+    <configurations>
+      <configuration PROFILE_NAME="THINK" ENABLED="true" GENERATION_OPTIONS="-DTHINK=1 -DBRAIN=1 -DCMAKE_TOOLCHAIN_FILE=toolchain-arm-none-eabi.cmake" />
+      <configuration PROFILE_NAME="DO" ENABLED="true" GENERATION_OPTIONS="-DDO=1 -DBRAIN=1 -DCMAKE_TOOLCHAIN_FILE=toolchain-arm-none-eabi.cmake" />
+    </configurations>
+  </component>
+</project>

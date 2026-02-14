@@ -317,8 +317,20 @@ add_custom_command(
 ##############################################################
 # Main Targets
 
+set(FINAL_OUTPUTS
+        ${CMAKE_BINARY_DIR}/cold.package.bin
+        ${PROS_PROJECT_DIR}/bin/cold.package.bin
+        ${CMAKE_BINARY_DIR}/hot.package.bin
+        ${PROS_PROJECT_DIR}/bin/hot.package.bin
+)
+
 # Hot and Cold package target
-add_custom_target(Build_Project ALL
-        DEPENDS ${CMAKE_BINARY_DIR}/cold.package.bin ${PROS_PROJECT_DIR}/bin/cold.package.bin
-                ${CMAKE_BINARY_DIR}/hot.package.bin ${PROS_PROJECT_DIR}/bin/hot.package.bin
+add_custom_target(Build ALL
+        DEPENDS ${FINAL_OUTPUTS}
+)
+
+add_custom_target(Build_and_Upload
+        COMMAND cd ${PROS_PROJECT_DIR} && pros upload
+        DEPENDS Build
+        COMMENT "Uploading to V5 Brain"
 )
