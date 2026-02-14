@@ -225,10 +225,11 @@ add_executable(cold.package.elf ${EMPTY_SOURCE})
 target_link_libraries(cold.package.elf PRIVATE
     -Wl,--whole-archive
     ${COLD_FIRMWARE_LIBS}
+    -lstdc++
     -Wl,--no-whole-archive
     -Wl,--start-group
+    -nostdlib
     gcc
-    stdc++
     c
     m
     nosys
@@ -240,6 +241,23 @@ target_link_options(cold.package.elf PRIVATE
     -T${LINKER_SCRIPT_COLD}
     -Wl,--gc-keep-exported
     ${LDFLAGS_COMMON}  # Needs to be last for --gc-keep-exported to work correctly
+)
+
+add_custom_command(
+    TARGET cold.package.elf
+    POST_BUILD
+    COMMAND ${CMAKE_OBJCOPY}
+        --strip-symbol=install_hot_table
+        --strip-symbol=__libc_init_array
+        --strip-symbol=_PROS_COMPILE_DIRECTORY
+        --strip-symbol=_PROS_COMPILE_TIMESTAMP
+        --strip-symbol=_PROS_COMPILE_TIMESTAMP_INT
+        -O binary
+        -j .text
+        -j .rodata
+        -j .data
+        $<TARGET_FILE:cold.package.elf>
+        ${CMAKE_BINARY_DIR}/cold.package.bin
 )
 
 ##############################################################s
@@ -257,7 +275,18 @@ target_link_libraries(hot.package.elf PRIVATE ${GROUPED_LIBS})
 target_link_options(hot.package.elf PRIVATE
     -T${LINKER_SCRIPT_HOT}
     ${LDFLAGS_COMMON}
+    -nostartfiles
 )
+
+# Create binary
+add_custom_command(
+    TARGET hot.package.elf
+    POST_BUILD
+    COMMAND ${CMAKE_OBJCOPY}
+        ${CMAKE_BINARY_DIR}/hot.package.elf
+        -O binary ${CMAKE_BINARY_DIR}/hot.package.bin
+)
+
 ##############################################################s
 # Main Targets
 
