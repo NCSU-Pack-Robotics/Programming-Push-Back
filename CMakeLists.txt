@@ -117,12 +117,13 @@ if (PI)
 endif ()
 
 # Check for liblvgl llemu files and define macros if they exist
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/Push_Back/include/liblvgl/llemu.h")
+if (EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/Push_Back/include/liblvgl/llemu.h")
     add_definitions(-D_PROS_INCLUDE_LIBLVGL_LLEMU_H)
-endif()
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/Push_Back/include/liblvgl/llemu.hpp")
+endif ()
+if (EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/Push_Back/include/liblvgl/llemu.hpp")
     add_definitions(-D_PROS_INCLUDE_LIBLVGL_LLEMU_HPP)
-endif()
+endif ()
+
 ##############################################################
 # Build dependency libraries
 
@@ -205,16 +206,20 @@ configure_file(
         @ONLY
 )
 
-#add_executable(Programming_Push_Back
-#    ${SRC_FILES}
-#    ${TOP_LEVEL_INCLUDE}
-#)
-#
-#target_link_libraries(Programming_Push_Back PRIVATE ${GROUPED_LIBS})
-#target_include_directories(Programming_Push_Back PRIVATE
-#    Push_Back/include
-#    Push_Back/include/pros
-#)
+##############################################################s
+# Find project.pros file for moving bin files to expected location.
+
+# Find the directory containing pros.project file
+file(GLOB_RECURSE PROS_PROJECT_FILE "${CMAKE_SOURCE_DIR}/*/project.pros")
+if (PROS_PROJECT_FILE)
+    list(GET PROS_PROJECT_FILE 0 PROS_PROJECT_PATH)
+    get_filename_component(PROS_PROJECT_DIR "${PROS_PROJECT_PATH}" DIRECTORY)
+    message(STATUS "Found pros.project at: ${PROS_PROJECT_DIR}")
+    file(MAKE_DIRECTORY ${PROS_PROJECT_DIR}/bin)
+else ()
+    message(WARNING "Could not find project.pros file")
+    set(PROS_PROJECT_DIR "${CMAKE_SOURCE_DIR}")
+endif ()
 
 ##############################################################s
 # Build Cold Package
@@ -253,8 +258,7 @@ target_link_options(cold.package.elf PRIVATE
 
 # Create binary
 add_custom_command(
-        TARGET cold.package.elf
-        POST_BUILD
+        OUTPUT ${CMAKE_BINARY_DIR}/cold.package.bin ${PROS_PROJECT_DIR}/bin/cold.package.bin
         COMMAND ${CMAKE_OBJCOPY}
         --strip-symbol=install_hot_table
         --strip-symbol=__libc_init_array
@@ -268,6 +272,11 @@ add_custom_command(
         -R .hot_init
         $<TARGET_FILE:cold.package.elf>
         ${CMAKE_BINARY_DIR}/cold.package.bin
+        COMMAND ${CMAKE_COMMAND} -E copy
+        ${CMAKE_BINARY_DIR}/cold.package.bin
+        ${PROS_PROJECT_DIR}/bin/cold.package.bin
+        DEPENDS cold.package.elf
+        COMMENT "Creating cold.package.bin"
 )
 
 ##############################################################s
@@ -295,11 +304,15 @@ target_link_options(hot.package.elf PRIVATE
 
 # Create binary
 add_custom_command(
-        TARGET hot.package.elf
-        POST_BUILD
+        OUTPUT ${CMAKE_BINARY_DIR}/hot.package.bin ${PROS_PROJECT_DIR}/bin/hot.package.bin
         COMMAND ${CMAKE_OBJCOPY}
         ${CMAKE_BINARY_DIR}/hot.package.elf
         -O binary ${CMAKE_BINARY_DIR}/hot.package.bin
+        COMMAND ${CMAKE_COMMAND} -E copy
+        ${CMAKE_BINARY_DIR}/hot.package.bin
+        ${PROS_PROJECT_DIR}/bin/hot.package.bin
+        DEPENDS hot.package.elf
+        COMMENT "Creating hot.package.bin"
 )
 
 ##############################################################s
@@ -307,5 +320,6 @@ add_custom_command(
 
 # Hot and Cold package target
 add_custom_target(Build_Project ALL
-        DEPENDS cold.package.elf hot.package.elf
+        DEPENDS ${CMAKE_BINARY_DIR}/cold.package.bin ${PROS_PROJECT_DIR}/bin/cold.package.bin
+                ${CMAKE_BINARY_DIR}/hot.package.bin ${PROS_PROJECT_DIR}/bin/hot.package.bin
 )
