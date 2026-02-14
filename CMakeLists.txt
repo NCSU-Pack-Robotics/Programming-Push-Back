@@ -162,7 +162,7 @@ set(TIMESTAMP_TEMPLATE ${TIMESTAMP_SRC}.in)
 
 # Create template file
 file(WRITE ${TIMESTAMP_TEMPLATE}
-        "const int _PROS_COMPILE_TIMESTAMP_INT = @TIMESTAMP_INT@;
+"const int _PROS_COMPILE_TIMESTAMP_INT = @TIMESTAMP_INT@;
 const char * const _PROS_COMPILE_TIMESTAMP = \"@TIMESTAMP_STR@\";
 const char * const _PROS_COMPILE_DIRECTORY = \"@COMPILE_DIR@\";"
 )
@@ -249,7 +249,6 @@ target_link_libraries(cold.package.elf PRIVATE
         -Wl,--end-group
 )
 
-
 target_link_options(cold.package.elf PRIVATE
         -T${LINKER_SCRIPT_COLD}
         -Wl,--gc-keep-exported
@@ -260,21 +259,21 @@ target_link_options(cold.package.elf PRIVATE
 add_custom_command(
         OUTPUT ${CMAKE_BINARY_DIR}/cold.package.bin ${PROS_PROJECT_DIR}/bin/cold.package.bin
         COMMAND ${CMAKE_OBJCOPY}
-        --strip-symbol=install_hot_table
-        --strip-symbol=__libc_init_array
-        --strip-symbol=_PROS_COMPILE_DIRECTORY
-        --strip-symbol=_PROS_COMPILE_TIMESTAMP
-        --strip-symbol=_PROS_COMPILE_TIMESTAMP_INT
-        $<TARGET_FILE:cold.package.elf>
-        $<TARGET_FILE:cold.package.elf>
+            --strip-symbol=install_hot_table
+            --strip-symbol=__libc_init_array
+            --strip-symbol=_PROS_COMPILE_DIRECTORY
+            --strip-symbol=_PROS_COMPILE_TIMESTAMP
+            --strip-symbol=_PROS_COMPILE_TIMESTAMP_INT
+            $<TARGET_FILE:cold.package.elf>
+            $<TARGET_FILE:cold.package.elf>
         COMMAND ${CMAKE_OBJCOPY}
-        -O binary
-        -R .hot_init
-        $<TARGET_FILE:cold.package.elf>
-        ${CMAKE_BINARY_DIR}/cold.package.bin
+            -O binary
+            -R .hot_init
+            $<TARGET_FILE:cold.package.elf>
+            ${CMAKE_BINARY_DIR}/cold.package.bin
         COMMAND ${CMAKE_COMMAND} -E copy
-        ${CMAKE_BINARY_DIR}/cold.package.bin
-        ${PROS_PROJECT_DIR}/bin/cold.package.bin
+            ${CMAKE_BINARY_DIR}/cold.package.bin
+            ${PROS_PROJECT_DIR}/bin/cold.package.bin
         DEPENDS cold.package.elf
         COMMENT "Creating cold.package.bin"
 )
@@ -306,16 +305,16 @@ target_link_options(hot.package.elf PRIVATE
 add_custom_command(
         OUTPUT ${CMAKE_BINARY_DIR}/hot.package.bin ${PROS_PROJECT_DIR}/bin/hot.package.bin
         COMMAND ${CMAKE_OBJCOPY}
-        ${CMAKE_BINARY_DIR}/hot.package.elf
-        -O binary ${CMAKE_BINARY_DIR}/hot.package.bin
+            ${CMAKE_BINARY_DIR}/hot.package.elf
+            -O binary ${CMAKE_BINARY_DIR}/hot.package.bin
         COMMAND ${CMAKE_COMMAND} -E copy
-        ${CMAKE_BINARY_DIR}/hot.package.bin
-        ${PROS_PROJECT_DIR}/bin/hot.package.bin
+            ${CMAKE_BINARY_DIR}/hot.package.bin
+            ${PROS_PROJECT_DIR}/bin/hot.package.bin
         DEPENDS hot.package.elf
         COMMENT "Creating hot.package.bin"
 )
 
-##############################################################s
+##############################################################
 # Main Targets
 
 # Hot and Cold package target
