@@ -315,14 +315,14 @@ target_link_options(hot.package.elf PRIVATE
 
 # Create binary
 add_custom_command(
-        OUTPUT ${CMAKE_BINARY_DIR}/hot.package.bin ${PROS_PROJECT_DIR}/bin/hot.package.bin
+        TARGET hot.package.elf
+        POST_BUILD
         COMMAND ${CMAKE_OBJCOPY}
             ${CMAKE_BINARY_DIR}/hot.package.elf
             -O binary ${CMAKE_BINARY_DIR}/hot.package.bin
         COMMAND ${CMAKE_COMMAND} -E copy
             ${CMAKE_BINARY_DIR}/hot.package.bin
             ${PROS_PROJECT_DIR}/bin/hot.package.bin
-        DEPENDS hot.package.elf
         COMMENT "Creating hot.package.bin"
 )
 
@@ -331,10 +331,8 @@ add_custom_command(
 ##################################################################################
 
 set(FINAL_OUTPUTS
-        ${CMAKE_BINARY_DIR}/cold.package.bin
-        ${PROS_PROJECT_DIR}/bin/cold.package.bin
-        ${CMAKE_BINARY_DIR}/hot.package.bin
-        ${PROS_PROJECT_DIR}/bin/hot.package.bin
+        cold.package.elf
+        hot.package.elf
 )
 
 # Hot and Cold package target
