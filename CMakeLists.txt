@@ -310,7 +310,7 @@ target_link_options(hot.package.elf PRIVATE
         -T${LINKER_SCRIPT_HOT}
         ${LDFLAGS_COMMON}
         -nostartfiles
-        -Wl,-R,${CMAKE_BINARY_DIR}/cold.package.elf
+        -Wl,-R,$<TARGET_FILE:cold.package.elf>
 )
 
 # Create binary
