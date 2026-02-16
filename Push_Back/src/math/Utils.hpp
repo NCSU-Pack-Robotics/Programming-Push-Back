@@ -13,7 +13,7 @@ public:
      * @return The RPM converted to inches per second.
      */
     static inline double rpm_to_ips(const double rpm) {
-        return rpm * Constants::Hardware::TRACKING_DIAMETER * Constants::Math::PI *
+        return rpm * Constants::Hardware::TRACKING_DIAMETER * M_PI *
                Constants::Hardware::TRACKING_RATIO / 60;
     }
 
@@ -25,7 +25,7 @@ public:
      */
     static inline double degrees_to_inches(const double position) {
         return Constants::Hardware::TRACKING_RATIO * Constants::Hardware::TRACKING_DIAMETER *
-               Constants::Math::PI * (position / 360);
+               M_PI * (position / 360);
     }
 
     /**
@@ -33,9 +33,9 @@ public:
      * @return The normalized angle in radians.
      */
     static inline double ensure_positive_radians(double radians) {
-        radians = fmod(radians, Constants::Math::TAU);
+        radians = fmod(radians, M_TWOPI);
         if (radians < 0) {
-            radians += Constants::Math::TAU;
+            radians += M_TWOPI;
         }
 
         return radians;

@@ -8,10 +8,13 @@ set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS ON) # this makes it "gnu++23"
 
+set(CMAKE_TOOLCHAIN_FILE toolchain-arm-none-eabi.cmake CACHE STRING "Toolchain file")
+
 project(Programming_Push_Back C CXX ASM)
 
-############################################################
+##################################################################################
 # Compilation & Linking flags
+##################################################################################
 
 # Linker flags and scripts
 set(LINKER_SCRIPT_HOT ${CMAKE_CURRENT_SOURCE_DIR}/Push_Back/firmware/v5-hot.ld)
@@ -62,8 +65,9 @@ add_compile_options(${CPP_FLAGS} ${MFLAGS} ${GCCFLAGS} ${WARNFLAGS})
 string(APPEND CMAKE_C_FLAGS " $ENV{EXTRA_CFLAGS}")
 string(APPEND CMAKE_CXX_FLAGS " $ENV{EXTRA_CXXFLAGS}")
 
-############################################################
+##################################################################################
 # Find necessary files, libraries, and subdirectories
+##################################################################################
 
 # Files  TODO: This glob method of finding source files is actively discouraged by CMake
 file(GLOB_RECURSE SRC_FILES CONFIGURE_DEPENDS
@@ -100,21 +104,24 @@ include_directories(
         Push_Back/include/pros
 )
 
-##############################################################
-# Definitions
+##################################################################################
+# Definitions and Options
+##################################################################################
 
-if (DO)
-    add_definitions(-DDO)
-endif ()
-if (THINK)
-    add_definitions(-DTHINK)
-endif ()
-if (BRAIN)
-    add_definitions(-DBRAIN)
-endif ()
-if (PI)
-    add_definitions(-DPI)
-endif ()
+# Options to include/exclude parts of the codebase
+option(THINK "Include THINK robot's code" ON)
+option(DO "Include DO robot's code" OFF)
+option(BRAIN "Code will run on the VEX Brain" ON)
+option(PI "Code will run on a Raspberry Pi" OFF)
+
+# Create interface library for definitions from the options
+add_library(config INTERFACE)
+target_compile_definitions(config INTERFACE
+        THINK=$<BOOL:${THINK}>
+        DO=$<BOOL:${DO}>
+        BRAIN=$<BOOL:${BRAIN}>
+        PI=$<BOOL:${PI}>
+)
 
 # Check for liblvgl llemu files and define macros if they exist
 if (EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/Push_Back/include/liblvgl/llemu.h")
@@ -124,8 +131,9 @@ if (EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/Push_Back/include/liblvgl/llemu.hpp")
     add_definitions(-D_PROS_INCLUDE_LIBLVGL_LLEMU_HPP)
 endif ()
 
-##############################################################
+##################################################################################
 # Build dependency libraries
+##################################################################################
 
 list(APPEND BUILT_LIBS)
 
@@ -153,8 +161,9 @@ set(GROUPED_LIBS
         -Wl,--end-group
 )
 
-##############################################################s
+##################################################################################
 # Create timestamp
+##################################################################################
 
 # File paths
 set(TIMESTAMP_SRC ${CMAKE_BINARY_DIR}/_pros_ld_timestamp.c)
@@ -206,8 +215,9 @@ configure_file(
         @ONLY
 )
 
-##############################################################s
+##################################################################################
 # Find project.pros file for moving bin files to expected location.
+##################################################################################
 
 # Find the directory containing pros.project file
 file(GLOB_RECURSE PROS_PROJECT_FILE "${CMAKE_SOURCE_DIR}/*/project.pros")
@@ -221,8 +231,9 @@ else ()
     set(PROS_PROJECT_DIR "${CMAKE_SOURCE_DIR}")
 endif ()
 
-##############################################################s
+##################################################################################
 # Build Cold Package
+##################################################################################
 
 # Libraries to link
 set(COLD_FIRMWARE_LIBS ${FIRMWARE_LIBS})
@@ -277,8 +288,9 @@ add_custom_command(
         COMMENT "Creating cold.package.bin"
 )
 
-##############################################################s
+##################################################################################
 # Build Hot Package
+##################################################################################
 
 # Hot Package
 add_executable(hot.package.elf
@@ -291,6 +303,7 @@ add_dependencies(hot.package.elf cold.package.elf)
 
 target_link_libraries(hot.package.elf PRIVATE
         ${GROUPED_LIBS}
+        config
 )
 
 target_link_options(hot.package.elf PRIVATE
@@ -313,8 +326,9 @@ add_custom_command(
         COMMENT "Creating hot.package.bin"
 )
 
-##############################################################
+##################################################################################
 # Main Targets
+##################################################################################
 
 set(FINAL_OUTPUTS
         ${CMAKE_BINARY_DIR}/cold.package.bin
