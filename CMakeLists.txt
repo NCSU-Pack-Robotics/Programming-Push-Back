@@ -257,14 +257,14 @@ target_link_options(cold.package.elf PRIVATE
 
 # Create binary
 add_custom_command(
-        OUTPUT ${CMAKE_BINARY_DIR}/cold.package.bin ${PROS_PROJECT_DIR}/bin/cold.package.bin
+        TARGET cold.package.elf
+        POST_BUILD
         COMMAND ${CMAKE_OBJCOPY}
             --strip-symbol=install_hot_table
             --strip-symbol=__libc_init_array
             --strip-symbol=_PROS_COMPILE_DIRECTORY
             --strip-symbol=_PROS_COMPILE_TIMESTAMP
             --strip-symbol=_PROS_COMPILE_TIMESTAMP_INT
-            $<TARGET_FILE:cold.package.elf>
             $<TARGET_FILE:cold.package.elf>
         COMMAND ${CMAKE_OBJCOPY}
             -O binary
@@ -274,7 +274,6 @@ add_custom_command(
         COMMAND ${CMAKE_COMMAND} -E copy
             ${CMAKE_BINARY_DIR}/cold.package.bin
             ${PROS_PROJECT_DIR}/bin/cold.package.bin
-        DEPENDS cold.package.elf
         COMMENT "Creating cold.package.bin"
 )
 
