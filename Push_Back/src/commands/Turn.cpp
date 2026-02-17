@@ -15,7 +15,7 @@ void Turn::periodic() {
     const double output = this->pid.calculate(error);
 
     // Move drivetrain
-    drivetrain.set_voltage(-output, output);
+    // drivetrain.set_voltage(-output, output);
 
     // Check if we are done
     if (fabs(error) < this->tolerance) {
