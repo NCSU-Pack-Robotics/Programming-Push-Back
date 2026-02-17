@@ -24,35 +24,37 @@ int32_t DriverControlScheduler::scale_power(const int32_t power, double scaling_
 }
 
 void DriverControlScheduler::periodic() {
+#if THINK
+    // Normal controls
+    double x = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X) / 127.0;
+    double y = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y) / 127.0;
+    double r = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_X) / 127.0;
+    // TODO: Test how this feels
+    // double r = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_X) / 127.0 * 0.6;
 
-    // double x = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X) / 127.0;
-    // double y = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y) / 127.0;
-    // double r = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_X) / 127.0;
-    // // double r = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_X) / 127.0 * 0.6;
-    //
-    // double fl = y + x + r;
-    // double fr = y - x - r;
-    // double bl = y - x + r;
-    // double br = y + x - r;
-    //
-    //
-    // double maxMag = std::max({fabs(fl), fabs(fr), fabs(bl), fabs(br)});
-    // if (maxMag > 1.0) {
-    //     fl /= maxMag;
-    //     fr /= maxMag;
-    //     bl /= maxMag;
-    //     br /= maxMag;
-    // }
-    //
-    // drivetrain.set_drive_power(static_cast<int32_t>(fl) * 127, static_cast<int32_t>(fr) * 127, static_cast<int32_t>(br) * 127, static_cast<int32_t>(bl) * 127);
+    double fl = y + x + r;
+    double fr = y - x - r;
+    double bl = y - x + r;
+    double br = y + x - r;
 
+
+    double maxMag = std::max({fabs(fl), fabs(fr), fabs(bl), fabs(br)});
+    if (maxMag > 1.0) {
+        fl /= maxMag;
+        fr /= maxMag;
+        bl /= maxMag;
+        br /= maxMag;
+    }
+
+    drivetrain.set_drive_power(static_cast<int32_t>(fl) * 127, static_cast<int32_t>(fr) * 127, static_cast<int32_t>(br) * 127, static_cast<int32_t>(bl) * 127);
+#endif
+
+#if DO
+    // Garret's controls
     double left_x = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_X) / 127.0;
     double left_y = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y) / 127.0;
     double right_x = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X) / 127.0;
     double right_y = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y) / 127.0;
-
-    // double r = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_X) / 127.0;
-    // double r = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_X) / 127.0 * 0.6;
 
     double fl = left_y + left_x;
     double bl = left_y - left_x;
@@ -60,29 +62,7 @@ void DriverControlScheduler::periodic() {
     double br = right_y + left_x;
 
     drivetrain.set_drive_power(static_cast<int32_t>(fl) * 127, static_cast<int32_t>(fr) * 127, static_cast<int32_t>(br) * 127, static_cast<int32_t>(bl) * 127);
-
-
-    // double maxMag = std::max({fabs(fl), fabs(fr), fabs(bl), fabs(br)});
-    // if (maxMag > 1.0) {
-    //     fl /= maxMag;
-    //     fr /= maxMag;
-    //     bl /= maxMag;
-    //     br /= maxMag;
-    // }
-
-
-
-
-
-    // const int32_t left_power_scaled = scale_power(left_power, Constants::Controller::INPUT_SCALING_FACTOR);
-    // const int32_t right_power_scaled = scale_power(right_power, Constants::Controller::INPUT_SCALING_FACTOR);
-    //
-    // if (abs(left_power_scaled) > 1 || abs(right_power_scaled) > 1) {
-    //     drivetrain.set_drive_power(left_power_scaled, right_power_scaled);
-    //     drivetrain.set_braking(false);
-    // } else {
-    //     drivetrain.set_drive_power(0,0);
-    // }
+#endif
 
     for (auto &[button, command] : BINDS) {
         // controller state for this tick
