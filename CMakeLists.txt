@@ -355,3 +355,8 @@ add_custom_target(Stop
         COMMAND cd ${PROJECT_SOURCE_DIR} && pros v5 stop
         COMMENT "Stopping program on V5 Brain"
 )
+
+add_custom_target(Terminal
+        COMMAND cd ${PROJECT_SOURCE_DIR} && pros terminal
+        COMMENT "Opening terminal for V5 Brain"
+)
