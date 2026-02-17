@@ -345,3 +345,13 @@ add_custom_target(Build_and_Upload
         DEPENDS Build
         COMMENT "Uploading to V5 Brain"
 )
+
+add_custom_target(Run
+        COMMAND cd ${PROJECT_SOURCE_DIR} && pros v5 run
+        COMMENT "Running on V5 Brain"
+)
+
+add_custom_target(Stop
+        COMMAND cd ${PROJECT_SOURCE_DIR} && pros v5 stop
+        COMMENT "Stopping program on V5 Brain"
+)
