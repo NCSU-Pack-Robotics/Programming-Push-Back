@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Clean" type="ShConfigurationType">
+  <configuration default="false" name="Clean" type="ShConfigurationType" singleton="false">
     <option name="SCRIPT_TEXT" value="pros make clean" />
     <option name="INDEPENDENT_SCRIPT_PATH" value="true" />
     <option name="SCRIPT_PATH" value="" />
