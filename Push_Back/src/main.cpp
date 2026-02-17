@@ -9,6 +9,7 @@
 #include "AutonomousControlScheduler.hpp"
 #include "DriverControlScheduler.hpp"
 #include "subsystems/Drivetrain.hpp"
+#include "subsystems/SerialHandlerSubsystem.hpp"
 
 #include "SerialHandler.hpp"
 #include "packets/OpticalPacket.hpp"
@@ -25,6 +26,7 @@ pros::Task communication_task(pi_communication);
 
 // Create all subsystems:
 Drivetrain& drivetrain = AbstractSubsystem::get_instance<Drivetrain>();
+SerialHandlerSubsystem& serial_handler_subsystem = AbstractSubsystem::get_instance<SerialHandlerSubsystem>();
 
 // Add subsystems to vector for iteration
 std::vector<AbstractSubsystem*> subsystems = { &drivetrain };
