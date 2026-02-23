@@ -9,9 +9,9 @@
 #include "AutonomousControlScheduler.hpp"
 #include "DriverControlScheduler.hpp"
 #include "subsystems/Drivetrain.hpp"
-#include "subsystems/SerialHandlerSubsystem.hpp"
 
 #include "SerialHandler.hpp"
+#include "SerialHandlerBrain.hpp"
 #include "packets/OpticalPacket.hpp"
 #include "packets/InitializeOpticalPacket.hpp"
 #include "packets/InitializeOpticalCompletePacket.hpp"
@@ -20,19 +20,16 @@
 // Turn off pros banner. Seems to only work in the macro version
 ENABLE_BANNER(false)
 
-SerialHandler serial_handler{};
 void pi_communication();
 pros::Task communication_task(pi_communication);
 
 // Create all subsystems:
 Drivetrain& drivetrain = AbstractSubsystem::get_instance<Drivetrain>();
-SerialHandlerSubsystem& serial_handler_subsystem = AbstractSubsystem::get_instance<SerialHandlerSubsystem>();
 
 // Add subsystems to vector for iteration
 std::vector<AbstractSubsystem*> subsystems = { &drivetrain };
 
-volatile bool debug = false;
-volatile std::float64_t x, y, heading = 0.0;
+SerialHandlerBrain serial_handler;
 
 void pi_communication()
 {
@@ -48,11 +45,7 @@ void pi_communication()
     });
 
     serial_handler.add_listener<OpticalPacket>([](SerialHandler& serial_handler, const Packet& packet) {
-        debug = true;
-        auto data = packet.get_data<OpticalPacket>();
-        x = data.x;
-        y = data.y;
-        heading = data.heading;
+
     });
 
     serial_handler.send(InitializeOpticalPacket{});
@@ -164,10 +157,17 @@ void opcontrol() {
     // TODO: Tell pi we have entered opcontrol
 
     while (true) {
-        std::float64_t x2 = x;
-        std::float64_t y2 = y;
-        std::float64_t heading2 = heading;
-        if (debug) pros::c::screen_print_at(TEXT_LARGE, 0, 0, std::format("{:.2f} {:.2f} {:.2f}", x2, y2, heading2).c_str());
+        std::optional<Packet> packet = serial_handler.pop_latest<OpticalPacket>();
+        // Print received data or 0 if not received. As long as PI sends faster than this loop delay this should work for this test
+        // TODO: Test it
+        std::float64_t x{}, y{}, heading{};
+        if (packet.has_value())
+        {
+            x = packet->get_data<OpticalPacket>().x;
+            y = packet->get_data<OpticalPacket>().y;
+            heading = packet->get_data<OpticalPacket>().heading;
+        }
+        pros::c::screen_print_at(TEXT_LARGE, 0, 0, std::format("{:.2f} {:.2f} {:.2f}", x, y, heading).c_str());
         driver_scheduler.run();
 
         // Run periodic for all subsystems
