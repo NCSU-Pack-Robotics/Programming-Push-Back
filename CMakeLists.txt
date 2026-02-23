@@ -46,17 +46,6 @@ set(WARNFLAGS
         -Wno-psabi
         -Wno-deprecated-declarations  # PROS uses lots of deprecated functions internally
 )
-set(LDFLAGS_COMMON
-        ${MFLAGS}
-        ${WARNFLAGS}
-        ${GCCFLAGS}
-        -T${LINKER_SCRIPT_COMMON}
-        -Wl,--gc-sections
-        -Wl,--no-warn-rwx-segments
-        -Wl,--sort-section=alignment
-        -Wl,--sort-common
-        -nostdlib
-)
 
 # Combine flags
 add_compile_options(${CPP_FLAGS} ${MFLAGS} ${GCCFLAGS} ${WARNFLAGS})
@@ -91,8 +80,6 @@ file(GLOB_RECURSE COMMON_FILES CONFIGURE_DEPENDS
 file(GLOB FIRMWARE_LIBS
         ${CMAKE_CURRENT_SOURCE_DIR}/Push_Back/firmware/*.a
 )
-file(GLOB_RECURSE TEST_FILES CONFIGURE_DEPENDS
-        *\.cc)
 
 # Exclude build and external directories from source/header globs
 list(FILTER SRC_FILES EXCLUDE REGEX ".*/cmake-build-.*|.*/_deps/.*|.*/CMakeFiles/.*")
@@ -135,6 +122,8 @@ endif ()
 # Build dependency libraries
 ##################################################################################
 
+# TODO: These should be built through their own CMakeLists.txt files in their respective directories with `add_subdirectory()`
+
 list(APPEND BUILT_LIBS)
 
 # Common library—shared between multiple projects
@@ -146,20 +135,6 @@ target_include_directories(common PUBLIC
 )
 add_subdirectory(Push_Back/dependencies/common)
 list(APPEND BUILT_LIBS common)
-
-# Group all archives and standard libs to resolve circular deps like in Makefile
-# Put start/end group directly in link libraries so they surround archives
-set(GROUPED_LIBS
-        -Wl,--start-group
-        ${FIRMWARE_LIBS}
-        ${BUILT_LIBS}
-        gcc
-        stdc++
-        c
-        m
-        nosys
-        -Wl,--end-group
-)
 
 ##################################################################################
 # Create timestamp
@@ -244,49 +219,64 @@ list(FILTER COLD_FIRMWARE_LIBS EXCLUDE REGEX "libm\.a$")
 set(EMPTY_SOURCE ${CMAKE_BINARY_DIR}/_cold_dummy.c)  # Need a dummy file for to make an executable
 file(WRITE ${EMPTY_SOURCE} "")  # Empty bc libpros.a provides main()
 
-add_executable(cold.package.elf ${EMPTY_SOURCE})
+#target_link_libraries(${COLD_FIRMWARE_LIBS} config)
+list(TRANSFORM COLD_FIRMWARE_LIBS PREPEND "-Wl," OUTPUT_VARIABLE COLD_FIRMWARE_LIBS_WL)
+list(TRANSFORM FIRMWARE_LIBS PREPEND "-Wl," OUTPUT_VARIABLE FIRMWARE_LIBS_WL)
 
-target_link_libraries(cold.package.elf PRIVATE
-        -Wl,--whole-archive
-        ${COLD_FIRMWARE_LIBS}
-        -lstdc++
-        -Wl,--no-whole-archive
-        -Wl,--start-group
-        -nostdlib
-        gcc
-        c
-        m
-        nosys
-        -Wl,--end-group
-)
-
-target_link_options(cold.package.elf PRIVATE
-        -T${LINKER_SCRIPT_COLD}
-        -Wl,--gc-keep-exported
-        ${LDFLAGS_COMMON}  # Needs to be last for --gc-keep-exported to work correctly
+add_custom_command(
+        OUTPUT ${CMAKE_BINARY_DIR}/cold.package.elf
+        COMMAND ${CMAKE_LINKER}
+            ${MFLAGS}
+            ${WARNFLAGS}
+            -nostdlib
+            ${GCCFLAGS}
+            -Wl,--gc-keep-exported
+            -Wl,--whole-archive
+            ${COLD_FIRMWARE_LIBS_WL}
+            -Wl,-lstdc++
+            -Wl,--no-whole-archive
+            -T${LINKER_SCRIPT_COLD}
+            -Wl,--gc-sections
+            -Wl,--start-group
+            ${FIRMWARE_LIBS_WL}
+            -Wl,-lgcc
+            -Wl,-lc
+            -Wl,-lm
+            -Wl,-lnosys
+            -Wl,--end-group
+            -T${LINKER_SCRIPT_COMMON}
+            -Wl,--no-warn-rwx-segments
+            -Wl,--sort-section=alignment
+            -Wl,--sort-common
+            $<TARGET_FILE:common>
+            -o ${CMAKE_BINARY_DIR}/cold.package.elf
+        DEPENDS ${COLD_FIRMWARE_LIBS} common
+        COMMENT "Linking cold.package.elf"
 )
 
 # Create binary
 add_custom_command(
-        TARGET cold.package.elf
-        POST_BUILD
+        OUTPUT ${CMAKE_BINARY_DIR}/cold.package.bin
+        DEPENDS ${CMAKE_BINARY_DIR}/cold.package.elf
         COMMAND ${CMAKE_OBJCOPY}
             --strip-symbol=install_hot_table
             --strip-symbol=__libc_init_array
             --strip-symbol=_PROS_COMPILE_DIRECTORY
             --strip-symbol=_PROS_COMPILE_TIMESTAMP
             --strip-symbol=_PROS_COMPILE_TIMESTAMP_INT
-            $<TARGET_FILE:cold.package.elf>
+            ${CMAKE_BINARY_DIR}/cold.package.elf
         COMMAND ${CMAKE_OBJCOPY}
             -O binary
             -R .hot_init
-            $<TARGET_FILE:cold.package.elf>
+            ${CMAKE_BINARY_DIR}/cold.package.elf
             ${CMAKE_BINARY_DIR}/cold.package.bin
         COMMAND ${CMAKE_COMMAND} -E copy
             ${CMAKE_BINARY_DIR}/cold.package.bin
             ${PROS_PROJECT_DIR}/bin/cold.package.bin
         COMMENT "Creating cold.package.bin"
 )
+
+add_custom_target(cold_package DEPENDS ${CMAKE_BINARY_DIR}/cold.package.bin)
 
 ##################################################################################
 # Build Hot Package
@@ -299,18 +289,34 @@ add_executable(hot.package.elf
         ${TIMESTAMP_SRC}
 )
 
-add_dependencies(hot.package.elf cold.package.elf)
+add_dependencies(hot.package.elf cold_package)
 
 target_link_libraries(hot.package.elf PRIVATE
-        ${GROUPED_LIBS}
+        -Wl,--start-group
+        ${FIRMWARE_LIBS}
+        ${BUILT_LIBS}
+        gcc
+        stdc++
+        c
+        m
+        nosys
+        -Wl,--end-group
         config
 )
 
 target_link_options(hot.package.elf PRIVATE
         -T${LINKER_SCRIPT_HOT}
-        ${LDFLAGS_COMMON}
+        ${MFLAGS}
+        ${WARNFLAGS}
+        ${GCCFLAGS}
+        -T${LINKER_SCRIPT_COMMON}
+        -Wl,--gc-sections
+        -Wl,--no-warn-rwx-segments
+        -Wl,--sort-section=alignment
+        -Wl,--sort-common
+        -nostdlib
         -nostartfiles
-        -Wl,-R,$<TARGET_FILE:cold.package.elf>
+        -Wl,-R,${CMAKE_BINARY_DIR}/cold.package.elf
 )
 
 # Create binary
@@ -331,12 +337,12 @@ add_custom_command(
 ##################################################################################
 
 set(FINAL_OUTPUTS
-        cold.package.elf
+        cold_package
         hot.package.elf
 )
 
 # Hot and Cold package target
-add_custom_target(Build ALL
+add_custom_target(Build
         DEPENDS ${FINAL_OUTPUTS}
 )
 
