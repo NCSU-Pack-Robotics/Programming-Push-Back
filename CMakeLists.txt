@@ -86,8 +86,7 @@ endif ()
 ##################################################################################
 
 list(APPEND BUILT_LIBS)
-add_subdirectory(Push_Back/dependencies/common)
-list(APPEND BUILT_LIBS Programming_Push_Back_Common_lib)
+add_subdirectory(Push_Back/dependencies)
 
 ##################################################################################
 # Compilation & Linking flags
@@ -229,6 +228,7 @@ list(FILTER COLD_FIRMWARE_LIBS EXCLUDE REGEX "libm\.a$")
 set(BUILT_LIBS_GENEX "")
 foreach(lib IN LISTS BUILT_LIBS)
     list(APPEND BUILT_LIBS_GENEX "$<TARGET_FILE:${lib}>")
+    message(STATUS "Added generator expression for: ${lib}")
 endforeach()
 
 #target_link_libraries(${COLD_FIRMWARE_LIBS} config)
