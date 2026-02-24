@@ -17,7 +17,7 @@ target_link_libraries(Programming_Push_Back_lib PUBLIC
 
 # Suppress  warnings from PROS headers
 target_compile_options(Programming_Push_Back_lib PRIVATE
-        -Wno-deprecated-literal-operator
+        -Wno-deprecated-literal-operator  # May not be necessary with some compilers
         -Wno-deprecated-declarations
         -Wno-psabi
         -Wno-cpp
