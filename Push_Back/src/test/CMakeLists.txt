@@ -12,7 +12,7 @@ add_library(Programming_Push_Back_lib STATIC
 
 target_link_libraries(Programming_Push_Back_lib PUBLIC
         config
-        common
+        ${BUILT_LIBS}
 )
 
 # Suppress  warnings from PROS headers

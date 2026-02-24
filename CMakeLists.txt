@@ -77,16 +77,19 @@ include_directories(
         Push_Back/include/pros
 )
 
-if (TESTING)  # Should be after file globs so they can be used in test build
-    add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/Push_Back/src/test")
-endif ()
-
 ##################################################################################
 # Build dependency libraries
 ##################################################################################
 
 list(APPEND BUILT_LIBS)
 add_subdirectory(Push_Back/dependencies)
+
+##################################################################################
+# Everything Testing
+##################################################################################
+if (TESTING)  # Should be after dependencies so they can be used in test build
+    add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/Push_Back/src/test")
+endif ()
 
 ##################################################################################
 # Compilation & Linking flags
