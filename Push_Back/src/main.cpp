@@ -11,7 +11,6 @@
 #include "subsystems/Drivetrain.hpp"
 
 #include "SerialHandler.hpp"
-#include "SerialHandlerBrain.hpp"
 #include "packets/OpticalPacket.hpp"
 #include "packets/InitializeOpticalPacket.hpp"
 #include "packets/InitializeOpticalCompletePacket.hpp"
@@ -29,7 +28,7 @@ Drivetrain& drivetrain = AbstractSubsystem::get_instance<Drivetrain>();
 // Add subsystems to vector for iteration
 std::vector<AbstractSubsystem*> subsystems = { &drivetrain };
 
-SerialHandlerBrain serial_handler;
+SerialHandler serial_handler;
 
 void pi_communication()
 {
