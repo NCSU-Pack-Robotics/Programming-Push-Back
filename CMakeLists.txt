@@ -32,10 +32,6 @@ target_compile_definitions(config INTERFACE
         PI=$<BOOL:${PI}>
 )
 
-if (NOT TESTING)
-    set(CMAKE_TOOLCHAIN_FILE toolchain-arm-none-eabi.cmake CACHE STRING "Toolchain file")
-endif ()
-
 # Check for liblvgl llemu files and define macros if they exist
 if (EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/Push_Back/include/liblvgl/llemu.h")
     add_definitions(-D_PROS_INCLUDE_LIBLVGL_LLEMU_H)
@@ -89,19 +85,9 @@ endif ()
 # Build dependency libraries
 ##################################################################################
 
-# TODO: These should be built through their own CMakeLists.txt files in their respective directories with `add_subdirectory()`
-
 list(APPEND BUILT_LIBS)
-
-# Common library—shared between multiple projects
-add_library(common STATIC
-        ${COMMON_FILES}
-)
-target_include_directories(common PUBLIC
-        Push_Back/dependencies/common/src
-)
 add_subdirectory(Push_Back/dependencies/common)
-list(APPEND BUILT_LIBS common)
+list(APPEND BUILT_LIBS Programming_Push_Back_Common_lib)
 
 ##################################################################################
 # Compilation & Linking flags
@@ -239,8 +225,11 @@ set(COLD_FIRMWARE_LIBS ${FIRMWARE_LIBS})
 list(FILTER COLD_FIRMWARE_LIBS EXCLUDE REGEX "libc\.a$")
 list(FILTER COLD_FIRMWARE_LIBS EXCLUDE REGEX "libm\.a$")
 
-set(EMPTY_SOURCE ${CMAKE_BINARY_DIR}/_cold_dummy.c)  # Need a dummy file for to make an executable
-file(WRITE ${EMPTY_SOURCE} "")  # Empty bc libpros.a provides main()
+# Create generator expressions for built libraries
+set(BUILT_LIBS_GENEX "")
+foreach(lib IN LISTS BUILT_LIBS)
+    list(APPEND BUILT_LIBS_GENEX "$<TARGET_FILE:${lib}>")
+endforeach()
 
 #target_link_libraries(${COLD_FIRMWARE_LIBS} config)
 list(TRANSFORM COLD_FIRMWARE_LIBS PREPEND "-Wl," OUTPUT_VARIABLE COLD_FIRMWARE_LIBS_WL)
@@ -271,9 +260,9 @@ add_custom_command(
             -Wl,--no-warn-rwx-segments
             -Wl,--sort-section=alignment
             -Wl,--sort-common
-            $<TARGET_FILE:common>
+            ${BUILT_LIBS_GENEX}
             -o ${CMAKE_BINARY_DIR}/cold.package.elf
-        DEPENDS ${COLD_FIRMWARE_LIBS} common
+        DEPENDS ${COLD_FIRMWARE_LIBS} ${BUILT_LIBS}
         COMMENT "Linking cold.package.elf"
 )
 
@@ -316,7 +305,9 @@ add_executable(hot.package.elf
         ${TIMESTAMP_SRC}
 )
 
-add_dependencies(hot.package.elf cold_package)
+add_dependencies(hot.package.elf
+        cold_package
+        ${BUILT_LIBS})
 
 target_link_libraries(hot.package.elf PRIVATE
         -Wl,--start-group
