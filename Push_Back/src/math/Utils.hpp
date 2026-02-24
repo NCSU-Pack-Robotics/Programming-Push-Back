@@ -1,5 +1,6 @@
 #pragma once
 #include "../Constants.hpp"
+#include <cmath>
 
 /**
  * This class contains utility methods for the project.
@@ -33,9 +34,9 @@ public:
      * @return The normalized angle in radians.
      */
     static inline double ensure_positive_radians(double radians) {
-        radians = fmod(radians, M_TWOPI);
+        radians = fmod(radians, M_2_PI);
         if (radians < 0) {
-            radians += M_TWOPI;
+            radians += M_2_PI;
         }
 
         return radians;

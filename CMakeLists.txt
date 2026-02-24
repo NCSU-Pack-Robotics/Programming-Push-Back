@@ -8,13 +8,106 @@ set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS ON) # this makes it "gnu++23"
 
-set(CMAKE_TOOLCHAIN_FILE toolchain-arm-none-eabi.cmake CACHE STRING "Toolchain file")
+#set(CMAKE_TOOLCHAIN_FILE toolchain-arm-none-eabi.cmake CACHE STRING "Toolchain file")
 
 project(Programming_Push_Back C CXX ASM)
 
 ##################################################################################
+# Definitions and Options
+##################################################################################
+
+# Options to include/exclude parts of the codebase
+option(THINK "Include THINK robot's code" ON)
+option(DO "Include DO robot's code" OFF)
+option(BRAIN "Code will run on the VEX Brain" ON)
+option(PI "Code will run on a Raspberry Pi" OFF)
+option(TESTING "Include test code" OFF)
+
+# Create interface library for definitions from the options
+add_library(config INTERFACE)
+target_compile_definitions(config INTERFACE
+        THINK=$<BOOL:${THINK}>
+        DO=$<BOOL:${DO}>
+        BRAIN=$<BOOL:${BRAIN}>
+        PI=$<BOOL:${PI}>
+)
+
+if (NOT TESTING)
+    set(CMAKE_TOOLCHAIN_FILE toolchain-arm-none-eabi.cmake CACHE STRING "Toolchain file")
+endif ()
+
+# Check for liblvgl llemu files and define macros if they exist
+if (EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/Push_Back/include/liblvgl/llemu.h")
+    add_definitions(-D_PROS_INCLUDE_LIBLVGL_LLEMU_H)
+endif ()
+if (EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/Push_Back/include/liblvgl/llemu.hpp")
+    add_definitions(-D_PROS_INCLUDE_LIBLVGL_LLEMU_HPP)
+endif ()
+
+##################################################################################
+# Find necessary files, libraries, and subdirectories
+##################################################################################
+
+# Files  TODO: This glob method of finding source files is actively discouraged by CMake
+file(GLOB_RECURSE SRC_FILES CONFIGURE_DEPENDS
+        Push_Back/src/*.cpp
+        Push_Back/src/*.hpp
+        Push_Back/src/*.c
+        Push_Back/src/*.h)
+list(FILTER SRC_FILES EXCLUDE REGEX ".*/test/.*")
+file(GLOB TOP_LEVEL_INCLUDE CONFIGURE_DEPENDS
+        Push_Back/include/*.h)
+file(GLOB_RECURSE PROS_FILES CONFIGURE_DEPENDS
+        Push_Back/include/pros/*.cpp
+        Push_Back/include/pros/*.hpp
+        Push_Back/include/pros/*.c
+        Push_Back/include/pros/*.h)
+file(GLOB_RECURSE COMMON_FILES CONFIGURE_DEPENDS
+        Push_Back/dependencies/common/*.cpp
+        Push_Back/dependencies/common/*.hpp
+        Push_Back/dependencies/common/*.c
+        Push_Back/dependencies/common/*.h)
+file(GLOB FIRMWARE_LIBS
+        ${CMAKE_CURRENT_SOURCE_DIR}/Push_Back/firmware/*.a
+)
+
+# Exclude build and external directories from source/header globs
+list(FILTER SRC_FILES EXCLUDE REGEX ".*/cmake-build-.*|.*/_deps/.*|.*/CMakeFiles/.*")
+
+# Directories to include in compilation
+include_directories(
+        Push_Back/src
+        Push_Back/include
+        Push_Back/include/pros
+)
+
+if (TESTING)  # Should be after file globs so they can be used in test build
+    add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/Push_Back/src/test")
+endif ()
+
+##################################################################################
+# Build dependency libraries
+##################################################################################
+
+# TODO: These should be built through their own CMakeLists.txt files in their respective directories with `add_subdirectory()`
+
+list(APPEND BUILT_LIBS)
+
+# Common library—shared between multiple projects
+add_library(common STATIC
+        ${COMMON_FILES}
+)
+target_include_directories(common PUBLIC
+        Push_Back/dependencies/common/src
+)
+add_subdirectory(Push_Back/dependencies/common)
+list(APPEND BUILT_LIBS common)
+
+##################################################################################
 # Compilation & Linking flags
 ##################################################################################
+
+if (NOT TESTING)
 
 # Linker flags and scripts
 set(LINKER_SCRIPT_HOT ${CMAKE_CURRENT_SOURCE_DIR}/Push_Back/firmware/v5-hot.ld)
@@ -54,91 +147,13 @@ add_compile_options(${CPP_FLAGS} ${MFLAGS} ${GCCFLAGS} ${WARNFLAGS})
 string(APPEND CMAKE_C_FLAGS " $ENV{EXTRA_CFLAGS}")
 string(APPEND CMAKE_CXX_FLAGS " $ENV{EXTRA_CXXFLAGS}")
 
-##################################################################################
-# Find necessary files, libraries, and subdirectories
-##################################################################################
-
-# Files  TODO: This glob method of finding source files is actively discouraged by CMake
-file(GLOB_RECURSE SRC_FILES CONFIGURE_DEPENDS
-        Push_Back/src/*.cpp
-        Push_Back/src/*.hpp
-        Push_Back/src/*.c
-        Push_Back/src/*.h)
-list(FILTER SRC_FILES EXCLUDE REGEX ".*/test/.*")
-file(GLOB TOP_LEVEL_INCLUDE CONFIGURE_DEPENDS
-        Push_Back/include/*.h)
-file(GLOB_RECURSE PROS_FILES CONFIGURE_DEPENDS
-        Push_Back/include/pros/*.cpp
-        Push_Back/include/pros/*.hpp
-        Push_Back/include/pros/*.c
-        Push_Back/include/pros/*.h)
-file(GLOB_RECURSE COMMON_FILES CONFIGURE_DEPENDS
-        Push_Back/dependencies/common/*.cpp
-        Push_Back/dependencies/common/*.hpp
-        Push_Back/dependencies/common/*.c
-        Push_Back/dependencies/common/*.h)
-file(GLOB FIRMWARE_LIBS
-        ${CMAKE_CURRENT_SOURCE_DIR}/Push_Back/firmware/*.a
-)
-
-# Exclude build and external directories from source/header globs
-list(FILTER SRC_FILES EXCLUDE REGEX ".*/cmake-build-.*|.*/_deps/.*|.*/CMakeFiles/.*")
-
-# Directories to include in compilation
-include_directories(
-        Push_Back/src
-        Push_Back/include
-        Push_Back/include/pros
-)
-
-##################################################################################
-# Definitions and Options
-##################################################################################
-
-# Options to include/exclude parts of the codebase
-option(THINK "Include THINK robot's code" ON)
-option(DO "Include DO robot's code" OFF)
-option(BRAIN "Code will run on the VEX Brain" ON)
-option(PI "Code will run on a Raspberry Pi" OFF)
-
-# Create interface library for definitions from the options
-add_library(config INTERFACE)
-target_compile_definitions(config INTERFACE
-        THINK=$<BOOL:${THINK}>
-        DO=$<BOOL:${DO}>
-        BRAIN=$<BOOL:${BRAIN}>
-        PI=$<BOOL:${PI}>
-)
-
-# Check for liblvgl llemu files and define macros if they exist
-if (EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/Push_Back/include/liblvgl/llemu.h")
-    add_definitions(-D_PROS_INCLUDE_LIBLVGL_LLEMU_H)
 endif ()
-if (EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/Push_Back/include/liblvgl/llemu.hpp")
-    add_definitions(-D_PROS_INCLUDE_LIBLVGL_LLEMU_HPP)
-endif ()
-
-##################################################################################
-# Build dependency libraries
-##################################################################################
-
-# TODO: These should be built through their own CMakeLists.txt files in their respective directories with `add_subdirectory()`
-
-list(APPEND BUILT_LIBS)
-
-# Common library—shared between multiple projects
-add_library(common STATIC
-        ${COMMON_FILES}
-)
-target_include_directories(common PUBLIC
-        Push_Back/dependencies/common/src
-)
-add_subdirectory(Push_Back/dependencies/common)
-list(APPEND BUILT_LIBS common)
 
 ##################################################################################
 # Create timestamp
 ##################################################################################
+
+if (NOT TESTING)
 
 # File paths
 set(TIMESTAMP_SRC ${CMAKE_BINARY_DIR}/_pros_ld_timestamp.c)
@@ -190,9 +205,13 @@ configure_file(
         @ONLY
 )
 
+endif ()
+
 ##################################################################################
 # Find project.pros file for moving bin files to expected location.
 ##################################################################################
+
+if (NOT TESTING)
 
 # Find the directory containing pros.project file
 file(GLOB_RECURSE PROS_PROJECT_FILE "${CMAKE_SOURCE_DIR}/*/project.pros")
@@ -206,9 +225,13 @@ else ()
     set(PROS_PROJECT_DIR "${CMAKE_SOURCE_DIR}")
 endif ()
 
+endif ()
+
 ##################################################################################
 # Build Cold Package
 ##################################################################################
+
+if (NOT TESTING)
 
 # Libraries to link
 set(COLD_FIRMWARE_LIBS ${FIRMWARE_LIBS})
@@ -278,9 +301,13 @@ add_custom_command(
 
 add_custom_target(cold_package DEPENDS ${CMAKE_BINARY_DIR}/cold.package.bin)
 
+endif ()
+
 ##################################################################################
 # Build Hot Package
 ##################################################################################
+
+if (NOT TESTING)
 
 # Hot Package
 add_executable(hot.package.elf
@@ -332,9 +359,13 @@ add_custom_command(
         COMMENT "Creating hot.package.bin"
 )
 
+endif ()
+
 ##################################################################################
 # Main Targets
 ##################################################################################
+
+if (NOT TESTING)
 
 set(FINAL_OUTPUTS
         cold_package
@@ -366,3 +397,4 @@ add_custom_target(Terminal
         COMMAND cd ${PROJECT_SOURCE_DIR} && pros terminal
         COMMENT "Opening terminal for V5 Brain"
 )
+endif ()
