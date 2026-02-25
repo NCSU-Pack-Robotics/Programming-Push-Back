@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CMakeSharedSettings">
+    <configurations>
+      <configuration PROFILE_NAME="THINK" ENABLED="true" GENERATION_OPTIONS="-DCMAKE_TOOLCHAIN_FILE=toolchain-arm-none-eabi.cmake -DBRAIN:BOOL=ON -DDO:BOOL=OFF -DTHINK:BOOL=ON" NO_GENERATOR="true" />
+      <configuration PROFILE_NAME="DO" ENABLED="true" GENERATION_OPTIONS="-DCMAKE_TOOLCHAIN_FILE=toolchain-arm-none-eabi.cmake -DBRAIN:BOOL=ON -DDO:BOOL=ON -DTHINK:BOOL=OFF" NO_GENERATOR="true" />
+      <configuration PROFILE_NAME="THINK (test)" ENABLED="true" GENERATION_OPTIONS="-DTESTING:BOOL=ON -DBRAIN:BOOL=ON -DDO:BOOL=OFF -DTHINK:BOOL=ON" />
+      <configuration PROFILE_NAME="DO (test)" ENABLED="true" GENERATION_OPTIONS="-DTESTING:BOOL=ON -DBRAIN:BOOL=ON -DDO:BOOL=ON -DTHINK:BOOL=OFF" />
+    </configurations>
+  </component>
+</project>
