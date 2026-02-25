@@ -199,7 +199,7 @@ void PurePursuit::periodic() {
     }
 
     // Set power  TODO: Maybe make this voltage
-    drivetrain.set_drive_power(static_cast<int>(target_left_vel), static_cast<int>(target_right_vel));
+    // drivetrain.set_drive_power(static_cast<int>(target_left_vel), static_cast<int>(target_right_vel));
 
     // Debugging
     // printf("Curvature: %9f | Velocity: %9f | Motors: %4.0f %4.0f| Pose: %50s | Target X: %9f Y: %9f | Distance: %f\n",

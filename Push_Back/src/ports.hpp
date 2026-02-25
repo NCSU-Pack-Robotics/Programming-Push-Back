@@ -8,22 +8,22 @@ namespace Ports {
     #if THINK
 
     /** Port of the left first front motor */
-    constexpr std::int8_t LEFT_FRONT1_MOTOR_PORT = 11;
+    constexpr std::int8_t LEFT_FRONT1_MOTOR_PORT = -2; // 1 is closer to the ground, 2 is higher up
     /** Port of the left second front motor */
-    constexpr std::int8_t LEFT_FRONT2_MOTOR_PORT = -12;
+    constexpr std::int8_t LEFT_FRONT2_MOTOR_PORT = 1;
     /** Port of the left second back motor */
-    constexpr std::int8_t LEFT_BACK2_MOTOR_PORT = 13;
+    constexpr std::int8_t LEFT_BACK2_MOTOR_PORT = 11;
     /** Port of the left first back motor */
-    constexpr std::int8_t LEFT_BACK1_MOTOR_PORT = -14;
+    constexpr std::int8_t LEFT_BACK1_MOTOR_PORT = -12;
 
     /** Port of the right first front motor */
-    constexpr std::int8_t RIGHT_FRONT1_MOTOR_PORT = -2;
+    constexpr std::int8_t RIGHT_FRONT1_MOTOR_PORT = 9;
     /** Port of the right second front motor */
-    constexpr std::int8_t RIGHT_FRONT2_MOTOR_PORT = 3;
+    constexpr std::int8_t RIGHT_FRONT2_MOTOR_PORT = -10;
     /** Port of the right second back motor */
-    constexpr std::int8_t RIGHT_BACK2_MOTOR_PORT = -4;
+    constexpr std::int8_t RIGHT_BACK2_MOTOR_PORT = -17;
     /** Port of the right first back motor */
-    constexpr std::int8_t RIGHT_BACK1_MOTOR_PORT = 5;
+    constexpr std::int8_t RIGHT_BACK1_MOTOR_PORT = 16;
 
     /** Port of the left rotation sensor */
     constexpr std::int8_t LEFT_ROTATION_SENSOR_PORT = 15;
