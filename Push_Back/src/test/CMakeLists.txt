@@ -37,21 +37,23 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(googletest)
 enable_testing()
 
-add_executable(TestSuite  # Create test exec
+set(TestSuite TestSuite_${PROJECT_NAME})
+
+add_executable(${TestSuite}  # Create test exec
         ${TEST_SOURCES}
 )
 
-target_link_libraries(TestSuite  # Link tests with source files and test framework
+target_link_libraries(${TestSuite}  # Link tests with source files and test framework
         Programming_Push_Back_lib
         GTest::gtest_main
         ${LIBUSB_LIBRARIES}
         config
 )
-target_include_directories(TestSuite PRIVATE
+target_include_directories(${TestSuite} PRIVATE
         ${LIBUSB_INCLUDE_DIRS}
         ${CMAKE_CURRENT_SOURCE_DIR}
         ${CMAKE_SOURCE_DIR}/Push_Back/include
 )
 
 include(GoogleTest)
-gtest_discover_tests(TestSuite DISCOVERY_MODE PRE_TEST)
+gtest_discover_tests(${TestSuite} DISCOVERY_MODE PRE_TEST)
