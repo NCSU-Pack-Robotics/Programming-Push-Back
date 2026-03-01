@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../Pose.hpp"
+#include "Pose.hpp"
 
 /**
  * This is the AbstractOdometry class. It is responsible for keeping track of the robot's

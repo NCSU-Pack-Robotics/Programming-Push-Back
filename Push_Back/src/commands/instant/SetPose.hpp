@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../../Command.hpp"
-#include "../../Pose.hpp"
+#include "../../architecture/Command.hpp"
+#include "../../math/odometry/Pose.hpp"
 #include "../../subsystems/Drivetrain.hpp"
 
 /**

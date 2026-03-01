@@ -1,7 +1,7 @@
 #include "DriverControlScheduler.hpp"
 
-#include "ButtonMappings.hpp"
-#include "Config.hpp"
+#include "../ButtonMappings.hpp"
+#include "../Config.hpp"
 
 DriverControlScheduler::DriverControlScheduler() : ParallelCommand({}){
 }

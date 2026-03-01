@@ -6,8 +6,8 @@
 #include <thread>
 #include <stdfloat>
 
-#include "AutonomousControlScheduler.hpp"
-#include "DriverControlScheduler.hpp"
+#include "architecture/AutonomousControlScheduler.hpp"
+#include "architecture/DriverControlScheduler.hpp"
 #include "subsystems/Drivetrain.hpp"
 
 #include "SerialHandler.hpp"

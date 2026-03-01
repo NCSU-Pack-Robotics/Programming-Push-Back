@@ -1,7 +1,7 @@
 #include "AutonomousControlScheduler.hpp"
 
 #include "asset.hpp"
-#include "commands/default/DriveStraight.hpp"
+#include "../commands/default/DriveStraight.hpp"
 
 // Global paths defined here
 // Ex. ASSET(asset_name_txt)

@@ -2,7 +2,7 @@
 
 #include <algorithm>
 #include <unordered_map>
-#include "Command.hpp"
+#include "architecture/Command.hpp"
 
 // Magic hash number
 #define GOLDEN_RATIO 0x9e3779b1

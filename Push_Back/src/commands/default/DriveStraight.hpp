@@ -1,5 +1,5 @@
 #pragma once
-#include "../../Command.hpp"
+#include "../../architecture/Command.hpp"
 #include "../../subsystems/Drivetrain.hpp"
 #include "../../math/PID.hpp"
 #include "../../Config.hpp"

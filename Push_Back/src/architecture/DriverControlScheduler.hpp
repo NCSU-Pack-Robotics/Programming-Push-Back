@@ -1,5 +1,5 @@
 #pragma once
-#include "Command.hpp"
+#include "architecture/Command.hpp"
 #include "subsystems/Drivetrain.hpp"
 
 /** A subclass of ParallelCommand. It is used during the opcontrol driving portion of the event.
