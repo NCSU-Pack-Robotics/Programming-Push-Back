@@ -1,6 +1,6 @@
 #include "OdometryGyro.hpp"
 
-#include "../../Config.hpp"
+#include "Config.hpp"
 
 OdometryGyro::OdometryGyro(const Pose& initial_pose)
     : OdometryArc(initial_pose) {

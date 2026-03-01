@@ -1,6 +1,6 @@
 #include "DriveStraight.hpp"
 
-#include "../../math/Utils.hpp"
+#include "math/Utils.hpp"
 
 void DriveStraight::initialize() {
     this->done = false;

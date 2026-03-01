@@ -1,8 +1,8 @@
 #pragma once
-#include "../../architecture/Command.hpp"
-#include "../../subsystems/Drivetrain.hpp"
-#include "../../math/PID.hpp"
-#include "../../Config.hpp"
+#include "architecture/Command.hpp"
+#include "subsystems/Drivetrain.hpp"
+#include "math/PID.hpp"
+#include "Config.hpp"
 
 /**
  * A Command to make the robot drive in a straight line, facing its current heading, forwards or

@@ -1,9 +1,9 @@
 #pragma once
 
-#include "../../architecture/Command.hpp"
-#include "../../Config.hpp"
-#include "../../subsystems/Drivetrain.hpp"
-#include "../../math/PID.hpp"
+#include "architecture/Command.hpp"
+#include "Config.hpp"
+#include "subsystems/Drivetrain.hpp"
+#include "math/PID.hpp"
 
 /**
  * A Command to make the robot turn in (CCW/CW) place some number of degrees.

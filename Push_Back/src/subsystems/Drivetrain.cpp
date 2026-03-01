@@ -2,8 +2,8 @@
 #include <numeric>
 #include <set>
 
-#include "../ports.hpp"
-#include "../math/Utils.hpp"
+#include "ports.hpp"
+#include "math/Utils.hpp"
 
 /** Enum to multiply drive powers by to move robot forward. */
 enum Direction {

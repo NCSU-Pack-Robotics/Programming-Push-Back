@@ -1,5 +1,5 @@
 #pragma once
-#include "architecture/AbstractSubsystem.hpp"
+#include "AbstractSubsystem.hpp"
 #include "Command.hpp"
 #include "subsystems/Drivetrain.hpp"
 

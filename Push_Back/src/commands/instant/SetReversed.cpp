@@ -1,6 +1,6 @@
 #include "SetReversed.hpp"
 
-#include "../../subsystems/Drivetrain.hpp"
+#include "subsystems/Drivetrain.hpp"
 
 void SetReversed::execute() {
     Drivetrain& drivetrain = AbstractSubsystem::get_instance<Drivetrain>();

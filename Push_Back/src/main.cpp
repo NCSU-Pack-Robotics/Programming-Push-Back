@@ -1,7 +1,6 @@
-#include "../include/main.h"
-#include "../include/pros/apix.h"
+#include "main.h"
+#include "apix.h"
 
-#include <cstring>
 #include <fcntl.h>
 #include <thread>
 #include <stdfloat>

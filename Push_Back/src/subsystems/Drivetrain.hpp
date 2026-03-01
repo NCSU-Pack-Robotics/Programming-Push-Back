@@ -1,12 +1,12 @@
 #pragma once
 
-#include "../../include/main.h"
-#include "../architecture/AbstractSubsystem.hpp"
-#include "../Config.hpp"
-#include "../Constants.hpp"
-#include "../math/odometry/Pose.hpp"
-#include "../math/PID.hpp"
-#include "../math/odometry/OdometryGyro.hpp"
+#include "main.h"
+#include "architecture/AbstractSubsystem.hpp"
+#include "Config.hpp"
+#include "Constants.hpp"
+#include "math/odometry/Pose.hpp"
+#include "math/PID.hpp"
+#include "math/odometry/OdometryGyro.hpp"
 
 
 /**

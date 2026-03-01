@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../../architecture/Command.hpp"
-#include "../../math/odometry/Pose.hpp"
-#include "../../subsystems/Drivetrain.hpp"
+#include "architecture/Command.hpp"
+#include "math/odometry/Pose.hpp"
+#include "subsystems/Drivetrain.hpp"
 
 /**
  * This command sets the pose of the robot to a specified location.
