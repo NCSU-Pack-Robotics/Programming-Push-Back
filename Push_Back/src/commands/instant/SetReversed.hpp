@@ -1,5 +1,5 @@
 #pragma once
-#include "architecture/Command.hpp"
+#include "architecture/commands/InstantCommand.hpp"
 
 class SetReversed final : public InstantCommand {
 public:

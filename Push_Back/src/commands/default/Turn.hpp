@@ -1,6 +1,6 @@
 #pragma once
 
-#include "architecture/Command.hpp"
+#include "architecture/commands/Command.hpp"
 #include "Config.hpp"
 #include "subsystems/Drivetrain.hpp"
 #include "math/PID.hpp"

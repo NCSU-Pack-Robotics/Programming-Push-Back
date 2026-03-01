@@ -1,6 +1,6 @@
 #pragma once
 
-#include "architecture/Command.hpp"
+#include "architecture/commands/InstantCommand.hpp"
 #include "math/odometry/Pose.hpp"
 #include "subsystems/Drivetrain.hpp"
 
@@ -25,4 +25,3 @@ public:
 
     void execute() override;
 };
-

@@ -1,6 +1,6 @@
 #pragma once
-#include "AbstractSubsystem.hpp"
-#include "Command.hpp"
+#include "architecture/AbstractSubsystem.hpp"
+#include "architecture/commands/ChainCommand.hpp"
 #include "subsystems/Drivetrain.hpp"
 
 /**

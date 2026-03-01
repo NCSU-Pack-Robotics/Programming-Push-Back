@@ -2,7 +2,7 @@
 
 #include "architecture/asset.hpp"
 #include "subsystems/Drivetrain.hpp"
-#include "architecture/Command.hpp"
+#include "architecture/commands/Command.hpp"
 #include "math/odometry/Pose.hpp"
 
 /**
