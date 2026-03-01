@@ -51,7 +51,7 @@ target_link_libraries(${TestSuite}  # Link tests with source files and test fram
 )
 target_include_directories(${TestSuite} PRIVATE
         ${LIBUSB_INCLUDE_DIRS}
-        ${CMAKE_CURRENT_SOURCE_DIR}
+        .
         ${CMAKE_SOURCE_DIR}/Push_Back/include
 )
 

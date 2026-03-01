@@ -88,7 +88,7 @@ add_subdirectory(Push_Back/dependencies)
 # Everything Testing
 ##################################################################################
 if (TESTING)  # Should be after dependencies so they can be used in test build
-    add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/Push_Back/src/test")
+    add_subdirectory("Push_Back/test")
 endif ()
 
 ##################################################################################
