@@ -1,9 +1,9 @@
 #pragma once
 
-#include "../asset.hpp"
-#include "../subsystems/Drivetrain.hpp"
-#include "../Command.hpp"
-#include "../Pose.hpp"
+#include "../../asset.hpp"
+#include "../../subsystems/Drivetrain.hpp"
+#include "../../Command.hpp"
+#include "../../Pose.hpp"
 
 /**
 * The PurePursuit command is responsible for moving between two poses using the pure pursuit
