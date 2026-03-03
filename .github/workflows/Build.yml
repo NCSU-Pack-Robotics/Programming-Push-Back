@@ -8,11 +8,6 @@ on:
 jobs:
   Build:
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: true
-      matrix:
-        target: [THINK, DO]
-
     env:
       XPACK_ARM_GCC_VERSION: "14.2.1-1.1"
 
@@ -26,12 +21,13 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.12'
+          python-version: '3.6'
 
       - name: Install PROS
         run: |
           python3 -m pip install pros-cli
           echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+          echo python3 --version
           pros --version || true
           # apt-get install -y gcc-arm-none-eabi
 
@@ -52,6 +48,5 @@ jobs:
         run: arm-none-eabi-g++ --version
 
       - name: Build ${{ matrix.target }}
-        working-directory: ./Push_Back
-        run: |
-          cmake -S . -B build -DTESTING=1 -DTHINK=1 -DPI=1
+        run: cmake -S . -B build -DTESTING=1 -DTHINK=1 -DPI=1
+         
