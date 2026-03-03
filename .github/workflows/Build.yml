@@ -7,7 +7,7 @@ on:
 
 jobs:
   Build:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: true
       matrix:
@@ -54,5 +54,4 @@ jobs:
       - name: Build ${{ matrix.target }}
         working-directory: ./Push_Back
         run: |
-          pros make clean
-          pros make EXTRA_CXXFLAGS="-D${{ matrix.target }}" EXTRA_CFLAGS="-D${{ matrix.target }}"
+          cmake -S . -B build -DTESTING=1 -DTHINK=1 -DPI=1
