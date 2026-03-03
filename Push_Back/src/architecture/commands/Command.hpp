@@ -25,6 +25,9 @@ public:
     /** Return true when the command is complete. */
     virtual bool is_complete() = 0;
 
+    /** Whether the command has completed and shutdown() has been called. */
+    bool completed = false;
+
     /** The number of times a Command's <code>run()</code> method has been called. */
     unsigned int loops = 0;
 

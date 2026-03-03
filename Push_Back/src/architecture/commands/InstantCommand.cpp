@@ -9,6 +9,7 @@ void InstantCommand::execute() {
 }
 
 void InstantCommand::shutdown() {
+    // Called once, right after is_complete() returns true.
 }
 
 bool InstantCommand::is_complete() {
@@ -16,7 +17,7 @@ bool InstantCommand::is_complete() {
 }
 
 void InstantCommand::periodic() {
-    // This is never called
+    // This is called once, right after initialize()
 }
 
 InstantCommand::InstantCommand(std::unique_ptr<std::function<void()>> executeFunction) {
