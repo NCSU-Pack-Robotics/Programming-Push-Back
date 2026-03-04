@@ -16,9 +16,21 @@ public:
     virtual ~Command() = default;
 
     /**
-     * Called when the command needs to be run. It will call initialize() once, then periodic()
-     * until is_complete() returns true, then shutdown() once. If follow_up() returns a non-null
-     * pointer, it will run that command next.
+     * \brief High level method to control the execution of the command.
+     * This method is intended to be called continuously.
+     *
+     * \details When called the first time, <code>initialize()</code> is called.
+     * Then, every time after that, <code>periodic()</code> is called.
+     * After each call to <code>periodic()</code>, <code>is_complete()</code> is checked.
+     * On the call to run() where <code>is_complete()</code> returns true, <code>shutdown()</code>
+     * is called within the same call to <code>run()</code>.
+     * After <code>shutdown()</code> is called, the command is marked as completed and
+     * <code>shutdown()</code> and <code>periodic</code> are not called again.
+     *
+     * \note If <code>is_complete()</code> returns true on the first call to <code>run()</code>,
+     * then <code>initialize()</code> is called. On the second call to <code>run()</code>,
+     * <code>periodic()</code> is called, <code>shutdown()</code> is called, and the command is
+     * marked as completed.
      */
     void run();
 
@@ -29,7 +41,7 @@ public:
     bool completed = false;
 
     /** The number of times a Command's <code>run()</code> method has been called. */
-    unsigned int loops = 0;
+    unsigned int calls = 0;
 
     /** Called on the command's first loop right before periodic(). */
     virtual void initialize() = 0;
