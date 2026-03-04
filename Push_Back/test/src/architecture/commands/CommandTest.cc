@@ -50,6 +50,7 @@ TEST(CommandTest, smokeTest) {
     // EXPECT first to get as much info as possible, then ASSERT to not go further
     EXPECT_EQ(log.front(), "initialize");
     EXPECT_EQ(cmd->calls, 1);
+    EXPECT_FALSE(cmd->has_shutdown());
     ASSERT_EQ(log.size(), 1);  // Once for initialize and once for periodic 0
 
     // Run periodic [2, 5]
@@ -62,11 +63,13 @@ TEST(CommandTest, smokeTest) {
         EXPECT_EQ(log.back(), "periodic_"+ std::to_string(periodic_call));
         ASSERT_EQ(log.size(), call);
     }
+    EXPECT_FALSE(cmd->has_shutdown());
 
     // Run periodic 4 and shutdown
     cmd->run();
     EXPECT_EQ(log.back(), "shutdown");
     EXPECT_EQ(log.at(log.size() - 2), "periodic_5");
+    EXPECT_TRUE(cmd->has_shutdown());
     EXPECT_EQ(log.size(), 7);
 
     EXPECT_EQ(cmd->calls, 6);
@@ -87,13 +90,15 @@ TEST(CommandTest, completeOnFirstRun) {
     cmd->run();
     ASSERT_EQ(log.size(), 1);
     EXPECT_EQ(log.front(), "initialize");
-    EXPECT_EQ(cmd->calls, 1);
+    EXPECT_FALSE(cmd->has_shutdown());
+    ASSERT_EQ(cmd->calls, 1);
 
     cmd->run();
     ASSERT_EQ(log.size(), 3);
     EXPECT_EQ(log.front(), "initialize");
     EXPECT_EQ(log.at(1), "periodic_1");
     EXPECT_EQ(log.back(), "shutdown");
+    EXPECT_TRUE(cmd->has_shutdown());
     EXPECT_EQ(cmd->calls, 2);
 
     /* Expected state of the log at the end of the test

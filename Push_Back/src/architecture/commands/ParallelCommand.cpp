@@ -29,8 +29,7 @@ void ParallelCommand::periodic() {
     if (commands.size() == 1) {  // Edge case: one command
         commands[0]->run();
 
-        if (commands[0]->is_complete()) {
-            commands[0]->shutdown();
+        if (commands[0]->has_shutdown()) {
             commands.clear();
         }
 
@@ -41,8 +40,7 @@ void ParallelCommand::periodic() {
             (*it)->run();
 
             // If the command is complete, remove its
-            if ((*it)->is_complete()) {
-                (*it)->run();  // Run the command one last time - will shutdown the command
+            if ((*it)->has_shutdown()) {
                 it = commands.erase(it);
             } else {
                 ++it;

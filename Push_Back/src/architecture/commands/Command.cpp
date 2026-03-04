@@ -12,3 +12,7 @@ void Command::run() {
         }
     }
 }
+
+bool Command::has_shutdown() const {
+    return completed;
+}

@@ -34,8 +34,7 @@ void ChainCommand::periodic() {
     command_queue.front()->run();
 
     // If this command is complete, remove it
-    if (command_queue.front()->is_complete()) {
-        command_queue.front()->run();  // Run the command one last time - will shutdown the command
+    if (command_queue.front()->has_shutdown()) {
         command_queue.pop();
     }
 }
