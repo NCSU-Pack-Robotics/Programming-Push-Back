@@ -51,11 +51,11 @@ jobs:
         run: sudo apt-get install pkg-config libusb-1.0-0-dev
 
       - name: Setup cmake
-        run: cmake -S . -B build -DTESTING=1 -DTHINK=1 -DPI=1
+        run: cmake -S . -B build -DTESTING=1 -DTHINK=1 -DBRAIN=1
 
       - name: Build
         run: cmake --build build
 
       - name: Run GTest
-        run: ./build/test/TestSuite_Programming_Push_Back
+        run: ./build/Push_Back/test/TestSuite_Programming_Push_Back
          
