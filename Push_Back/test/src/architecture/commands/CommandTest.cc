@@ -72,3 +72,27 @@ TEST(CommandTest, completeOnFirstRun) {
      * <i=0, ..., i=2>
      * <"initialize", "periodic_1", "shutdown"> */
 }
+
+/** Tests to see if shutdown is called several times after completion */
+TEST(CommandTest, calledWhenCompleteTest) {
+    std::vector<std::string> log;
+    const std::unique_ptr<Command> cmd = std::make_unique<LogCommand>(log, 2);
+
+    for (int i = 0; i < 10; ++i) {
+        cmd->run();
+    }
+
+    EXPECT_EQ(cmd->calls, 10);
+    ASSERT_GE(log.size(), 3);  // Should be exactly 4, but asserting >= to get info from below
+
+    EXPECT_EQ(log.front(), "initialize");
+    EXPECT_EQ(log.at(1), "periodic_1");
+    EXPECT_EQ(log.back(), "shutdown");
+    EXPECT_TRUE(cmd->has_shutdown());
+
+    EXPECT_EQ(log.size(), 3);
+
+    /* Expected state of the log at the end of the test
+     * <i=0, ..., i=10>
+     * <"initialize", "periodic_1", "periodic_2", "shutdown"> */
+}
