@@ -5,7 +5,7 @@ void InstantCommand::initialize() {
 }
 
 void InstantCommand::execute() {
-    (*executeFunction)();
+    executeFunction();
 }
 
 void InstantCommand::shutdown() {
@@ -20,6 +20,6 @@ void InstantCommand::periodic() {
     // This is called once, right after initialize()
 }
 
-InstantCommand::InstantCommand(std::unique_ptr<std::function<void()>> executeFunction) {
+InstantCommand::InstantCommand(std::function<void()> executeFunction) {
     this->executeFunction = std::move(executeFunction);
 }
