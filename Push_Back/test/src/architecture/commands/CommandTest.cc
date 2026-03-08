@@ -3,7 +3,7 @@
 
 #include "architecture/commands/Command.hpp"
 
-
+/** An implementation of <code>Command</code> to make testing possible. */
 class CommandImpl : public Command {
 public:
     /** Vector of strings to keep track of which methods were run. */
@@ -76,7 +76,7 @@ TEST(CommandTest, smokeTest) {
 
     /* Expected state of the log at the end of the test
      * <i=0, ..., i=6>
-     * <initialize, periodic_1, periodic_2, periodic_3, periodic_4, periodic_5, shutdown> */
+     * <"initialize", "periodic_1", "periodic_2", "periodic_3", "periodic_4", "periodic_5", "shutdown"> */
 }
 
 /**
@@ -103,5 +103,5 @@ TEST(CommandTest, completeOnFirstRun) {
 
     /* Expected state of the log at the end of the test
      * <i=0, ..., i=2>
-     * <initialize, periodic_1, shutdown> */
+     * <"initialize", "periodic_1", "shutdown"> */
 }
