@@ -40,11 +40,12 @@ public:
      */
     void set_commands(std::queue<std::unique_ptr<Command>> commands);
 
+protected:
     /**
-     * Runs the first command in the chain. When that command is done,
-     * the next command in the chain is run. This continues until the last
-     * command is run.
-     */
+    * Runs the first command in the chain. When that command is done,
+    * the next command in the chain is run. This continues until the last
+    * command is run.
+    */
     void periodic() override;
 
     /**

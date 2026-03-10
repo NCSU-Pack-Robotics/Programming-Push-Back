@@ -41,6 +41,7 @@ public:
      */
     void set_commands(std::vector<std::unique_ptr<Command>> commands);
 
+protected:
     /**
      * Runs all commands in the list.
      * Because each command is being run in the same call to periodic(),

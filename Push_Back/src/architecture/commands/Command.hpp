@@ -13,6 +13,9 @@
  */
 class Command {
 public:
+    /** The number of times a Command's <code>run()</code> method has been called. */
+    unsigned int calls = 0;
+
     virtual ~Command() = default;
 
     /**
@@ -35,13 +38,22 @@ public:
     void run();
 
     /**
-     * Use for checking if the command is done and can be discarded.
-     * @return True if the command has been completed and <code>shutdown()</code> has been called.
-     */
-    bool has_shutdown() const;
+    * Use for checking if the command is done and can be discarded.
+    * @return True if the command has been completed and <code>shutdown()</code> has been called.
+    */
+    [[nodiscard]] bool has_shutdown() const;
 
-    /** The number of times a Command's <code>run()</code> method has been called. */
-    unsigned int calls = 0;
+    /**
+     * A command that will run right after this command is done.
+     * If no follow up is needed, return nullptr.
+     */
+    // virtual std::unique_ptr<Command> follow_up();
+protected:
+    /**
+     * Determines when the command should be shutdown.
+     * @return true when the command is complete.
+     */
+    virtual bool is_complete() = 0;
 
     /** Called on the command's first loop right before periodic(). */
     virtual void initialize() = 0;
@@ -55,17 +67,7 @@ public:
     /** Called once after the command has finished its job. */
     virtual void shutdown() = 0;
 
-    /**
-     * A command that will run right after this command is done.
-     * If no follow up is needed, return nullptr.
-     */
-    // virtual std::unique_ptr<Command> follow_up();
 private:
-    /**
-     * Determines when the command should be shutdown.
-     * @return true when the command is complete.
-     */
-    virtual bool is_complete() = 0;
 
     /** Whether the command has completed and shutdown() has been called. */
     bool completed = false;
