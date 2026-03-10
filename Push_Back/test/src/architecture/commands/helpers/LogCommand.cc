@@ -15,10 +15,6 @@ public:
     LogCommand(std::vector<std::string>& log, const int lifespan)
         : log(log), lifespan (lifespan) {}
 
-    bool is_complete() override {
-        return calls >= lifespan;
-    }
-
     void initialize() override {
         this->log.emplace_back("initialize");
     }
@@ -34,4 +30,8 @@ public:
 private:
     /** The number of calls to periodic() before the command is complete. */
     const int lifespan;
+
+    bool is_complete() override {
+        return calls >= lifespan;
+    }
 };
