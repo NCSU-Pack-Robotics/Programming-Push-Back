@@ -8,7 +8,7 @@ public:
     InstantCommand() = default;
 
     /** Constructor that allows for a function to be passed as the execute method */
-    explicit InstantCommand(std::unique_ptr<std::function<void()>> executeFunction);
+    explicit InstantCommand(std::function<void()> executeFunction);
 
     /** Returns true because InstantCommands only run once */
     bool is_complete() override;
@@ -30,18 +30,7 @@ public:
 private:
     /**
      * The execute function passed from the constructor
-     * @return A unique pointer to a function that takes no arguments and returns nothing.
+     * @return A function that takes no arguments and returns nothing.
      */
-    std::unique_ptr<std::function<void()>> executeFunction;
-};
-
-/** A command that can have its progress tracked and used via <code>get_progress()</code> */
-class ProgressCommand : public Command {
-
-public:
-    /**
-     * Tracks and returns the current progress of the ProgressCommand
-     * @return A value between 0 and 1 representing the progress of the command. 0: no progress & 1: complete
-     */
-    virtual double get_progress() = 0;
+    std::function<void()> executeFunction;
 };

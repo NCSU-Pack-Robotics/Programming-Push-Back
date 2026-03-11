@@ -46,6 +46,7 @@ add_executable(${TestSuite}  # Create test exec
 target_link_libraries(${TestSuite}  # Link tests with source files and test framework
         Programming_Push_Back_lib
         GTest::gtest_main
+        GTest::gmock_main
         ${LIBUSB_LIBRARIES}
         config
 )
