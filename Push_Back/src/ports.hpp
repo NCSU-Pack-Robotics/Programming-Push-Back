@@ -8,99 +8,58 @@ namespace Ports {
     #if THINK
 
     /** Port of the left first front motor */
-    constexpr std::int8_t LEFT_FRONT1_MOTOR_PORT = -2; // 1 is closer to the ground, 2 is higher up
+    inline constexpr std::int8_t LEFT_FRONT1_MOTOR_PORT = -19; // 1 is closer to the ground, 2 is higher up
     /** Port of the left second front motor */
-    constexpr std::int8_t LEFT_FRONT2_MOTOR_PORT = 1;
+    inline constexpr std::int8_t LEFT_FRONT2_MOTOR_PORT = 15;
     /** Port of the left second back motor */
-    constexpr std::int8_t LEFT_BACK2_MOTOR_PORT = 11;
+    inline constexpr std::int8_t LEFT_BACK2_MOTOR_PORT = 8;
     /** Port of the left first back motor */
-    constexpr std::int8_t LEFT_BACK1_MOTOR_PORT = -12;
+    inline constexpr std::int8_t LEFT_BACK1_MOTOR_PORT = -5;
 
     /** Port of the right first front motor */
-    constexpr std::int8_t RIGHT_FRONT1_MOTOR_PORT = 9;
+    inline constexpr std::int8_t RIGHT_FRONT1_MOTOR_PORT = -12;
     /** Port of the right second front motor */
-    constexpr std::int8_t RIGHT_FRONT2_MOTOR_PORT = -10;
+    inline constexpr std::int8_t RIGHT_FRONT2_MOTOR_PORT = 14;
     /** Port of the right second back motor */
-    constexpr std::int8_t RIGHT_BACK2_MOTOR_PORT = -17;
+    inline constexpr std::int8_t RIGHT_BACK2_MOTOR_PORT = 11;
     /** Port of the right first back motor */
-    constexpr std::int8_t RIGHT_BACK1_MOTOR_PORT = 16;
+    inline constexpr std::int8_t RIGHT_BACK1_MOTOR_PORT = -13;
 
-    /** Port of the left rotation sensor */
-    constexpr std::int8_t LEFT_ROTATION_SENSOR_PORT = 15;
-    /** Port of the right rotation sensor */
-    constexpr std::int8_t RIGHT_ROTATION_SENSOR_PORT = 1;
 
-    /** Port of the gyroscope used for odometry */
-    constexpr std::int8_t GYRO_PORT = 19;
-
-    /** Port of the lift motor */
-    constexpr std::int8_t LIFT_MOTOR_PORT = 7;
-
-    /** Port of the intake motor */
-    constexpr std::int8_t INTAKE_MOTOR_PORT = -6;
-
-    /** Port of the ladybrown motor */
-    constexpr std::int8_t LADYBROWN_MOTOR_PORT = 8;
-    /** Port of the ladybrown rotation sensor */
-    constexpr std::int8_t LADYBROWN_ROTATION_PORT = 21;
-
-    /** Port of the clamp. */
-    constexpr char CLAMP_BRAIN_PORT = 'B';
-
-    /** Port of the hook sensor, LOW value means the sensor is blocked. */
-    constexpr char HOOK_SENSOR_BRAIN_PORT = 'E';
-
-    /** Port of the extended arm port */
-    constexpr char ARM_BRAIN_PORT = 'A';
+    /** Port of the bottom intake motor */
+    inline constexpr std::int8_t INTAKE_BOTTOM_MOTOR_PORT = 16;
+    /** Port of the top intake motor */
+    inline constexpr std::int8_t INTAKE_TOP_MOTOR_PORT = 10;
+    /** Port of the end intake motor */
+    inline constexpr std::int8_t INTAKE_END_MOTOR_PORT = 9;
 
     #elif DO
 
     /** Port of the left first front motor */
-    constexpr std::int8_t LEFT_FRONT1_MOTOR_PORT = 13;
+    inline constexpr std::int8_t LEFT_FRONT1_MOTOR_PORT = -19; // 1 is closer to the ground, 2 is higher up
     /** Port of the left second front motor */
-    constexpr std::int8_t LEFT_FRONT2_MOTOR_PORT = -14;
+    inline constexpr std::int8_t LEFT_FRONT2_MOTOR_PORT = 15;
     /** Port of the left second back motor */
-    constexpr std::int8_t LEFT_BACK2_MOTOR_PORT = 12;
+    inline constexpr std::int8_t LEFT_BACK2_MOTOR_PORT = 8;
     /** Port of the left first back motor */
-    constexpr std::int8_t LEFT_BACK1_MOTOR_PORT = -11;
+    inline constexpr std::int8_t LEFT_BACK1_MOTOR_PORT = -5;
 
     /** Port of the right first front motor */
-    constexpr std::int8_t RIGHT_FRONT1_MOTOR_PORT = -4;
+    inline constexpr std::int8_t RIGHT_FRONT1_MOTOR_PORT = -12;
     /** Port of the right second front motor */
-    constexpr std::int8_t RIGHT_FRONT2_MOTOR_PORT = 5;
+    inline constexpr std::int8_t RIGHT_FRONT2_MOTOR_PORT = 14;
     /** Port of the right second back motor */
-    constexpr std::int8_t RIGHT_BACK2_MOTOR_PORT = -6;
+    inline constexpr std::int8_t RIGHT_BACK2_MOTOR_PORT = 11;
     /** Port of the right first back motor */
-    constexpr std::int8_t RIGHT_BACK1_MOTOR_PORT = 7;
+    inline constexpr std::int8_t RIGHT_BACK1_MOTOR_PORT = -13;
 
-    /** Port of the left rotation sensor */
-    constexpr std::int8_t LEFT_ROTATION_SENSOR_PORT = 15;
-    /** Port of the right rotation sensor */
-    constexpr std::int8_t RIGHT_ROTATION_SENSOR_PORT = 3;
 
-    /** Port of the gyroscope used for odometry */
-    constexpr std::int8_t GYRO_PORT = 16;
-
-    /** Port of the lift motor */
-    constexpr std::int8_t LIFT_MOTOR_PORT = 8;
-
-    /** Port of the intake motor */
-    constexpr std::int8_t INTAKE_MOTOR_PORT = -2;
-
-    /** Port of the ladybrown motor */
-    constexpr std::int8_t LADYBROWN_MOTOR_PORT = 9;
-    /** Port of the ladybrown sensor motor */
-    constexpr std::int8_t LADYBROWN_ROTATION_PORT = 10;
-
-    /** Port of the clamp. */
-    constexpr char CLAMP_BRAIN_PORT = 'A';
-
-    /** Port of the hook sensor, LOW value means the sensor is blocked. */
-    constexpr char HOOK_SENSOR_BRAIN_PORT = 'H';
-
-    // /** Port of the extended arm port */
-    /// Needed to compile, but there is no arm on DO
-    constexpr char ARM_BRAIN_PORT = 'B';
+    /** Port of the bottom intake motor */
+    inline constexpr std::int8_t INTAKE_BOTTOM_MOTOR_PORT = 16;
+    /** Port of the top intake motor */
+    inline constexpr std::int8_t INTAKE_TOP_MOTOR_PORT = 10;
+    /** Port of the end intake motor */
+    inline constexpr std::int8_t INTAKE_END_MOTOR_PORT = 9;
 
     #endif
 }
