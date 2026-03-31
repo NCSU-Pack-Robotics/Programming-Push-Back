@@ -26,15 +26,11 @@ jobs:
         with:
             submodules: 'recursive'
 
-      - name: Install Libusb
-        run: sudo apt-get install pkg-config libusb-1.0-0-dev
-
       - name: Setup cmake
-        run: cmake -S . -B build -DTESTING=1 -DBRAIN=1 -DTHINK=${{ matrix.config.THINK_ON }} -DDO=${{ matrix.config.DO_ON }}
+        run: cmake -S . -B build -DTESTING=1 -DBRAIN=1 -DPI=0 -DTHINK=${{ matrix.config.THINK_ON }} -DDO=${{ matrix.config.DO_ON }}
 
       - name: Build
         run: cmake --build build --target TestSuite_Programming_Push_Back
 
       - name: Run GTest
         run: ./build/Push_Back/test/TestSuite_Programming_Push_Back
-
