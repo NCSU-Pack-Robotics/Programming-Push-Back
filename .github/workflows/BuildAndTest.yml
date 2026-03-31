@@ -1,5 +1,5 @@
-name: PROS Build
-run-name: Building PROS Project
+name: Build and GTest
+run-name: Builds using normal gcc and runs gtest unit tests
 
 on:
   push:
@@ -10,6 +10,15 @@ jobs:
     runs-on: ubuntu-latest
     env:
       XPACK_ARM_GCC_VERSION: "14.2.1-1.1"
+    strategy:
+      matrix:
+        config:
+          - name: think
+            THINK_ON: true
+            DO_ON: false
+          - name: do
+            THINK_ON: false
+            DO_ON: true
 
     steps:
       - name: Checkout repository
@@ -21,7 +30,7 @@ jobs:
         run: sudo apt-get install pkg-config libusb-1.0-0-dev
 
       - name: Setup cmake
-        run: cmake -S . -B build -DTESTING=1 -DTHINK=1 -DBRAIN=1 -DDO=0
+        run: cmake -S . -B build -DTESTING=1 -DBRAIN=1 -DTHINK=${{ matrix.config.THINK_ON }} -DDO=${{ matrix.config.DO_ON }}
 
       - name: Build
         run: cmake --build build --target TestSuite_Programming_Push_Back
