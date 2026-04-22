@@ -14,7 +14,7 @@ void DriverControlScheduler::initialize() {
     drivetrain.set_reversing(false);
 }
 
-int32_t DriverControlScheduler::scale_power(const int32_t power, double scaling_factor) const {
+int32_t scale_power(const int32_t power, double scaling_factor) {
     // https://www.desmos.com/calculator/arejdbcye3
     scaling_factor = std::clamp(scaling_factor, 0.0, 400.0);
     int32_t scaled_power = std::abs(power) * std::exp((scaling_factor / 100 * std::log(127) / 127) * (std::abs(power) - 127));
@@ -22,46 +22,45 @@ int32_t DriverControlScheduler::scale_power(const int32_t power, double scaling_
     return power < 0 ? -scaled_power : scaled_power;
 }
 
+int32_t cutoff_power(const int32_t power, int32_t cutoff)
+{
+    return abs(power) > cutoff ? power : 0;
+}
+
 void DriverControlScheduler::periodic() {
 #if THINK
     // Normal controls
-    double x = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X) / 127.0;
-    double y = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y) / 127.0;
-    double r = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_X) / 127.0;
+    double x = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
+    double y = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y);
+    double r = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_X);
     // TODO: Test how this feels
     // double r = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_X) / 127.0 * 0.6;
 
-    double fl = y + x + r;
-    double fr = y - x - r;
-    double bl = y - x + r;
-    double br = y + x - r;
-
-
-    double maxMag = std::max({fabs(fl), fabs(fr), fabs(bl), fabs(br)});
-    if (maxMag > 1.0) {
-        fl /= maxMag;
-        fr /= maxMag;
-        bl /= maxMag;
-        br /= maxMag;
-    }
-
-    drivetrain.set_drive_power(static_cast<int32_t>(fl) * 127, static_cast<int32_t>(fr) * 127, static_cast<int32_t>(br) * 127, static_cast<int32_t>(bl) * 127);
+    int32_t fl = y + x + r;
+    int32_t fr = y - x - r;
+    int32_t bl = y - x + r;
+    int32_t br = y + x - r;
 #endif
 
 #if DO
     // Garret's controls
-    double left_x = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_X) / 127.0;
-    double left_y = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y) / 127.0;
-    double right_x = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X) / 127.0;
-    double right_y = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y) / 127.0;
+    double left_x = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_X);
+    double left_y = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
+    double right_x = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
+    double right_y = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y);
 
-    double fl = left_y + left_x;
-    double bl = left_y - left_x;
-    double fr = right_y - left_x;
-    double br = right_y + left_x;
-
-    drivetrain.set_drive_power(static_cast<int32_t>(fl) * 127, static_cast<int32_t>(fr) * 127, static_cast<int32_t>(br) * 127, static_cast<int32_t>(bl) * 127);
+    int32_t fl = left_y + left_x;
+    int32_t bl = left_y - left_x;
+    int32_t fr = right_y - left_x;
+    int32_t br = right_y + left_x;
 #endif
+
+    int32_t scaled_fl = cutoff_power(scale_power(fl, Constants::Controller::INPUT_SCALING_FACTOR), Constants::Controller::INPUT_CUTOFF_AMOUNT);
+    int32_t scaled_fr = cutoff_power(scale_power(fr, Constants::Controller::INPUT_SCALING_FACTOR), Constants::Controller::INPUT_CUTOFF_AMOUNT);
+    int32_t scaled_bl = cutoff_power(scale_power(bl, Constants::Controller::INPUT_SCALING_FACTOR), Constants::Controller::INPUT_CUTOFF_AMOUNT);
+    int32_t scaled_br = cutoff_power(scale_power(br, Constants::Controller::INPUT_SCALING_FACTOR), Constants::Controller::INPUT_CUTOFF_AMOUNT);
+
+    drivetrain.set_drive_power(scaled_fl, scaled_fr, scaled_br, scaled_bl);
 
     for (auto &[button, command] : BINDS) {
         // controller state for this tick
