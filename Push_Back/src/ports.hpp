@@ -27,11 +27,11 @@ namespace Ports {
 
 
     /** Port of the bottom intake motor */
-    inline constexpr std::int8_t INTAKE_BOTTOM_MOTOR_PORT = 16;
+    inline constexpr std::int8_t INTAKE_BOTTOM_MOTOR_PORT = -16;
     /** Port of the top intake motor */
     inline constexpr std::int8_t INTAKE_TOP_MOTOR_PORT = 10;
     /** Port of the end intake motor */
-    inline constexpr std::int8_t INTAKE_END_MOTOR_PORT = 9;
+    inline constexpr std::int8_t INTAKE_END_MOTOR_PORT = -9;
 
     #elif DO
 
