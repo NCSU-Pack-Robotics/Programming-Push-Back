@@ -2,8 +2,10 @@
 #include "apix.h"
 
 #include <fcntl.h>
+#include <ports.hpp>
 #include <thread>
 #include <stdfloat>
+#include <subsystems/Intakes.hpp>
 
 #include "architecture/AutonomousControlScheduler.hpp"
 #include "architecture/DriverControlScheduler.hpp"
@@ -18,14 +20,17 @@
 // Turn off pros banner. Seems to only work in the macro version
 ENABLE_BANNER(false)
 
-void pi_communication();
-pros::Task communication_task(pi_communication);
+// void pi_communication();
+// pros::Task communication_task(pi_communication);
 
 // Create all subsystems:
 Drivetrain& drivetrain = AbstractSubsystem::get_instance<Drivetrain>();
+IntakeBottom& intake_bottom = AbstractSubsystem::get_instance<IntakeBottom>();
+IntakeTop& intake_top = AbstractSubsystem::get_instance<IntakeTop>();
+IntakeEnd& intake_end = AbstractSubsystem::get_instance<IntakeEnd>();
 
 // Add subsystems to vector for iteration
-std::vector<AbstractSubsystem*> subsystems = { &drivetrain };
+std::vector<AbstractSubsystem*> subsystems = { &drivetrain, &intake_bottom, &intake_top, &intake_end };
 
 SerialHandler serial_handler;
 
@@ -155,17 +160,17 @@ void opcontrol() {
     // TODO: Tell pi we have entered opcontrol
 
     while (true) {
-        std::optional<Packet> packet = serial_handler.pop_latest<OpticalPacket>();
-        // Print received data or 0 if not received. As long as PI sends faster than this loop delay this should work for this test
-        // TODO: Test it
-        std::float64_t x{}, y{}, heading{};
-        if (packet.has_value())
-        {
-            x = packet->get_data<OpticalPacket>().x;
-            y = packet->get_data<OpticalPacket>().y;
-            heading = packet->get_data<OpticalPacket>().heading;
-        }
-        pros::c::screen_print_at(TEXT_LARGE, 0, 0, std::format("{:.2f} {:.2f} {:.2f}", x, y, heading).c_str());
+        // std::optional<Packet> packet = serial_handler.pop_latest<OpticalPacket>();
+        // // Print received data or 0 if not received. As long as PI sends faster than this loop delay this should work for this test
+        // // TODO: Test it
+        // std::float64_t x{}, y{}, heading{};
+        // if (packet.has_value())
+        // {
+        //     x = packet->get_data<OpticalPacket>().x;
+        //     y = packet->get_data<OpticalPacket>().y;
+        //     heading = packet->get_data<OpticalPacket>().heading;
+        // }
+        // pros::c::screen_print_at(TEXT_LARGE, 0, 0, std::format("{:.2f} {:.2f} {:.2f}", x, y, heading).c_str());
         driver_scheduler.run();
 
         // Run periodic for all subsystems
