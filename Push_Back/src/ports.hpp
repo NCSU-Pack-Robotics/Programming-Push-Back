@@ -33,6 +33,8 @@ namespace Ports {
     /** Port of the end intake motor */
     inline constexpr std::int8_t INTAKE_END_MOTOR_PORT = -9;
 
+    inline constexpr std::uint8_t LIFT_PISTON_PORT = 'B';
+
     #elif DO
 
     /** Port of the left first front motor */
@@ -60,6 +62,8 @@ namespace Ports {
     inline constexpr std::int8_t INTAKE_TOP_MOTOR_PORT = 10;
     /** Port of the end intake motor */
     inline constexpr std::int8_t INTAKE_END_MOTOR_PORT = 9;
+
+    inline constexpr std::uint8_t LIFT_PISTON_PORT = 'B';
 
     #endif
 }
