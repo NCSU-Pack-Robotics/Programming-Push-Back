@@ -41,6 +41,12 @@ public:
      */
     void set_commands(std::vector<std::unique_ptr<Command>> commands);
 
+    /**
+     * Returns some identifying string related to what the command does
+     * @return some identifying string related to what the command does
+     */
+    std::string to_string() const override;
+
 protected:
     /**
      * Runs all commands in the list.

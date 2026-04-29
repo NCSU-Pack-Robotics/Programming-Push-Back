@@ -1,7 +1,6 @@
 #pragma once
 
-#include <queue>
-#include "main.h"
+#include "../../include/main.h"
 
 /**
  * A command is a thing the robot can do. They are intended to build off of each other,
@@ -19,21 +18,9 @@ public:
     virtual ~Command() = default;
 
     /**
-     * \brief High level method to control the execution of the command.
-     * This method is intended to be called continuously.
-     *
-     * \details When called the first time, <code>initialize()</code> is called.
-     * Then, every time after that, <code>periodic()</code> is called.
-     * After each call to <code>periodic()</code>, <code>is_complete()</code> is checked.
-     * On the call to run() where <code>is_complete()</code> returns true, <code>shutdown()</code>
-     * is called within the same call to <code>run()</code>.
-     * After <code>shutdown()</code> is called, the command is marked as completed and
-     * <code>shutdown()</code> and <code>periodic</code> are not called again.
-     *
-     * \note If <code>is_complete()</code> returns true on the first call to <code>run()</code>,
-     * then <code>initialize()</code> is called. On the second call to <code>run()</code>,
-     * <code>periodic()</code> is called, <code>shutdown()</code> is called, and the command is
-     * marked as completed.
+     * Called when the command needs to be run. It will call initialize() once, then periodic()
+     * until is_complete() returns true, then shutdown() once. If follow_up() returns a non-null
+     * pointer, it will run that command next.
      */
     void run();
 
@@ -43,16 +30,7 @@ public:
     */
     [[nodiscard]] bool has_shutdown() const;
 
-    /**
-     * A command that will run right after this command is done.
-     * If no follow up is needed, return nullptr.
-     */
-    // virtual std::unique_ptr<Command> follow_up();
-protected:
-    /**
-     * Determines when the command should be shutdown.
-     * @return true when the command is complete.
-     */
+    /** Return true when the command is complete. */
     virtual bool is_complete() = 0;
 
     /** Called on the command's first loop right before periodic(). */
@@ -67,8 +45,19 @@ protected:
     /** Called once after the command has finished its job. */
     virtual void shutdown() = 0;
 
-private:
+    /**
+     * A command that will run right after this command is done.
+     * If no follow up is needed, return nullptr.
+     */
+    // virtual std::unique_ptr<Command> follow_up();
 
+    /**
+     * Returns some identifying string related to what the command does
+     * @return some identifying string related to what the command does
+     */
+    virtual std::string to_string() const = 0;
+
+private:
     /** Whether the command has completed and shutdown() has been called. */
     bool completed = false;
 };

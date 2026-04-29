@@ -42,3 +42,22 @@ void ChainCommand::periodic() {
 bool ChainCommand::is_complete() {
     return command_queue.empty();
 }
+
+std::string ChainCommand::to_string() const {
+    std::string result = "ChainCommand(queue: " + std::to_string(command_queue.size()) + " commands left";
+
+    if (!command_queue.empty()) {
+        result += ",\n  current: ";
+        std::string command_str = command_queue.front()->to_string();
+
+        for (char c : command_str) {
+            result += c;
+            if (c == '\n') {
+                result += "  ";
+            }
+        }
+    }
+
+    result += ")";
+    return result;
+}

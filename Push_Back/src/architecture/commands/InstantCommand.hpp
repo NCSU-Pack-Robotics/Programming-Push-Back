@@ -8,7 +8,7 @@ public:
     InstantCommand() = default;
 
     /** Constructor that allows for a function to be passed as the execute method */
-    explicit InstantCommand(std::function<void()> executeFunction);
+    explicit InstantCommand(std::function<void()> executeFunction, std::string description = "");
 
     /** Returns true because InstantCommands only run once */
     bool is_complete() override;
@@ -27,10 +27,19 @@ public:
      * but can be overwritten in child classes */
     virtual void execute();
 
+    /**
+     * Returns some identifying string related to what the command does
+     * @return some identifying string related to what the command does
+     */
+    std::string to_string() const override;
+
 private:
     /**
      * The execute function passed from the constructor
      * @return A function that takes no arguments and returns nothing.
      */
     std::function<void()> executeFunction;
+
+    /** Optional description */
+    std::string description;
 };

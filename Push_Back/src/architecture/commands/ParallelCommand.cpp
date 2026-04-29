@@ -52,3 +52,25 @@ void ParallelCommand::periodic() {
 bool ParallelCommand::is_complete() {
     return commands.empty();
 }
+
+std::string ParallelCommand::to_string() const {
+    std::string result = "ParallelCommand([\n";
+    for (size_t i = 0; i < commands.size(); i++) {
+        std::string command_str = commands[i]->to_string();
+
+        result += "  ";
+        for (char c : command_str) {
+            result += c;
+            if (c == '\n') {
+                result += "  ";
+            }
+        }
+
+        if (i < commands.size() - 1) {
+            result += ",";
+        }
+        result += "\n";
+    }
+    result += "])";
+    return result;
+}

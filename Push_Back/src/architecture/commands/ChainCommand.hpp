@@ -1,5 +1,7 @@
 #pragma once
 
+#include <queue>
+
 #include "Command.hpp"
 
 /**
@@ -39,6 +41,12 @@ public:
      * @param commands The commands to set.
      */
     void set_commands(std::queue<std::unique_ptr<Command>> commands);
+
+    /**
+     * Returns some identifying string related to what the command does
+     * @return some identifying string related to what the command does
+     */
+    std::string to_string() const override;
 
 protected:
     /**

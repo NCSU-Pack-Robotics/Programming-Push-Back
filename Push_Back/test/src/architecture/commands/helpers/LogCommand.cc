@@ -27,6 +27,11 @@ public:
         this->log.emplace_back("shutdown");
     }
 
+    std::string to_string() const override
+    {
+        return "Log Command";
+    }
+
 private:
     /** The number of calls to periodic() before the command is complete. */
     const int lifespan;
