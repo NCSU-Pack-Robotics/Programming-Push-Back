@@ -6,6 +6,7 @@
 #include <thread>
 #include <stdfloat>
 #include <subsystems/Intakes.hpp>
+#include <subsystems/Lift.hpp>
 
 #include "architecture/AutonomousControlScheduler.hpp"
 #include "architecture/DriverControlScheduler.hpp"
@@ -28,9 +29,10 @@ Drivetrain& drivetrain = AbstractSubsystem::get_instance<Drivetrain>();
 IntakeBottom& intake_bottom = AbstractSubsystem::get_instance<IntakeBottom>();
 IntakeTop& intake_top = AbstractSubsystem::get_instance<IntakeTop>();
 IntakeEnd& intake_end = AbstractSubsystem::get_instance<IntakeEnd>();
+Lift& lift = AbstractSubsystem::get_instance<Lift>();
 
 // Add subsystems to vector for iteration
-std::vector<AbstractSubsystem*> subsystems = { &drivetrain, &intake_bottom, &intake_top, &intake_end };
+std::vector<AbstractSubsystem*> subsystems = { &drivetrain, &intake_bottom, &intake_top, &intake_end, &lift };
 
 SerialHandler serial_handler;
 

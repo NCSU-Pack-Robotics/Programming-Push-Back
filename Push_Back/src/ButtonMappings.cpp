@@ -6,6 +6,7 @@
 #include <commands/instant/StopIntakeFull.hpp>
 #include <commands/instant/StartColorSorting.hpp>
 #include <commands/instant/StopColorSorting.hpp>
+#include <commands/instant/ToggleLift.hpp>
 
 // Definition of BINDS
 #if THINK
@@ -22,7 +23,7 @@ std::unordered_map<pros::controller_digital_e_t, std::array<std::optional<std::f
              {pros::E_CONTROLLER_DIGITAL_X, {[]{ return std::make_unique<StartIntakeEnd>(); }, std::nullopt, []{ return std::make_unique<StopIntakeEnd>(); }}},
              {pros::E_CONTROLLER_DIGITAL_B, {[]{ return std::make_unique<StartIntakeFull>(); }, std::nullopt, []{ return std::make_unique<StopIntakeFull>(); }}},
              {pros::E_CONTROLLER_DIGITAL_Y, {std::nullopt, []{ return std::make_unique<StartColorSorting>(); }, []{ return std::make_unique<StopColorSorting>(); }}},
-             {pros::E_CONTROLLER_DIGITAL_A, {std::nullopt, std::nullopt, std::nullopt}}
+             {pros::E_CONTROLLER_DIGITAL_A, {[] { return std::make_unique<ToggleLift>(); }, std::nullopt, std::nullopt}}
 };
 #elif DO
 // Garret's bindings
