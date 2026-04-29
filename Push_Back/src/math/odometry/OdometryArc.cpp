@@ -110,19 +110,19 @@ void OdometryArc::calculate_position_arc() {
         if (fabs(delta_right) - fabs(delta_left) > 0) {
             // turning left
             delta_x = turning_radius *
-                      (cos(this->pose.heading - Constants::Math::HALF_PI + this->delta_heading ) -
-                       cos(this->pose.heading - Constants::Math::HALF_PI));
+                      (cos(this->pose.heading - M_PI_2 + this->delta_heading ) -
+                       cos(this->pose.heading - M_PI_2));
             delta_y = turning_radius *
-                      (sin(this->pose.heading - Constants::Math::HALF_PI + this->delta_heading ) -
-                       sin(this->pose.heading - Constants::Math::HALF_PI));
+                      (sin(this->pose.heading - M_PI_2 + this->delta_heading ) -
+                       sin(this->pose.heading - M_PI_2));
         } else if (fabs(delta_right) - fabs(delta_left) < 0) {
             // turning right
             delta_x = turning_radius *
-                      (cos(this->pose.heading + Constants::Math::HALF_PI + this->delta_heading ) -
-                       cos(this->pose.heading + Constants::Math::HALF_PI));
+                      (cos(this->pose.heading + M_PI_2 + this->delta_heading ) -
+                       cos(this->pose.heading + M_PI_2));
             delta_y = turning_radius *
-                      (sin(this->pose.heading + Constants::Math::HALF_PI + this->delta_heading ) -
-                       sin(this->pose.heading + Constants::Math::HALF_PI));
+                      (sin(this->pose.heading + M_PI_2 + this->delta_heading ) -
+                       sin(this->pose.heading + M_PI_2));
         }
     } else {  // Avoids division by zero
 

@@ -64,11 +64,11 @@ bool ChainCommand::is_complete() {
 
 std::string ChainCommand::to_string() const {
     std::string result = "ChainCommand(queue: " + std::to_string(command_queue.size()) + " commands left";
-    
+
     if (!command_queue.empty()) {
         result += ",\n  current: ";
         std::string command_str = command_queue.front()->to_string();
-        
+
         for (char c : command_str) {
             result += c;
             if (c == '\n') {
@@ -76,7 +76,7 @@ std::string ChainCommand::to_string() const {
             }
         }
     }
-    
+
     result += ")";
     return result;
 }
@@ -136,7 +136,7 @@ std::string ParallelCommand::to_string() const {
     std::string result = "ParallelCommand([\n";
     for (size_t i = 0; i < commands.size(); i++) {
         std::string command_str = commands[i]->to_string();
-        
+
         result += "  ";
         for (char c : command_str) {
             result += c;
@@ -144,7 +144,7 @@ std::string ParallelCommand::to_string() const {
                 result += "  ";
             }
         }
-        
+
         if (i < commands.size() - 1) {
             result += ",";
         }
