@@ -2,6 +2,7 @@
 
 #include "Pose.hpp"
 
+
 float Pose::distance(const Pose& other) const {
     return std::hypot(other.x - x, other.y - y);
 }
