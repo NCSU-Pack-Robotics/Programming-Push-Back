@@ -1,4 +1,5 @@
 #pragma once
+
 #include <string>
 
 /**
@@ -31,7 +32,7 @@ public:
      * @param other The pose to get the distance to.
      * @return The distance between the two poses.
      */
-    float distance(const PathPose& other) const;
+    [[nodiscard]] float distance(const PathPose& other) const;
 
     /**
      * Adds two poses to each-other.
@@ -69,7 +70,7 @@ public:
      * @param s
      * @return The pose multiplied by the scalar value.
      */
-    PathPose operator*(const float& s) const;
+    PathPose operator*(float s) const;
 
 
     /**
@@ -80,7 +81,7 @@ public:
      * @param s The scalar value to divide the pose by.
      * @return The pose divided by the scalar value.
      */
-    PathPose operator/(const float& s) const;
+    PathPose operator/(float s) const;
 
     /**
      * Linearly interpolate between two poses.
@@ -89,10 +90,10 @@ public:
      * @param t A scaling factor between 0 and 1 to how far between the two poses to interpolate.
      * @return The interpolated pose at t.
      */
-    PathPose lerp(const PathPose& other, float t) const;
+    [[nodiscard]] PathPose lerp(const PathPose& other, float t) const;
 
     /**
      * @return Returns the string representation of the pose.
      */
-    std::string to_string() const;
+    [[nodiscard]] std::string to_string() const;
 };

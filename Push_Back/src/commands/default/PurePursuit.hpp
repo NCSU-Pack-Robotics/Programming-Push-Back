@@ -3,7 +3,6 @@
 #include "architecture/asset.hpp"
 #include "subsystems/Drivetrain.hpp"
 #include "architecture/commands/Command.hpp"
-#include "math/odometry/Pose.hpp"
 #include "math/odometry/PathPose.hpp"
 
 /**

@@ -48,18 +48,18 @@ std::string string_to_hex(const std::string &input) {
 /**
  * @brief Get a pathpose from the asset
  *
- * @param pathpose The asset containing the pathpose to follow
+ * @param path The asset containing the pathpose to follow
  * @return vector of pose points on the path
  */
-std::vector<PathPose> get_data(const asset &pathpose) {
+std::vector<PathPose> get_data(const asset &path) {
     std::vector<PathPose> robotPath;
 
     // format data from the asset
-    const std::string data(reinterpret_cast<char *>(pathpose.buf), pathpose.size);
+    const std::string data(reinterpret_cast<char *>(path.buf), path.size);
     const std::vector<std::string> data_lines = read_element(data, "\n");
 
     // read the points until 'endData' is read
-    for (std::string line: data_lines) {
+    for (const std::string& line: data_lines) {
         // parse line
         if (line == "endData" || line == "endData\r") break;
         const std::vector<std::string> point_input = read_element(line, ", ");
@@ -67,7 +67,7 @@ std::vector<PathPose> get_data(const asset &pathpose) {
         // check if the line was read correctly
         if (point_input.size() != 3) {
             fprintf(stderr,
-                    "Failed to read pathpose file! Are you using the right format? Raw line: {%s}",
+                    "Failed to read path file! Are you using the right format? Raw line: {%s}",
                     string_to_hex(line).c_str());
             break;
         }

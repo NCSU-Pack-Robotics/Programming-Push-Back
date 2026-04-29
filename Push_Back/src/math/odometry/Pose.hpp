@@ -31,7 +31,7 @@ public:
      * @param other The pose to get the distance to.
      * @return The distance between the two poses.
      */
-    float distance(const Pose& other) const;
+    [[nodiscard]] float distance(const Pose& other) const;
 
     /**
      * Adds two poses to each-other.
@@ -89,10 +89,10 @@ public:
      * @param t A scaling factor between 0 and 1 to how far between the two poses to interpolate.
      * @return The interpolated pose at t.
      */
-    Pose lerp(const Pose& other, float t) const;
+    [[nodiscard]] Pose lerp(const Pose& other, float t) const;
 
     /**
      * @return Returns the string representation of the pose.
      */
-    std::string to_string() const;
+    [[nodiscard]] std::string to_string() const;
 };

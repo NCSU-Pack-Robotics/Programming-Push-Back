@@ -7,27 +7,27 @@ float PathPose::distance(const PathPose& other) const {
 }
 
 PathPose PathPose::operator+(const PathPose &other) const {
-    return PathPose(x + other.x, y + other.y, velocity);
+    return {x + other.x, y + other.y, velocity};
 }
 
 PathPose PathPose::operator-(const PathPose& other) const {
-    return PathPose(x - other.x, y - other.y, velocity);
+    return {x - other.x, y - other.y, velocity};
 }
 
 float PathPose::operator*(const PathPose& other) const {
     return x * other.x + y * other.y;
 }
 
-PathPose PathPose::operator*(const float& s) const {
-    return PathPose(x * s, y * s, velocity);
+PathPose PathPose::operator*(const float s) const {
+    return {x * s, y * s, velocity};
 }
 
-PathPose PathPose::operator/(const float& s) const {
-    return PathPose(x / s, y / s, velocity);
+PathPose PathPose::operator/(const float s) const {
+    return {x / s, y / s, velocity};
 }
 
 PathPose PathPose::lerp(const PathPose &other, const float t) const {
-    return PathPose(x + (other.x - x) * t, y + (other.y - y) * t, velocity);
+    return {x + (other.x - x) * t, y + (other.y - y) * t, velocity};
 }
 std::string PathPose::to_string() const {
 
