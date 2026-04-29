@@ -2,10 +2,13 @@
 
 #include "Command.hpp"
 
+#include <utility>
+
 /** A command that is only run once. Useful for setting things like motor speeds. */
 class InstantCommand : public Command {
+protected:
+    InstantCommand(std::string description = "") : description(std::move(description)) {};
 public:
-    InstantCommand() = default;
 
     /** Constructor that allows for a function to be passed as the execute method */
     explicit InstantCommand(std::function<void()> executeFunction, std::string description = "");
@@ -32,6 +35,7 @@ public:
      * @return some identifying string related to what the command does
      */
     std::string to_string() const override;
+    std::string get_name() const override;
 
 private:
     /**

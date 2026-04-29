@@ -29,6 +29,11 @@ public:
 
     std::string to_string() const override
     {
+        return get_name();
+    }
+
+    std::string get_name() const override
+    {
         return "Log Command";
     }
 

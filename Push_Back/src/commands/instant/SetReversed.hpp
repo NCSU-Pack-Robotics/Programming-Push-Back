@@ -3,7 +3,7 @@
 
 class SetReversed final : public InstantCommand {
 public:
-    explicit SetReversed(const bool reversed) : reversed(reversed) {};
+    explicit SetReversed(const bool reversed) : reversed(reversed), InstantCommand() {};
 protected:
     void execute() override;
 

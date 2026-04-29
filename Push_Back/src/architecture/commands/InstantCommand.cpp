@@ -28,3 +28,8 @@ InstantCommand::InstantCommand(std::function<void()> executeFunction, std::strin
 std::string InstantCommand::to_string() const {
     return "InstantCommand(" + description + ")";
 }
+
+std::string InstantCommand::get_name() const
+{
+    return description;
+}

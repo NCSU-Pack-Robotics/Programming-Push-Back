@@ -55,7 +55,8 @@ public:
      * Returns some identifying string related to what the command does
      * @return some identifying string related to what the command does
      */
-    virtual std::string to_string() const = 0;
+    virtual std::string to_string() const;
+    virtual std::string get_name() const = 0;
 
 private:
     /** Whether the command has completed and shutdown() has been called. */

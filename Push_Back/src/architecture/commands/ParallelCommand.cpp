@@ -54,7 +54,7 @@ bool ParallelCommand::is_complete() {
 }
 
 std::string ParallelCommand::to_string() const {
-    std::string result = "ParallelCommand([\n";
+    std::string result = get_name() + "([\n";
     for (size_t i = 0; i < commands.size(); i++) {
         std::string command_str = commands[i]->to_string();
 
@@ -73,4 +73,9 @@ std::string ParallelCommand::to_string() const {
     }
     result += "])";
     return result;
+}
+
+std::string ParallelCommand::get_name() const
+{
+    return "ParallelCommand";
 }

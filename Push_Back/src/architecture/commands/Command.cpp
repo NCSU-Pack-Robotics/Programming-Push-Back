@@ -16,3 +16,8 @@ void Command::run() {
 bool Command::has_shutdown() const {
     return completed;
 }
+
+std::string Command::to_string() const
+{
+    return get_name();
+}

@@ -46,6 +46,7 @@ public:
      * @return some identifying string related to what the command does
      */
     std::string to_string() const override;
+    std::string get_name() const override;
 
 protected:
     /**

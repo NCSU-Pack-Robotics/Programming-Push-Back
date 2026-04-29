@@ -44,7 +44,7 @@ bool ChainCommand::is_complete() {
 }
 
 std::string ChainCommand::to_string() const {
-    std::string result = "ChainCommand(queue: " + std::to_string(command_queue.size()) + " commands left";
+    std::string result = get_name() +  "(queue: " + std::to_string(command_queue.size()) + " commands left";
 
     if (!command_queue.empty()) {
         result += ",\n  current: ";
@@ -60,4 +60,9 @@ std::string ChainCommand::to_string() const {
 
     result += ")";
     return result;
+}
+
+std::string ChainCommand::get_name() const
+{
+    return "ChainCommand";
 }
