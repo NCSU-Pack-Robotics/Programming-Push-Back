@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Terminal" type="ShConfigurationType" singleton="false">
-    <option name="SCRIPT_TEXT" value="wsl pros terminal" />
+    <option name="SCRIPT_TEXT" value="pros terminal" />
     <option name="INDEPENDENT_SCRIPT_PATH" value="true" />
     <option name="SCRIPT_PATH" value="" />
     <option name="SCRIPT_OPTIONS" value="" />
