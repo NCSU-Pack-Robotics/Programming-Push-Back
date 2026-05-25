@@ -3,7 +3,7 @@
 #include "architecture/asset.hpp"
 #include "subsystems/Drivetrain.hpp"
 #include "architecture/commands/Command.hpp"
-#include "math/odometry/PathPose.hpp"
+#include "math/odometry/Pose.hpp"
 
 /**
 * The PurePursuit command is responsible for moving between two poses using the pure pursuit

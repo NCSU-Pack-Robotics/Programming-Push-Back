@@ -91,8 +91,8 @@ void OdometryArc::update_heading() {
 }
 
 void OdometryArc::calculate_position_linear() {
-    this->pose.x += delta_avg * cos(this->pose.heading);
-    this->pose.y += delta_avg * sin(this->pose.heading);
+    this->pose.position[0] += delta_avg * cos(this->pose.heading);
+    this->pose.position[1] += delta_avg * sin(this->pose.heading);
 }
 
 void OdometryArc::calculate_position_arc() {
@@ -133,6 +133,6 @@ void OdometryArc::calculate_position_arc() {
     }
 
     // Update the pose's x and y coordinates
-    this->pose.x += delta_x;
-    this->pose.y += delta_y;
+    this->pose.position[0] += delta_x;
+    this->pose.position[1] += delta_y;
 }
