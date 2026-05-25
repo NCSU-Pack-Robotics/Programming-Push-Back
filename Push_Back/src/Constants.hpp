@@ -20,17 +20,6 @@ namespace Constants {
         POWER
     };
 
-    namespace Math {
-        /** 90 degrees */
-        constexpr double HALF_PI = 1.57079632679489661923;
-
-        /** 180 degrees */
-        constexpr double PI = 3.14159265358979323846;
-
-        /** 360 degrees */
-        constexpr double TAU = 6.28318530717958647692;
-    }
-
     namespace Hardware {
         /**
          * The diameter of a tracking wheel

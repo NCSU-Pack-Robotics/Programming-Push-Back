@@ -23,9 +23,13 @@ namespace Constants {
         #if THINK
         /** The scaling factor used for scaling the controller input */
         constexpr int32_t INPUT_SCALING_FACTOR = 0;
+        /** Joystick inputs will be cut off to zero if their absolute value is less than this amount */
+        constexpr int32_t INPUT_CUTOFF_AMOUNT = 5;
         #elif DO
         /** The scaling factor used for scaling the controller input */
         constexpr int32_t INPUT_SCALING_FACTOR = 0;
+        /** Joystick inputs will be cut off to zero if their absolute value is less than this amount */
+        constexpr int32_t INPUT_CUTOFF_AMOUNT = 5;
         #endif
 
     }
