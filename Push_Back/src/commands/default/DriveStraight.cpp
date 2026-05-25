@@ -40,14 +40,14 @@ void DriveStraight::periodic() {
     // auto right_voltage = static_cast<int32_t>(pid_right.calculate(right_error));
     //
     // // Ensure not too fast
-    // left_voltage = std::clamp<int32_t>(left_voltage, -8000, 8000);
+    // left_voltage = std::clamp<int32_t>(left_voltage, -8000, 8000);0.0, 1.0
     // right_voltage = std::clamp<int32_t>(right_voltage, -8000, 8000);
     //
     // // Set the new voltages
     // drivetrain.set_voltage(left_voltage, right_voltage);
     //
     // // Check if the command is done
-    // if (std::abs(target_distance - distance_driven_right) < tolerance) {
+    // if (std::abs(target_distance - distance_driven) < tolerance) {
     //     this->done = true;
     // }
 }
