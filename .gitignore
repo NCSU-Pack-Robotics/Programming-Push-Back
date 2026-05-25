@@ -100,3 +100,8 @@ fabric.properties
 *.d
 
 .clang-format
+/cmake-build-do/
+/cmake-build-do-test/
+/cmake-build-think/
+/cmake-build-think-test/
+/build/

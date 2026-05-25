@@ -46,20 +46,20 @@ std::string string_to_hex(const std::string &input) {
 }
 
 /**
- * @brief Get a path from the asset
+ * @brief Get a pathpose from the asset
  *
- * @param path The asset containing the path to follow
+ * @param path The asset containing the pathpose to follow
  * @return vector of pose points on the path
  */
-std::vector<Pose> get_data(const asset &path) {
-    std::vector<Pose> robotPath;
+std::vector<PathPose> get_data(const asset &path) {
+    std::vector<PathPose> robotPath;
 
     // format data from the asset
     const std::string data(reinterpret_cast<char *>(path.buf), path.size);
     const std::vector<std::string> data_lines = read_element(data, "\n");
 
     // read the points until 'endData' is read
-    for (std::string line: data_lines) {
+    for (const std::string& line: data_lines) {
         // parse line
         if (line == "endData" || line == "endData\r") break;
         const std::vector<std::string> point_input = read_element(line, ", ");
@@ -72,11 +72,10 @@ std::vector<Pose> get_data(const asset &path) {
             break;
         }
 
-        Pose path_point(0, 0, 0);
-        path_point.x = std::stof(point_input.at(0)); // x position
-        path_point.y = std::stof(point_input.at(1)); // y position
-        path_point.heading = std::stof(point_input.at(2)); // velocity
-        robotPath.push_back(path_point); // save data
+        const double x = std::stof(point_input.at(0)); // x position
+        const double y = std::stof(point_input.at(1)); // y position
+        const double velocity = std::stof(point_input.at(2)); // velocity
+        robotPath.emplace_back(x, y, velocity); // save data
     }
 
     return robotPath;
@@ -89,9 +88,9 @@ std::vector<Pose> get_data(const asset &path) {
  * @param path - the path to follow
  * @return The closest point on the path to the robot
  */
-Pose get_closest_point(const Pose &pose, const std::vector<Pose> &path) {
-    Pose closest_point(path[0].x, path[0].y, path[0].heading);
-    for (Pose point: path) {
+PathPose get_closest_point(const Pose &pose, const std::vector<PathPose> &path) {
+    PathPose closest_point(path[0].x(), path[0].y(), path[0].velocity);
+    for (const PathPose& point: path) {
         if (pose.distance(point) < pose.distance(closest_point)) {
             closest_point = point;
         }
@@ -111,10 +110,10 @@ Pose get_closest_point(const Pose &pose, const std::vector<Pose> &path) {
  * @param lookahead_dist - the lookahead distance of the algorithm
  * @return The lookahead point on the path
  */
-Pose get_lookahead_point(const Pose &pose, const std::vector<Pose> &path, const double lookahead_dist) {
+PathPose get_lookahead_point(const Pose &pose, const std::vector<PathPose> &path, const double lookahead_dist) {
     // Find the lookahead point in the direction of the robot's heading
-    const Pose raw_lookahead(pose.x + lookahead_dist * std::cos(pose.heading),
-                            pose.y + lookahead_dist * std::sin(pose.heading), 0);
+    const Pose raw_lookahead(pose.x() + lookahead_dist * std::cos(pose.heading),
+                            pose.y() + lookahead_dist * std::sin(pose.heading), 0);
 
     // Find the point on the path closest to the lookahead point
     return get_closest_point(raw_lookahead, path);
@@ -135,10 +134,10 @@ PurePursuit::PurePursuit(const asset &path, const double lookahead, const double
     }
 
     // Find the dx and dx of the last two points of the path. Will be used later.
-    const Pose last_point = this->path.back();
-    const Pose second_last_point = this->path[this->path.size() - 2];
-    const double dx = last_point.x - second_last_point.x;
-    const double dy = last_point.y - second_last_point.y;
+    const PathPose last_point = this->path.back();
+    const PathPose second_last_point = this->path[this->path.size() - 2];
+    const double dx = last_point.x() - second_last_point.x();
+    const double dy = last_point.y() - second_last_point.y();
 
     /* Adding some point to the end of the path. When this is not done, the effective lookahead
      * reduces to the distance between the robot and the end of the path. This shrinking of the
@@ -146,9 +145,9 @@ PurePursuit::PurePursuit(const asset &path, const double lookahead, const double
      * This code imply adds more points to the end of the path in the direction of the last point
      * so that there is a points close to the lookahead point when the robot reaches the end of
      * the path. */
-    Pose new_last_point = last_point;
+    PathPose new_last_point = last_point;
     while (last_point.distance(new_last_point) < lookahead * 2) {  // *2 just to be safe
-        new_last_point = Pose(new_last_point.x + dx, new_last_point.y + dy, new_last_point.heading);
+        new_last_point = PathPose(new_last_point.x() + dx, new_last_point.y() + dy, new_last_point.velocity);
         this->path.push_back(new_last_point);
     }
 }
@@ -161,15 +160,15 @@ void PurePursuit::initialize() {
 void PurePursuit::periodic() {
     const Pose pose = drivetrain.get_pose();
 
-    const Pose lookahead_point = get_lookahead_point(pose, path, lookahead);
+    const PathPose lookahead_point = get_lookahead_point(pose, path, lookahead);
 
     // Get variables to make equation less cluttered
     const double m = tan(fmod(pose.heading, M_PI / 2) == 0 ? pose.heading + 1e-9 : pose.heading);  // slope of the robot
     // const double m = tan(pose.heading);  // slope of the robot
-    const double xl = lookahead_point.x; // x of the lookahead point
-    const double yl = lookahead_point.y; // y of the lookahead point
-    const double x = pose.x; // x of the robot
-    const double y = pose.y; // y of the robot
+    const double xl = lookahead_point.x(); // x of the lookahead point
+    const double yl = lookahead_point.y(); // y of the lookahead point
+    const double x = pose.x(); // x of the robot
+    const double y = pose.y(); // y of the robot
 
     // calculate radius of the circle connecting the robot and the lookahead point
     const double radius = (sqrt(pow(m, 2) + 1) * (pow(xl - x, 2) + pow(yl - y, 2)))
@@ -179,11 +178,11 @@ void PurePursuit::periodic() {
     double curvature = 1 / radius;
 
     // Get target velocity from the path
-    const double target_vel = get_closest_point(pose, path).heading;
+    const double target_vel = get_closest_point(pose, path).velocity;
 
     // Add sign to curvature based on the side of the robot the lookahead point is on
-    const double dx = lookahead_point.x - pose.x;
-    const double dy = lookahead_point.y - pose.y;
+    const double dx = lookahead_point.x() - pose.x();
+    const double dy = lookahead_point.y() - pose.y();
     const double side = dx * sin(pose.heading) - dy * cos(pose.heading);
     curvature *= side;
 
@@ -219,7 +218,7 @@ bool PurePursuit::is_complete() {
     const Pose pose = drivetrain.get_pose();
 
     // When the robot is within some inches of the end of the path, stop
-    if (pose.distance(this->last_point) < this->tolerance) {
+    if (pose.distance(last_point) < this->tolerance) {
         return true;
     }
 
