@@ -2,11 +2,14 @@
 #include <gmock/gmock-matchers.h>
 #include <math/odometry/Pose.hpp>
 
-/** Used to convert valarray to vector for gtest's matchers to work. */
-#define POSE2VEC(pose) (std::vector(std::begin(pose.position), std::end(pose.position)))
 
-/** Used to shorten the name of EuclideanPose in the test. */
-#define EP EuclideanPose
+/** Shorten the name of EuclideanPose in the test. */
+using EP = EuclideanPose;
+
+/** Convert valarray to vector for gtest's matchers to work. */
+inline std::vector<double> pose_to_vec(const EP& pose) {
+    return {std::begin(pose.position), std::end(pose.position)};
+}
 
 class PoseTest : public testing::Test {
 protected:
@@ -26,30 +29,30 @@ TEST_F(PoseTest, distance) {
 
 TEST_F(PoseTest, addition) {
     EP result = e_pose + EP{1, 2};
-    EXPECT_THAT(POSE2VEC(result), testing::ElementsAre(4, 6));
+    EXPECT_THAT(pose_to_vec(result), testing::ElementsAre(4, 6));
 
     result = long_pose + EP{0, 0, 0, 0, 0};
-    EXPECT_THAT(POSE2VEC(result),  testing::ElementsAre(1, 2, 3, 4, 5));
+    EXPECT_THAT(pose_to_vec(result),  testing::ElementsAre(1, 2, 3, 4, 5));
 
     result = pose + Pose{1, 1, M_PI_4};
-    EXPECT_THAT(POSE2VEC(result), testing::ElementsAre(6, 13));
+    EXPECT_THAT(pose_to_vec(result), testing::ElementsAre(6, 13));
 
     result = path_pose + PathPose{1, 1, 0};
-    EXPECT_THAT(POSE2VEC(result), testing::ElementsAre(21, 100));
+    EXPECT_THAT(pose_to_vec(result), testing::ElementsAre(21, 100));
 }
 
 TEST_F(PoseTest, subtraction) {
     EP result = e_pose - EP{1, 2};
-    EXPECT_THAT(POSE2VEC(result), testing::ElementsAre(2, 2));
+    EXPECT_THAT(pose_to_vec(result), testing::ElementsAre(2, 2));
 
     result = long_pose - EP{1, 1, 1, 1, 1};
-    EXPECT_THAT(POSE2VEC(result), testing::ElementsAre(0, 1, 2, 3, 4));
+    EXPECT_THAT(pose_to_vec(result), testing::ElementsAre(0, 1, 2, 3, 4));
 
     result = pose - Pose{2, 2, 0};
-    EXPECT_THAT(POSE2VEC(result), testing::ElementsAre(3, 10));
+    EXPECT_THAT(pose_to_vec(result), testing::ElementsAre(3, 10));
 
     result = path_pose - PathPose{5, 9, 0};
-    EXPECT_THAT(POSE2VEC(result), testing::ElementsAre(15, 90));
+    EXPECT_THAT(pose_to_vec(result), testing::ElementsAre(15, 90));
 }
 
 TEST_F(PoseTest, dot_product) {
@@ -66,42 +69,42 @@ TEST_F(PoseTest, dot_product) {
 
 TEST_F(PoseTest, scalar_multiplication) {
     EP result = e_pose * 2.0;
-    EXPECT_THAT(POSE2VEC(result), testing::ElementsAre(6, 8));
+    EXPECT_THAT(pose_to_vec(result), testing::ElementsAre(6, 8));
 
     result = long_pose * 0.5;
-    EXPECT_THAT(POSE2VEC(result), testing::ElementsAre(0.5, 1, 1.5, 2, 2.5));
+    EXPECT_THAT(pose_to_vec(result), testing::ElementsAre(0.5, 1, 1.5, 2, 2.5));
 
     result = pose * 2.0;
-    EXPECT_THAT(POSE2VEC(result), testing::ElementsAre(10, 24));
+    EXPECT_THAT(pose_to_vec(result), testing::ElementsAre(10, 24));
 
     result = path_pose * 0.1;
-    EXPECT_THAT(POSE2VEC(result), testing::ElementsAre(2, 9.9));
+    EXPECT_THAT(pose_to_vec(result), testing::ElementsAre(2, 9.9));
 }
 
 TEST_F(PoseTest, scalar_division) {
     EP result = e_pose / 2.0;
-    EXPECT_THAT(POSE2VEC(result), testing::ElementsAre(1.5, 2));
+    EXPECT_THAT(pose_to_vec(result), testing::ElementsAre(1.5, 2));
 
     result = long_pose / 2.0;
-    EXPECT_THAT(POSE2VEC(result), testing::ElementsAre(0.5, 1, 1.5, 2, 2.5));
+    EXPECT_THAT(pose_to_vec(result), testing::ElementsAre(0.5, 1, 1.5, 2, 2.5));
 
     result = pose / 5.0;
-    EXPECT_THAT(POSE2VEC(result), testing::ElementsAre(1, 2.4));
+    EXPECT_THAT(pose_to_vec(result), testing::ElementsAre(1, 2.4));
 
     result = path_pose / 10.0;
-    EXPECT_THAT(POSE2VEC(result), testing::ElementsAre(2, 9.9));
+    EXPECT_THAT(pose_to_vec(result), testing::ElementsAre(2, 9.9));
 }
 
 TEST_F(PoseTest, lerp) {
     EP result = e_pose.lerp(EP{9, 14}, 0.5);
-    EXPECT_THAT(POSE2VEC(result), testing::ElementsAre(6, 9));
+    EXPECT_THAT(pose_to_vec(result), testing::ElementsAre(6, 9));
 
     result = long_pose.lerp(EP{6, 7, 8, 9, 10}, 0.5);
-    EXPECT_THAT(POSE2VEC(result), testing::ElementsAre(3.5, 4.5, 5.5, 6.5, 7.5));
+    EXPECT_THAT(pose_to_vec(result), testing::ElementsAre(3.5, 4.5, 5.5, 6.5, 7.5));
 
     result = pose.lerp(Pose{9, 20, 0}, 0.25);
-    EXPECT_THAT(POSE2VEC(result), testing::ElementsAre(6, 14));
+    EXPECT_THAT(pose_to_vec(result), testing::ElementsAre(6, 14));
 
     result = path_pose.lerp(PathPose{24, 79, 0}, 0.25);
-    EXPECT_THAT(POSE2VEC(result), testing::ElementsAre(21, 94));
+    EXPECT_THAT(pose_to_vec(result), testing::ElementsAre(21, 94));
 }
