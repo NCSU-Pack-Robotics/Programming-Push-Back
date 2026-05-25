@@ -104,9 +104,6 @@ TEST_F(TimelineCommandTest, testCheckpointAtEnd)  {
     ASSERT_THAT(log, testing::ElementsAre());
     while (!tc.has_shutdown()) tc.run(); // Finish off the main command and run the checkpoint command
 
-    /* Only initialize is run because the main command is already done by the time this
-     * checkpoint is set to activate. In the future this may cause problems, in which case, some
-     * things will have to be reworked. */
     ASSERT_THAT(log, testing::ElementsAre("initialize_1"));
 }
 
