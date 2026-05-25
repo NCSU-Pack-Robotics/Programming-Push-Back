@@ -12,8 +12,9 @@ public:
     /**
      * Constructs an ID command and its superclass.
      * @param log The log for
-     * @param id
-     * @param lifespan
+     * @param id Some number to represent the command. Should be unique in the context of the
+     * test to avoid mixing up which command is which in the log.
+     * @param lifespan The number of calls to run() before the command is complete.
      */
     IdCommand(std::vector<std::string>& log, const int id, const int lifespan = 0)
         : LogCommand(log, lifespan), id(id) {}

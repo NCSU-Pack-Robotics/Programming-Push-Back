@@ -10,11 +10,12 @@ TimelineCommand::Checkpoint::Checkpoint(const double activationPoint,
     : activationPoint(activationPoint), command(std::move (command)) {}
 
 TimelineCommand::TimelineCommand(std::unique_ptr<ProgressCommand> mainCommand,
-                                 std::vector<Checkpoint>&& checkpoints)
+                                 std::vector<Checkpoint>&& checkpoints,
+                                 const bool wait_for_active_checkpoints)
     : ParallelCommand({}),
       mainCommand(std::move(mainCommand)),
-      checkpoints(std::move(checkpoints)) {
-}
+      checkpoints(std::move(checkpoints)),
+      wait_for_active_checkpoints(wait_for_active_checkpoints) {}
 
 void TimelineCommand::periodic() {
     // This loop checks mainCommand progress to activate checkpoints
@@ -45,10 +46,13 @@ void TimelineCommand::periodic() {
 }
 
 bool TimelineCommand::is_complete() {
-    if (this->mainCommand && mainCommand->has_shutdown())
-        return true;
+    if (wait_for_active_checkpoints && !ParallelCommand::is_complete())
+        return false;
 
-    return false;
+    if (this->mainCommand && !mainCommand->has_shutdown())
+        return false;
+
+    return true;
 }
 
 void TimelineCommand::initialize() {}

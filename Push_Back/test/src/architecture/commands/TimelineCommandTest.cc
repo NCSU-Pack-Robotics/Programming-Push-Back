@@ -109,3 +109,21 @@ TEST_F(TimelineCommandTest, testCheckpointAtEnd)  {
      * things will have to be reworked. */
     ASSERT_THAT(log, testing::ElementsAre("initialize_1"));
 }
+
+TEST_F(TimelineCommandTest, testWaitForCheckpoints) {
+    checkpoints.emplace_back(0, std::make_unique<IdCommand>(log, 1, 0));
+    checkpoints.emplace_back(0.9, std::make_unique<IdCommand>(log, 2, 20));
+    TimelineCommand tc(std::make_unique<Count2Ten>(), std::move(checkpoints), true);
+
+    tc.run(); // Initialize the tc
+    tc.run(); // Runs the periodic of the tc once
+    ASSERT_THAT(log, testing::ElementsAre("initialize_1"));
+    tc.run(); // Should run periodic of the main command and periodic of IdCommand 1
+    ASSERT_THAT(log, testing::ElementsAre("initialize_1", "periodic_1", "shutdown_1"));
+    log.clear();
+
+    while (!tc.has_shutdown()) tc.run(); // Finish off the main command and run the checkpoint command
+    EXPECT_THAT(log, testing::Contains("initialize_2"));
+    EXPECT_THAT(log, testing::Contains("periodic_2").Times(19));
+    EXPECT_THAT(log, testing::Contains("shutdown_2"));
+}

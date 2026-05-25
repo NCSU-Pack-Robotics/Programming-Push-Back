@@ -9,10 +9,6 @@
 /**
  * A command that follows the progression of a <code>ProgressCommand</code> and activates additional
  * commands at certain Checkpoints that are done in parallel to the main command.
- *
- * @note: Not all commands are guaranteed to run. Furthermore, if a command's initialize is run,
- * its other methods are not guaranteed to run in the case the main command shutdown before the
- * checkpoints get a chance to finish.
  */
 class TimelineCommand : public ParallelCommand {
 public:
@@ -43,13 +39,13 @@ public:
     * activate additional commands.
     * @param mainCommand The command whose progress is tracked to activate other commands.
     * @param checkpoints The list of Checkpoints that will activate throughout mainCommand.
-    *
-    * @note: Not all commands are guaranteed to run. Furthermore, if a command's initialize is run,
-    * its other methods are not guaranteed to run in the case the main command shutdown before the
-    * checkpoints get a chance to finish.
+    * @param wait_for_active_checkpoints If true, the TimelineCommand will not finish until all
+    * checkpoints that have started shutdown. If False, checkpoints are not guaranteed to finish,
+    * even if they initialize.
     */
     TimelineCommand(std::unique_ptr<ProgressCommand> mainCommand,
-                    std::vector<Checkpoint>&& checkpoints);
+                    std::vector<Checkpoint>&& checkpoints,
+                    bool wait_for_active_checkpoints = false);
 
     /**
     * Runs mainCommand and any other commands from Checkpoints, and checks mainCommand progress
@@ -67,4 +63,6 @@ private:
     std::unique_ptr<ProgressCommand> mainCommand;
     /** The list of Checkpoints that will activate throughout mainCommand. */
     std::vector<Checkpoint> checkpoints;
+    /** Whether the TimelineCommand should wait for checkpoints to finish before finishing itself. */
+    const bool wait_for_active_checkpoints;
 };
