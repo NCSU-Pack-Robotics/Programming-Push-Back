@@ -100,10 +100,10 @@ private:
 class Pose : public EuclideanPose{
 public:
     /** The heading of the robot in radians. */
-    double heading;
+    double heading{};
 
     /** Default constructor for the Pose object. */
-    Pose();
+    Pose() = default;
 
     /**
      * Constructs a new Pose object.
@@ -121,10 +121,10 @@ public:
 class PathPose : public EuclideanPose {
 public:
     /** The speed at which the robot should be moving at this point in inches/second. */
-    double velocity;
+    double velocity{};
 
     /** Default constructor for the PathPose object. */
-    PathPose();
+    PathPose() = default;
 
     /*
      * Constructs a new PathPose object.

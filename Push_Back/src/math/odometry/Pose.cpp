@@ -70,12 +70,8 @@ void EuclideanPose::check_size() const {
     }
 }
 
-Pose::Pose() : heading() {}
-
 Pose::Pose(const double x, const double y, const double heading)
     : EuclideanPose({x, y}), heading(heading) {}
-
-PathPose::PathPose() : velocity() {}
 
 PathPose::PathPose(const double x, const double y, const double velocity)
     : EuclideanPose({x, y}), velocity(velocity) {}
