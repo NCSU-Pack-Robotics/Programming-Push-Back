@@ -52,3 +52,21 @@ void ParallelCommand::periodic() {
 bool ParallelCommand::is_complete() {
     return commands.empty();
 }
+
+std::string ParallelCommand::to_string() const {
+    std::string result = std::format("{}({} commands are running):\n", get_name(), commands.size());
+
+    for (size_t i{}; i < commands.size(); i++)
+    {
+        result += std::format("{}: {}\n", i, commands[i]->to_string());
+    }
+
+    result += '\n';
+
+    return result;
+}
+
+std::string ParallelCommand::get_name() const
+{
+    return "ParallelCommand";
+}

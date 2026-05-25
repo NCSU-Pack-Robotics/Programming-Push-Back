@@ -10,5 +10,9 @@ public:
      * Tracks and returns the current progress of the ProgressCommand
      * @return A value between 0 and 1 representing the progress of the command. 0: no progress & 1: complete
      */
-    virtual double get_progress() = 0;
+    [[nodiscard]] virtual double get_progress() const = 0;
+
+    std::string to_string() const override;
+
+    std::string get_name() const override;
 };

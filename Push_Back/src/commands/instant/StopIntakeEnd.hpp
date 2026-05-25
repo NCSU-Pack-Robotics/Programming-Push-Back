@@ -4,7 +4,7 @@
 
 class StopIntakeEnd : public InstantCommand {
 public:
-    StopIntakeEnd() = default;
+    StopIntakeEnd() : InstantCommand("StopIntakeEnd") {};
 protected:
     void execute() override;
 };

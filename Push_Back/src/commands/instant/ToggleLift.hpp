@@ -5,7 +5,7 @@
 class ToggleLift : public InstantCommand
 {
 public:
-    ToggleLift() = default;
+    ToggleLift() : InstantCommand("ToggleLift") {};
 
     void execute() override;
 };

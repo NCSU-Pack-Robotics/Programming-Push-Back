@@ -4,7 +4,7 @@
 
 class StopColorSorting : public InstantCommand {
 public:
-    StopColorSorting() = default;
+    StopColorSorting() : InstantCommand("StopColorSorting") {};
 protected:
     void execute() override;
 };

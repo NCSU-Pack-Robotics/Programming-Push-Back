@@ -20,6 +20,11 @@ void InstantCommand::periodic() {
     // This is called once, right after initialize()
 }
 
-InstantCommand::InstantCommand(std::function<void()> executeFunction) {
-    this->executeFunction = std::move(executeFunction);
+std::string InstantCommand::to_string() const {
+    return "InstantCommand(" + description + ")";
+}
+
+std::string InstantCommand::get_name() const
+{
+    return description;
 }

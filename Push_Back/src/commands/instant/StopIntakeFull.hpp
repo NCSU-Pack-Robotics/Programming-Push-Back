@@ -4,7 +4,7 @@
 
 class StopIntakeFull : public InstantCommand {
 public:
-    StopIntakeFull() = default;
+    StopIntakeFull() : InstantCommand("StopIntakeFull") {};
 protected:
     void execute() override;
 };

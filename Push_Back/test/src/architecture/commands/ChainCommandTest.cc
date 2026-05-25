@@ -65,7 +65,7 @@ protected:
     ChainCommandImpl chain;
 
     /** Queue of commands to run */
-    std::queue<std::unique_ptr<Command>> commands_q;
+    std::deque<std::unique_ptr<Command>> commands_q;
 
     /** Vector of commands to run. Idx=0 is the first command */
     std::vector<std::unique_ptr<Command>> commands_v;
@@ -79,7 +79,7 @@ protected:
         logs.resize(5);
 
         for (int i = 0; i < 5; ++i) {
-            commands_q.push(std::make_unique<IdCommand>(logs.at(i), i));
+            commands_q.push_back(std::make_unique<IdCommand>(logs.at(i), i));
             commands_v.push_back(std::make_unique<IdCommand>(logs.at(i), i));
         }
     }
@@ -96,7 +96,7 @@ TEST_F(ChainCommandTest, testAddCommand) {
     // Set commands by repeatedly calling `add_command`
     while (!commands_q.empty()) {
         chain.add_command(std::move(commands_q.front()));
-        commands_q.pop();
+        commands_q.pop_front();
     }
 
     test5Cmds(chain, logs);

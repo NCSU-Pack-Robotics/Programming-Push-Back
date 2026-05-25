@@ -2,13 +2,17 @@
 
 #include "Command.hpp"
 
+#include <utility>
+
 /** A command that is only run once. Useful for setting things like motor speeds. */
 class InstantCommand : public Command {
+protected:
+    InstantCommand(std::string_view description = "") : description(description) {};
 public:
-    InstantCommand() = default;
 
     /** Constructor that allows for a function to be passed as the execute method */
-    explicit InstantCommand(std::function<void()> executeFunction);
+    explicit InstantCommand(std::function<void()> executeFunction, std::string_view description = "") :
+        executeFunction(std::move(executeFunction)), description(description) {};
 
     /** Returns true because InstantCommands only run once */
     bool is_complete() override;
@@ -27,10 +31,21 @@ public:
      * but can be overwritten in child classes */
     virtual void execute();
 
+    /**
+     * @return The string: InstantCommand(description)
+     */
+    [[nodiscard]] std::string to_string() const override;
+
+    /** @return The description passed when creating the command */
+    [[nodiscard]] std::string get_name() const override;
+
 private:
     /**
      * The execute function passed from the constructor
      * @return A function that takes no arguments and returns nothing.
      */
     std::function<void()> executeFunction;
+
+    /** Optional description */
+    std::string description;
 };

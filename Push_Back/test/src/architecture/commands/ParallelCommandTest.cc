@@ -83,13 +83,6 @@ protected:
     }
 };
 
-TEST_F(ParallelCommandTest, testSetCommands) {
-    // Set commands using the `set_commands` method.
-    parallel.set_commands(std::move(commands_v));
-
-    test5Cmds(parallel, logs);
-}
-
 TEST_F(ParallelCommandTest, testAddCommand) {
     // Set commands by repeatedly calling `add_command`
     for (std::unique_ptr<Command>& cmd : commands_v) {

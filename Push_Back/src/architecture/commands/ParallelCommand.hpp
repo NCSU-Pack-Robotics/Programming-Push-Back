@@ -41,6 +41,20 @@ public:
      */
     void set_commands(std::vector<std::unique_ptr<Command>> commands);
 
+    /**
+     * @return The commands in the vector in the following form:\n
+     *  ParallelCommand(x commands are running):\n
+     *  0: cmd_1_name\n
+     *  1: cmd_2_name\n
+     *  2: etc
+     */
+    [[nodiscard]] std::string to_string() const override;
+
+    /**
+     * @return The string ParallelCommand
+     */
+    [[nodiscard]] std::string get_name() const override;
+
 protected:
     /**
      * Runs all commands in the list.
