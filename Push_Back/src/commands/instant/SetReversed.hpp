@@ -3,11 +3,10 @@
 
 class SetReversed final : public InstantCommand {
 public:
-    explicit SetReversed(const bool reversed) : reversed(reversed), InstantCommand() {};
-protected:
-    void execute() override;
+    explicit SetReversed(const bool reversed) :
+        InstantCommand("SetReversed(" + std::to_string(reversed) + ")"), reversed(reversed) {};
 
-    std::string to_string() const override;
+    void execute() override;
 
 private:
     bool reversed;

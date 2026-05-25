@@ -52,11 +52,14 @@ public:
     // virtual std::unique_ptr<Command> follow_up();
 
     /**
-     * Returns some identifying string related to what the command does
      * @return some identifying string related to what the command does
      */
-    virtual std::string to_string() const;
-    virtual std::string get_name() const = 0;
+    [[nodiscard]] virtual std::string to_string() const;
+    /**
+     * @return the name of the command. Depending on which command type <code>to_string()</code> is called on,
+     * <code>get_name()</code> will be used in different ways to generate the string
+     */
+    [[nodiscard]] virtual std::string get_name() const = 0;
 
 private:
     /** Whether the command has completed and shutdown() has been called. */

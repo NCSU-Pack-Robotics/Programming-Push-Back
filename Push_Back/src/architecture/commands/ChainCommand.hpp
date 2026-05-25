@@ -40,14 +40,19 @@ public:
      * Replaces the commands in the chain with list of commands.
      * @param commands The commands to set.
      */
-    void set_commands(std::queue<std::unique_ptr<Command>> commands);
+    void set_commands(std::deque<std::unique_ptr<Command>> commands);
 
     /**
-     * Returns some identifying string related to what the command does
-     * @return some identifying string related to what the command does
+     * @return The commands in the queue in the following form:\n
+     *  ChainCommand(queue has x commands left):\n
+     *  0: current_cmd_name\n
+     *  1: next_cmd\n
+     *  2: etc
      */
-    std::string to_string() const override;
-    std::string get_name() const override;
+    [[nodiscard]] std::string to_string() const override;
+
+    /** @returns ChainCommand */
+    [[nodiscard]] std::string get_name() const override;
 
 protected:
     /**
@@ -63,6 +68,6 @@ protected:
     bool is_complete() override;
 
 private:
-    /** The queue of commands to run. */
-    std::queue<std::unique_ptr<Command>> command_queue;
+    /** The queue of commands to run. A deque is used because we need iteration in to_string() and the alternatives are ugly. */
+    std::deque<std::unique_ptr<Command>> command_queue;
 };

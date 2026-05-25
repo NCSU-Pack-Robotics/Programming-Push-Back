@@ -51,6 +51,12 @@ void DriveStraight::periodic() {
     // }
 }
 
+double DriveStraight::get_progress() const
+{
+    // TODO: What should this return
+    return 0.5;
+}
+
 void DriveStraight::shutdown() {
     drivetrain.brake_now();
 }
@@ -60,7 +66,6 @@ bool DriveStraight::is_complete() {
 }
 
 std::string DriveStraight::to_string() const {
-    return "DriveStraight(" + std::to_string(target_distance) + " inches, tolerance: " + 
-           std::to_string(tolerance) + ", max_time: " + std::to_string(max_time) + 
-           "s, elapsed: " + std::to_string(timer.get_duration()) + "s)";
+    return ProgressCommand::to_string() + std::format("DriveStraight(distance: {} inches, tolerance: {} inches, max_time: {} seconds, elapsed: {} seconds)",
+        target_distance, tolerance, max_time, timer.get_duration());
 }

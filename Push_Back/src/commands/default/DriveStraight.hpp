@@ -42,7 +42,7 @@ public:
 
     bool is_complete() override;
 
-    double get_progress() override;
+    double get_progress() const override;
 
     std::string to_string() const override;
 

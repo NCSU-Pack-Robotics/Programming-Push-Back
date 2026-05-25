@@ -21,9 +21,8 @@ public:
      * Constructor for SetPose command.
      * @param new_pose The new pose to set the robot to.
      */
-    explicit SetPose(const Pose& new_pose);
+    explicit SetPose(const Pose& new_pose) :
+        InstantCommand("SetPose(" + new_pose.to_string() + ")"), new_pose(new_pose) {};
 
     void execute() override;
-
-    std::string to_string() const override;
 };

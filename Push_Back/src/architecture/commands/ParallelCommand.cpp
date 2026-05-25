@@ -54,24 +54,15 @@ bool ParallelCommand::is_complete() {
 }
 
 std::string ParallelCommand::to_string() const {
-    std::string result = get_name() + "([\n";
-    for (size_t i = 0; i < commands.size(); i++) {
-        std::string command_str = commands[i]->to_string();
+    std::string result = std::format("{}({} commands are running):\n", get_name(), commands.size());
 
-        result += "  ";
-        for (char c : command_str) {
-            result += c;
-            if (c == '\n') {
-                result += "  ";
-            }
-        }
-
-        if (i < commands.size() - 1) {
-            result += ",";
-        }
-        result += "\n";
+    for (size_t i{}; i < commands.size(); i++)
+    {
+        result += std::format("{}: {}\n", i, commands[i]->to_string());
     }
-    result += "])";
+
+    result += '\n';
+
     return result;
 }
 

@@ -4,7 +4,7 @@
 
 class StartColorSorting : public InstantCommand {
 public:
-    StartColorSorting() = default;
+    StartColorSorting() : InstantCommand("StartColorSorting") {};
 protected:
     void execute() override;
 };
