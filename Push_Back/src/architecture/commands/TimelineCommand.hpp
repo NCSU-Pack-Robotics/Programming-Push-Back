@@ -55,7 +55,6 @@ public:
 
     bool is_complete() override;
     void initialize() override;
-    void shutdown() override;
 
 private:
 

@@ -41,6 +41,8 @@ public:
      */
     void set_commands(std::vector<std::unique_ptr<Command>> commands);
 
+    void shutdown() override;
+
 protected:
     /**
      * Runs all commands in the list.
@@ -54,7 +56,6 @@ protected:
      */
     bool is_complete() override;
 
-private:
     /** The list of commands to run. */
     std::vector<std::unique_ptr<Command>> commands;
 };

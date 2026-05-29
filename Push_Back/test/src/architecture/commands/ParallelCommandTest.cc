@@ -11,7 +11,11 @@ public:
         : ParallelCommand(commands) {}
 
     void initialize() override {}
-    void shutdown() override {}
+
+    /** A <i>public</i> shutdown method to test the private one in ParallelCommand. */
+    void shutdown() override {
+        ParallelCommand::shutdown();
+    }
 };
 
 void test5Cmds(ParallelCommandImpl& c, const std::vector<std::vector<std::string>>& logs) {
@@ -71,7 +75,6 @@ protected:
 
     /** Logs for each of the 5 commands to keep track of which methods were run. */
     std::vector<std::vector<std::string>> logs;
-
 
     ParallelCommandTest() : parallel({}) {
         // Create 5 long vector
@@ -187,4 +190,49 @@ TEST_F(ParallelCommandTest, testParallelCommandOneDifferent) {
     * logs[2] = <"initialize_2", "periodic_2", "shutdown_2">
     * logs[3] = <"initialize_3", "periodic_3", "shutdown_3">
     * logs[4] = <"initialize_4", "periodic_4", "shutdown_4"> */
+}
+
+/** Parallel command should not shutdown the inner commands if they haven't been initialized yet. */
+TEST_F(ParallelCommandTest, testNoShutdownIfNoInitialize) {
+    parallel.set_commands(std::move(commands_v));
+    parallel.run();  // Initialize the parallel command but not inner commands
+    parallel.shutdown();
+
+    EXPECT_TRUE(parallel.has_shutdown());
+
+     for (int i = 0; i < 5; ++i) {
+        EXPECT_THAT(logs.at(i), testing::IsEmpty());
+    }
+
+    /* Expected state of the logs at the end of the test
+     * logs[0] = <>
+     * logs[1] = <>
+     * logs[2] = <>
+     * logs[3] = <>
+     * logs[4] = <> */
+}
+
+/** If a parallel command is shutdown before inner its commands' is_complete have returned true,
+ * the commands should be shutdown regardless. */
+TEST_F(ParallelCommandTest, testShutdownAlways) {
+    parallel.set_commands(std::move(commands_v));
+    parallel.run();  // Initialize the parallel command but not inner commands
+    parallel.run();  // Initialize the inner commands so they will shutdown
+    parallel.shutdown();  // Shutdown all inner cmmands
+
+    EXPECT_TRUE(parallel.has_shutdown());
+
+     for (int i = 0; i < 5; ++i) {
+        EXPECT_THAT(logs.at(i), testing::ElementsAre(
+            "initialize_"+ std::to_string(i),
+            "shutdown_"+ std::to_string(i)
+        ));
+    }
+
+    /* Expected state of the logs at the end of the test
+     * logs[0] = <"initialize_0", "shutdown_0">
+     * logs[1] = <"initialize_1", "shutdown_1">
+     * logs[2] = <"initialize_2", "shutdown_2">
+     * logs[3] = <"initialize_3", "shutdown_3">
+     * logs[4] = <"initialize_4", "shutdown_4"> */
 }

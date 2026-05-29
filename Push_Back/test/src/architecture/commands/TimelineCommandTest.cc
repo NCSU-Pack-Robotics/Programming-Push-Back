@@ -104,7 +104,24 @@ TEST_F(TimelineCommandTest, testCheckpointAtEnd)  {
     ASSERT_THAT(log, testing::ElementsAre());
     while (!tc.has_shutdown()) tc.run(); // Finish off the main command and run the checkpoint command
 
-    ASSERT_THAT(log, testing::ElementsAre("initialize_1"));
+    ASSERT_THAT(log, testing::ElementsAre("initialize_1", "shutdown_1"));
+}
+
+TEST_F(TimelineCommandTest, testShutdownIfNotWaitingForCheckpoints) {
+    checkpoints.emplace_back(0.9, std::make_unique<IdCommand>(log, 1, 20));
+    checkpoints.emplace_back(0.5, std::make_unique<IdCommand>(log, 2, 30));
+    TimelineCommand tc(std::make_unique<Count2Ten>(), std::move(checkpoints), false);
+
+    tc.run();  // Initialize the tc
+    tc.run();  // Runs the periodic of the tc once
+    ASSERT_THAT(log, testing::ElementsAre());
+    while (!tc.has_shutdown()) tc.run();  // Finish off the main command and run the checkpoint command
+    ASSERT_EQ(log.front(), "initialize_2");
+    ASSERT_THAT(log, testing::Contains("periodic_2").Times(4));
+    ASSERT_THAT(log, testing::Contains("periodic_1").Times(0));
+    ASSERT_THAT(log, testing::Contains("periodic_1").Times(0));
+    ASSERT_THAT(log, testing::Contains("shutdown_1").Times(1));
+    ASSERT_THAT(log, testing::Contains("shutdown_2").Times(1));
 }
 
 TEST_F(TimelineCommandTest, testWaitForCheckpoints) {
