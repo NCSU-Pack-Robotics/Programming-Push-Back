@@ -25,6 +25,23 @@ void ParallelCommand::set_commands(std::vector<std::unique_ptr<Command>> command
     this->commands = std::move(commands);
 }
 
+void ParallelCommand::shutdown() {
+    // Don't shutdown if the commands haven't been initialized
+    // calls=1 initializes parallel command. calls=2 initializes inner commands
+    if (calls >= 2) {
+
+        // Shutdown all inner commands
+        for (auto& command : commands) {
+            if (!command->has_shutdown()) {
+                command->shutdown();
+            }
+        }
+    }
+
+    // Mark as completed regardless of if inner commands were shutdown
+    completed = true;
+}
+
 void ParallelCommand::periodic() {
     if (commands.size() == 1) {  // Edge case: one command
         commands[0]->run();

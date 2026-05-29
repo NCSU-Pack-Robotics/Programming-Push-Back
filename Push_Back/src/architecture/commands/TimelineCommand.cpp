@@ -57,5 +57,3 @@ bool TimelineCommand::is_complete() {
 
 void TimelineCommand::initialize() {}
 
-void TimelineCommand::shutdown() {}
-

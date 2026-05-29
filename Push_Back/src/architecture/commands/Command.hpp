@@ -11,6 +11,14 @@
  * commands is run in a specific order to complete a task.
  */
 class Command {
+    /**
+     * Tightly integrated with each other.
+     *
+     * At the time of writing, needed because Parallel Command needs access to `shutdown` but
+     * making `shutdown public breaks encapsulation.
+     */
+    friend class ParallelCommand;
+
 public:
     /** The number of times a Command's <code>run()</code> method has been called. */
     unsigned int calls = 0;
