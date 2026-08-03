@@ -13,16 +13,10 @@
 #include "subsystems/Drivetrain.hpp"
 
 #include "SerialHandler.hpp"
+#include "comms/BrainComm.hpp"
 #include "packets/OpticalPacket.hpp"
 #include "packets/InitializeOpticalPacket.hpp"
 #include "packets/InitializeOpticalCompletePacket.hpp"
-
-
-// Turn off pros banner. Seems to only work in the macro version
-ENABLE_BANNER(false)
-
-// void pi_communication();
-// pros::Task communication_task(pi_communication);
 
 // Create all subsystems:
 Drivetrain& drivetrain = AbstractSubsystem::get_instance<Drivetrain>();
@@ -34,32 +28,27 @@ Lift& lift = AbstractSubsystem::get_instance<Lift>();
 // Add subsystems to vector for iteration
 std::vector<AbstractSubsystem*> subsystems = { &drivetrain, &intake_bottom, &intake_top, &intake_end, &lift };
 
-SerialHandler serial_handler;
+/** Global serial handler instance used to communicate with auxiliary devices. */
+static SerialHandler serial_handler{std::make_unique<BrainComm>()};
 
-void pi_communication()
-{
-    // Disable pros COBS which seems to include the sout/serr prefixes
-    pros::c::serctl(SERCTL_DISABLE_COBS, nullptr);
-
-    // Send a single null byte to be a delimiter between pros/vex junk bytes and our data
-    // With cobs off there's actually no bytes sent, but good to have just in case
-    fwrite("", 1, 1, stdout);
-
-    serial_handler.add_listener<InitializeOpticalCompletePacket>([](SerialHandler& serial_handler, const Packet& packet) {
-
+/** Method to be called in a separate thread and will service communication with the auxiliary
+ * device. */
+static void aux_communication() {
+    serial_handler.add_listener<OpticalPacket>([](const Packet& packet) {
+        const auto [x, y, h] = packet.get_data<OpticalPacket>();
+        pros::c::screen_print_at(TEXT_LARGE,
+            0, 0, std::format("{:.2f} {:.2f} {:.2f}",
+                x, y, h*(180.0/M_PI)).c_str()
+        );
     });
 
-    serial_handler.add_listener<OpticalPacket>([](SerialHandler& serial_handler, const Packet& packet) {
-
-    });
-
-    serial_handler.send(InitializeOpticalPacket{});
-
-    while (true)
-    {
+    while (true) {
         serial_handler.receive();
+        pros::delay(10);
     }
 }
+
+static pros::Task communication_task(aux_communication);
 
 /**
  * Runs initialization code. This occurs as soon as the program is started.
@@ -68,7 +57,6 @@ void pi_communication()
  * to keep execution time for this mode under a few seconds.
  */
 void initialize() {
-
     // debug = true;
     // Initialize all subsystems
     for (AbstractSubsystem* subsystem : subsystems) {
@@ -156,24 +144,17 @@ void autonomous() {
  */
 void opcontrol() {
     // Initialize the driver control scheduler
-    DriverControlScheduler driver_scheduler{};
-    driver_scheduler.initialize();
-
-    // TODO: Tell pi we have entered opcontrol
+    // DriverControlScheduler driver_scheduler{};
+    // driver_scheduler.initialize();
 
     while (true) {
-        // std::optional<Packet> packet = serial_handler.pop_latest<OpticalPacket>();
-        // // Print received data or 0 if not received. As long as PI sends faster than this loop delay this should work for this test
-        // // TODO: Test it
-        // std::float64_t x{}, y{}, heading{};
-        // if (packet.has_value())
-        // {
-        //     x = packet->get_data<OpticalPacket>().x;
-        //     y = packet->get_data<OpticalPacket>().y;
-        //     heading = packet->get_data<OpticalPacket>().heading;
-        // }
-        // pros::c::screen_print_at(TEXT_LARGE, 0, 0, std::format("{:.2f} {:.2f} {:.2f}", x, y, heading).c_str());
-        driver_scheduler.run();
+        const std::optional<Packet> p = serial_handler.pop_latest<OpticalPacket>();
+        if (p.has_value()) {
+            const auto [x, y, h] = p->get_data<OpticalPacket>();
+            printf("Received packet: x=%.2f, y=%.2f, h=%.2f\n", x, y, h);
+        } else {
+            printf("No packet received\n");
+        }
 
         // Run periodic for all subsystems
         for (AbstractSubsystem* subsystem : subsystems) {
@@ -181,6 +162,6 @@ void opcontrol() {
         }
 
         // Delay the loop to prevent the CPU from being overwhelmed
-        pros::delay(5);
+        pros::delay(1000);
     }
 }

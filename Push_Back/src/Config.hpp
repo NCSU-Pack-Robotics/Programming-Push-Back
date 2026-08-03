@@ -1,6 +1,13 @@
 #pragma once
 
+#include <cstdint>
+
 namespace Constants {
+    namespace AUX_COMM {
+        /** The baud rate for communication with the auxiliary device. */
+        constexpr int32_t BAUD_RATE = 115200;
+    }
+
     namespace Controller {
         /** Constants for the speed used when motors are activated using controller */
         namespace MotorSpeeds {
