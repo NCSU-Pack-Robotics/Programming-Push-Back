@@ -44,6 +44,9 @@ static void aux_communication() {
 
     while (true) {
         serial_handler.receive();
+        static std::float64_t counter{};
+        serial_handler.send(OpticalPacket{counter, 2, 3});
+        printf("Sent packet with counter %lf!\n", counter++);
         pros::delay(10);
     }
 }
