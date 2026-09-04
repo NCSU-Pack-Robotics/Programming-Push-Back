@@ -33,25 +33,45 @@ static SerialHandler serial_handler{std::make_unique<BrainComm>()};
 
 /** Method to be called in a separate thread and will service communication with the auxiliary
  * device. */
-static void aux_communication() {
-    serial_handler.add_listener<OpticalPacket>([](const Packet& packet) {
-        const auto [x, y, h] = packet.get_data<OpticalPacket>();
-        pros::c::screen_print_at(TEXT_LARGE,
-            0, 0, std::format("{:.2f} {:.2f} {:.2f}",
-                x, y, h*(180.0/M_PI)).c_str()
-        );
-    });
+// static void aux_communication() {
+//     serial_handler.add_listener<OpticalPacket>([](const Packet& packet) {
+//         const auto [x, y, h] = packet.get_data<OpticalPacket>();
+//         pros::c::screen_print_at(TEXT_LARGE,
+//             0, 0, std::format("{:.2f} {:.2f} {:.2f}",
+//                 x, y, h*(180.0/M_PI)).c_str()
+//         );
+//     });
+//
+//     while (true) {
+//         serial_handler.receive();
+//         static std::float64_t counter{};
+//         serial_handler.send(OpticalPacket{counter, 2, 3});
+//         printf("Sent packet with counter %lf!\n", counter++);
+//         pros::delay(10);
+//     }
+// }
 
-    while (true) {
-        serial_handler.receive();
-        static std::float64_t counter{};
-        serial_handler.send(OpticalPacket{counter, 2, 3});
-        printf("Sent packet with counter %lf!\n", counter++);
-        pros::delay(10);
-    }
-}
+// serial_handler.get_packet<PacketType>()
+// 1. send request to pi for data
+// 2. continuously poll for data in blocking way
 
-static pros::Task communication_task(aux_communication);
+// template <std::derived_from<Packet> ReqPacket, std::derived_from<Packet> ResPacket>
+// ResPacket::Data get_packet()
+// {
+//     serial_handler.send(ReqPacket{});
+//     bool received{};
+//     typename ResPacket::Data res;
+//     serial_handler.add_listener<ResPacket>([&received, &res](const Packet& packet)
+//     {
+//         res = packet.get_data<ResPacket>();
+//         received = true;
+//     });
+//     while (!received) {}
+//     serial_handler.remove_listener<ResPacket>();
+//     return res;
+// }
+
+// static pros::Task communication_task(aux_communication);
 
 /**
  * Runs initialization code. This occurs as soon as the program is started.
@@ -151,13 +171,13 @@ void opcontrol() {
     // driver_scheduler.initialize();
 
     while (true) {
-        const std::optional<Packet> p = serial_handler.pop_latest<OpticalPacket>();
-        if (p.has_value()) {
-            const auto [x, y, h] = p->get_data<OpticalPacket>();
-            printf("Received packet: x=%.2f, y=%.2f, h=%.2f\n", x, y, h);
-        } else {
-            printf("No packet received\n");
-        }
+        // const std::optional<Packet> p = serial_handler.pop_latest<OpticalPacket>();
+        // if (p.has_value()) {
+            // const auto [x, y, h] = p->get_data<OpticalPacket>();
+            // printf("Received packet: x=%.2f, y=%.2f, h=%.2f\n", x, y, h);
+        // } else {
+            // printf("No packet received\n");
+        // }
 
         // Run periodic for all subsystems
         for (AbstractSubsystem* subsystem : subsystems) {
