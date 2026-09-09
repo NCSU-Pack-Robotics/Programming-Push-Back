@@ -135,7 +135,7 @@ void opcontrol() {
             printf("Received packet: x=%.2f, y=%.2f, h=%.2f\n", x, y, h);
             pros::c::screen_print_at(TEXT_LARGE,
                 0, 0, std::format("{:.2f} {:.2f} {:.2f}",
-                x, y, h*(180.0/M_PI)).c_str()
+                x, y, h).c_str()
             );
         }
         else
