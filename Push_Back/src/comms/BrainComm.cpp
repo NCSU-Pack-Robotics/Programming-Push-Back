@@ -21,11 +21,3 @@ void BrainComm::write(unsigned char* buf, const size_t count) {
 
     tx.write(buf, count);
 }
-
-void BrainComm::mutex_lock() {
-    mutex.take();
-}
-
-void BrainComm::mutex_unlock() {
-    mutex.give();
-}

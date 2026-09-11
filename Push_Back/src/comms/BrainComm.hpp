@@ -19,7 +19,4 @@ public:
 
     size_t read(unsigned char* buf, size_t count) override;
     void write(unsigned char* buf, size_t count) override;
-
-    void mutex_lock() override;
-    void mutex_unlock() override;
 };
